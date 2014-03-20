@@ -1,5 +1,6 @@
 #include "SDL.h"
 #include <Box2D/Box2D.h>
+#include <yaml-cpp\yaml.h>
 
 int main( int argc,  char** argv )
 {
@@ -8,7 +9,6 @@ int main( int argc,  char** argv )
     
     //Quit SDL
     SDL_Quit();
-
 
 	//PRUEBA BOX2D
 
