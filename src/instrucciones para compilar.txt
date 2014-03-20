@@ -1,0 +1,10 @@
+1) crear proyecto sobre la carpeta codigo/TP Taller (para no agarrar todas las librerias)
+2) sobre el proyecto, Properties -> Confirguration Properties -> VC++ Directories, agregar las carpetas include y lib al proyecto
+3) en la parte de Linker -> Input -> Additional Dependencies agregar: sdl2.lib; sdl2main.lib; yaml-cpp.lib; box2d.lib;
+4)Linker -> General -> Enable Incremental Linking: NO
+
+NO subir al repo ningun archivo generado por el Visual, solamente codigo y librerias.
+
+ya deberia compilar :)
+
+-DKT.
