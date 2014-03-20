@@ -1,6 +1,6 @@
-#include "SDL.h"
-#include <Box2D/Box2D.h>
-#include <yaml-cpp\yaml.h>
+#include "SDL/SDL.h"
+#include "Box2D/Box2D.h"
+#include "yaml-cpp\yaml.h"
 
 int main( int argc,  char** argv )
 {
