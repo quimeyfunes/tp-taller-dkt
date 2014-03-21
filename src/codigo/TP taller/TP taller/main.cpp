@@ -8,14 +8,24 @@ int main( int argc,  char** argv )
     SDL_Init( SDL_INIT_EVERYTHING );
 
 	SDL_Window* window = NULL;
-	window = SDL_CreateWindow("Worms!", 100, 100, 400, 400, 0 );
+	window = SDL_CreateWindow("Worms!", 0, 0, 400, 400,  SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
 
-	SDL_Renderer* renderer = NULL;
+	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_Event* evento = new SDL_Event();
 
-	while(evento->type != SDL_QUIT){
+	bool jugar = true;
+	while((evento->type != SDL_QUIT)&&(jugar)){
+
+	
 
 		SDL_PollEvent(evento);
+
+		if(evento->key.keysym.sym == SDLK_ESCAPE)
+			jugar = false;
+
+
+		
+
 		SDL_RenderClear(renderer);
 
 		SDL_RenderPresent(renderer);
