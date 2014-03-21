@@ -74,13 +74,13 @@ int main( int argc,  char** argv )
 	int32 positionIterations = 2;
 
 
-	SDL_Texture* img = IMG_LoadTexture(renderer, "imagen.jpeg");
+	SDL_Texture* img = IMG_LoadTexture(renderer, "imagenes/imagen.jpg");
 	SDL_Rect recImg;
 
 	recImg.h= 100;
 	recImg.w = 200;
-	recImg.x = 10;
-	recImg.y = 10;
+	recImg.x = 0;
+	recImg.y = 0;
 	bool jugar = true;
 	while((evento->type != SDL_QUIT)&&(jugar)){
 
