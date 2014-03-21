@@ -9,7 +9,7 @@ int main( int argc,  char** argv )
     SDL_Init( SDL_INIT_EVERYTHING );
 
 	SDL_Window* window = NULL;
-	window = SDL_CreateWindow("Worms!", 50, 50, 400, 400,  SDL_WINDOW_SHOWN );
+	window = SDL_CreateWindow("Worms!", 50, 50, 400, 400,  SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP );
 
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_Event* evento = new SDL_Event();
@@ -20,15 +20,15 @@ int main( int argc,  char** argv )
 	B2_NOT_USED(argv);
 
 	// Define the gravity vector.
-	b2Vec2 gravity(0.0f, -10.0f);
+	b2Vec2 gravity(0.0f, 9.8f);
 
 	// Construct a world object, which will hold and simulate the rigid bodies.
 	b2World world(gravity);
 
 	// Define the ground body.
 	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f, -10.0f);
-
+	groundBodyDef.position.Set(0.0f, 300.0f);
+	groundBodyDef.type = b2_staticBody;
 	// Call the body factory which allocates memory for the ground body
 	// from a pool and creates the ground box shape (also from a pool).
 	// The body is also added to the world.
@@ -38,10 +38,10 @@ int main( int argc,  char** argv )
 	b2PolygonShape groundBox;
 
 	// The extents are the half-widths of the box.
-	groundBox.SetAsBox(50.0f, 10.0f);
+	groundBox.SetAsBox(5000000.0f, 10.0f);
 
 	// Add the ground fixture to the ground body.
-	groundBody->CreateFixture(&groundBox, 0.0f);
+	groundBody->CreateFixture(&groundBox, 1.0f);
 
 	// Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
@@ -62,6 +62,8 @@ int main( int argc,  char** argv )
 
 	// Override the default friction.
 	fixtureDef.friction = 0.3f;
+
+	fixtureDef.restitution = 1.0f;
 
 	// Add the shape to the body.
 	body->CreateFixture(&fixtureDef);
@@ -99,7 +101,8 @@ int main( int argc,  char** argv )
 		float32 angle = body->GetAngle();
 
 
-		
+		recImg.x = body->GetPosition().x;
+		recImg.y = body->GetPosition().y;
 
 		SDL_RenderClear(renderer);
 
