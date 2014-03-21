@@ -1,5 +1,6 @@
 #include "SDL/SDL.h"
 #include "Box2D/Box2D.h"
+#include "SDL/SDL_image.h"
 #include "yaml-cpp\yaml.h"
 
 int main( int argc,  char** argv )
@@ -8,7 +9,7 @@ int main( int argc,  char** argv )
     SDL_Init( SDL_INIT_EVERYTHING );
 
 	SDL_Window* window = NULL;
-	window = SDL_CreateWindow("Worms!", 50, 50, 400, 400,  SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("Worms!", 50, 50, 400, 400,  SDL_WINDOW_SHOWN );
 
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_Event* evento = new SDL_Event();
@@ -73,7 +74,13 @@ int main( int argc,  char** argv )
 	int32 positionIterations = 2;
 
 
+	SDL_Texture* img = IMG_LoadTexture(renderer, "imagen.jpeg");
+	SDL_Rect recImg;
 
+	recImg.h= 100;
+	recImg.w = 200;
+	recImg.x = 10;
+	recImg.y = 10;
 	bool jugar = true;
 	while((evento->type != SDL_QUIT)&&(jugar)){
 
@@ -95,6 +102,8 @@ int main( int argc,  char** argv )
 		
 
 		SDL_RenderClear(renderer);
+
+		SDL_RenderCopy(renderer, img, NULL, &recImg); 
 
 		SDL_RenderPresent(renderer);
 
