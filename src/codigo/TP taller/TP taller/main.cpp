@@ -8,33 +8,12 @@ int main( int argc,  char** argv )
     SDL_Init( SDL_INIT_EVERYTHING );
 
 	SDL_Window* window = NULL;
-	window = SDL_CreateWindow("Worms!", 0, 0, 400, 400,  SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
+	window = SDL_CreateWindow("Worms!", 50, 50, 400, 400,  SDL_WINDOW_SHOWN);
 
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_Event* evento = new SDL_Event();
 
-	bool jugar = true;
-	while((evento->type != SDL_QUIT)&&(jugar)){
-
-	
-
-		SDL_PollEvent(evento);
-
-		if(evento->key.keysym.sym == SDLK_ESCAPE)
-			jugar = false;
-
-
-		
-
-		SDL_RenderClear(renderer);
-
-		SDL_RenderPresent(renderer);
-
-	}
-    //Quit SDL
-    SDL_Quit();
-
-	//PRUEBA BOX2D
+		//PRUEBA BOX2D
 
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
@@ -93,9 +72,17 @@ int main( int argc,  char** argv )
 	int32 velocityIterations = 6;
 	int32 positionIterations = 2;
 
-	// This is our little game loop.
-	for (int32 i = 0; i < 60; ++i)
-	{
+
+
+	bool jugar = true;
+	while((evento->type != SDL_QUIT)&&(jugar)){
+
+		SDL_PollEvent(evento);
+
+		if(evento->key.keysym.sym == SDLK_ESCAPE)
+			jugar = false;
+
+			
 		// Instruct the world to perform a single step of simulation.
 		// It is generally best to keep the time step and iterations fixed.
 		world.Step(timeStep, velocityIterations, positionIterations);
@@ -104,12 +91,17 @@ int main( int argc,  char** argv )
 		b2Vec2 position = body->GetPosition();
 		float32 angle = body->GetAngle();
 
-		printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
-	}
 
-	// When the world destructor is called, all bodies and joints are freed. This can
-	// create orphaned pointers, so be careful about your world management.
-    
+		
+
+		SDL_RenderClear(renderer);
+
+		SDL_RenderPresent(renderer);
+
+	}
+    //Quit SDL
+    SDL_Quit();
+
 
     return 0;    
 }
