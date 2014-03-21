@@ -6,7 +6,21 @@ int main( int argc,  char** argv )
 {
     //Start SDL
     SDL_Init( SDL_INIT_EVERYTHING );
-    
+
+	SDL_Window* window = NULL;
+	window = SDL_CreateWindow("Worms!", 100, 100, 400, 400, 0 );
+
+	SDL_Renderer* renderer = NULL;
+	SDL_Event* evento = new SDL_Event();
+
+	while(evento->type != SDL_QUIT){
+
+		SDL_PollEvent(evento);
+		SDL_RenderClear(renderer);
+
+		SDL_RenderPresent(renderer);
+
+	}
     //Quit SDL
     SDL_Quit();
 
@@ -86,5 +100,6 @@ int main( int argc,  char** argv )
 	// When the world destructor is called, all bodies and joints are freed. This can
 	// create orphaned pointers, so be careful about your world management.
     
+
     return 0;    
 }
