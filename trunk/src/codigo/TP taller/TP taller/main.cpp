@@ -2,11 +2,35 @@
 #include "Box2D/Box2D.h"
 #include "SDL/SDL_image.h"
 #include "yaml-cpp\yaml.h"
+#include "Parser/yaml/ParserYaml.h"
+
 
 int main( int argc,  char** argv )
 {
+
+	ParserYaml parser("config/config.yaml");
+	parser.parsear();
+
+	//The window we'll be rendering to
+	SDL_Window* gWindow = NULL;
+    
+	//The surface contained by the window
+	SDL_Surface* gScreenSurface = NULL;
+
+	//The image we will load and show on the screen
+	SDL_Surface* gHelloWorld = NULL;
+
     //Start SDL
     SDL_Init( SDL_INIT_EVERYTHING );
+
+	//Starts up SDL and creates window
+	bool init();
+
+	//Loads media
+	bool loadMedia();
+
+	//Frees media and shuts down SDL
+	void close();
 
 	SDL_Window* window = NULL;
 	window = SDL_CreateWindow("Worms!", 50, 50, 400, 400,  SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP );
@@ -14,7 +38,7 @@ int main( int argc,  char** argv )
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_Event* evento = new SDL_Event();
 
-		//PRUEBA BOX2D
+	//PRUEBA BOX2D
 
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
