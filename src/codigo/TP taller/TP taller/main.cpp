@@ -3,13 +3,14 @@
 #include "SDL/SDL_image.h"
 #include "yaml-cpp\yaml.h"
 #include "Parser/yaml/ParserYaml.h"
+#include "Vista\Vista.h"
 
 
 int main( int argc,  char** argv )
 {
-
-	ParserYaml parser("config/config.yaml");
-	parser.parsear();
+	/*
+	//ParserYaml parser("config/config.yaml");
+	//parser.parsear();
 
 	//The window we'll be rendering to
 	SDL_Window* gWindow = NULL;
@@ -33,11 +34,12 @@ int main( int argc,  char** argv )
 	void close();
 
 	SDL_Window* window = NULL;
-	window = SDL_CreateWindow("Worms!", 50, 50, 400, 400,  SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP );
+	window = SDL_CreateWindow("Worms!", 50, 50, 400, 400,  SDL_WINDOW_SHOWN );
 
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	*/
 	SDL_Event* evento = new SDL_Event();
-
+	
 	//PRUEBA BOX2D
 
 	B2_NOT_USED(argc);
@@ -99,14 +101,17 @@ int main( int argc,  char** argv )
 	int32 velocityIterations = 6;
 	int32 positionIterations = 2;
 
-
-	SDL_Texture* img = IMG_LoadTexture(renderer, "imagenes/imagen.jpg");
+	Vista* vista = new Vista();
 	SDL_Rect recImg;
 
 	recImg.h= 100;
 	recImg.w = 200;
-	recImg.x = 0;
-	recImg.y = 0;
+	recImg.x = 50;
+	recImg.y = 50;
+	vista->crearDibujable(recImg, "imagenes/imagen.jpg");
+	/*Dibujable* dib = new Dibujable(vista->getRenderer(), recImg,  "imagenes/imagen.jpg");
+	//SDL_Texture* img = IMG_LoadTexture(vista->getRenderer(), "imagenes/imagen.jpg");
+	vista->agregarDibujable(dib);*/
 	bool jugar = true;
 	while((evento->type != SDL_QUIT)&&(jugar)){
 
@@ -128,12 +133,13 @@ int main( int argc,  char** argv )
 		recImg.x = body->GetPosition().x;
 		recImg.y = body->GetPosition().y;
 
-		SDL_RenderClear(renderer);
+		vista->Dibujar();
+		/*SDL_RenderClear(renderer);
 
 		SDL_RenderCopy(renderer, img, NULL, &recImg); 
 
 		SDL_RenderPresent(renderer);
-
+		*/
 	}
     //Quit SDL
     SDL_Quit();
