@@ -11,8 +11,8 @@ lectorTerreno::lectorTerreno(char* nombreArchivo){
 	unsigned error = lodepng::decode(imagen, anchoPx, altoPx, nombreArchivo);
 
 	//asigno valores de alto y ancho
-	this->anchoMatriz = error? anchoDEF : anchoPx;
-	this->altoMatriz =  error? altoDEF  : altoPx;
+	this->anchoMatriz = error? anchoPxDEF : anchoPx;
+	this->altoMatriz =  error? altoPxDEF  : altoPx;
 
 	//reservo espacio para mi matriz
 	this->matrizTerreno = new bool* [anchoMatriz];
