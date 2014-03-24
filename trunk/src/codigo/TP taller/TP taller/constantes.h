@@ -2,6 +2,10 @@
 #define CONSTANTES_H_
 
 	#define archivoLog "logErrors.txt"
+	#define imagenTerrenoDEF "imagenes/terrenoDefault.txt"
+	#define imagenCieloDEF "imagenes/cieloDefault.txt"
+
+	const double PI = 3.1415926535;
 
 	const unsigned anchoPxDEF=3000;
 	const unsigned altoPxDEF=1000;
@@ -9,8 +13,11 @@
 	const unsigned altoUDEF=1000;
 	const unsigned nivelAguaDEF=20;
 
-	#define imagenTerrenoDEF "imagenes/terrenoDefault.txt"
-	#define imagenCieloDEF "imagenes/cieloDefault.txt"
+	//cuando la imagen de terreno es invalida, se genera una con una f(x) aleatoria
+	//estos parametros ajustan el valor minimo y maximo de la funcion
+	const int fMinDEFAULT = 20;
+	const int fMaxDEFAULT = 400;
+
 
 	/*
 	TIPOS DE ERRORES: (ir completando a medida que surjan)
