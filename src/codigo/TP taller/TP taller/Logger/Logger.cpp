@@ -6,7 +6,7 @@ Logger* Logger::logInstancia = NULL;
 Logger::Logger(){
 
 	ofstream* arch = new ofstream;
-	arch->open(archivoLog, ofstream::trunc);
+	arch->open(rutaLog, ofstream::trunc);
 	archivo = arch;
 
 	ponerFecha();
