@@ -5,14 +5,14 @@
 #include "Parser/yaml/ParserYaml.h"
 #include "Vista\Vista.h"
 #include "Modelo\Escenario.h"
-
+#include "Parser\ParserDeHexARgb.h"
 
 int main( int argc,  char** argv )
-{
-	
+{	
 	ParserYaml parser("config/config.yaml");
 	parser.parsear();
 	Escenario e = parser.getEscenario();
+
 	/*
 	//The window we'll be rendering to
 	SDL_Window* gWindow = NULL;
@@ -110,7 +110,10 @@ int main( int argc,  char** argv )
 	recImg.w = 200;
 	recImg.x = 50;
 	recImg.y = 50;
-	vista->crearDibujable(recImg, "imagenes/imagen.jpg");
+	FiguraDibujable* dib2 = vista->crearFiguraDibujable(recImg,"imagenes/imagen.jpg");
+	vista->crearDibujable(recImg,"imagenes/r4.png");
+	string hex = "#F4ACC3";
+	dib2->setColor(parsearDeHexARgb(hex));
 	/*Dibujable* dib = new Dibujable(vista->getRenderer(), recImg,  "imagenes/imagen.jpg");
 	//SDL_Texture* img = IMG_LoadTexture(vista->getRenderer(), "imagenes/imagen.jpg");
 	vista->agregarDibujable(dib);*/

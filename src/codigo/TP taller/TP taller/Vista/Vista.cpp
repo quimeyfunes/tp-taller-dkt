@@ -16,9 +16,16 @@ SDL_Renderer* Vista::getRenderer() {
 	return this->renderer;
 }
 
-void Vista::crearDibujable(SDL_Rect rect, string pathImagen) {
+Dibujable* Vista::crearDibujable(SDL_Rect rect, string pathImagen) {
 	Dibujable* dib = new Dibujable(this->renderer, rect, pathImagen);
 	this->agregarDibujable(dib);
+	return dib;
+}
+
+FiguraDibujable* Vista::crearFiguraDibujable(SDL_Rect rect, string pathImagen) {
+	FiguraDibujable* dib = new FiguraDibujable(this->renderer, rect, pathImagen);
+	this->agregarDibujable(dib);
+	return dib;
 }
 
 void Vista::agregarDibujable(Dibujable* dibujable) {
