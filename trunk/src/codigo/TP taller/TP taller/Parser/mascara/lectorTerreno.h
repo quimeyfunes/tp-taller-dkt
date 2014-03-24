@@ -25,20 +25,21 @@ private:
 	bool esNegro(pixel p);
 	Logger* logError;
 
-	/*convierte de notacion RGBA a pixeles*/
+	/*convierte de notacion RGBA a pixel*/
 	pixel RGBAaPixel(int r, int g, int b, int a);
+	pixel boolAPixel(bool valor);
 
 	/*convierte el vector de RGBA devuelto por libpng a una matriz de pixeles de dimensiones ancho x alto.
-	chequea si el vector es valido y devuelve una matriz pixel por pixel del terreno a usar.
-	si el vector contiene errores, se los escribe en el log y se devuelve una matriz con todos ceros.*/
-	void RGBA_AMatrizBool(vector<unsigned char>* imagen, bool** matriz);
-	void convertirFuncionAMatriz(double* f, bool** matriz);
+	chequea si el vector es valido y devuelve una matriz pixel por pixel del terreno a usar.*/
+	void RGBA_AMatrizBool(vector<unsigned char>* imagen);
+	void cargarFuncionEnMatriz(double* f);
+	void guardarMatrizEnPNG(char* nombreArchivo);
 
 	//cuando la imagen de terreno es invalida, se genera una matriz de terreno aleatoria
-	void generarMatrizAleatoria(bool** matriz);
+	void generarMatrizAleatoria();
 
 	/*verifica si en las columnas de la matriz hay un error TIERRA-CIELO-TIERRA*/
-	int chequearTCT(bool** matriz, bool &error);
+	int chequearTCT(bool &error);
 
 public:
 	
@@ -47,7 +48,7 @@ public:
 	lectorTerreno(char* nombreArchivo);
 
 	/*genera una imagen PNG de terreno aleatorio valido, con los parametros nombre, alto y ancho (en pixeles)*/
-	void generarTerrenoAleatorio(char* nombreArchivo, int ancho, int alto);
+	void generarTerrenoAleatorio(char* nombreArchivo);
 
 	bool** getMatrizTerreno();
 	int getAnchoMatriz();

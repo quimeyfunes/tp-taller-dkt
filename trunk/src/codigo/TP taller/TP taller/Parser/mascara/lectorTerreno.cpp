@@ -25,22 +25,18 @@ lectorTerreno::lectorTerreno(char* nombreArchivo){
 		//error 28: el archivo no es un PNG o esta corrupto
 		if(error == 48) logError->escribir("Error 001: no se encontró el archivo de terreno " + string(nombreArchivo) + ".");
 		if(error == 28) logError->escribir("Error 002: el archivo de terreno no es de formato PNG o está corrupto.");
-
 		logError->escribir("Se generará una imagen de terreno aleatoria.");
 
-		//crea un PNG de terreno aleatorio
-		generarTerrenoAleatorio(nombreArchivo, anchoMatriz, altoMatriz);
+		generarTerrenoAleatorio(nombreArchivo);
 		//al generar una nueva imagen , ya voy a tener la matriz de terreno cargada en memoria, asi que terminé (por eso el else)
-		
 	}else{
 		//si no hay error tengo que cargar mi matriz de terreno
 		//convierto RGBA a matriz y chequeo errores de terreno
-		RGBA_AMatrizBool(&imagen, this->matrizTerreno);
+		RGBA_AMatrizBool(&imagen);
 	}
 }
 
-void lectorTerreno::RGBA_AMatrizBool(vector<unsigned char>* imagen, bool** matriz){
-
+void lectorTerreno::RGBA_AMatrizBool(vector<unsigned char>* imagen){
 
 	pixel pixActual;
 	bool errorBN = false;	//chequea q todos los pixeles sean blancos o negros
@@ -54,7 +50,7 @@ void lectorTerreno::RGBA_AMatrizBool(vector<unsigned char>* imagen, bool** matri
 									(int)imagen->at(i* anchoMatriz*4 + j +3));
 
 			if(esBlanco(pixActual) || esNegro(pixActual)){ //chequea que todos los pixeles sean blancos o negros
-				matriz[(int)(j/4)][i] = esNegro(pixActual);
+				matrizTerreno[(int)(j/4)][i] = esNegro(pixActual);
 			}else{
 				errorBN = true;
 				logError->escribir("Error 003: Imagen de terreno. Pixel de color invalido en columna: " + (to_string((long long)((int)(j/4)))) + " y fila: " + (to_string((long long)i)));
@@ -65,7 +61,7 @@ void lectorTerreno::RGBA_AMatrizBool(vector<unsigned char>* imagen, bool** matri
 	//hago una nueva pasada columna por columna para chequear TCT
 	//de haber errores, devuelvo la columna
 	int columnaError ;
-	if(!errorBN) columnaError = chequearTCT(matrizTerreno, errorTCT);
+	if(!errorBN) columnaError = chequearTCT(errorTCT);
 	if(errorTCT){
 			//escribo en el log la columna invalida
 			logError->escribir("Error 004: Imagen de terreno. La columna " + (to_string((long long)columnaError)) + " contiene un patron invalido de cielo y tierra.");
@@ -74,33 +70,33 @@ void lectorTerreno::RGBA_AMatrizBool(vector<unsigned char>* imagen, bool** matri
 
 	//si hubo algun tipo de error con la imagen, genero matriz de terreno aleatorio.
 	if(errorBN || errorTCT){
-		generarMatrizAleatoria(this->matrizTerreno);
+		generarMatrizAleatoria();
 	}
 }
 
-void lectorTerreno::generarMatrizAleatoria(bool** matriz){
+void lectorTerreno::generarMatrizAleatoria(){
 
 	//genero una funcion aleatoria
 	double* f = new double[anchoMatriz];
 	GeneradorFunciones gen;
 	gen.generarFuncionFourier(f, anchoMatriz, fMinDEFAULT, fMaxDEFAULT);
 	//convierto la funcion a una matriz
-	convertirFuncionAMatriz(f, matriz);
+	cargarFuncionEnMatriz(f);
 	//ya tengo guardada la matriz aleatoria, borro la funcion
 	delete[] f;
 }
 
-void lectorTerreno::convertirFuncionAMatriz(double* f, bool** matriz){
+void lectorTerreno::cargarFuncionEnMatriz(double* f){
 
 	for(int i=0; i< this->altoMatriz; i++){
 		for(int j=0; j<this->anchoMatriz; j++){
 
-			matriz[j][i] = (f[j] < i)? true:false;
+			matrizTerreno[j][i] = (f[j] < i)? true:false;
 		}
 	}
 }
 
-int lectorTerreno::chequearTCT(bool** matriz, bool &error){
+int lectorTerreno::chequearTCT(bool &error){
 
 	int numeroCambios;
 	int columnaError = -1;
@@ -108,12 +104,12 @@ int lectorTerreno::chequearTCT(bool** matriz, bool &error){
 	bool pixelAnterior;
 
 	for(int i=0; (i<this->anchoMatriz)&&(!error); i++){
-		pixelActual = matriz[i][0];
+		pixelActual = matrizTerreno[i][0];
 		numeroCambios = 0;
 		//por cada columna, si detecto mas de un cambio de pixeles se informa del error
 		for(int j=1; (j<this->altoMatriz)&&(!error); j++){
 			pixelAnterior = pixelActual;
-			pixelActual = matriz[i][j];
+			pixelActual = matrizTerreno[i][j];
 			if(pixelAnterior != pixelActual) numeroCambios++;
 		}
 
@@ -122,7 +118,6 @@ int lectorTerreno::chequearTCT(bool** matriz, bool &error){
 			columnaError = i;
 		}
 	}
-
 	return columnaError;
 }
 
@@ -147,6 +142,25 @@ pixel lectorTerreno::RGBAaPixel(int r, int g, int b, int a){
 	return p;
 }
 
+pixel lectorTerreno::boolAPixel(bool valor){
+	pixel p;
+
+	if(valor){	//valor == true , pixel negro
+		p.R = 0;
+		p.G = 0;
+		p.B = 0;
+		p.A = 255;
+
+	}else{ //valor == false, pixel blanco
+		p.R = 255;
+		p.G = 255;
+		p.B = 255;
+		p.A = 255;
+	}
+
+	return p;
+}
+
 bool lectorTerreno::esBlanco(pixel p){
 	return((p.R == 255)&&(p.G == 255)&&(p.B == 255))? true:false;
 }
@@ -155,8 +169,31 @@ bool lectorTerreno::esNegro(pixel p){
 	return((p.R == 0)&&(p.G == 0)&&(p.B == 0))? true:false;
 }
 
-void lectorTerreno::generarTerrenoAleatorio(char* nombreArchivo, int ancho, int alto){
+void lectorTerreno::generarTerrenoAleatorio(char* nombreArchivo){
 
+	generarMatrizAleatoria();
+	guardarMatrizEnPNG(nombreArchivo);
+}
+
+void lectorTerreno::guardarMatrizEnPNG(char* nombreArchivo){
+
+	vector<unsigned char> imagen;
+	vector<unsigned char> png;
+
+	imagen.resize(anchoMatriz * altoMatriz * 4);
+
+	for(unsigned y = 0; y < altoMatriz; y++)
+		for(unsigned x = 0; x < anchoMatriz; x++){
+
+			pixel p = boolAPixel(matrizTerreno[x][y]);
+			imagen[4 * anchoMatriz * y + 4 * x + 0] = p.R;
+			imagen[4 * anchoMatriz * y + 4 * x + 1] = p.G;
+			imagen[4 * anchoMatriz * y + 4 * x + 2] = p.B;
+			imagen[4 * anchoMatriz * y + 4 * x + 3] = p.A;
+		}
+
+	unsigned error = lodepng::encode(png, imagen, anchoMatriz, altoMatriz);
+    if(!error) lodepng::save_file(png, nombreArchivo);
 }
 
 lectorTerreno::~lectorTerreno(){
@@ -164,5 +201,4 @@ lectorTerreno::~lectorTerreno(){
 		delete[] matrizTerreno[j];
 
 	delete[] this->matrizTerreno;
-
 }

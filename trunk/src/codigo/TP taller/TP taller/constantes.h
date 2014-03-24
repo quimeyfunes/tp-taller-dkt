@@ -2,13 +2,13 @@
 #define CONSTANTES_H_
 
 	#define archivoLog "logErrors.txt"
-	#define imagenTerrenoDEF "imagenes/terrenoDefault.txt"
+	#define imagenTerrenoDEF "imagenes/terrenoDefault.txt" //para que se usa?? (el tererno default se genera con el nombre del YAML)
 	#define imagenCieloDEF "imagenes/cieloDefault.txt"
 
 	const double PI = 3.1415926535;
 
 	const unsigned anchoPxDEF=3000;
-	const unsigned altoPxDEF=1000;
+	const unsigned altoPxDEF=768; //tiene q usar el parser para que le asigne el alto del escenario
 	const unsigned anchoUDEF=3000;
 	const unsigned altoUDEF=1000;
 	const unsigned nivelAguaDEF=20;
