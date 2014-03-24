@@ -6,7 +6,7 @@ Figura::Figura()
 	//DEFINIR LOS VALORES POR DEFECTO
 }
 
-Figura::Figura(float x, float y, short int rotacion, b2World world, bool estatico)
+Figura::Figura(float x, float y, short int rotacion, b2World* world, bool estatico)
 {
 	b2BodyDef myBodyDef;
 	if (estatico){
@@ -18,7 +18,7 @@ Figura::Figura(float x, float y, short int rotacion, b2World world, bool estatic
 	//Angulo en radianes
 	myBodyDef.angle = (rotacion * DEGTORAD); 
 
-	this->body = world.CreateBody(&myBodyDef);
+	this->body = world->CreateBody(&myBodyDef);
 	
 }
 

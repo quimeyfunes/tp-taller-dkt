@@ -17,7 +17,7 @@ private:
 public:
 
 	Figura();
-	Figura(float x, float y, short int rotacion, b2World world, bool estatico);
+	Figura(float x, float y, short int rotacion, b2World* world, bool estatico);
 	void setPosicion(float x, float y, float angulo);
 	b2Body* getBody();
 	b2Vec2 getPosicion();
