@@ -1,6 +1,11 @@
 #include "GeneradorFunciones.h"
+#include "../../yaml/ParserYaml.h"
 
 void GeneradorFunciones::generarFuncionFourier(double* &funcion, int n, double fMin, double fMax){
+
+	//ParserYaml parser("../../../../config/config.yaml");
+	//parser.parsear();
+	//Escenario e = parser.getEscenario();	//cambiar a singleton
 
 	double* a = new double[n];
 	double* b = new double[n];
@@ -18,7 +23,7 @@ void GeneradorFunciones::generarFuncionFourier(double* &funcion, int n, double f
 	//ajusto la funcion a las dimensiones fMin y fMax
 	double minF, maxF;
 	obtenerMinMax(funcion, n, minF, maxF);
-	for(int i=0; i<n; i++) funcion[i] = (funcion[i] - minF) * ((fMax-fMin)/(maxF-minF)) + 768 - fMax;	//MODIFICAR 768!!!!!!
+	for(int i=0; i<n; i++) funcion[i] = (funcion[i] - minF) * ((fMax-fMin)/(maxF-minF)) + 768 - fMax; //cambiar por alto del escenario
 
 	//ya no necesito los coeficientes de fourier
 	delete[] a;
