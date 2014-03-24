@@ -1,3 +1,6 @@
+#ifndef __DIBUJABLE_H__
+#define __DIBUJABLE_H__
+
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include <string>
@@ -17,3 +20,5 @@ public:
 	int getAngulo();
 	void setAngulo(int angulo);
 };
+
+#endif
