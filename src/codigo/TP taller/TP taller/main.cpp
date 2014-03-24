@@ -4,14 +4,16 @@
 #include "yaml-cpp\yaml.h"
 #include "Parser/yaml/ParserYaml.h"
 #include "Vista\Vista.h"
+#include "Modelo\Escenario.h"
 
 
 int main( int argc,  char** argv )
 {
+	
+	ParserYaml parser("config/config.yaml");
+	parser.parsear();
+	Escenario e = parser.getEscenario();
 	/*
-	//ParserYaml parser("config/config.yaml");
-	//parser.parsear();
-
 	//The window we'll be rendering to
 	SDL_Window* gWindow = NULL;
     

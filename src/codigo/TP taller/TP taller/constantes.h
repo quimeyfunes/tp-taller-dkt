@@ -1,11 +1,16 @@
 #ifndef CONSTANTES_H_
 #define CONSTANTES_H_
 
-#define archivoLog "logErrors.txt"
+	#define archivoLog "logErrors.txt"
 
-	const unsigned anchoDEF=3000;
-	const unsigned altoDEF=1000;
+	const unsigned anchoPxDEF=3000;
+	const unsigned altoPxDEF=1000;
+	const unsigned anchoUDEF=3000;
+	const unsigned altoUDEF=1000;
+	const unsigned nivelAguaDEF=20;
 
+	#define imagenTerrenoDEF "imagenes/terrenoDefault.txt"
+	#define imagenCieloDEF "imagenes/cieloDefault.txt"
 
 	/*
 	TIPOS DE ERRORES: (ir completando a medida que surjan)

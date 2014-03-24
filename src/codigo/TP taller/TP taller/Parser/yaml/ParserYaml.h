@@ -7,7 +7,9 @@
 #include <string>
 #include <vector>
 #include <valarray>
+#include <algorithm>
 #include "../../constantes.h"
+#include "../../Modelo/Escenario.h"
 
 using namespace std;
 
@@ -15,10 +17,16 @@ class ParserYaml
 {
 private:
 	string nombreArchivo;
+	YAML::Node documento;
+	bool ParserYaml::esNumero(const std::string& s);
+	string getNodoInfo(const YAML::Node & nodo);
+	int getValorEscalar(const YAML::Node & nodo, string clave, const int valorPorDefecto);
+	bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valor);
 public:
 	ParserYaml(std::string pathArchivo);
 	void parsear();
-
+	//Tiene que devolver el escenario
+	Escenario getEscenario();
 };
 
 
