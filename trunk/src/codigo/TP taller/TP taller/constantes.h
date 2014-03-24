@@ -18,6 +18,9 @@
 	const int fMinDEFAULT = 20;
 	const int fMaxDEFAULT = 400;
 
+	#define DEGTORAD 0.0174532925199432957f
+	#define RADTODEG 57.295779513082320876f
+
 
 	/*
 	TIPOS DE ERRORES: (ir completando a medida que surjan)
