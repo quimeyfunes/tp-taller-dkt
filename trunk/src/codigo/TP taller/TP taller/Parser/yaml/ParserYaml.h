@@ -21,9 +21,10 @@ private:
 	bool ParserYaml::esNumero(const std::string& s);
 	string getNodoInfo(const YAML::Node & nodo);
 	int getValorEscalar(const YAML::Node & nodo, string clave, const int valorPorDefecto);
+	string getValorCadena(const YAML::Node & nodo, string clave, string valorPorDefecto);
 	bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valor);
-	bool ParserYaml::ValidarSecuencia(const YAML::Node &nodo, string clave);
-	bool ParserYaml::ValidarCadena(const YAML::Node &nodo, string clave, string cadenaValida);
+	bool ParserYaml::validarSecuencia(const YAML::Node &nodo, string clave);
+	bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string cadenaValida);
 public:
 	ParserYaml(std::string pathArchivo);
 	void parsear();
