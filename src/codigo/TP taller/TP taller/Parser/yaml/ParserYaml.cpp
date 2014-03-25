@@ -36,9 +36,9 @@ Escenario ParserYaml::getEscenario(){
 		altoun = this->getValorEscalar(*nodoEscenario,"altoun",altoUDEF);
 		anchou = this->getValorEscalar(*nodoEscenario,"anchoun",altoUDEF);
 		nivel_agua = this->getValorEscalar(*nodoEscenario,"nivel_agua",nivelAguaDEF);
-		/*nodo = nodoEscenario->FindValue("imagen_tierra");
-		nodo = nodoEscenario->FindValue("imagen_cielo");*/
-		return Escenario(altopx,anchopx,altoun,anchou,nivel_agua,"","");
+		imagen_tierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",imagenTerrenoDEF);
+		imagen_cielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",imagenCieloDEF);
+		return Escenario(altopx,anchopx,altoun,anchou,nivel_agua,imagen_tierra,imagen_cielo);
 	} else {
 		//Loguear
 	}
@@ -47,6 +47,14 @@ Escenario ParserYaml::getEscenario(){
 int ParserYaml::getValorEscalar(const YAML::Node & nodo, string clave, const int valorPorDefecto){
 	int valor;
 	if(this->validarEscalar(nodo,clave,valor)){
+		return valor;
+	}
+	return valorPorDefecto;
+}
+
+string ParserYaml::getValorCadena(const YAML::Node & nodo, string clave, string valorPorDefecto){
+	string valor;
+	if(this->validarCadena(nodo,clave,valor)){
 		return valor;
 	}
 	return valorPorDefecto;
@@ -89,7 +97,7 @@ bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valo
 
 string ParserYaml::getNodoInfo(const YAML::Node & nodo){
 	nodo.GetMark();
-	return "TODO";
+	return "TODO:falta obtener la informacion del mark del nodo";
 }
 
 bool ParserYaml::esNumero(const std::string& s){
@@ -98,7 +106,7 @@ bool ParserYaml::esNumero(const std::string& s){
 }
 
 //para validar los elementos de las secuencias lo deberia hacer el metodo invocante, luego de validar q sea una secuencia.
-bool ParserYaml::ValidarSecuencia(const YAML::Node &nodo, string clave){
+bool ParserYaml::validarSecuencia(const YAML::Node &nodo, string clave){
 	const YAML::Node *nodo_aux;
 	if(nodo_aux = nodo.FindValue(clave)){
 		if((*nodo_aux).Type() != YAML::NodeType::Sequence){
@@ -118,10 +126,13 @@ return false;
 
 
 //valida que la cadena almacenada sea la correcta.
-bool ParserYaml::ValidarCadena(const YAML::Node &nodo, string clave, string cadenaValida){
+bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string cadenaValida){
 	const YAML::Node *nodo_aux;
 	if(nodo_aux = nodo.FindValue(clave)){
-		if( (*nodo_aux).to<std::string>() == cadenaValida){
+		string cadena_aux;
+		*nodo_aux >> cadena_aux;
+		if(cadena_aux != ""){
+			*nodo_aux >> cadenaValida;
 			return true;
 		}
 		else{
