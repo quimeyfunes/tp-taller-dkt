@@ -96,3 +96,42 @@ bool ParserYaml::esNumero(const std::string& s){
     return !s.empty() && std::find_if(s.begin(), 
         s.end(), [](char c) { return !isdigit(c); }) == s.end();
 }
+
+//para validar los elementos de las secuencias lo deberia hacer el metodo invocante, luego de validar q sea una secuencia.
+bool ParserYaml::ValidarSecuencia(const YAML::Node &nodo, string clave){
+	const YAML::Node *nodo_aux;
+	if(nodo_aux = nodo.FindValue(clave)){
+		if((*nodo_aux).Type() != YAML::NodeType::Sequence){
+			return true;
+		}
+		else{
+			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave" + clave + " no es una secuencia.";
+			//Log::getInstance()->WARNING(message);
+		}
+	}
+	else{
+		std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": no se encontro la clave " + clave + ".";
+		//Log::getInstance()->WARNING(message);
+	}
+return false;
+}
+
+
+//valida que la cadena almacenada sea la correcta.
+bool ParserYaml::ValidarCadena(const YAML::Node &nodo, string clave, string cadenaValida){
+	const YAML::Node *nodo_aux;
+	if(nodo_aux = nodo.FindValue(clave)){
+		if( (*nodo_aux).to<std::string>() == cadenaValida){
+			return true;
+		}
+		else{
+			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave" + clave + " no es la cadena esperada.";
+			//Log::getInstance()->WARNING(message);
+		}
+	}
+	else{
+		std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": no se encontro la clave " + clave + ".";
+		//Log::getInstance()->WARNING(message);
+	}
+return false;
+}
