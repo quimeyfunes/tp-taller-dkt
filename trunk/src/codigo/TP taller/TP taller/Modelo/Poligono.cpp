@@ -20,8 +20,7 @@ Poligono::Poligono(float x, float y, short int rotacion, b2World* world, bool es
 	shape.Set(vertices, n);
 	b2FixtureDef myFixtureDef;
 	myFixtureDef.shape = &shape; 
-	double numero = 360/n;
-	float areaPoligono = 0.5 * n * escala * escala * sin(numero * DEGTORAD);
+	float areaPoligono = 0.5 * n * escala * escala * sin(360/n * DEGTORAD);
 	myFixtureDef.density = masa/areaPoligono;
 	this->getBody()->CreateFixture(&myFixtureDef);
 	this->n = n;

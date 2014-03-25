@@ -4,11 +4,13 @@
 #include <iostream>
 #include <string>
 #include "Box2D/Box2D.h"
+#include "../Observable.h"
 #include "../constantes.h"
+
 
 using namespace std;
 
-class Figura
+class Figura : public Observable
 {
 private:
 
