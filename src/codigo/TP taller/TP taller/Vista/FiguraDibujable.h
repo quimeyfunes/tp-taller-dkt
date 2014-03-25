@@ -4,10 +4,11 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "Dibujable.h"
+#include "../Observador.h"
 
 using namespace std;
 
-class FiguraDibujable : public Dibujable
+class FiguraDibujable : public Dibujable, public Observador
 {
 
 public:
