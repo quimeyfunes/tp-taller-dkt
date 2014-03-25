@@ -4,6 +4,7 @@
 	#define archivoLog "logErrors.txt"
 	#define imagenTerrenoDEF "imagenes/terrenoDefault.txt" //para que se usa?? (el tererno default se genera con el nombre del YAML)
 	#define imagenCieloDEF "imagenes/cieloDefault.txt"
+	#define configPath "config/config.yal"
 
 	const double PI = 3.1415926535;
 

@@ -16,6 +16,7 @@ using namespace std;
 class ParserYaml
 {
 private:
+	static ParserYaml* parserInstancia;
 	string nombreArchivo;
 	YAML::Node documento;
 	bool ParserYaml::esNumero(const std::string& s);
@@ -25,9 +26,12 @@ private:
 	bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valor);
 	bool ParserYaml::validarSecuencia(const YAML::Node &nodo, string clave);
 	bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string cadenaValida);
+	bool ParserYaml::validarImagen(string path);
 public:
 	ParserYaml(std::string pathArchivo);
+	ParserYaml();
 	void parsear();
+	static ParserYaml* getParser();
 	//Tiene que devolver el escenario
 	Escenario getEscenario();
 };

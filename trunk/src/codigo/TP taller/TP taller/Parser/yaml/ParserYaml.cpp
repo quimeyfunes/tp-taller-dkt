@@ -1,9 +1,23 @@
 #include "ParserYaml.h"
 
+ParserYaml* ParserYaml::parserInstancia = NULL;
+
 ParserYaml::ParserYaml(string nombreArchivo){
 	this->nombreArchivo = nombreArchivo;
 }
 
+ParserYaml::ParserYaml(){
+}
+
+
+ParserYaml* ParserYaml::getParser(){
+
+	if(parserInstancia == NULL) {
+		parserInstancia = new ParserYaml(configPath);
+		parserInstancia->parsear();
+	}
+	return parserInstancia;
+}
 
 void ParserYaml::parsear()
 {
@@ -145,4 +159,10 @@ bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string cade
 		//Log::getInstance()->WARNING(message);
 	}
 return false;
+}
+
+
+bool ParserYaml::validarImagen(string path){
+	std::ifstream archivo(path,ios::out | ios::in);
+	return archivo.is_open();
 }
