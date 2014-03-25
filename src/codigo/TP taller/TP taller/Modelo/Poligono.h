@@ -5,9 +5,10 @@
 
 class Poligono: public Figura
 {
+	short int n;
 public:
 	Poligono();
-	Poligono(float x, float y, short int rotacion, b2World* world, bool estatico, float escala, float masa);
+	Poligono(float x, float y, short int rotacion, b2World* world, bool estatico, float escala, float masa, short int n);
 	~Poligono(void);
 };
 

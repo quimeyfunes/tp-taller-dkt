@@ -10,12 +10,12 @@ Circulo::Circulo(float x, float y, short int rotacion, b2World* world, bool esta
 	: Figura(x, y, rotacion, world, estatico) //Llamo al constructor del padre
 {
 	b2CircleShape circleShape;
-	circleShape.m_p.Set(x, y);
 	circleShape.m_radius = radio;
 
 	b2FixtureDef myFixtureDef;
 	myFixtureDef.shape = &circleShape; 
-	myFixtureDef.density = masa;
+	float areaCirculo = b2_pi * radio * radio;
+	myFixtureDef.density = masa/areaCirculo;
 	this->getBody()->CreateFixture(&myFixtureDef);
 }
 
