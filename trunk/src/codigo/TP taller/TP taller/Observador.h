@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef __OBSERVADOR_H__
 #define __OBSERVADOR_H__
 
