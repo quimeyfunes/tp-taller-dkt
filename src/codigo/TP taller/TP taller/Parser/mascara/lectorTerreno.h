@@ -25,6 +25,7 @@ private:
 
 	bool esBlanco(pixel p);
 	bool esNegro(pixel p);
+	pixel boolAPixel(bool valor);
 
 	/*convierte el vector de RGBA a una matriz de pixeles de dimensiones ancho x alto.
 	chequea si el vector es valido y carga una matriz pixel por pixel del terreno a usar.*/
