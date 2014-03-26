@@ -39,25 +39,31 @@ void ParserYaml::parsear()
 	}
 }
 
-Escenario* ParserYaml::getEscenario(){
+EscenarioParseado ParserYaml::parsearEscenario(){
 	const YAML::Node *nodoEscenario = this->documento.FindValue("escenario");
 	if(nodoEscenario) {
-		//Tengo que instanciar el escenario
-		string imagen_tierra,imagen_cielo;
-		int altopx,anchopx,altoun,anchou,nivel_agua;
-		altopx = this->getValorEscalar(*nodoEscenario,"altopx",altoPxDEF);
-		anchopx = this->getValorEscalar(*nodoEscenario,"anchopx",altoPxDEF);
-		altoun = this->getValorEscalar(*nodoEscenario,"altoun",altoUDEF);
-		anchou = this->getValorEscalar(*nodoEscenario,"anchoun",altoUDEF);
-		nivel_agua = this->getValorEscalar(*nodoEscenario,"nivel_agua",nivelAguaDEF);
-		imagen_tierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",imagenTerrenoDEF);
-		imagen_cielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",imagenCieloDEF);
+		EscenarioParseado esc;
+		esc.altoPx = this->getValorEscalar(*nodoEscenario,"altopx",altoPxDEF);
+		esc.anchoPx = this->getValorEscalar(*nodoEscenario,"anchopx",altoPxDEF);
+		esc.altoU = this->getValorEscalar(*nodoEscenario,"altoun",altoUDEF);
+		esc.anchoU = this->getValorEscalar(*nodoEscenario,"anchoun",altoUDEF);
+		esc.nivelAgua = this->getValorEscalar(*nodoEscenario,"nivel_agua",nivelAguaDEF);
+		esc.imagenTierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",imagenTerrenoDEF);
+		esc.imagenCielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",imagenCieloDEF);
 		//this->validarSecuencia(*nodoEscenario,"objetos");
-		return new Escenario(altopx,anchopx,altoun,anchou,nivel_agua,imagen_tierra,imagen_cielo);
+		return esc;
 	} else {
 		Logger::getLogger()->escribir("Error en parseo del yaml - No se encuentra el nodo del escenario. Se utiliza un escenario default.");
 		//HAY QUE CARGAR UN ESCENARIO DEFAULT
 	}
+}
+
+EscenarioParseado ParserYaml::getEscenario(){
+	//Si ya lo parsee no vuelvo a parsearlo
+	if(this->escenario.altoPx != 0){
+		this->escenario = this->parsearEscenario();
+	}
+	return this->escenario;
 }
 
 int ParserYaml::getValorEscalar(const YAML::Node & nodo, string clave, const int valorPorDefecto){
