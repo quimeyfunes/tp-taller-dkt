@@ -1,22 +1,19 @@
 #include "Terreno.h"
 
 
+
 Terreno::Terreno()
 {
-}
-
-Terreno::Terreno(char* nombreArchivo)
-{
-	this->lectorT = new lectorTerreno(nombreArchivo);
 	this->listaBodies = new list<b2Body*>;
 }
 
 
-void Terreno::generarTerreno(b2World* world)
+void Terreno::generarTerreno(b2World* world, char* nombreArchivo)
 {
-	bool** matrizTerreno = this->lectorT->getMatrizTerreno();
-	int anchoMatriz = this->lectorT->getAnchoMatriz();
-	int altoMatriz = this->lectorT->getAltoMatriz();
+	lectorTerreno* lectorT = new lectorTerreno(nombreArchivo);
+	bool** matrizTerreno = lectorT->getMatrizTerreno();
+	int anchoMatriz = lectorT->getAnchoMatriz();
+	int altoMatriz = lectorT->getAltoMatriz();
 	bool tierra = true;
 
 	// Recorro la matriz hasta encontrar tierra
@@ -34,7 +31,7 @@ void Terreno::generarTerreno(b2World* world)
 				this->agregarBody(body);
 
 				b2PolygonShape caja;
-				caja.SetAsBox(1,1);
+				caja.SetAsBox(0.5,0.5);
   
 				b2FixtureDef cajaFixtureDef;
 				cajaFixtureDef.shape = &caja;
@@ -45,6 +42,8 @@ void Terreno::generarTerreno(b2World* world)
 
 		}
 	}
+
+	delete lectorT;
 
 }
 
@@ -60,6 +59,5 @@ list<b2Body*>* Terreno::getBodies()
 
 Terreno::~Terreno(void)
 {
-	delete this->lectorT;
 	delete this->listaBodies;
 }

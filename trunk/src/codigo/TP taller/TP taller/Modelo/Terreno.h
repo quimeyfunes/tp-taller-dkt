@@ -13,12 +13,11 @@ class Terreno
 {
 private:
 	list<b2Body*>* listaBodies;
-	lectorTerreno* lectorT;
+	
 
 public:
 	Terreno();
-	Terreno(char* nombreArchivo);
-	void generarTerreno(b2World* world);
+	void generarTerreno(b2World* world, char* nombre);
 	void agregarBody (b2Body* body);
 	list<b2Body*>* getBodies();
 	~Terreno();
