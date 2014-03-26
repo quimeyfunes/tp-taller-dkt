@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 #include <valarray>
+#include <list>
+#include "Figura.h"
 #include "../constantes.h"
 
 using namespace std;
@@ -20,6 +22,7 @@ private:
     int nivelAgua;
     string imagenTierra;
     string imagenCielo;
+	list<Figura*>* listaFiguras;
 public:
 	Escenario();
 	Escenario(int altoPx,int anchoPx,int altoU,int anchoU,int nivelAgua,string imagenTierra,string imagenCielo);
@@ -30,6 +33,8 @@ public:
     int getNivelAgua();
     string getImagenTierra();
     string getImagenCielo();
+	void agregarFigura(Figura* figura);
+
 };
 
 

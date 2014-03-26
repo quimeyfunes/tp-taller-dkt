@@ -19,6 +19,10 @@ SDL_Rect Dibujable::getRect(){
 	return this->rect;
 }
 
+void Dibujable::setRect(SDL_Rect rect) {
+	this->rect = rect;
+}
+
 int Dibujable::getAngulo() {
 	return this->anguloRotacion;
 }

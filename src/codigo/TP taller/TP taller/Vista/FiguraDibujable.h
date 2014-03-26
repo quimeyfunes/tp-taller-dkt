@@ -5,6 +5,7 @@
 #include "SDL/SDL_image.h"
 #include "Dibujable.h"
 #include "../Observador.h"
+#include "../Modelo/Figura.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ public:
 	FiguraDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen);
 	~FiguraDibujable();
 	void setColor(int* rgb);
+	void actualizar(Observable* observable);
 };
 
 #endif

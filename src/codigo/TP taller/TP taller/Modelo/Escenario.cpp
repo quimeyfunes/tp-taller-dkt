@@ -11,6 +11,7 @@ Escenario::Escenario(int altoPx,int anchoPx,int altoU,int anchoU,int nivelAgua,s
 	this->nivelAgua = nivelAgua;
 	this->imagenTierra = imagenTierra;
 	this->imagenCielo = imagenCielo;
+	this->listaFiguras = new list<Figura*>();
 }
 
 int Escenario::getAltoPx(){
@@ -41,3 +42,6 @@ string Escenario::getImagenCielo(){
 	return imagenCielo;
 }
 
+void Escenario::agregarFigura(Figura* figura) {
+	this->listaFiguras->push_back(figura);
+}

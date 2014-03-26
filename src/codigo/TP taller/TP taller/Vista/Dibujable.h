@@ -16,6 +16,7 @@ public:
 	Dibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen);
 	~Dibujable();
 	SDL_Rect getRect();
+	void setRect(SDL_Rect rect);
 	SDL_Texture* getImagen();
 	int getAngulo();
 	void setAngulo(int angulo);
