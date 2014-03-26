@@ -9,9 +9,8 @@
 
 int main( int argc,  char** argv )
 {	
-	ParserYaml parser("config/config.yaml");
-	parser.parsear();
-	Escenario e = parser.getEscenario();
+	ParserYaml* parser = ParserYaml::getParser();
+	Escenario* e = parser->getEscenario();
 
 	/*
 	//The window we'll be rendering to

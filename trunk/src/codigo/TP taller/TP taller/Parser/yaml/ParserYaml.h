@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "../../constantes.h"
 #include "../../Modelo/Escenario.h"
+#include "../../Logger/Logger.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ private:
 	string getValorCadena(const YAML::Node & nodo, string clave, string valorPorDefecto);
 	bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valor);
 	bool ParserYaml::validarSecuencia(const YAML::Node &nodo, string clave);
-	bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string cadenaValida);
+	bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string &cadena);
 	bool ParserYaml::validarImagen(string path);
 public:
 	ParserYaml(std::string pathArchivo);
@@ -33,7 +34,7 @@ public:
 	void parsear();
 	static ParserYaml* getParser();
 	//Tiene que devolver el escenario
-	Escenario getEscenario();
+	Escenario* getEscenario();
 };
 
 

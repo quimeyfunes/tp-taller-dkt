@@ -11,7 +11,6 @@ ParserYaml::ParserYaml(){
 
 
 ParserYaml* ParserYaml::getParser(){
-
 	if(parserInstancia == NULL) {
 		parserInstancia = new ParserYaml(configPath);
 		parserInstancia->parsear();
@@ -24,7 +23,8 @@ void ParserYaml::parsear()
 	try{
 		std::ifstream archivo(this->nombreArchivo,ios::out | ios::in);
 		if(!archivo.is_open()){
-			string mensaje = "Loguear: El archivo no se encuentra o es incorrecto";
+			string mensaje = "El archivo config no se encuentra o es incorrecto";
+			Logger::getLogger()->escribir(mensaje);
 			return;
 		}
 		YAML::Parser parser(archivo);
@@ -34,12 +34,12 @@ void ParserYaml::parsear()
 		
 		archivo.close();
 	} catch(YAML::ParserException& e) {
-		std::cout << e.what() << "\n";
-		//Loguear error
+		//std::cout << e.what() << "\n";
+		Logger::getLogger()->escribir(e.what());
 	}
 }
 
-Escenario ParserYaml::getEscenario(){
+Escenario* ParserYaml::getEscenario(){
 	const YAML::Node *nodoEscenario = this->documento.FindValue("escenario");
 	if(nodoEscenario) {
 		//Tengo que instanciar el escenario
@@ -52,9 +52,10 @@ Escenario ParserYaml::getEscenario(){
 		nivel_agua = this->getValorEscalar(*nodoEscenario,"nivel_agua",nivelAguaDEF);
 		imagen_tierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",imagenTerrenoDEF);
 		imagen_cielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",imagenCieloDEF);
-		return Escenario(altopx,anchopx,altoun,anchou,nivel_agua,imagen_tierra,imagen_cielo);
+		return new Escenario(altopx,anchopx,altoun,anchou,nivel_agua,imagen_tierra,imagen_cielo);
 	} else {
-		//Loguear
+		Logger::getLogger()->escribir("Error en parseo del yaml - No se encuentra el nodo del escenario. Se utiliza un escenario default");
+		//HAY QUE CARGAR UN ESCENARIO DEFAULT
 	}
 }
 
@@ -86,7 +87,7 @@ bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valo
 				if(value_aux < 0){
 					//value_aux = value_aux * (-1);
 					std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": se esperaba un valor de la clave" + clave + " no es positivo.";
-					//Log::getInstance()->WARNING(message);
+					Logger::getLogger()->escribir(message);
 					return false;
 				}
 				valor = value_aux;
@@ -94,17 +95,17 @@ bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valo
 			}
 			else{
 				std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave" + clave + " no es numerico.";
-				//Log::getInstance()->WARNING(message);
+				Logger::getLogger()->escribir(message);
 			}
 		}
 		else{
 			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave" + clave + " no es Scalar.";
-			//Log::getInstance()->WARNING(message);
+			Logger::getLogger()->escribir(message);
 		}
 	}
 	else{
 		std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": no se encontro la clave " + clave + ".";
-		//Log::getInstance()->WARNING(message);
+		Logger::getLogger()->escribir(message);
 	}
 	return false;
 }
@@ -128,19 +129,19 @@ bool ParserYaml::validarSecuencia(const YAML::Node &nodo, string clave){
 		}
 		else{
 			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave" + clave + " no es una secuencia.";
-			//Log::getInstance()->WARNING(message);
+			Logger::getLogger()->escribir(message);
 		}
 	}
 	else{
 		std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": no se encontro la clave " + clave + ".";
-		//Log::getInstance()->WARNING(message);
+		Logger::getLogger()->escribir(message);
 	}
 return false;
 }
 
 
 //valida que la cadena almacenada sea la correcta.
-bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string cadenaValida){
+bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string &cadenaValida){
 	const YAML::Node *nodo_aux;
 	if(nodo_aux = nodo.FindValue(clave)){
 		string cadena_aux;
@@ -150,13 +151,13 @@ bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string cade
 			return true;
 		}
 		else{
-			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave" + clave + " no es la cadena esperada.";
-			//Log::getInstance()->WARNING(message);
+			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave" + clave + " no es correcto.";
+			Logger::getLogger()->escribir(message);
 		}
 	}
 	else{
 		std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": no se encontro la clave " + clave + ".";
-		//Log::getInstance()->WARNING(message);
+		Logger::getLogger()->escribir(message);
 	}
 return false;
 }
