@@ -17,6 +17,7 @@ typedef struct{
 class lectorTerreno{
 
 private:
+	Logger* logError;
 	bool** matrizTerreno;
 	SDL_Surface* imagen;
 	int anchoMatriz;
@@ -24,15 +25,11 @@ private:
 
 	bool esBlanco(pixel p);
 	bool esNegro(pixel p);
-	Logger* logError;
 
-	pixel boolAPixel(bool valor);
-	pixel pixelNegro();
-	pixel pixelBlanco();
-
-	/*convierte el vector de RGBA devuelto por libpng a una matriz de pixeles de dimensiones ancho x alto.
-	chequea si el vector es valido y devuelve una matriz pixel por pixel del terreno a usar.*/
+	/*convierte el vector de RGBA a una matriz de pixeles de dimensiones ancho x alto.
+	chequea si el vector es valido y carga una matriz pixel por pixel del terreno a usar.*/
 	void RGB_AMatrizBool();
+	//mapea una funcion a la matriz
 	void cargarFuncionEnMatriz(double* f);
 	void guardarMatrizEnPNG(char* nombreArchivo);
 
