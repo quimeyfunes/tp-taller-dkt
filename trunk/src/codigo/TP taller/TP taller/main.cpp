@@ -6,6 +6,7 @@
 #include "Vista\Vista.h"
 #include "Modelo\Escenario.h"
 #include "Parser\ParserDeHexARgb.h"
+#include "Modelo\Rectangulo.h"
 
 int main( int argc,  char** argv )
 {	
@@ -99,13 +100,14 @@ int main( int argc,  char** argv )
 	// Prepare for simulation. Typically we use a time step of 1/60 of a
 	// second (60Hz) and 10 iterations. This provides a high quality simulation
 	// in most game scenarios.
-	float32 timeStep = 1.0f / 60.0f;
+	float32 timeStep = 1.0f / 2000.0f;
 	int32 velocityIterations = 6;
 	int32 positionIterations = 2;
 
 	Vista* vista = new Vista();
 	SDL_Rect recImg;
 
+	
 	recImg.h= 100;
 	recImg.w = 200;
 	recImg.x = 50;
@@ -114,6 +116,8 @@ int main( int argc,  char** argv )
 	vista->crearDibujable(recImg,"imagenes/r4.png");
 	string hex = "#F4ACC3";
 	dib2->setColor(parsearDeHexARgb(hex));
+	Rectangulo* rec = new Rectangulo (20,20,0,&world,false,40,40,10);
+	rec->agregarObservador(dib2);
 	/*Dibujable* dib = new Dibujable(vista->getRenderer(), recImg,  "imagenes/imagen.jpg");
 	//SDL_Texture* img = IMG_LoadTexture(vista->getRenderer(), "imagenes/imagen.jpg");
 	vista->agregarDibujable(dib);*/
@@ -130,13 +134,14 @@ int main( int argc,  char** argv )
 		// It is generally best to keep the time step and iterations fixed.
 		world.Step(timeStep, velocityIterations, positionIterations);
 
+		rec->notificar();
 		// Now print the position and angle of the body.
-		b2Vec2 position = body->GetPosition();
+		/*b2Vec2 position = body->GetPosition();
 		float32 angle = body->GetAngle();
 
 
 		recImg.x = body->GetPosition().x;
-		recImg.y = body->GetPosition().y;
+		recImg.y = body->GetPosition().y;*/
 
 		vista->Dibujar();
 		/*SDL_RenderClear(renderer);
