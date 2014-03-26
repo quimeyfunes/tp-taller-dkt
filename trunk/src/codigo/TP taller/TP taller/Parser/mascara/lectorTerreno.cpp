@@ -2,8 +2,6 @@
 #include "generador\GeneradorFunciones.h"
 #include <string>
 
-
-#include <iostream>
 lectorTerreno::lectorTerreno(char* nombreArchivo){
 
 	logError = Logger::getLogger();
@@ -22,7 +20,8 @@ lectorTerreno::lectorTerreno(char* nombreArchivo){
 	
 	if((!imagen)||(!IMG_isPNG(rwop))){ //si no existe el archivo o no es PNG
 
-		logError->escribir("Error 001: no se encontró el archivo de terreno '" + string(nombreArchivo) + "' o no es de formato PNG.");
+		if(!imagen) logError->escribir("Error 001: no se encontró el archivo de terreno '" + string(nombreArchivo) + "'.");
+		if(!IMG_isPNG(rwop)) logError->escribir("Error 002: El archivo de terreno no es de formato PNG o está dañado.");
 		logError->escribir("Se generará una imagen de terreno aleatoria.");
 		generarTerrenoAleatorio(nombreArchivo);
 		//al generar una nueva imagen , ya voy a tener la matriz de terreno cargada en memoria, asi que terminé (por eso el else)
@@ -171,7 +170,7 @@ void lectorTerreno::guardarMatrizEnPNG(char* nombreArchivo){
 				
 	surNueva->h = altoMatriz;
 	surNueva->w = anchoMatriz;
-	surNueva->pitch = anchoMatriz*4;
+	surNueva->pitch = anchoMatriz*4;	//pitch: tamaño en bits de cada linea (ancho x bytes por pixel)
 	surNueva->pixels = vectorPixeles;
 	IMG_SavePNG(surNueva, nombreArchivo);
 

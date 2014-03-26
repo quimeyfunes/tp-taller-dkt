@@ -13,9 +13,7 @@ void GeneradorFunciones::generarFuncionFourier(double* &funcion, int n, double f
 	// funcion(x) = sumatoria[a(x).cos(nwx) + b(x).sen(nwx)]
 	for (int x = 0; x < n; ++x) { 
 		funcion[x] = a[0]; 
-		for (int k = 1; k <= n; ++k) {
-			funcion[x] += a[k] * cos(2 * PI / n * k * x) + b[k] * sin(2 * PI / n * k * x); 
-		}
+		for (int k = 1; k <= n; ++k) funcion[x] += a[k] * cos(2 * PI / n * k * x) + b[k] * sin(2 * PI / n * k * x); 
 	}
 
 	//ajusto la funcion a las dimensiones fMin y fMax
@@ -29,6 +27,7 @@ void GeneradorFunciones::generarFuncionFourier(double* &funcion, int n, double f
 }
 
 void GeneradorFunciones::generarCoeficientesFourier(double* &vector, int n){
+
 	int max =1000;
 	srand(time(NULL));
 	int num;
