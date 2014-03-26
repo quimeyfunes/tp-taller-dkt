@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tp taller\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\logger\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\modelo\Circulo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\modelo\Escenario.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\modelo\Figura.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\modelo\Poligono.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\modelo\Rectangulo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\parser\mascara\lectorTerreno.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\parser\mascara\generador\GeneradorFunciones.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\parser\yaml\ParserYaml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\vista\Dibujable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\vista\FiguraDibujable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tp taller\vista\Vista.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TP taller\Observable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TP taller\Observador.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tp taller\constantes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\logger\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\modelo\Circulo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\modelo\Escenario.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\modelo\Figura.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\modelo\Poligono.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\modelo\Rectangulo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\parser\ParserDeHexARgb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\parser\mascara\lectorTerreno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\parser\mascara\generador\GeneradorFunciones.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\parser\yaml\ParserYaml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\vista\Dibujable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\vista\FiguraDibujable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tp taller\vista\Vista.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TP taller\Observable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TP taller\Observador.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
