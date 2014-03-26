@@ -23,7 +23,7 @@ void ParserYaml::parsear()
 	try{
 		std::ifstream archivo(this->nombreArchivo,ios::out | ios::in);
 		if(!archivo.is_open()){
-			string mensaje = "El archivo config no se encuentra o es incorrecto";
+			string mensaje = "El archivo config no se encuentra o es incorrecto.";
 			Logger::getLogger()->escribir(mensaje);
 			return;
 		}
@@ -52,9 +52,10 @@ Escenario* ParserYaml::getEscenario(){
 		nivel_agua = this->getValorEscalar(*nodoEscenario,"nivel_agua",nivelAguaDEF);
 		imagen_tierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",imagenTerrenoDEF);
 		imagen_cielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",imagenCieloDEF);
+		//this->validarSecuencia(*nodoEscenario,"objetos");
 		return new Escenario(altopx,anchopx,altoun,anchou,nivel_agua,imagen_tierra,imagen_cielo);
 	} else {
-		Logger::getLogger()->escribir("Error en parseo del yaml - No se encuentra el nodo del escenario. Se utiliza un escenario default");
+		Logger::getLogger()->escribir("Error en parseo del yaml - No se encuentra el nodo del escenario. Se utiliza un escenario default.");
 		//HAY QUE CARGAR UN ESCENARIO DEFAULT
 	}
 }
@@ -124,7 +125,7 @@ bool ParserYaml::esNumero(const std::string& s){
 bool ParserYaml::validarSecuencia(const YAML::Node &nodo, string clave){
 	const YAML::Node *nodo_aux;
 	if(nodo_aux = nodo.FindValue(clave)){
-		if((*nodo_aux).Type() != YAML::NodeType::Sequence){
+		if((*nodo_aux).Type() == YAML::NodeType::Sequence){
 			return true;
 		}
 		else{
