@@ -14,12 +14,35 @@
 
 using namespace std;
 
+struct EscenarioParseado{
+	int altoPx;
+    int anchoPx;
+    int altoU;
+    int anchoU;
+    int nivelAgua;
+    string imagenTierra;
+    string imagenCielo;
+};
+
+
+struct ObjetoParseado{
+	int x;
+    int y;
+    int ancho;
+    int alto;
+    string color;
+    int rotacion;
+    int masa;
+	bool estatico;
+};
+
 class ParserYaml
 {
 private:
 	static ParserYaml* parserInstancia;
 	string nombreArchivo;
 	YAML::Node documento;
+	EscenarioParseado escenario;
 	bool ParserYaml::esNumero(const std::string& s);
 	string getNodoInfo(const YAML::Node & nodo);
 	int getValorEscalar(const YAML::Node & nodo, string clave, const int valorPorDefecto);
@@ -28,13 +51,14 @@ private:
 	bool ParserYaml::validarSecuencia(const YAML::Node &nodo, string clave);
 	bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string &cadena);
 	bool ParserYaml::validarImagen(string path);
+	EscenarioParseado parsearEscenario();
 public:
 	ParserYaml(std::string pathArchivo);
 	ParserYaml();
 	void parsear();
 	static ParserYaml* getParser();
 	//Tiene que devolver el escenario
-	Escenario* getEscenario();
+	EscenarioParseado getEscenario();
 };
 
 

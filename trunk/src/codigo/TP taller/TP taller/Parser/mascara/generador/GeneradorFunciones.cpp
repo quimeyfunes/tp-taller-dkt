@@ -3,7 +3,7 @@
 
 void GeneradorFunciones::generarFuncionFourier(double* &funcion, int n, double fMin, double fMax){
 
-	Escenario* e = ParserYaml::getParser()->getEscenario();
+	EscenarioParseado e = ParserYaml::getParser()->getEscenario();
 
 	double* a = new double[n];
 	double* b = new double[n];
@@ -19,7 +19,7 @@ void GeneradorFunciones::generarFuncionFourier(double* &funcion, int n, double f
 	//ajusto la funcion a las dimensiones fMin y fMax
 	double minF, maxF;
 	obtenerMinMax(funcion, n, minF, maxF);
-	for(int i=0; i<n; i++) funcion[i] = (funcion[i] - minF) * ((fMax-fMin)/(maxF-minF)) + e->getAltoPx() - fMax;
+	for(int i=0; i<n; i++) funcion[i] = (funcion[i] - minF) * ((fMax-fMin)/(maxF-minF)) + e.altoPx- fMax;
 
 	//ya no necesito los coeficientes de fourier
 	delete[] a;
