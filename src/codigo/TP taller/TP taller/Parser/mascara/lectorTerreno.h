@@ -1,23 +1,24 @@
 #ifndef LECTORTERRENO_H_
 #define LECTORTERRENO_H_
 
-#include "lodepng.h"
 #include "../../constantes.h"
 #include "../../Logger/Logger.h"
+#include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
 
 using namespace std;
 
 typedef struct{
-	int R;
-	int G;
-	int B;
-	int A;
+	Uint8 R;
+	Uint8 G;
+	Uint8 B;
 }pixel;
 
 class lectorTerreno{
 
 private:
 	bool** matrizTerreno;
+	SDL_Surface* imagen;
 	int anchoMatriz;
 	int altoMatriz;
 
@@ -25,13 +26,13 @@ private:
 	bool esNegro(pixel p);
 	Logger* logError;
 
-	/*convierte de notacion RGBA a pixel*/
-	pixel RGBAaPixel(int r, int g, int b, int a);
 	pixel boolAPixel(bool valor);
+	pixel pixelNegro();
+	pixel pixelBlanco();
 
 	/*convierte el vector de RGBA devuelto por libpng a una matriz de pixeles de dimensiones ancho x alto.
 	chequea si el vector es valido y devuelve una matriz pixel por pixel del terreno a usar.*/
-	void RGBA_AMatrizBool(vector<unsigned char>* imagen);
+	void RGB_AMatrizBool();
 	void cargarFuncionEnMatriz(double* f);
 	void guardarMatrizEnPNG(char* nombreArchivo);
 

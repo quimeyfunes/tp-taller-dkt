@@ -3,9 +3,7 @@
 
 void GeneradorFunciones::generarFuncionFourier(double* &funcion, int n, double fMin, double fMax){
 
-	//ParserYaml parser("../../../../config/config.yaml");
-	//parser.parsear();
-	//Escenario e = parser.getEscenario();	//cambiar a singleton
+	Escenario* e = ParserYaml::getParser()->getEscenario();
 
 	double* a = new double[n];
 	double* b = new double[n];
@@ -14,8 +12,8 @@ void GeneradorFunciones::generarFuncionFourier(double* &funcion, int n, double f
 
 	// funcion(x) = sumatoria[a(x).cos(nwx) + b(x).sen(nwx)]
 	for (int x = 0; x < n; ++x) { 
-	funcion[x] = a[0]; 
-		for (int k = 1; k <= n / 8; ++k) { // corta altas frecuencias, funcion mas suave
+		funcion[x] = a[0]; 
+		for (int k = 1; k <= n; ++k) {
 			funcion[x] += a[k] * cos(2 * PI / n * k * x) + b[k] * sin(2 * PI / n * k * x); 
 		}
 	}
@@ -23,7 +21,7 @@ void GeneradorFunciones::generarFuncionFourier(double* &funcion, int n, double f
 	//ajusto la funcion a las dimensiones fMin y fMax
 	double minF, maxF;
 	obtenerMinMax(funcion, n, minF, maxF);
-	for(int i=0; i<n; i++) funcion[i] = (funcion[i] - minF) * ((fMax-fMin)/(maxF-minF)) + 768 - fMax; //cambiar por alto del escenario
+	for(int i=0; i<n; i++) funcion[i] = (funcion[i] - minF) * ((fMax-fMin)/(maxF-minF)) + e->getAltoPx() - fMax;
 
 	//ya no necesito los coeficientes de fourier
 	delete[] a;
@@ -31,7 +29,7 @@ void GeneradorFunciones::generarFuncionFourier(double* &funcion, int n, double f
 }
 
 void GeneradorFunciones::generarCoeficientesFourier(double* &vector, int n){
-	int max =5000;
+	int max =1000;
 	srand(time(NULL));
 	int num;
 

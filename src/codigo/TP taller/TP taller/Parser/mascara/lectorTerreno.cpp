@@ -1,18 +1,18 @@
 #include "lectorTerreno.h"
 #include "generador\GeneradorFunciones.h"
+#include <string>
 
+
+#include <iostream>
 lectorTerreno::lectorTerreno(char* nombreArchivo){
 
 	logError = Logger::getLogger();
-
-	vector<unsigned char> imagen; //vector de pixelesRGBA del terreno
-	unsigned altoPx, anchoPx;
-
-	unsigned error = lodepng::decode(imagen, anchoPx, altoPx, nombreArchivo);
-
+	imagen = IMG_Load(nombreArchivo);
+	SDL_RWops *rwop = SDL_RWFromFile(nombreArchivo, "rb"); //para chequear si es PNG
+	
 	//asigno valores de alto y ancho
-	this->anchoMatriz = error? anchoPxDEF : anchoPx;
-	this->altoMatriz =  error? altoPxDEF  : altoPx;
+	this->anchoMatriz = (!imagen)? anchoPxDEF : imagen->w;
+	this->altoMatriz =  (!imagen)? altoPxDEF  : imagen->h;
 
 	//reservo espacio para mi matriz
 	this->matrizTerreno = new bool* [anchoMatriz];
@@ -20,40 +20,35 @@ lectorTerreno::lectorTerreno(char* nombreArchivo){
 		this->matrizTerreno[i] = new bool[altoMatriz];
 	}
 	
-	if(error){ //si no existe el archivo, o no es un PNG
-		//error 48: no se encontro el archivo
-		//error 28: el archivo no es un PNG o esta corrupto
-		if(error == 48) logError->escribir("Error 001: no se encontró el archivo de terreno " + string(nombreArchivo) + ".");
-		if(error == 28) logError->escribir("Error 002: el archivo de terreno no es de formato PNG o está corrupto.");
-		logError->escribir("Se generará una imagen de terreno aleatoria.");
+	if((!imagen)||(!IMG_isPNG(rwop))){ //si no existe el archivo o no es PNG
 
+		logError->escribir("Error 001: no se encontró el archivo de terreno '" + string(nombreArchivo) + "' o no es de formato PNG.");
+		logError->escribir("Se generará una imagen de terreno aleatoria.");
 		generarTerrenoAleatorio(nombreArchivo);
 		//al generar una nueva imagen , ya voy a tener la matriz de terreno cargada en memoria, asi que terminé (por eso el else)
 	}else{
 		//si no hay error tengo que cargar mi matriz de terreno
 		//convierto RGBA a matriz y chequeo errores de terreno
-		RGBA_AMatrizBool(&imagen);
+		RGB_AMatrizBool();
 	}
 }
 
-void lectorTerreno::RGBA_AMatrizBool(vector<unsigned char>* imagen){
+void lectorTerreno::RGB_AMatrizBool(){
 
 	pixel pixActual;
 	bool errorBN = false;	//chequea q todos los pixeles sean blancos o negros
 	bool errorTCT = false;	//chequea q no haya una columna con tierra-cielo-tierra
+	Uint32* vectorPixeles = (Uint32*)imagen->pixels;
 
-	for(int i=0; ((i<altoMatriz)&&(!errorBN)); i++){
-		for(int j=0 ; (j<anchoMatriz*4)&&(!errorBN); j+=4){
-			pixActual = RGBAaPixel(	(int)imagen->at(i* anchoMatriz*4 + j +0), 
-									(int)imagen->at(i* anchoMatriz*4 + j +1), 
-									(int)imagen->at(i* anchoMatriz*4 + j +2), 
-									(int)imagen->at(i* anchoMatriz*4 + j +3));
-
+	for(int i=0; (i<altoMatriz)&&(!errorBN); i++){
+		for(int j=0 ; (j<anchoMatriz)&&(!errorBN); j++){
+			
+			SDL_GetRGB(vectorPixeles[j + (i*imagen->w)], imagen->format, &pixActual.R, &pixActual.G, &pixActual.B);
 			if(esBlanco(pixActual) || esNegro(pixActual)){ //chequea que todos los pixeles sean blancos o negros
-				matrizTerreno[(int)(j/4)][i] = esNegro(pixActual);
+				matrizTerreno[j][i] = esNegro(pixActual);
 			}else{
 				errorBN = true;
-				logError->escribir("Error 003: Imagen de terreno. Pixel de color invalido en columna: " + (to_string((long long)((int)(j/4)))) + " y fila: " + (to_string((long long)i)));
+				logError->escribir("Error 003: Imagen de terreno. Pixel de color invalido en columna: " +  to_string((long long)j) + " y fila: " + to_string((long long)i));
 				logError->escribir("Se generará un terreno aleatorio.");
 			}
 		}
@@ -133,40 +128,30 @@ int lectorTerreno::getAltoMatriz(){
 	return this->altoMatriz;
 }
 
-pixel lectorTerreno::RGBAaPixel(int r, int g, int b, int a){
-	pixel p; 
-	p.R = r;
-	p.G = g;
-	p.B = b;
-	p.A = a;	
-	return p;
-}
-
 pixel lectorTerreno::boolAPixel(bool valor){
 	pixel p;
 
 	if(valor){	//valor == true , pixel negro
-		p.R = 0;
-		p.G = 0;
-		p.B = 0;
-		p.A = 255;
+
+		p.R = 0x00;
+		p.G = 0x00;
+		p.B = 0x00;
 
 	}else{ //valor == false, pixel blanco
-		p.R = 255;
-		p.G = 255;
-		p.B = 255;
-		p.A = 255;
+		p.R = 0xFF;
+		p.G = 0xFF;
+		p.B = 0XFF;
 	}
 
 	return p;
 }
 
 bool lectorTerreno::esBlanco(pixel p){
-	return((p.R == 255)&&(p.G == 255)&&(p.B == 255))? true:false;
+	return((p.R == 0xFF)&&(p.G == 0xFF)&&(p.B == 0xFF))? true:false;
 }
 
 bool lectorTerreno::esNegro(pixel p){
-	return((p.R == 0)&&(p.G == 0)&&(p.B == 0))? true:false;
+	return((p.R == 0x00)&&(p.G == 0x00)&&(p.B == 0x00))? true:false;
 }
 
 void lectorTerreno::generarTerrenoAleatorio(char* nombreArchivo){
@@ -177,23 +162,20 @@ void lectorTerreno::generarTerrenoAleatorio(char* nombreArchivo){
 
 void lectorTerreno::guardarMatrizEnPNG(char* nombreArchivo){
 
-	vector<unsigned char> imagen;
-	vector<unsigned char> png;
-
-	imagen.resize(anchoMatriz * altoMatriz * 4);
+	Uint32* vectorPixeles = new Uint32[altoMatriz*anchoMatriz];
+	SDL_Surface* surNueva = IMG_Load(imagenTerrenoDEF);
 
 	for(unsigned y = 0; y < altoMatriz; y++)
-		for(unsigned x = 0; x < anchoMatriz; x++){
+		for(unsigned x = 0; x < anchoMatriz; x++)
+			vectorPixeles[x + (y*anchoMatriz)] = (matrizTerreno[x][y])? 0xFF000000 : 0xFFFFFFFF;
+				
+	surNueva->h = altoMatriz;
+	surNueva->w = anchoMatriz;
+	surNueva->pitch = anchoMatriz*4;
+	surNueva->pixels = vectorPixeles;
+	IMG_SavePNG(surNueva, nombreArchivo);
 
-			pixel p = boolAPixel(matrizTerreno[x][y]);
-			imagen[4 * anchoMatriz * y + 4 * x + 0] = p.R;
-			imagen[4 * anchoMatriz * y + 4 * x + 1] = p.G;
-			imagen[4 * anchoMatriz * y + 4 * x + 2] = p.B;
-			imagen[4 * anchoMatriz * y + 4 * x + 3] = p.A;
-		}
-
-	unsigned error = lodepng::encode(png, imagen, anchoMatriz, altoMatriz);
-    if(!error) lodepng::save_file(png, nombreArchivo);
+	delete[] vectorPixeles;
 }
 
 lectorTerreno::~lectorTerreno(){
