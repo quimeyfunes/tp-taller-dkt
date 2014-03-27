@@ -18,6 +18,12 @@ void Logger::escribir(string texto){
 	this->archivo->write("\n", strlen("\n"));
 }
 
+void Logger::guardarEstado(){
+
+	this->archivo->close();
+	this->archivo->open(archivoLog, ofstream::app);
+}
+
 void Logger::ponerFecha(){
 	time_t fecha;
 	time ( &fecha);

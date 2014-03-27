@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "Box2D/Box2D.h"
-#include "../Parser/mascara/lectorTerreno.h"
+#include "../Parser/mascara/LectorTerreno.h"
 #include <list>
 
 using namespace std;

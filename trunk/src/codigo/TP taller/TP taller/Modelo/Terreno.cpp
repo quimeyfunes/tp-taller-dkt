@@ -10,7 +10,7 @@ Terreno::Terreno()
 
 void Terreno::generarTerreno(b2World* world, char* nombreArchivo)
 {
-	lectorTerreno* lectorT = new lectorTerreno(nombreArchivo);
+	LectorTerreno* lectorT = new LectorTerreno(nombreArchivo);
 	bool** matrizTerreno = lectorT->getMatrizTerreno();
 	int anchoMatriz = lectorT->getAnchoMatriz();
 	int altoMatriz = lectorT->getAltoMatriz();
