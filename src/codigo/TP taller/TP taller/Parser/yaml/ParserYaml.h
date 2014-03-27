@@ -42,7 +42,7 @@ private:
 	static ParserYaml* parserInstancia;
 	string nombreArchivo;
 	YAML::Node documento;
-	EscenarioParseado escenario;
+	static EscenarioParseado* escenario;
 	bool ParserYaml::esNumero(const std::string& s);
 	string getNodoInfo(const YAML::Node & nodo);
 	int getValorEscalar(const YAML::Node & nodo, string clave, const int valorPorDefecto);
@@ -51,14 +51,15 @@ private:
 	bool ParserYaml::validarSecuencia(const YAML::Node &nodo, string clave);
 	bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string &cadena);
 	bool ParserYaml::validarImagen(string path);
-	EscenarioParseado parsearEscenario();
+	EscenarioParseado* parsearEscenario();
+	EscenarioParseado* getEscenarioDefault();
 public:
 	ParserYaml(std::string pathArchivo);
 	ParserYaml();
 	void parsear();
 	static ParserYaml* getParser();
 	//Tiene que devolver el escenario
-	EscenarioParseado getEscenario();
+	EscenarioParseado* getEscenario();
 };
 
 
