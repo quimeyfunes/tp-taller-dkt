@@ -15,33 +15,41 @@ void Terreno::generarTerreno(b2World* world, char* nombreArchivo)
 	int anchoMatriz = lectorT->getAnchoMatriz();
 	int altoMatriz = lectorT->getAltoMatriz();
 	bool tierra = true;
+	int tamanioBorde = 100; //CAMBIAR ESTO POR METODO DE MARIAN
+	bool hayTierra = false;
+	int k = 0;
+	b2Vec2* vecBorde = new b2Vec2[tamanioBorde];
+	b2Body* body;
 
 	// Recorro la matriz hasta encontrar tierra
 	for (int i = 0; i < anchoMatriz; i++){
-		for (int j = 0; j < altoMatriz; j++){
-			//Donde haya tierra genero una caja de 1x1
+		for (int j = 0; ((j < altoMatriz) && !(hayTierra)); j++){
+			//Encuentro el borde y genero un chain
 			if (matrizTerreno[i][j] == tierra){
 
+				hayTierra = true;
 				b2BodyDef bodyDef;
 				bodyDef.type = b2_staticBody;
 				bodyDef.position.Set(i,j);
 				bodyDef.angle = 0;
 
-				b2Body* body = world->CreateBody(&bodyDef);
+				body = world->CreateBody(&bodyDef);
 				this->agregarBody(body);
-
-				b2PolygonShape caja;
-				caja.SetAsBox(0.5,0.5);
-  
-				b2FixtureDef cajaFixtureDef;
-				cajaFixtureDef.shape = &caja;
-				cajaFixtureDef.density = 1;
-                body->CreateFixture(&cajaFixtureDef);
-
+				//Seteo las cordenadas del borde en el vector
+				vecBorde[k].Set(i,j);
+				k++;
 			}
 
 		}
+
+		hayTierra = false;
 	}
+
+	b2ChainShape chain;
+	chain.CreateChain(vecBorde, tamanioBorde);
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &chain;
+	body->CreateFixture(&fixtureDef);
 
 	delete lectorT;
 
