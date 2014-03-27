@@ -20,6 +20,7 @@ private:
 public:
 	static Logger* getLogger();
 	void escribir(string texto);
+	void guardarEstado();
 	~Logger();
 
 };

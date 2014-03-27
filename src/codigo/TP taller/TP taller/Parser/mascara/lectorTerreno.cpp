@@ -29,6 +29,11 @@ LectorTerreno::LectorTerreno(char* nombreArchivo){
 		//convierto RGBA a matriz y chequeo errores de terreno
 		RGB_AMatrizBool();
 	}
+
+	//cuando ya tengo mi matriz valida, la adapto para que entre en el escenario
+	escalarMatrizAEscenario();
+
+	logError->guardarEstado();
 }
 
 void LectorTerreno::RGB_AMatrizBool(){
@@ -60,7 +65,7 @@ void LectorTerreno::RGB_AMatrizBool(){
 	//de haber errores, devuelvo las columnas
 	columnasInvalidas = chequearTCT(cantErrores);
 
-	//si hubo algun tipo de error con la imagen, genero matriz de terreno aleatorio.
+	//si hubo algun tipo de error con la imagen, lo logueo y genero matriz de terreno aleatorio.
 	if(cantErrores > 0){
 
 		loguearErroresMatriz(pixelesInvalidos, columnasInvalidas);
@@ -68,35 +73,6 @@ void LectorTerreno::RGB_AMatrizBool(){
 		generarTerrenoAleatorio(imagenTerrenoDEF);
 		this->rutaMascaraUsada = imagenTerrenoDEF;
 	}
-}
-
-void LectorTerreno::loguearErroresMatriz(vector<punto> pixeles, vector<int> columnas){
-
-	if(pixeles.size() > 0){
-		logError->escribir("Error 003: Mascara de terreno, se encontraron " + to_string((long long)pixeles.size()) + "pixeles de color invalido.");
-		if(pixeles.size() <= maxPixelesInvalidosMascara){
-			//loguear posicion de cada pixel invalido
-			for(int i=0; i< pixeles.size(); i++)
-				logError->escribir("		columna: " + to_string((long long)pixeles.at(i).x) + ", fila: " + to_string((long long)pixeles.at(i).y) + ".");
-		}
-	}
-
-	if(columnas.size() > 0){
-		logError->escribir("Error 004: Mascara de terreno, se encontraron " + to_string((long long)columnas.size()) + " columnas invalidas.");
-		if(columnas.size() <= maxColumnasInvalidasMascara){
-			//loguear posicion de cada columna invalida
-			for(int i=0; i< columnas.size(); i++)
-				logError->escribir("		columna: " + to_string((long long)columnas.at(i)) + ".");
-		}
-	}
-
-	logError->escribir("Se generará un terreno aleatorio.");
-	logError->guardarEstado();
-}
-
-void LectorTerreno::loguearErroresPNG(bool existePNG, bool esPNG){
-
-
 }
 
 void LectorTerreno::generarMatrizAleatoria(){
@@ -146,20 +122,56 @@ vector<int> LectorTerreno::chequearTCT(int &numErrores){
 	return columnas;
 }
 
-bool** LectorTerreno::getMatrizTerreno(){
-	return this->matrizTerreno;
+void LectorTerreno::guardarMatrizEnPNG(char* nombreArchivo){
+
+	Uint32* vectorPixeles = new Uint32[altoMatriz*anchoMatriz];
+	SDL_Surface* surNueva = IMG_Load(propiedadesPNG);
+
+	for(unsigned y = 0; y < altoMatriz; y++)
+		for(unsigned x = 0; x < anchoMatriz; x++){
+			vectorPixeles[x + (y*anchoMatriz)] = (matrizTerreno[x][y])? SDL_MapRGB(surNueva->format, 0x00, 0x00, 0x00) : SDL_MapRGB(surNueva->format, 0xFF, 0xFF, 0xFF);
+		}
+	surNueva->h = altoMatriz;
+	surNueva->w = anchoMatriz;
+	surNueva->pitch = anchoMatriz*4;	//pitch: tamaño en bits de cada linea (ancho x bytes por pixel)
+	surNueva->pixels = vectorPixeles;
+	IMG_SavePNG(surNueva, nombreArchivo);
+
+	delete[] vectorPixeles;
 }
 
-int LectorTerreno::getAnchoMatriz(){
-	return this->anchoMatriz;
+void LectorTerreno::escalarMatrizAEscenario(){
+
 }
 
-int LectorTerreno::getAltoMatriz(){
-	return this->altoMatriz;
+void LectorTerreno::loguearErroresMatriz(vector<punto> pixeles, vector<int> columnas){
+
+	if(pixeles.size() > 0){
+		logError->escribir("Error 003: Mascara de terreno, se encontraron " + to_string((long long)pixeles.size()) + "pixeles de color invalido.");
+		if(pixeles.size() <= maxPixelesInvalidosMascara){
+			//loguear posicion de cada pixel invalido
+			for(int i=0; i< pixeles.size(); i++)
+				logError->escribir("		columna: " + to_string((long long)pixeles.at(i).x) + ", fila: " + to_string((long long)pixeles.at(i).y) + ".");
+		}
+	}
+
+	if(columnas.size() > 0){
+		logError->escribir("Error 004: Mascara de terreno, se encontraron " + to_string((long long)columnas.size()) + " columnas invalidas.");
+		if(columnas.size() <= maxColumnasInvalidasMascara){
+			//loguear posicion de cada columna invalida
+			for(int i=0; i< columnas.size(); i++)
+				logError->escribir("		columna: " + to_string((long long)columnas.at(i)) + ".");
+		}
+	}
+
+	logError->escribir("Se generará un terreno aleatorio.");
 }
 
-char* LectorTerreno::getRutaMascaraUsada(){
-	return this->rutaMascaraUsada;
+void LectorTerreno::loguearErroresPNG(bool existePNG, bool esPNG){
+
+	if(!existePNG) logError->escribir("Error 001: no se encontró el archivo de terreno '" + string(this->rutaMascaraUsada) + "'.");
+	if(!esPNG) logError->escribir("Error 002: El archivo de terreno no es de formato PNG o está dañado.");
+	logError->escribir("Se generará una imagen de terreno aleatoria.");
 }
 
 pixel LectorTerreno::boolAPixel(bool valor){
@@ -180,6 +192,12 @@ pixel LectorTerreno::boolAPixel(bool valor){
 	return p;
 }
 
+void LectorTerreno::generarTerrenoAleatorio(char* nombreArchivo){
+
+	generarMatrizAleatoria();
+	guardarMatrizEnPNG(nombreArchivo);
+}
+
 bool LectorTerreno::esBlanco(pixel p){
 	return((p.R == 0xFF)&&(p.G == 0xFF)&&(p.B == 0xFF))? true:false;
 }
@@ -188,28 +206,20 @@ bool LectorTerreno::esNegro(pixel p){
 	return((p.R == 0x00)&&(p.G == 0x00)&&(p.B == 0x00))? true:false;
 }
 
-void LectorTerreno::generarTerrenoAleatorio(char* nombreArchivo){
-
-	generarMatrizAleatoria();
-	guardarMatrizEnPNG(nombreArchivo);
+bool** LectorTerreno::getMatrizTerreno(){
+	return this->matrizTerreno;
 }
 
-void LectorTerreno::guardarMatrizEnPNG(char* nombreArchivo){
+int LectorTerreno::getAnchoMatriz(){
+	return this->anchoMatriz;
+}
 
-	Uint32* vectorPixeles = new Uint32[altoMatriz*anchoMatriz];
-	SDL_Surface* surNueva = IMG_Load(propiedadesPNG);
+int LectorTerreno::getAltoMatriz(){
+	return this->altoMatriz;
+}
 
-	for(unsigned y = 0; y < altoMatriz; y++)
-		for(unsigned x = 0; x < anchoMatriz; x++){
-			vectorPixeles[x + (y*anchoMatriz)] = (matrizTerreno[x][y])? SDL_MapRGB(surNueva->format, 0x00, 0x00, 0x00) : SDL_MapRGB(surNueva->format, 0xFF, 0xFF, 0xFF);
-		}
-	surNueva->h = altoMatriz;
-	surNueva->w = anchoMatriz;
-	surNueva->pitch = anchoMatriz*4;	//pitch: tamaño en bits de cada linea (ancho x bytes por pixel)
-	surNueva->pixels = vectorPixeles;
-	IMG_SavePNG(surNueva, nombreArchivo);
-
-	delete[] vectorPixeles;
+char* LectorTerreno::getRutaMascaraUsada(){
+	return this->rutaMascaraUsada;
 }
 
 LectorTerreno::~LectorTerreno(){

@@ -44,6 +44,7 @@ private:
 
 	//cuando la imagen de terreno es invalida, se genera una matriz de terreno aleatoria
 	void generarMatrizAleatoria();
+	void escalarMatrizAEscenario();
 
 	/*verifica si en las columnas de la matriz hay un error TIERRA-CIELO-TIERRA*/
 	vector<int> chequearTCT(int &numErrores);
