@@ -11,8 +11,8 @@
 int main( int argc,  char** argv )
 {	
 	ParserYaml* parser = ParserYaml::getParser();
-	EscenarioParseado e = parser->getEscenario();
-	EscenarioParseado e2 = parser->getEscenario();
+	EscenarioParseado* e = parser->getEscenario();
+	EscenarioParseado* e2 = parser->getEscenario();
 
 	/*
 	//The window we'll be rendering to
