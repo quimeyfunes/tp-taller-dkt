@@ -1,8 +1,8 @@
-#include "lectorTerreno.h"
+#include "LectorTerreno.h"
 #include "generador\GeneradorFunciones.h"
 #include <string>
 
-lectorTerreno::lectorTerreno(char* nombreArchivo){
+LectorTerreno::LectorTerreno(char* nombreArchivo){
 
 	logError = Logger::getLogger();
 	imagen = IMG_Load(nombreArchivo);
@@ -11,6 +11,7 @@ lectorTerreno::lectorTerreno(char* nombreArchivo){
 	//asigno valores de alto y ancho
 	this->anchoMatriz = (!imagen)? anchoPxDEF : imagen->w;
 	this->altoMatriz =  (!imagen)? altoPxDEF  : imagen->h;
+	this->rutaMascaraUsada = nombreArchivo;
 
 	//reservo espacio para mi matriz
 	this->matrizTerreno = new bool* [anchoMatriz];
@@ -20,9 +21,7 @@ lectorTerreno::lectorTerreno(char* nombreArchivo){
 	
 	if((!imagen)||(!IMG_isPNG(rwop))){ //si no existe el archivo o no es PNG
 
-		if(!imagen) logError->escribir("Error 001: no se encontró el archivo de terreno '" + string(nombreArchivo) + "'.");
-		if(!IMG_isPNG(rwop)) logError->escribir("Error 002: El archivo de terreno no es de formato PNG o está dañado.");
-		logError->escribir("Se generará una imagen de terreno aleatoria.");
+		loguearErroresPNG(imagen, IMG_isPNG(rwop));
 		generarTerrenoAleatorio(nombreArchivo);
 		//al generar una nueva imagen , ya voy a tener la matriz de terreno cargada en memoria, asi que terminé (por eso el else)
 	}else{
@@ -32,43 +31,75 @@ lectorTerreno::lectorTerreno(char* nombreArchivo){
 	}
 }
 
-void lectorTerreno::RGB_AMatrizBool(){
+void LectorTerreno::RGB_AMatrizBool(){
 
 	pixel pixActual;
-	bool errorBN = false;	//chequea q todos los pixeles sean blancos o negros
-	bool errorTCT = false;	//chequea q no haya una columna con tierra-cielo-tierra
+	punto posPixel;
+	vector<punto> pixelesInvalidos;
+	vector<int> columnasInvalidas;
+	int cantErrores = 0;
+
 	Uint32* vectorPixeles = (Uint32*)imagen->pixels;
 
-	for(int i=0; (i<altoMatriz)&&(!errorBN); i++){
-		for(int j=0 ; (j<anchoMatriz)&&(!errorBN); j++){
+	for(int i=0; i<altoMatriz; i++){
+		for(int j=0 ; j<anchoMatriz; j++){
 			
 			SDL_GetRGB(vectorPixeles[j + (i*imagen->w)], imagen->format, &pixActual.R, &pixActual.G, &pixActual.B);
+
 			if(esBlanco(pixActual) || esNegro(pixActual)){ //chequea que todos los pixeles sean blancos o negros
 				matrizTerreno[j][i] = esNegro(pixActual);
 			}else{
-				errorBN = true;
-				logError->escribir("Error 003: Imagen de terreno. Pixel de color invalido en columna: " +  to_string((long long)j) + " y fila: " + to_string((long long)i));
-				logError->escribir("Se generará un terreno aleatorio.");
+				cantErrores++;
+				posPixel.x = j;
+				posPixel.y = i;
+				pixelesInvalidos.push_back(posPixel);
 			}
 		}
 	}
 	//hago una nueva pasada columna por columna para chequear TCT
-	//de haber errores, devuelvo la columna
-	int columnaError ;
-	if(!errorBN) columnaError = chequearTCT(errorTCT);
-	if(errorTCT){
-			//escribo en el log la columna invalida
-			logError->escribir("Error 004: Imagen de terreno. La columna " + (to_string((long long)columnaError)) + " contiene un patron invalido de cielo y tierra.");
-			logError->escribir("Se generará un terreno aleatorio.");
-	}
+	//de haber errores, devuelvo las columnas
+	columnasInvalidas = chequearTCT(cantErrores);
 
 	//si hubo algun tipo de error con la imagen, genero matriz de terreno aleatorio.
-	if(errorBN || errorTCT){
-		generarMatrizAleatoria();
+	if(cantErrores > 0){
+
+		loguearErroresMatriz(pixelesInvalidos, columnasInvalidas);
+
+		generarTerrenoAleatorio(imagenTerrenoDEF);
+		this->rutaMascaraUsada = imagenTerrenoDEF;
 	}
 }
 
-void lectorTerreno::generarMatrizAleatoria(){
+void LectorTerreno::loguearErroresMatriz(vector<punto> pixeles, vector<int> columnas){
+
+	if(pixeles.size() > 0){
+		logError->escribir("Error 003: Mascara de terreno, se encontraron " + to_string((long long)pixeles.size()) + "pixeles de color invalido.");
+		if(pixeles.size() <= maxPixelesInvalidosMascara){
+			//loguear posicion de cada pixel invalido
+			for(int i=0; i< pixeles.size(); i++)
+				logError->escribir("		columna: " + to_string((long long)pixeles.at(i).x) + ", fila: " + to_string((long long)pixeles.at(i).y) + ".");
+		}
+	}
+
+	if(columnas.size() > 0){
+		logError->escribir("Error 004: Mascara de terreno, se encontraron " + to_string((long long)columnas.size()) + " columnas invalidas.");
+		if(columnas.size() <= maxColumnasInvalidasMascara){
+			//loguear posicion de cada columna invalida
+			for(int i=0; i< columnas.size(); i++)
+				logError->escribir("		columna: " + to_string((long long)columnas.at(i)) + ".");
+		}
+	}
+
+	logError->escribir("Se generará un terreno aleatorio.");
+	logError->guardarEstado();
+}
+
+void LectorTerreno::loguearErroresPNG(bool existePNG, bool esPNG){
+
+
+}
+
+void LectorTerreno::generarMatrizAleatoria(){
 
 	//genero una funcion aleatoria
 	double* f = new double[anchoMatriz];
@@ -80,7 +111,7 @@ void lectorTerreno::generarMatrizAleatoria(){
 	delete[] f;
 }
 
-void lectorTerreno::cargarFuncionEnMatriz(double* f){
+void LectorTerreno::cargarFuncionEnMatriz(double* f){
 
 	for(int i=0; i< this->altoMatriz; i++){
 		for(int j=0; j<this->anchoMatriz; j++){
@@ -90,44 +121,48 @@ void lectorTerreno::cargarFuncionEnMatriz(double* f){
 	}
 }
 
-int lectorTerreno::chequearTCT(bool &error){
+vector<int> LectorTerreno::chequearTCT(int &numErrores){
 
 	int numeroCambios;
-	int columnaError = -1;
+	vector<int> columnas;
 	bool pixelActual;
 	bool pixelAnterior;
 
-	for(int i=0; (i<this->anchoMatriz)&&(!error); i++){
+	for(int i=0; i<this->anchoMatriz; i++){
 		pixelActual = matrizTerreno[i][0];
 		numeroCambios = 0;
 		//por cada columna, si detecto mas de un cambio de pixeles se informa del error
-		for(int j=1; (j<this->altoMatriz)&&(!error); j++){
+		for(int j=1; j<this->altoMatriz; j++){
 			pixelAnterior = pixelActual;
 			pixelActual = matrizTerreno[i][j];
 			if(pixelAnterior != pixelActual) numeroCambios++;
 		}
 
 		if(numeroCambios > 1){
-			error = true;
-			columnaError = i;
+			numErrores++;
+			columnas.push_back(i);
 		}
 	}
-	return columnaError;
+	return columnas;
 }
 
-bool** lectorTerreno::getMatrizTerreno(){
+bool** LectorTerreno::getMatrizTerreno(){
 	return this->matrizTerreno;
 }
 
-int lectorTerreno::getAnchoMatriz(){
+int LectorTerreno::getAnchoMatriz(){
 	return this->anchoMatriz;
 }
 
-int lectorTerreno::getAltoMatriz(){
+int LectorTerreno::getAltoMatriz(){
 	return this->altoMatriz;
 }
 
-pixel lectorTerreno::boolAPixel(bool valor){
+char* LectorTerreno::getRutaMascaraUsada(){
+	return this->rutaMascaraUsada;
+}
+
+pixel LectorTerreno::boolAPixel(bool valor){
 	pixel p;
 
 	if(valor){	//valor == true , pixel negro
@@ -145,29 +180,29 @@ pixel lectorTerreno::boolAPixel(bool valor){
 	return p;
 }
 
-bool lectorTerreno::esBlanco(pixel p){
+bool LectorTerreno::esBlanco(pixel p){
 	return((p.R == 0xFF)&&(p.G == 0xFF)&&(p.B == 0xFF))? true:false;
 }
 
-bool lectorTerreno::esNegro(pixel p){
+bool LectorTerreno::esNegro(pixel p){
 	return((p.R == 0x00)&&(p.G == 0x00)&&(p.B == 0x00))? true:false;
 }
 
-void lectorTerreno::generarTerrenoAleatorio(char* nombreArchivo){
+void LectorTerreno::generarTerrenoAleatorio(char* nombreArchivo){
 
 	generarMatrizAleatoria();
 	guardarMatrizEnPNG(nombreArchivo);
 }
 
-void lectorTerreno::guardarMatrizEnPNG(char* nombreArchivo){
+void LectorTerreno::guardarMatrizEnPNG(char* nombreArchivo){
 
 	Uint32* vectorPixeles = new Uint32[altoMatriz*anchoMatriz];
-	SDL_Surface* surNueva = IMG_Load(imagenTerrenoDEF);
+	SDL_Surface* surNueva = IMG_Load(propiedadesPNG);
 
 	for(unsigned y = 0; y < altoMatriz; y++)
-		for(unsigned x = 0; x < anchoMatriz; x++)
-			vectorPixeles[x + (y*anchoMatriz)] = (matrizTerreno[x][y])? 0xFF000000 : 0xFFFFFFFF;
-				
+		for(unsigned x = 0; x < anchoMatriz; x++){
+			vectorPixeles[x + (y*anchoMatriz)] = (matrizTerreno[x][y])? SDL_MapRGB(surNueva->format, 0x00, 0x00, 0x00) : SDL_MapRGB(surNueva->format, 0xFF, 0xFF, 0xFF);
+		}
 	surNueva->h = altoMatriz;
 	surNueva->w = anchoMatriz;
 	surNueva->pitch = anchoMatriz*4;	//pitch: tamaño en bits de cada linea (ancho x bytes por pixel)
@@ -177,7 +212,7 @@ void lectorTerreno::guardarMatrizEnPNG(char* nombreArchivo){
 	delete[] vectorPixeles;
 }
 
-lectorTerreno::~lectorTerreno(){
+LectorTerreno::~LectorTerreno(){
 	for(int j=0 ; j< this->anchoMatriz; j++)
 		delete[] matrizTerreno[j];
 

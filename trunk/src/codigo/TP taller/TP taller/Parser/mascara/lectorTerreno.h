@@ -5,6 +5,7 @@
 #include "../../Logger/Logger.h"
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include <vector>
 
 using namespace std;
 
@@ -14,18 +15,25 @@ typedef struct{
 	Uint8 B;
 }pixel;
 
-class lectorTerreno{
+typedef struct{
+	int x;
+	int y;
+}punto;
+
+class LectorTerreno{
 
 private:
+
 	Logger* logError;
 	bool** matrizTerreno;
+	char* rutaMascaraUsada;
 	SDL_Surface* imagen;
 	int anchoMatriz;
 	int altoMatriz;
 
 	bool esBlanco(pixel p);
 	bool esNegro(pixel p);
-	pixel boolAPixel(bool valor);
+	pixel boolAPixel(bool b);
 
 	/*convierte el vector de RGBA a una matriz de pixeles de dimensiones ancho x alto.
 	chequea si el vector es valido y carga una matriz pixel por pixel del terreno a usar.*/
@@ -38,22 +46,25 @@ private:
 	void generarMatrizAleatoria();
 
 	/*verifica si en las columnas de la matriz hay un error TIERRA-CIELO-TIERRA*/
-	int chequearTCT(bool &error);
+	vector<int> chequearTCT(int &numErrores);
+	void loguearErroresMatriz(vector<punto> pixelesInvalidos, vector<int> columnasInvalidas);
+	void loguearErroresPNG(bool existePNG, bool esPNG);
 
 public:
 	
 	/*se le pasa por parametro el nombre del archivo, si no existe o no es formato PNG
 	se informa en el log y se genera un PNG aleatorio con ese nombre*/
-	lectorTerreno(char* nombreArchivo);
+	LectorTerreno(char* nombreArchivo);
 
 	/*genera una imagen PNG de terreno aleatorio valido, con los parametros nombre, alto y ancho (en pixeles)*/
 	void generarTerrenoAleatorio(char* nombreArchivo);
 
 	bool** getMatrizTerreno();
+	char* getRutaMascaraUsada();
 	int getAnchoMatriz();
 	int getAltoMatriz(); 
 
-	~lectorTerreno();
+	~LectorTerreno();
 };
 
 #endif
