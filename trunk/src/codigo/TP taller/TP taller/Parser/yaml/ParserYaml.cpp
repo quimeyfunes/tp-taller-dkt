@@ -2,6 +2,9 @@
 
 ParserYaml* ParserYaml::parserInstancia = NULL;
 EscenarioParseado* ParserYaml::escenario = NULL;
+vector<ObjetoParseado>* ParserYaml::objetos = NULL;
+
+
 
 ParserYaml::ParserYaml(string nombreArchivo){
 	this->nombreArchivo = nombreArchivo;
@@ -189,4 +192,19 @@ EscenarioParseado* ParserYaml::getEscenarioDefault(){
 	esc->imagenTierra = imagenTerrenoDEF;
 	esc->imagenCielo = imagenCieloDEF;
 	return esc;
+}
+
+
+vector<ObjetoParseado>* ParserYaml::parsearObjetos(){
+
+
+	return NULL;
+}
+
+vector<ObjetoParseado>* ParserYaml::getObjetos(){
+
+	if(objetos == NULL){
+		objetos = ParserYaml::getParser()->parsearObjetos();
+	}
+	return objetos;
 }
