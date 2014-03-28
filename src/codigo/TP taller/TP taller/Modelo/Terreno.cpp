@@ -31,30 +31,31 @@ void Terreno::generarTerreno(b2World* world, char* nombreArchivo)
 	b2Body*	body = world->CreateBody(&bodyDef);
 
 	// Recorro la matriz hasta encontrar tierra
-	for (int i = 0; i < anchoMatriz; i++){
+	for (int i = 0; i < anchoMatriz; i+=5){
 		hayTierra = false;
-		int contCol = 0;
+		int contFil = 0;
 		for (int j = 0; ((j < altoMatriz) && !(hayTierra)); j++){
 			//Encuentro el borde y genero un chain
 			if (matrizTerreno[i][j] == tierra){
 				if (aguasProfundas){
 					aguasProfundas = false;
-					vecBorde[posVec].Set(i,-100);
+					vecBorde[posVec].Set(i,1000);
 					posVec++;
 				}
 				hayTierra = true;
+				huboTierra = true;
 				//Seteo las cordenadas del borde en el vector
 				vecBorde[posVec].Set(i,j);
 				posVec++;
 				k++;
 			} else {
-				contCol++;
+				contFil++;
 			}
 
 		}
 
-		if ((contCol == altoMatriz) && (huboTierra) && ( k != tamanioBorde)){
-			vecBorde[posVec].Set(i-1,-100);
+		if ((contFil == altoMatriz) && (huboTierra) && ( k != tamanioBorde)){
+			vecBorde[posVec].Set(i-5,1000);
 			posVec++;
 			aguasProfundas = true;
 			huboTierra = false;
