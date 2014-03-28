@@ -48,6 +48,7 @@ private:
 	string getNodoInfo(const YAML::Node & nodo);
 	int getValorEscalar(const YAML::Node & nodo, string clave, const int valorPorDefecto);
 	string getValorCadena(const YAML::Node & nodo, string clave, string valorPorDefecto);
+	vector<ObjetoParseado>* getValorSecuencia(const YAML::Node & nodo, string clave);
 	bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valor);
 	bool ParserYaml::validarSecuencia(const YAML::Node &nodo, string clave);
 	bool ParserYaml::validarCadena(const YAML::Node &nodo, string clave, string &cadena);
@@ -55,7 +56,7 @@ private:
 	EscenarioParseado* parsearEscenario();
 	EscenarioParseado* getEscenarioDefault();
 	vector<ObjetoParseado>* ParserYaml::parsearObjetos();
-
+	vector<ObjetoParseado>* ParserYaml::getObjetosDefault();
 public:
 	ParserYaml(std::string pathArchivo);
 	ParserYaml();

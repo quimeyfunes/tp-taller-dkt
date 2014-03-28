@@ -87,6 +87,18 @@ string ParserYaml::getValorCadena(const YAML::Node & nodo, string clave, string 
 	return valorPorDefecto;
 }
 
+vector<ObjetoParseado>* ParserYaml::getValorSecuencia(const YAML::Node & nodo, string clave){
+	vector<ObjetoParseado>* valor;
+	const YAML::Node *nodo_aux;
+	//Obtengo el nodo que tiene los objectos
+	nodo_aux = nodo.FindValue(clave);
+	//Tengo que recorrer la secuencia
+	for(unsigned int i = 0; i < nodo_aux->size(); i++){
+		//Por cada elemento creo un objeto y lo agrego al arreglo
+	}
+	return valor;
+}
+
 bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valor){
 	const YAML::Node *nodo_aux;
 	std::string str;
@@ -196,9 +208,18 @@ EscenarioParseado* ParserYaml::getEscenarioDefault(){
 
 
 vector<ObjetoParseado>* ParserYaml::parsearObjetos(){
-
-
-	return NULL;
+	const YAML::Node *nodoEscenario = this->documento.FindValue("escenario");
+	if(nodoEscenario){
+		if(this->validarSecuencia(*nodoEscenario,"objetos")){
+			//Si es una secuencia, obtengo los objetos
+			return this->getValorSecuencia(*nodoEscenario,"objetos");
+		}
+		//Si no hay nodo objetis tengo que devolver un vector de objetos default
+	}else{
+		//Si no hay nodo escenario tengo que devolver un vector de objetos default
+		Logger::getLogger()->escribir("Error en parseo del yaml - No se encuentra el nodo del escenario. Se utilizan figuras default.");
+	}
+	
 }
 
 vector<ObjetoParseado>* ParserYaml::getObjetos(){
@@ -207,4 +228,10 @@ vector<ObjetoParseado>* ParserYaml::getObjetos(){
 		objetos = ParserYaml::getParser()->parsearObjetos();
 	}
 	return objetos;
+}
+
+vector<ObjetoParseado>* ParserYaml::getObjetosDefault(){
+	//Devuelvo un vector de objetos default
+	vector<ObjetoParseado>* resultado;
+	return resultado;
 }
