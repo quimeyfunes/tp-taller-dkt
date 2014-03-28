@@ -5,6 +5,7 @@
 #include "../../Logger/Logger.h"
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include "../yaml/ParserYaml.h"
 #include <vector>
 
 using namespace std;
@@ -71,3 +72,8 @@ public:
 };
 
 #endif
+
+
+/*	escalar matriz
+	generar textura transparente
+*/

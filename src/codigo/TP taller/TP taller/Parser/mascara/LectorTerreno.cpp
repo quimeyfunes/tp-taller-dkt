@@ -152,6 +152,35 @@ int LectorTerreno::getTamanoBorde(){
 
 void LectorTerreno::escalarMatrizAEscenario(){
 
+	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
+	int altoEscenario = e->altoPx;
+	int anchoEscenario = e->anchoPx;
+	double escalaX = (double)anchoEscenario/(double)this->anchoMatriz;
+	double escalaY = (double)altoEscenario/(double)this->altoMatriz;	
+
+	//reservo espacio para matriz escalada
+	bool** matrizEscalada;
+	matrizEscalada = new bool* [anchoEscenario];
+	for(int i = 0; i < anchoEscenario; i++){
+		matrizEscalada[i] = new bool[altoEscenario];
+	}
+
+	//mapeo matrices
+	for(int i=0; i<altoEscenario; i++)
+		for(int j=0; j<anchoEscenario; j++)
+			matrizEscalada[j][i] = matrizTerreno[(int)(j/escalaX)][(int)(i/escalaY)];
+
+	//borro matriz vieja
+	for(int j=0 ; j< this->anchoMatriz; j++)
+		delete[] matrizTerreno[j];
+
+	delete[] this->matrizTerreno;
+
+	//guardo matriz nueva
+	this->anchoMatriz = anchoEscenario;
+	this->altoMatriz = altoEscenario;
+	this->matrizTerreno = matrizEscalada;
+
 }
 
 void LectorTerreno::loguearErroresMatriz(vector<punto> pixeles, vector<int> columnas){
@@ -177,10 +206,10 @@ void LectorTerreno::loguearErroresMatriz(vector<punto> pixeles, vector<int> colu
 	logError->escribir("Se generará un terreno aleatorio.");
 }
 
-void LectorTerreno::loguearErroresPNG(bool existePNG, bool esPNG){
+void LectorTerreno::loguearErroresPNG(bool existeArchivo, bool esPNG){
 
-	if(!existePNG) logError->escribir("Error 001: no se encontró el archivo de terreno '" + string(this->rutaMascaraUsada) + "'.");
-	if(!esPNG) logError->escribir("Error 002: El archivo de terreno no es de formato PNG o está dañado.");
+	if(!existeArchivo) logError->escribir("Error 001: no se encontró el archivo de terreno '" + string(this->rutaMascaraUsada) + "'.");
+	if(existeArchivo && !esPNG) logError->escribir("Error 002: El archivo de terreno no es de formato PNG o está dañado.");
 	logError->escribir("Se generará una imagen de terreno aleatoria.");
 }
 
