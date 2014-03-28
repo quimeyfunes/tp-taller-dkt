@@ -126,10 +126,11 @@ void LectorTerreno::guardarMatrizEnPNG(char* nombreArchivo){
 
 	Uint32* vectorPixeles = new Uint32[altoMatriz*anchoMatriz];
 	SDL_Surface* surNueva = IMG_Load(propiedadesPNG);
-
+	Uint32 pBlanco = SDL_MapRGB(surNueva->format, 0xFF, 0xFF, 0xFF);
+	Uint32 pNegro = SDL_MapRGB(surNueva->format, 0x00, 0x00, 0x00);
 	for(unsigned y = 0; y < altoMatriz; y++)
 		for(unsigned x = 0; x < anchoMatriz; x++){
-			vectorPixeles[x + (y*anchoMatriz)] = (matrizTerreno[x][y])? SDL_MapRGB(surNueva->format, 0x00, 0x00, 0x00) : SDL_MapRGB(surNueva->format, 0xFF, 0xFF, 0xFF);
+			vectorPixeles[x + (y*anchoMatriz)] = (matrizTerreno[x][y])?  pNegro : pBlanco; 
 		}
 	surNueva->h = altoMatriz;
 	surNueva->w = anchoMatriz;
@@ -139,6 +140,15 @@ void LectorTerreno::guardarMatrizEnPNG(char* nombreArchivo){
 
 	delete[] vectorPixeles;
 }
+
+int LectorTerreno::getTamanoBorde(){
+
+	int num = 0;
+	for(int i=0; i<this->anchoMatriz; i++) if(matrizTerreno[i][altoMatriz]) num++;
+
+	return num;
+}
+
 
 void LectorTerreno::escalarMatrizAEscenario(){
 

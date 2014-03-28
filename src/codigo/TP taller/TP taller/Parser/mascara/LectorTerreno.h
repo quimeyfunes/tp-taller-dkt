@@ -60,6 +60,8 @@ public:
 	/*genera una imagen PNG de terreno aleatorio valido, con los parametros nombre, alto y ancho (en pixeles)*/
 	void generarTerrenoAleatorio(char* nombreArchivo);
 
+	int getTamanoBorde();
+
 	bool** getMatrizTerreno();
 	char* getRutaMascaraUsada();
 	int getAnchoMatriz();
