@@ -74,6 +74,6 @@ public:
 #endif
 
 
-/*	escalar matriz
+/*
 	generar textura transparente
 */

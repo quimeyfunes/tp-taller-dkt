@@ -10,7 +10,7 @@
 	const int maxPixelesInvalidosMascara = 10;
 	const int maxColumnasInvalidasMascara = 10;
 
-	const unsigned anchoPxDEF=1024;
+	const unsigned anchoPxDEF=1366;
 	const unsigned altoPxDEF=768;
 	const unsigned anchoUDEF=3000;
 	const unsigned altoUDEF=1000;
