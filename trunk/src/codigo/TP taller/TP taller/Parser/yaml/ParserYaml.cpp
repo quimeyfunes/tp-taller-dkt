@@ -149,6 +149,9 @@ int ParserYaml::getValorTipoObjeto(const YAML::Node & nodo, string clave, int va
 		else if(valor ==  pentagonoString){
 			return pentagonoTipo;
 		}
+		else if(valor ==  hexagonoString){
+			return hexagonoTipo;
+		}
 		else{
 			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": el tipo no es correcto. Se toma valor por defecto.";
 			Logger::getLogger()->escribir(message);
