@@ -43,9 +43,11 @@
 	#define cuadradoString "cuad"
 	#define circuloString "circ"
 	#define pentagonoString "pent"
+	#define hexagonoString "hex"
 	const unsigned circuloTipo=1;
 	const unsigned rectanguloTipo=2;
 	const unsigned trianguloTipo=3;
 	const unsigned cuadradoTipo=4;
 	const unsigned pentagonoTipo=5;
+	const unsigned hexagonoTipo=6;
 #endif
