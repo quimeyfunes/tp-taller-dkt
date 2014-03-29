@@ -53,8 +53,8 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 		esc->altoU = this->getValorEscalar(*nodoEscenario,"altoun",altoUDEF);
 		esc->anchoU = this->getValorEscalar(*nodoEscenario,"anchoun",altoUDEF);
 		esc->nivelAgua = this->getValorEscalar(*nodoEscenario,"nivel_agua",nivelAguaDEF);
-		esc->imagenTierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",imagenTerrenoDEF);
-		esc->imagenCielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",imagenCieloDEF);
+		esc->imagenTierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",mascaraTerrenoDEF);
+		esc->imagenCielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",texturaCieloDEF);
 		//this->validarSecuencia(*nodoEscenario,"objetos");
 		return esc;
 	} else {
@@ -276,8 +276,8 @@ EscenarioParseado* ParserYaml::getEscenarioDefault(){
 	esc->altoU = altoUDEF;
 	esc->anchoU = altoUDEF;
 	esc->nivelAgua = nivelAguaDEF;
-	esc->imagenTierra = imagenTerrenoDEF;
-	esc->imagenCielo = imagenCieloDEF;
+	esc->imagenTierra = mascaraTerrenoDEF;
+	esc->imagenCielo = texturaCieloDEF;
 	return esc;
 }
 

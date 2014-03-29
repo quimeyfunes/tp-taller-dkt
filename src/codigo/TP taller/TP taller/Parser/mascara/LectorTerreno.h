@@ -27,7 +27,6 @@ private:
 
 	Logger* logError;
 	bool** matrizTerreno;
-	char* rutaMascaraUsada;
 	SDL_Surface* imagen;
 	int anchoMatriz;
 	int altoMatriz;
@@ -41,7 +40,7 @@ private:
 	void RGB_AMatrizBool();
 	//mapea una funcion a la matriz
 	void cargarFuncionEnMatriz(double* f);
-	void guardarMatrizEnPNG(char* nombreArchivo);
+	void guardarMatrizEnPNG(char* nombreArchivo, bool transparente);
 
 	//cuando la imagen de terreno es invalida, se genera una matriz de terreno aleatoria
 	void generarMatrizAleatoria();
@@ -50,7 +49,6 @@ private:
 	/*verifica si en las columnas de la matriz hay un error TIERRA-CIELO-TIERRA*/
 	vector<int> chequearTCT(int &numErrores);
 	void loguearErroresMatriz(vector<punto> pixelesInvalidos, vector<int> columnasInvalidas);
-	void loguearErroresPNG(bool existePNG, bool esPNG);
 
 public:
 	
@@ -64,7 +62,7 @@ public:
 	int getTamanoBorde();
 
 	bool** getMatrizTerreno();
-	char* getRutaMascaraUsada();
+	char* getRutaTexturaActualizada();
 	int getAnchoMatriz();
 	int getAltoMatriz(); 
 
