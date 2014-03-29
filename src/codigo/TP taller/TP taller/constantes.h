@@ -5,8 +5,8 @@
 	#define configPath "config/config.yaml"
 	#define propiedadesPNG "config/propiedadesPNG.png"
 	#define mascaraTerrenoDEF "imagenes/mascaras/mascaraDefault.png"
-	#define texturaCieloDEF "imagenes/cieloDefault.png"
-	#define texturaTerreno "imagenes/terrenoActual.png"
+	#define texturaCieloDEF "imagenes/texturas/cieloDefault.png"
+	#define texturaTerreno "imagenes/texturas/terrenoActual.png"
 
 
 	const int maxPixelesInvalidosMascara = 10;
