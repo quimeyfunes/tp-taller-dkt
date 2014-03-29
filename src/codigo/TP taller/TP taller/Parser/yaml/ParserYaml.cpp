@@ -42,6 +42,7 @@ void ParserYaml::parsear()
 		//std::cout << e.what() << "\n";
 		Logger::getLogger()->escribir(e.what());
 	}
+	Logger::getLogger()->guardarEstado();
 }
 
 EscenarioParseado* ParserYaml::parsearEscenario(){
@@ -61,6 +62,7 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 		Logger::getLogger()->escribir("Error en parseo del yaml - No se encuentra el nodo del escenario. Se utiliza un escenario default.");
 		return this->getEscenarioDefault();
 	}
+	Logger::getLogger()->guardarEstado();
 }
 
 EscenarioParseado* ParserYaml::getEscenario(){
@@ -219,7 +221,7 @@ vector<ObjetoParseado>* ParserYaml::parsearObjetos(){
 		//Si no hay nodo escenario tengo que devolver un vector de objetos default
 		Logger::getLogger()->escribir("Error en parseo del yaml - No se encuentra el nodo del escenario. Se utilizan figuras default.");
 	}
-	
+	Logger::getLogger()->guardarEstado();
 }
 
 vector<ObjetoParseado>* ParserYaml::getObjetos(){

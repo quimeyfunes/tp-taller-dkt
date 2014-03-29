@@ -14,9 +14,9 @@ using namespace std;
 
 int main( int argc,  char** argv )
 {	
-	//ParserYaml* parser = ParserYaml::getParser();
-	//EscenarioParseado* e = parser->getEscenario();
-	//EscenarioParseado* e2 = parser->getEscenario();
+	ParserYaml* parser = ParserYaml::getParser();
+	EscenarioParseado* e = parser->getEscenario();
+	EscenarioParseado* e2 = parser->getEscenario();
 
 	LectorTerreno* lector = new LectorTerreno("imagenes/mascaras/mascara (321).png");
 	bool** matriz = lector->getMatrizTerreno();
