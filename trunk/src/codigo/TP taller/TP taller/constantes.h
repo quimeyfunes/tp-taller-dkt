@@ -7,6 +7,8 @@
 	#define mascaraTerrenoDEF "imagenes/mascaras/mascaraDefault.png"
 	#define texturaCieloDEF "imagenes/texturas/cieloDefault.png"
 	#define texturaTerreno "imagenes/texturas/terrenoActual.png"
+	#define texturaAgua "imagenes/texturas/agua.png"
+	#define texturaCielo "imagenes/texturas/cielo.png"
 
 
 	const int maxPixelesInvalidosMascara = 10;

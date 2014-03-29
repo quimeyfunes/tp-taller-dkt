@@ -30,3 +30,7 @@ int Dibujable::getAngulo() {
 void Dibujable::setAngulo(int angulo) {
 	this->anguloRotacion = angulo;
 }
+
+void Dibujable::setColor(int* rgb){
+	SDL_SetTextureColorMod(this->imagen,rgb[0],rgb[1],rgb[2]);
+}

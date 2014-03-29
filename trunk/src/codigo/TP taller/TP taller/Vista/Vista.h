@@ -2,6 +2,7 @@
 #define __VISTA_H__
 
 #include "FiguraDibujable.h"
+#include "../Parser/yaml/ParserYaml.h"
 #include <list>
 
 using namespace std;
@@ -14,14 +15,15 @@ class Vista
 	
 public:
 
-	Vista();
+	Vista(EscenarioParseado* e);
 	~Vista();
 	SDL_Renderer* getRenderer();
-	Dibujable* crearDibujable(SDL_Rect rect, string pathImagen);
-	FiguraDibujable* crearFiguraDibujable(SDL_Rect rect, string pathImagen);
+	Dibujable* crearDibujable(int x , int y ,int ancho,int alto, string pathImagen);
+	FiguraDibujable* crearFiguraDibujable(int x , int y ,int ancho,int alto, string pathImagen);
 	void agregarDibujable(Dibujable* dibujable);
 	list<Dibujable*>* getListaDibujables();
 	void Dibujar();
+	void AgregarCieloAguaTierra(string pathCielo, string pathAgua, string pathTierra);
 	
 };
 
