@@ -11,7 +11,6 @@ LectorTerreno::LectorTerreno(char* nombreArchivo){
 	//asigno valores de alto y ancho
 	this->anchoMatriz = (!imagen)? anchoPxDEF : imagen->w;
 	this->altoMatriz =  (!imagen)? altoPxDEF  : imagen->h;
-	this->rutaMascaraUsada = nombreArchivo;
 
 	//reservo espacio para mi matriz
 	this->matrizTerreno = new bool* [anchoMatriz];
@@ -20,8 +19,10 @@ LectorTerreno::LectorTerreno(char* nombreArchivo){
 	}
 	
 	if((!imagen)||(!IMG_isPNG(rwop))){ //si no existe el archivo o no es PNG
-
-		loguearErroresPNG(imagen, IMG_isPNG(rwop));
+		
+		if(!imagen) logError->escribir("Error 001: no se encontró el archivo de terreno '" + string(nombreArchivo) + "'.");
+		if(imagen && !IMG_isPNG(rwop)) logError->escribir("Error 002: El archivo de terreno no es de formato PNG o está dañado.");
+		logError->escribir("Se generará una imagen de terreno aleatoria.");
 		generarTerrenoAleatorio(nombreArchivo);
 		//al generar una nueva imagen , ya voy a tener la matriz de terreno cargada en memoria, asi que terminé (por eso el else)
 	}else{
@@ -70,8 +71,7 @@ void LectorTerreno::RGB_AMatrizBool(){
 
 		loguearErroresMatriz(pixelesInvalidos, columnasInvalidas);
 
-		generarTerrenoAleatorio(imagenTerrenoDEF);
-		this->rutaMascaraUsada = imagenTerrenoDEF;
+		generarTerrenoAleatorio(mascaraTerrenoDEF);
 	}
 }
 
@@ -122,15 +122,17 @@ vector<int> LectorTerreno::chequearTCT(int &numErrores){
 	return columnas;
 }
 
-void LectorTerreno::guardarMatrizEnPNG(char* nombreArchivo){
+void LectorTerreno::guardarMatrizEnPNG(char* nombreArchivo, bool transparente){
 
 	Uint32* vectorPixeles = new Uint32[altoMatriz*anchoMatriz];
 	SDL_Surface* surNueva = IMG_Load(propiedadesPNG);
-	Uint32 pBlanco = SDL_MapRGB(surNueva->format, 0xFF, 0xFF, 0xFF);
-	Uint32 pNegro = SDL_MapRGB(surNueva->format, 0x00, 0x00, 0x00);
+
+	Uint32 pCielo = transparente? SDL_MapRGBA(surNueva->format, 0xFF, 0xFF, 0xFF, 0x00) : SDL_MapRGB(surNueva->format, 0xFF, 0xFF, 0xFF);
+	Uint32 pTierra = transparente? SDL_MapRGBA(surNueva->format, 0xFF, 0xFF, 0xFF, 0xFF) : SDL_MapRGB(surNueva->format, 0x00, 0x00, 0x00);
+
 	for(unsigned y = 0; y < altoMatriz; y++)
 		for(unsigned x = 0; x < anchoMatriz; x++){
-			vectorPixeles[x + (y*anchoMatriz)] = (matrizTerreno[x][y])?  pNegro : pBlanco; 
+			vectorPixeles[x + (y*anchoMatriz)] = (matrizTerreno[x][y])?  pTierra : pCielo; 
 		}
 	surNueva->h = altoMatriz;
 	surNueva->w = anchoMatriz;
@@ -183,6 +185,12 @@ void LectorTerreno::escalarMatrizAEscenario(){
 
 }
 
+char* LectorTerreno::getRutaTexturaActualizada(){
+
+	this->guardarMatrizEnPNG(texturaTerreno, true);
+	return texturaTerreno;
+}
+
 void LectorTerreno::loguearErroresMatriz(vector<punto> pixeles, vector<int> columnas){
 
 	if(pixeles.size() > 0){
@@ -206,12 +214,6 @@ void LectorTerreno::loguearErroresMatriz(vector<punto> pixeles, vector<int> colu
 	logError->escribir("Se generará un terreno aleatorio.");
 }
 
-void LectorTerreno::loguearErroresPNG(bool existeArchivo, bool esPNG){
-
-	if(!existeArchivo) logError->escribir("Error 001: no se encontró el archivo de terreno '" + string(this->rutaMascaraUsada) + "'.");
-	if(existeArchivo && !esPNG) logError->escribir("Error 002: El archivo de terreno no es de formato PNG o está dañado.");
-	logError->escribir("Se generará una imagen de terreno aleatoria.");
-}
 
 pixel LectorTerreno::boolAPixel(bool valor){
 	pixel p;
@@ -234,7 +236,7 @@ pixel LectorTerreno::boolAPixel(bool valor){
 void LectorTerreno::generarTerrenoAleatorio(char* nombreArchivo){
 
 	generarMatrizAleatoria();
-	guardarMatrizEnPNG(nombreArchivo);
+	guardarMatrizEnPNG(nombreArchivo, false);
 }
 
 bool LectorTerreno::esBlanco(pixel p){
@@ -255,10 +257,6 @@ int LectorTerreno::getAnchoMatriz(){
 
 int LectorTerreno::getAltoMatriz(){
 	return this->altoMatriz;
-}
-
-char* LectorTerreno::getRutaMascaraUsada(){
-	return this->rutaMascaraUsada;
 }
 
 LectorTerreno::~LectorTerreno(){

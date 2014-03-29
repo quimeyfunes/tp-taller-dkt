@@ -2,10 +2,12 @@
 #define CONSTANTES_H_
 
 	#define archivoLog "logErrors.txt"
-	#define propiedadesPNG "config/propiedadesPNG.png"
-	#define imagenTerrenoDEF "imagenes/mascaras/mascaraDefault.png"
-	#define imagenCieloDEF "imagenes/cieloDefault.png"
 	#define configPath "config/config.yaml"
+	#define propiedadesPNG "config/propiedadesPNG.png"
+	#define mascaraTerrenoDEF "imagenes/mascaras/mascaraDefault.png"
+	#define texturaCieloDEF "imagenes/cieloDefault.png"
+	#define texturaTerreno "imagenes/terrenoActual.png"
+
 
 	const int maxPixelesInvalidosMascara = 10;
 	const int maxColumnasInvalidasMascara = 10;
