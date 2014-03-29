@@ -39,7 +39,6 @@ void ParserYaml::parsear()
 		
 		archivo.close();
 	} catch(YAML::ParserException& e) {
-		//std::cout << e.what() << "\n";
 		Logger::getLogger()->escribir(e.what());
 	}
 	Logger::getLogger()->guardarEstado();
@@ -89,14 +88,85 @@ string ParserYaml::getValorCadena(const YAML::Node & nodo, string clave, string 
 	return valorPorDefecto;
 }
 
+bool ParserYaml::getValorBool(const YAML::Node & nodo, string clave, bool valorPorDefecto){
+	string valor;
+	//El bool viene como un string: si o no
+	if(this->validarCadena(nodo,clave,valor)){
+		if(valor == "si"){
+			return true;
+		}else if(valor == "no"){
+			return false;
+		}else{
+			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": se esperaba un valor booleano(si o no). Se toma valor por defecto.";
+			Logger::getLogger()->escribir(message);
+		}
+	}
+	return valorPorDefecto;
+}
+
+string ParserYaml::getValorColor(const YAML::Node & nodo, string clave, string valorPorDefecto){
+	string valor;
+	if(this->validarCadena(nodo,clave,valor)){
+		//Primero tengo que validar que el color sea un string. Si lo es, valido que sean caracteres 0-1 y A-F
+		if( !(valor.length() > 6)){
+			for(int i=1; i<valor.length();i++){
+				if(!isxdigit(valor[i])){
+					//Si alguno de los caracteres no pertenece a los hexa devuelvo el valor por defecto
+					std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": se esperaba un valor Hexa(valores 0-9 y a-f). Se toma valor por defecto.";
+					Logger::getLogger()->escribir(message);
+					return valorPorDefecto;
+				}
+			}
+		}
+		else{
+			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": se esperaba un valor Hexa, el largo no puede ser mayor a 7. Se toma valor por defecto.";
+			Logger::getLogger()->escribir(message);
+			return valorPorDefecto;
+		}
+		
+	}else{
+		return valorPorDefecto;
+	}
+	return valor;
+}
+
+int ParserYaml::getValorTipoObjeto(const YAML::Node & nodo, string clave, int valorPorDefecto){
+	string valor;
+	//Tengo que validar que el tipo sea un string
+	if(this->validarCadena(nodo,clave,valor)){
+		if(valor ==  circuloString){
+			return circuloTipo;
+		}
+		else if(valor ==  rectanguloString){
+			return rectanguloTipo;
+		}
+		else if(valor ==  trianguloString){
+			return trianguloTipo;
+		}
+		else if(valor ==  cuadradoString){
+			return cuadradoTipo;
+		}
+		else if(valor ==  pentagonoString){
+			return pentagonoTipo;
+		}
+		else{
+			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": el tipo no es correcto. Se toma valor por defecto.";
+			Logger::getLogger()->escribir(message);
+		}
+	}
+	return valorPorDefecto;
+}
+
 vector<ObjetoParseado>* ParserYaml::getValorSecuencia(const YAML::Node & nodo, string clave){
-	vector<ObjetoParseado>* valor;
+	vector<ObjetoParseado>* valor = new vector<ObjetoParseado>();
 	const YAML::Node *nodo_aux;
 	//Obtengo el nodo que tiene los objectos
 	nodo_aux = nodo.FindValue(clave);
 	//Tengo que recorrer la secuencia
 	for(unsigned int i = 0; i < nodo_aux->size(); i++){
-		//Por cada elemento creo un objeto y lo agrego al arreglo
+		//Cada elemento es un nodo. Lo parseo y lo agrego al vector
+		ObjetoParseado objeto = this->parsearObjeto((*nodo_aux)[i]);
+		valor->push_back(objeto);
 	}
 	return valor;
 }
@@ -236,4 +306,18 @@ vector<ObjetoParseado>* ParserYaml::getObjetosDefault(){
 	//Devuelvo un vector de objetos default
 	vector<ObjetoParseado>* resultado;
 	return resultado;
+}
+
+ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
+	ObjetoParseado obj;
+	obj.tipo = this->getValorTipoObjeto(nodo,"tipo",tipoObjDEF);
+	obj.x = this->getValorEscalar(nodo,"x",xDEF);
+	obj.y = this->getValorEscalar(nodo,"y",yDEF);
+	obj.ancho = this->getValorEscalar(nodo,"ancho",anchoObjDEF);
+	obj.alto = this->getValorEscalar(nodo,"alto",altoObjDEF);
+	obj.rotacion = this->getValorEscalar(nodo,"rot",rotacionDEF);
+	obj.masa = this->getValorEscalar(nodo,"masa",masaDEF);
+	obj.color = this->getValorColor(nodo,"color",colorDEF);
+	obj.estatico = this->getValorBool(nodo,"estatico",estaticoDEF);
+	return obj;
 }

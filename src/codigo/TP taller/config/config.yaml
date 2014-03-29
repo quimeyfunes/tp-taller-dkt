@@ -8,19 +8,19 @@ escenario:
     imagen_cielo: cielo1.png
     objetos:
         - tipo: rect
-          x: 5
-          y: 90
-          ancho: 2
-          alto: 1
-          color: “#00FF00”
+          x: 6
+          y: 91
+          ancho: 4
+          alto: 2
+          color: 00FF00
           rot: 45
-          masa: 3
+          masa: 4
           estatico: no
         - tipo: tri
           x: 50
           y: 50
           escala: 3.5
-          color: “#FF0000”
+          color: FFF000
           rot: 90
           masa: 1
           estatico: si

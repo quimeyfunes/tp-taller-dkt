@@ -26,6 +26,7 @@ struct EscenarioParseado{
 
 
 struct ObjetoParseado{
+	int tipo;
 	int x;
     int y;
     int ancho;
@@ -48,6 +49,9 @@ private:
 	string getNodoInfo(const YAML::Node & nodo);
 	int getValorEscalar(const YAML::Node & nodo, string clave, const int valorPorDefecto);
 	string getValorCadena(const YAML::Node & nodo, string clave, string valorPorDefecto);
+	bool getValorBool(const YAML::Node & nodo, string clave, bool valorPorDefecto);
+	string getValorColor(const YAML::Node & nodo, string clave, string valorPorDefecto);
+	int getValorTipoObjeto(const YAML::Node & nodo, string clave, int valorPorDefecto);
 	vector<ObjetoParseado>* getValorSecuencia(const YAML::Node & nodo, string clave);
 	bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valor);
 	bool ParserYaml::validarSecuencia(const YAML::Node &nodo, string clave);
@@ -56,6 +60,7 @@ private:
 	EscenarioParseado* parsearEscenario();
 	EscenarioParseado* getEscenarioDefault();
 	vector<ObjetoParseado>* ParserYaml::parsearObjetos();
+	ObjetoParseado parsearObjeto(const YAML::Node &nodo);
 	vector<ObjetoParseado>* ParserYaml::getObjetosDefault();
 public:
 	ParserYaml(std::string pathArchivo);
