@@ -31,6 +31,7 @@ struct ObjetoParseado{
     int y;
     int ancho;
     int alto;
+	float escala;
     string color;
     int rotacion;
     int masa;
