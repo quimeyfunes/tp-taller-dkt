@@ -8,9 +8,7 @@ FiguraDibujable::FiguraDibujable(SDL_Renderer* renderer, SDL_Rect rect, string p
 FiguraDibujable::~FiguraDibujable() {
 }
 
-void FiguraDibujable::setColor(int* rgb){
-	SDL_SetTextureColorMod(this->getImagen(),rgb[0],rgb[1],rgb[2]);
-}
+
 
 void FiguraDibujable::actualizar(Observable* observable) {
 	Figura* fig = (Figura*)observable;

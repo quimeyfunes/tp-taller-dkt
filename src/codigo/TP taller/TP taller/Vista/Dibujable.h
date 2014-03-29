@@ -20,6 +20,7 @@ public:
 	SDL_Texture* getImagen();
 	int getAngulo();
 	void setAngulo(int angulo);
+	void setColor(int* rgb);
 };
 
 #endif

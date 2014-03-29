@@ -15,7 +15,6 @@ class FiguraDibujable : public Dibujable, public Observador
 public:
 	FiguraDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen);
 	~FiguraDibujable();
-	void setColor(int* rgb);
 	void actualizar(Observable* observable);
 };
 
