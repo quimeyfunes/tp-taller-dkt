@@ -9,14 +9,16 @@
 #include "Modelo\Rectangulo.h"
 #include "Parser\mascara\LectorTerreno.h"
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 int main( int argc,  char** argv )
 {	
 	ParserYaml* parser = ParserYaml::getParser();
-	EscenarioParseado* e = parser->getEscenario();
-	EscenarioParseado* e2 = parser->getEscenario();
+	//EscenarioParseado* e = parser->getEscenario();
+	//EscenarioParseado* e2 = parser->getEscenario();
+	vector<ObjetoParseado>* objectos = parser->getObjetos();
 
 	LectorTerreno* lector = new LectorTerreno("imagenes/mascaras/mascara (321).png");
 	bool** matriz = lector->getMatrizTerreno();
