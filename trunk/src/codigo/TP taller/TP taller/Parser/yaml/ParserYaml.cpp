@@ -80,6 +80,14 @@ int ParserYaml::getValorEscalar(const YAML::Node & nodo, string clave, const int
 	return valorPorDefecto;
 }
 
+float ParserYaml::getValorFloat(const YAML::Node & nodo, string clave, const float valorPorDefecto){
+	float valor;
+	if(this->validarFloat(nodo,clave,valor)){
+		return valor;
+	}
+	return valorPorDefecto;
+}
+
 string ParserYaml::getValorCadena(const YAML::Node & nodo, string clave, string valorPorDefecto){
 	string valor;
 	if(this->validarCadena(nodo,clave,valor)){
@@ -180,7 +188,7 @@ bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valo
 	if(nodo_aux = nodo.FindValue(clave)) {
 		if ((*nodo_aux).Type() == YAML::NodeType::Scalar ){
 			*nodo_aux >> str;
-			if (esNumero(str)){
+			if (esEntero(str)){
 				int value_aux;
 				*nodo_aux >> value_aux;
 				if(value_aux < 0){
@@ -209,6 +217,42 @@ bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valo
 	return false;
 }
 
+
+bool ParserYaml::validarFloat(const YAML::Node & nodo, string clave, float &valor){
+	const YAML::Node *nodo_aux;
+	std::string str;
+	if(nodo_aux = nodo.FindValue(clave)) {
+		if ((*nodo_aux).Type() == YAML::NodeType::Scalar ){
+			*nodo_aux >> str;
+			if (esFloat(str)){
+				float value_aux;
+				*nodo_aux >> value_aux;
+				if(value_aux < 0){
+					//value_aux = value_aux * (-1);
+					std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": se esperaba un valor de la clave " + clave + " no es positivo.";
+					Logger::getLogger()->escribir(message);
+					return false;
+				}
+				valor = value_aux;
+				return true;
+			}
+			else{
+				std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave " + clave + " no es un float correcto.";
+				Logger::getLogger()->escribir(message);
+			}
+		}
+		else{
+			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave " + clave + " no es Scalar.";
+			Logger::getLogger()->escribir(message);
+		}
+	}
+	else{
+		std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": no se encontro la clave " + clave + ".";
+		Logger::getLogger()->escribir(message);
+	}
+	return false;
+}
+
 string ParserYaml::getNodoInfo(const YAML::Node & nodo){
 	YAML::Mark mark = nodo.GetMark();
 	std::stringstream info;
@@ -216,9 +260,16 @@ string ParserYaml::getNodoInfo(const YAML::Node & nodo){
 	return info.str();
 }
 
-bool ParserYaml::esNumero(const std::string& s){
+bool ParserYaml::esEntero(const std::string& s){
     return !s.empty() && std::find_if(s.begin(), 
         s.end(), [](char c) { return !isdigit(c); }) == s.end();
+}
+
+bool ParserYaml::esFloat(const std::string &number) {
+    std::istringstream iss(number);
+    float f;
+    iss >> noskipws >> f;
+    return iss.eof() && !iss.fail(); 
 }
 
 //para validar los elementos de las secuencias lo deberia hacer el metodo invocante, luego de validar q sea una secuencia.
@@ -337,5 +388,8 @@ ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
 	obj.masa = this->getValorEscalar(nodo,"masa",masaDEF);
 	obj.color = this->getValorColor(nodo,"color",colorDEF);
 	obj.estatico = this->getValorBool(nodo,"estatico",estaticoDEF);
+	if(obj.tipo != rectanguloTipo){
+		obj.escala = this->getValorFloat(nodo,"escala",escalaDef);
+	}
 	return obj;
 }
