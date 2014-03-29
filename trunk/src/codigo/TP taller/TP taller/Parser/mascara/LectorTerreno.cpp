@@ -194,7 +194,7 @@ char* LectorTerreno::getRutaTexturaActualizada(){
 void LectorTerreno::loguearErroresMatriz(vector<punto> pixeles, vector<int> columnas){
 
 	if(pixeles.size() > 0){
-		logError->escribir("Error 003: Mascara de terreno, se encontraron " + to_string((long long)pixeles.size()) + "pixeles de color invalido.");
+		logError->escribir("Error 003: Mascara de terreno, se encontraron " + to_string((long long)pixeles.size()) + " pixeles de color invalido.");
 		if(pixeles.size() <= maxPixelesInvalidosMascara){
 			//loguear posicion de cada pixel invalido
 			for(int i=0; i< pixeles.size(); i++)
