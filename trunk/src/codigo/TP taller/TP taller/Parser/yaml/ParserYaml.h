@@ -9,7 +9,6 @@
 #include <valarray>
 #include <algorithm>
 #include "../../constantes.h"
-#include "../../Modelo/Escenario.h"
 #include "../../Logger/Logger.h"
 
 using namespace std;

@@ -2,11 +2,9 @@
 #include "Box2D/Box2D.h"
 #include "SDL/SDL_image.h"
 #include "yaml-cpp\yaml.h"
-#include "Parser/yaml/ParserYaml.h"
 #include "Vista\Vista.h"
 #include "Modelo\Escenario.h"
 #include "Parser\ParserDeHexARgb.h"
-#include "Modelo\Rectangulo.h"
 #include "Parser\mascara\LectorTerreno.h"
 #include <iostream>
 #include <vector>
