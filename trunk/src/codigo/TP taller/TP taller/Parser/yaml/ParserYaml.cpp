@@ -304,8 +304,23 @@ vector<ObjetoParseado>* ParserYaml::getObjetos(){
 
 vector<ObjetoParseado>* ParserYaml::getObjetosDefault(){
 	//Devuelvo un vector de objetos default
-	vector<ObjetoParseado>* resultado;
+	vector<ObjetoParseado>* resultado = new vector<ObjetoParseado>();
+	resultado->push_back(this->getObjetoDefault());
 	return resultado;
+}
+
+ObjetoParseado ParserYaml::getObjetoDefault(){
+	ObjetoParseado obj;
+	obj.tipo = tipoObjDEF;
+	obj.x = xDEF;
+	obj.y = yDEF;
+	obj.ancho = anchoObjDEF;
+	obj.alto = altoObjDEF;
+	obj.rotacion = rotacionDEF;
+	obj.masa = masaDEF;
+	obj.color = colorDEF;
+	obj.estatico = estaticoDEF;
+	return obj;
 }
 
 ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
