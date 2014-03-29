@@ -33,7 +33,7 @@
 	//cuando la imagen de terreno es invalida, se genera una con una f(x) aleatoria
 	//estos parametros ajustan el valor minimo y maximo de la funcion
 	const int fMinDEFAULT = 10;
-	const int fMaxDEFAULT = 500;
+	const int fMaxDEFAULT = 350;
 
 	const double PI = 3.1415926535;
 	#define DEGTORAD 0.0174532925199432957f
