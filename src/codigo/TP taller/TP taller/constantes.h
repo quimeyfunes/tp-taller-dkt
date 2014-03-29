@@ -31,6 +31,7 @@
 	const unsigned rotacionDEF=45;
 	const unsigned masaDEF=3;
 	const bool estaticoDEF=false;
+	const bool escalaDef=2;
 
 	//cuando la imagen de terreno es invalida, se genera una con una f(x) aleatoria
 	//estos parametros ajustan el valor minimo y maximo de la funcion
