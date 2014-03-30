@@ -12,11 +12,13 @@ Circulo::Circulo(float x, float y, short int rotacion, b2World* world, bool esta
 	b2CircleShape circleShape;
 	circleShape.m_radius = radio;
 
-	b2FixtureDef myFixtureDef;
-	myFixtureDef.shape = &circleShape; 
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &circleShape; 
 	float areaCirculo = b2_pi * radio * radio;
-	myFixtureDef.density = masa/areaCirculo;
-	this->getBody()->CreateFixture(&myFixtureDef);
+	fixtureDef.density = masa/areaCirculo;
+	fixtureDef.restitution = restitucion;
+	fixtureDef.friction = friccion;
+	this->getBody()->CreateFixture(&fixtureDef);
 }
 
 Circulo::~Circulo(void)

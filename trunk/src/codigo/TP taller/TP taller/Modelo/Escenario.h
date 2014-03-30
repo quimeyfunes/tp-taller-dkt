@@ -18,7 +18,8 @@ using namespace std;
 class Escenario
 {
 private:
-    int altoU;
+	b2World* world;  
+	int altoU;
     int anchoU;
     int nivelAgua;
 	list<Figura*>* listaFiguras;
@@ -28,11 +29,14 @@ public:
     int getAltoU();
     int getAnchoU();
     int getNivelAgua();
-	void crearPoligono(ObjetoParseado objeto, b2World* world);
-	void crearCirculo(ObjetoParseado objeto, b2World* world);
- 	void crearRectangulo(ObjetoParseado objeto, b2World* world);
+	list<Figura*>* getFiguras();
+	b2World* getWorld();
+	Poligono* crearPoligono(ObjetoParseado objeto);
+	Circulo* crearCirculo(ObjetoParseado objeto);
+ 	Rectangulo* crearRectangulo(ObjetoParseado objeto);
 	void agregarFigura(Figura* figura);
 	void notificar();
+	void simularAgua();
 
 };
 

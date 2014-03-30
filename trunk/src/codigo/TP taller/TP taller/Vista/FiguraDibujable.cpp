@@ -14,7 +14,9 @@ void FiguraDibujable::actualizar(Observable* observable) {
 	Figura* fig = (Figura*)observable;
 	this->setAngulo(fig->getAngulo() * RADTODEG);
 	SDL_Rect recAux = this->getRect();
-	recAux.x = fig->getPosicion().x;
-	recAux.y = fig->getPosicion().y;
+	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
+	//cout<<fig->getPosicion().y<<endl;
+	recAux.x = fig->getPosicion().x * e->anchoPx / e->anchoU - recAux.w/2;
+	recAux.y = fig->getPosicion().y * e->altoPx / e->altoU - recAux.h/2;
 	this->setRect(recAux);
 }

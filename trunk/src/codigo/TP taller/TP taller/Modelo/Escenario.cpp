@@ -8,6 +8,10 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua){
 	this->anchoU = anchoU;
 	this->nivelAgua = nivelAgua;
 	this->listaFiguras = new list<Figura*>();
+	
+	b2Vec2* gravity = new b2Vec2(gravedadX, gravedadY);
+	//// Construct a world object, which will hold and simulate the rigid bodies.
+	this->world = new b2World(*gravity);
 }
 
 
@@ -24,6 +28,14 @@ int Escenario::getNivelAgua(){
 	return nivelAgua;
 }
 
+list<Figura*>* Escenario::getFiguras() {
+	return this->listaFiguras;
+}
+
+b2World* Escenario::getWorld() {
+	return this->world;
+}
+
 void Escenario::agregarFigura(Figura* figura) {
 	this->listaFiguras->push_back(figura);
 }
@@ -36,17 +48,28 @@ void Escenario::notificar() {
 
 }
 
-void Escenario::crearPoligono(ObjetoParseado objeto, b2World* world){
-	Poligono* poligono = new Poligono(objeto.x,objeto.y,objeto.rotacion,world,objeto.estatico,objeto.escala,objeto.masa,objeto.tipo);
+Poligono* Escenario::crearPoligono(ObjetoParseado objeto){
+	Poligono* poligono = new Poligono(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.escala,objeto.masa,objeto.tipo);
 	this->agregarFigura(poligono);
+	return poligono;
 }
 
-void Escenario::crearCirculo(ObjetoParseado objeto, b2World* world){
-	Circulo* circulo = new Circulo(objeto.x,objeto.y,objeto.rotacion,world,objeto.estatico,objeto.escala,objeto.masa);
+Circulo* Escenario::crearCirculo(ObjetoParseado objeto){
+	Circulo* circulo = new Circulo(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.escala,objeto.masa);
 	this->agregarFigura(circulo);
+	return circulo;
 }
 
-void Escenario::crearRectangulo(ObjetoParseado objeto, b2World* world){
-	Rectangulo* rectangulo = new Rectangulo(objeto.x,objeto.y,objeto.rotacion,world,objeto.estatico,objeto.ancho,objeto.alto,objeto.masa);
+Rectangulo* Escenario::crearRectangulo(ObjetoParseado objeto){
+	Rectangulo* rectangulo = new Rectangulo(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.ancho,objeto.alto,objeto.masa);
 	this->agregarFigura(rectangulo);
+	return rectangulo;
+}
+
+void Escenario::simularAgua () {
+	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+		if ((*it)->getPosicion().y > this->nivelAgua) {
+			//simuloAgua
+		}
+	}
 }
