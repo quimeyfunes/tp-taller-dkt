@@ -3,9 +3,9 @@ escenario:
     anchopx: 600
     altoun: 100
     anchoun: 100
-    nivel_agua: 90
+    nivel_agua: 20
     imagen_tierra: mascara1.png
-    imagen_cielo: cielo.png
+    imagen_cielo: imagenes/texturas/cielo.png
     objetos:
         - tipo: rect
           x: 20
