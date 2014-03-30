@@ -17,6 +17,8 @@ Rectangulo::Rectangulo(float x, float y, short int rotacion, b2World* world, boo
 	fixtureDef.shape = &rectanguloShape;
 	float areaRec = ancho * alto;
 	fixtureDef.density = masa/areaRec;
+	fixtureDef.restitution = restitucion;
+	fixtureDef.friction = friccion;
 	this->getBody()->CreateFixture(&fixtureDef);
 
 }

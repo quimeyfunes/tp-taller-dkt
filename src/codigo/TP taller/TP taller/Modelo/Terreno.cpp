@@ -29,9 +29,11 @@ void Terreno::generarTerreno(b2World* world, char* nombreArchivo)
 	bodyDef.position.Set(0,0);
 	bodyDef.angle = 0;
 	b2Body*	body = world->CreateBody(&bodyDef);
-
+	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 	// Recorro la matriz hasta encontrar tierra
-	for (int i = 0; i < anchoMatriz; i+=5){
+	float relacionAncho = e->anchoPx / e->anchoU;
+	float relacionAlto = e->altoPx / e->altoU;
+	for (int i = 0; i < anchoMatriz; i+=relacionAncho){
 		hayTierra = false;
 		int contFil = 0;
 		for (int j = 0; ((j < altoMatriz) && !(hayTierra)); j++){
@@ -39,13 +41,13 @@ void Terreno::generarTerreno(b2World* world, char* nombreArchivo)
 			if (matrizTerreno[i][j] == tierra){
 				if (aguasProfundas){
 					aguasProfundas = false;
-					vecBorde[posVec].Set(i,1000);
+					vecBorde[posVec].Set(i / relacionAncho,1000);
 					posVec++;
 				}
 				hayTierra = true;
 				huboTierra = true;
 				//Seteo las cordenadas del borde en el vector
-				vecBorde[posVec].Set(i,j);
+				vecBorde[posVec].Set(i /relacionAncho,j /relacionAlto);
 				posVec++;
 				k++;
 			} else {
@@ -55,7 +57,7 @@ void Terreno::generarTerreno(b2World* world, char* nombreArchivo)
 		}
 
 		if ((contFil == altoMatriz) && (huboTierra) && ( k != tamanioBorde)){
-			vecBorde[posVec].Set(i-5,1000);
+			vecBorde[posVec].Set((i- relacionAncho) / relacionAncho,1000);
 			posVec++;
 			aguasProfundas = true;
 			huboTierra = false;
@@ -66,6 +68,7 @@ void Terreno::generarTerreno(b2World* world, char* nombreArchivo)
 	chain.CreateChain(vecBorde, posVec);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &chain;
+	fixtureDef.restitution = 0;
 	body->CreateFixture(&fixtureDef);
 
 	delete lectorT;

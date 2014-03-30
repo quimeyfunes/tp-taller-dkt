@@ -18,11 +18,13 @@ Poligono::Poligono(float x, float y, short int rotacion, b2World* world, bool es
 	}
 
 	shape.Set(vertices, n);
-	b2FixtureDef myFixtureDef;
-	myFixtureDef.shape = &shape; 
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &shape; 
 	float areaPoligono = 0.5 * n * escala * escala * sin(360/n * DEGTORAD);
-	myFixtureDef.density = masa/areaPoligono;
-	this->getBody()->CreateFixture(&myFixtureDef);
+	fixtureDef.density = masa/areaPoligono;
+	fixtureDef.restitution = restitucion;
+	fixtureDef.friction = friccion;
+	this->getBody()->CreateFixture(&fixtureDef);
 	this->n = n;
 }
 

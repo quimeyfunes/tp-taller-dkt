@@ -1,26 +1,18 @@
 escenario:
-    altopx: 768
-    anchopx: 1024
+    altopx: 600
+    anchopx: 600
     altoun: 100
-    anchoun: 50
-    nivel_agua: 10
+    anchoun: 100
+    nivel_agua: 90
     imagen_tierra: mascara1.png
-    imagen_cielo: cielo1.png
+    imagen_cielo: cielo.png
     objetos:
         - tipo: rect
-          x: 6
-          y: 91
-          ancho: 4
-          alto: 2
+          x: 20
+          y: 45
+          ancho: 3
+          alto: 3
           color: 00FF00
-          rot: 45
-          masa: 4
+          rot: 0
+          masa: 20
           estatico: no
-        - tipo: tri
-          x: 50
-          y: 50
-          escala: 3.5
-          color: FFF000
-          rot: 90
-          masa: 1
-          estatico: si

@@ -8,7 +8,6 @@
 	#define texturaCieloDEF "imagenes/texturas/cieloDefault.png"
 	#define texturaTerreno "imagenes/texturas/terrenoActual.png"
 	#define texturaAgua "imagenes/texturas/agua.png"
-	#define texturaCielo "imagenes/texturas/cielo.png"
 
 
 	const int maxPixelesInvalidosMascara = 10;
@@ -55,4 +54,17 @@
 	const unsigned cuadradoTipo=4;
 	const unsigned pentagonoTipo=5;
 	const unsigned hexagonoTipo=6;
+
+
+	//Constantes fisicas
+	#define gravedadX 0
+	#define gravedadY 9.8f
+	#define stepTiempo 1/60.0f
+	#define iteracionesVelocidad 6
+	#define iteracionesPosicion 2
+	#define friccion 0.3f
+	#define restitucion 0.2f
+
+
+
 #endif
