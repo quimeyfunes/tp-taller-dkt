@@ -1,5 +1,6 @@
 #include "Dibujable.h"
 
+Dibujable::Dibujable(){}
 
 Dibujable::Dibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen) {
 	this->rect = rect;
