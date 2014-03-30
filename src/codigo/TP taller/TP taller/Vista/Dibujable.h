@@ -14,6 +14,7 @@ class Dibujable
 	SDL_Texture* imagen;
 	float anguloRotacion;
 public:
+	Dibujable();
 	Dibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen);
 	~Dibujable();
 	SDL_Rect getRect();
@@ -22,7 +23,7 @@ public:
 	int getAngulo();
 	void setAngulo(int angulo);
 	void setColor(int* rgb);
-	void dibujar(SDL_Renderer* renderer);
+	virtual void dibujar(SDL_Renderer* renderer);
 };
 
 #endif

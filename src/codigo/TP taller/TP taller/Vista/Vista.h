@@ -19,6 +19,7 @@ public:
 	~Vista();
 	SDL_Renderer* getRenderer();
 	Dibujable* crearDibujable(int x , int y ,int ancho,int alto, string pathImagen);
+	void crearSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex);
 	FiguraDibujable* crearFiguraDibujable(int x , int y ,int ancho,int alto, string pathImagen);
 	void agregarDibujable(Dibujable* dibujable);
 	list<Dibujable*>* getListaDibujables();

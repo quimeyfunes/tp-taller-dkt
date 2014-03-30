@@ -1,12 +1,15 @@
 #include "Vista.h"
+#include "Sprite.h"
 
 Vista::Vista(EscenarioParseado* e){
 	SDL_Init( SDL_INIT_EVERYTHING );
 	this->window = SDL_CreateWindow("Worms!", 50, 50, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN );
 	this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	this->listaDibujables = new list<Dibujable*>;
-	this->crearDibujable(0,0,e->anchoPx, e->altoPx - e->nivelAgua * e->altoPx / e->altoU, e->imagenCielo);
-	this->crearDibujable(0,e->altoPx - e->nivelAgua * e->altoPx / e->altoU, e->anchoPx,e->altoPx - (e->altoU - e->nivelAgua) * e->altoPx / e->altoU,texturaAgua);
+	this->crearDibujable(0,0,e->anchoPx, e->altoPx, e->imagenCielo);
+	this->crearDibujable(0, e->altoPx - e->nivelAgua * e->altoPx / e->altoU, e->anchoPx,e->altoPx - (e->altoU - e->nivelAgua) * e->altoPx / e->altoU,texturaAgua);
+	this->crearSprite(0, e->altoPx - e->nivelAgua * e->altoPx / e->altoU, e->anchoPx, 15, spriteOlas, 2, 6, 256, 144);
+	
 }
 
 Vista::~Vista() {
@@ -16,6 +19,18 @@ Vista::~Vista() {
 }
 SDL_Renderer* Vista::getRenderer() {
 	return this->renderer;
+}
+
+void Vista::crearSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex){
+
+	SDL_Rect recFrame;
+	recFrame.x = x;
+	recFrame.y = y;
+	recFrame.w = anchoFrame;
+	recFrame.h = altoFrame;
+	Sprite* sprite = new Sprite(this->renderer, recFrame, path, col, fil, anchoTex, altoTex);
+	this->agregarDibujable(sprite);
+	
 }
 
 Dibujable* Vista::crearDibujable(int x , int y ,int ancho,int alto, string pathImagen) {

@@ -10,6 +10,7 @@
 	#define texturaAgua "imagenes/texturas/agua.png"
 	#define spriteOlas "imagenes/texturas/olas.bmp"
 
+	const int timeStepOlas = 8;
 
 	const int maxPixelesInvalidosMascara = 10;
 	const int maxColumnasInvalidasMascara = 10;
