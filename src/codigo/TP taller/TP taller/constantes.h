@@ -8,6 +8,7 @@
 	#define texturaCieloDEF "imagenes/texturas/cieloDefault.png"
 	#define texturaTerreno "imagenes/texturas/terrenoActual.png"
 	#define texturaAgua "imagenes/texturas/agua.png"
+	#define spriteOlas "imagenes/texturas/olas.bmp"
 
 
 	const int maxPixelesInvalidosMascara = 10;

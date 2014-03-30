@@ -22,6 +22,7 @@ public:
 	int getAngulo();
 	void setAngulo(int angulo);
 	void setColor(int* rgb);
+	void dibujar(SDL_Renderer* renderer);
 };
 
 #endif
