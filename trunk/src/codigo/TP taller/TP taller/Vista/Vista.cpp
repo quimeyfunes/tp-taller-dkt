@@ -5,8 +5,8 @@ Vista::Vista(EscenarioParseado* e){
 	this->window = SDL_CreateWindow("Worms!", 50, 50, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN );
 	this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	this->listaDibujables = new list<Dibujable*>;
-	this->crearDibujable(0,0,e->anchoPx,e->nivelAgua * e->altoPx / e->altoU, e->imagenCielo);
-	this->crearDibujable(0,e->nivelAgua * e->altoPx / e->altoU, e->anchoPx,(e->altoU - e->nivelAgua) * e->altoPx / e->altoU,texturaAgua);
+	this->crearDibujable(0,0,e->anchoPx, e->altoPx - e->nivelAgua * e->altoPx / e->altoU, e->imagenCielo);
+	this->crearDibujable(0,e->altoPx - e->nivelAgua * e->altoPx / e->altoU, e->anchoPx,e->altoPx - (e->altoU - e->nivelAgua) * e->altoPx / e->altoU,texturaAgua);
 }
 
 Vista::~Vista() {
