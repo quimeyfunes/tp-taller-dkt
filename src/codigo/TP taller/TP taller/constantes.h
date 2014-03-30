@@ -10,7 +10,7 @@
 	#define texturaAgua "imagenes/texturas/agua.png"
 	#define spriteOlas "imagenes/texturas/olas.bmp"
 
-	const int timeStepOlas = 8;
+	const int timeStepOlas = 6;
 
 	const int maxPixelesInvalidosMascara = 10;
 	const int maxColumnasInvalidasMascara = 10;
@@ -36,7 +36,7 @@
 
 	//cuando la imagen de terreno es invalida, se genera una con una f(x) aleatoria
 	//estos parametros ajustan el valor minimo y maximo de la funcion
-	const int fMinDEFAULT = 10;
+	const int fMinDEFAULT = 0;
 	const int fMaxDEFAULT = 350;
 
 	const double PI = 3.1415926535;
