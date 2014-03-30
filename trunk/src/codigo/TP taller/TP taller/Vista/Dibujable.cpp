@@ -34,3 +34,7 @@ void Dibujable::setAngulo(int angulo) {
 void Dibujable::setColor(int* rgb){
 	SDL_SetTextureColorMod(this->imagen,rgb[0],rgb[1],rgb[2]);
 }
+
+void Dibujable::dibujar(SDL_Renderer* renderer){
+	SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &this->getRect(),this->getAngulo(),NULL,SDL_FLIP_NONE);
+}

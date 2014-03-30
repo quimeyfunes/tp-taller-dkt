@@ -53,8 +53,9 @@ list<Dibujable*>* Vista::getListaDibujables(){
 void Vista::Dibujar(){
 	SDL_RenderClear(this->renderer);
 	for (list<Dibujable*>::iterator it = this->listaDibujables->begin(); it != this->listaDibujables->end(); it++) {
-		SDL_RenderCopyEx(this->renderer,(*it)->getImagen(),NULL, &(*it)->getRect(),(*it)->getAngulo(),NULL,SDL_FLIP_NONE);
+		(*it)->dibujar(this->renderer);
 	}
+
 	SDL_RenderPresent(this->renderer);
 }
 
