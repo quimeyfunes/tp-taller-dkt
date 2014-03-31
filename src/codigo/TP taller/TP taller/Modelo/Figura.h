@@ -15,6 +15,8 @@ class Figura : public Observable
 private:
 
 	b2Body* body;
+	b2Vec2 posicionInicial;
+	float anguloInicial;
 
 public:
 
@@ -23,6 +25,7 @@ public:
 	void setPosicion(float x, float y, float angulo);
 	b2Body* getBody();
 	b2Vec2 getPosicion();
+	void reiniciar();
 	float getAngulo();
 	~Figura();
 };

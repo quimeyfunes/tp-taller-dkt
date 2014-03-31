@@ -37,8 +37,8 @@ public:
 	void agregarFigura(Figura* figura);
 	void notificar();
 	void simularAgua();
+	void reiniciar();
 	bool haySuperposicion(Figura* figura);
-
 };
 
 

@@ -14,12 +14,13 @@ Figura::Figura(float x, float y, short int rotacion, b2World* world, bool estati
 	} else {
 		myBodyDef.type = b2_dynamicBody;
 	}
-	myBodyDef.position.Set(x, y); 
+	myBodyDef.position.Set(x, y);
+	this->posicionInicial = b2Vec2(x,y);
+	this->anguloInicial = rotacion * DEGTORAD;
 	//Angulo en radianes
 	myBodyDef.angle = (rotacion * DEGTORAD); 
 
 	this->body = world->CreateBody(&myBodyDef);
-	
 }
 
 
@@ -31,8 +32,7 @@ b2Body* Figura::getBody()
 
 void Figura::setPosicion(float x, float y, float angulo)
 {
-	float radianes = (angulo * DEGTORAD);
-	this->body->SetTransform( b2Vec2 (x, y), radianes);
+	this->body->SetTransform( b2Vec2 (x, y), angulo);
 }
 
 b2Vec2 Figura::getPosicion()
@@ -43,6 +43,12 @@ b2Vec2 Figura::getPosicion()
 float Figura::getAngulo()
 {
 	return this->body->GetAngle();
+}
+
+void Figura::reiniciar(){
+	this->setPosicion(this->posicionInicial.x,this->posicionInicial.y,this->anguloInicial);
+	this->body->SetAngularVelocity(0);
+	this->body->SetLinearVelocity(b2Vec2(0,0));
 }
 
 Figura::~Figura(void)
