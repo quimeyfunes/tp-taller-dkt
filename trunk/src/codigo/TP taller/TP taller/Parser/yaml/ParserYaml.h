@@ -35,6 +35,7 @@ struct ObjetoParseado{
     int rotacion;
     int masa;
 	bool estatico;
+	int linea;
 };
 
 class ParserYaml

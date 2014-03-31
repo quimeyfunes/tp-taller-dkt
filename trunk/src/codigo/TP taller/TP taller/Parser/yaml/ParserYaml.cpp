@@ -391,5 +391,6 @@ ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
 	if(obj.tipo != rectanguloTipo){
 		obj.escala = this->getValorFloat(nodo,"escala",escalaDef);
 	}
+	obj.linea = nodo.GetMark().line + 1;
 	return obj;
 }
