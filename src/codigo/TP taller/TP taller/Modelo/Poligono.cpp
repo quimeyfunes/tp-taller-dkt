@@ -29,6 +29,12 @@ Poligono::Poligono(float x, float y, short int rotacion, b2World* world, bool es
 }
 
 
+short int Poligono::getCantidadDeLados(){
+	return this->n;
+}
+
+
+
 Poligono::~Poligono(void)
 {
 }
