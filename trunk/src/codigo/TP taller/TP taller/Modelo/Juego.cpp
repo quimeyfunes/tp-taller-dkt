@@ -1,7 +1,8 @@
 #include "Juego.h"
 
 Juego::Juego(){
-	this->enPausa = true;
+	this->enPausa = false;
+	this->enSimulacion = false;
 }
 
 void Juego::comenzar(){
@@ -9,7 +10,7 @@ void Juego::comenzar(){
 	EscenarioParseado* e = parser->getEscenario();
 	vector<ObjetoParseado>* objetos = parser->getObjetos();
 	Escenario* escenario = new Escenario(e->altoU,e->anchoU,e->nivelAgua);
-	
+	b2World* world = escenario->getWorld();
 	//Muy feo, lector recibe un char* y imagenTierra es string 
 	char* imagenTierra = new char[e->imagenTierra.size()+1];
 	imagenTierra[e->imagenTierra.size()] = 0;
@@ -21,10 +22,9 @@ void Juego::comenzar(){
 	terr->generarTerreno(escenario->getWorld(),imagenTierra);
 
 	Vista* vista = new Vista(e);
+	
 
 	SDL_Event* evento = new SDL_Event();
-	
-	b2World* world = escenario->getWorld();
 	
 	Dibujable* dibTierra = vista->crearDibujable( 0, 0 , lector->getAnchoMatriz(),lector->getAltoMatriz(),lector->getRutaTexturaActualizada());
 	
@@ -33,7 +33,6 @@ void Juego::comenzar(){
 	dibTierra->setColor(ParserDeHexARgb::parsearDeHexARgb(hex));
 	
 	//Parsea objetos del yaml y hace figuras/dibujables(dibujables todavia no)
-	//Hace algo raro con rectangulo
 	float escalaAncho = e->anchoPx / e->anchoU;
 	float escalaAlto = e->altoPx / e->altoU;
 	//Levanta cuadrados (de imagen) medio raro
@@ -49,7 +48,6 @@ void Juego::comenzar(){
 				Rectangulo* rec = escenario->crearRectangulo(*it);
 				if(rec){
 					rec->agregarObservador(vista->crearFiguraDibujable((*it).x * escalaAncho - (*it).ancho * escalaAncho /2, (*it).y * escalaAlto - (*it).alto * escalaAlto/2,(*it).ancho * escalaAncho,(*it).alto * escalaAlto, "imagenes/imagen.jpg" ));
-				
 				}
 			}
 		default:
@@ -59,28 +57,34 @@ void Juego::comenzar(){
 			}
 		}
 	}
-			
+	
 	bool jugar = true;
-	vista->Dibujar();
+
 	while((evento->type != SDL_QUIT)&&(jugar)){
 
-		SDL_PollEvent(evento);
-
-		if(evento->key.keysym.sym == SDLK_ESCAPE) { 
-			jugar = false;
-		} 
-		//else if (evento->key.keysym.sym == SDLK_p) {
-		//	this->pausar();
-		//}
-		
-		//if (!this->enPausa) { 
+		if (SDL_PollEvent(evento) != 0) {
+			if(evento->key.keysym.sym == SDLK_ESCAPE) { 
+				jugar = false;
+			} 
+			else if (evento->key.keysym.sym == SDLK_s && evento->type == SDL_KEYDOWN) {
+				if (this->enSimulacion) {
+					escenario->reiniciar();
+				}
+				this->enPausa = false;
+				this->simular();
+			} else if (evento->key.keysym.sym == SDLK_p && evento->type == SDL_KEYDOWN) {
+				this->pausar();
+			}
+		}
+		if (this->enSimulacion && !this->enPausa) { 
 			world->Step(stepTiempo, iteracionesVelocidad, iteracionesPosicion);
 			
 			escenario->simularAgua(); 
-			escenario->notificar();
+		}
+		escenario->notificar();
+			
+		vista->Dibujar();
 		
-			vista->Dibujar();
-		//}
 		SDL_Delay(10);
 		
 	}
@@ -93,4 +97,8 @@ void Juego::pausar(){
 }
 bool Juego::getPausa(){
 	return this->enPausa;
+}
+
+void Juego::simular(){
+	this->enSimulacion = !this->enSimulacion; 
 }

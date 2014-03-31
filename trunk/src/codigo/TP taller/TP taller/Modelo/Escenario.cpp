@@ -94,6 +94,12 @@ void Escenario::simularAgua () {
 	}
 }
 
+void Escenario::reiniciar(){
+	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+		(*it)->reiniciar();
+	}
+}
+
 bool Escenario::haySuperposicion(Figura* figura){
 	bool chocan = false;
 	for (std::list<Figura*>::const_iterator iterator = this->listaFiguras->begin(); iterator != this->listaFiguras->end(); ++iterator) {
@@ -106,3 +112,4 @@ bool Escenario::haySuperposicion(Figura* figura){
 
 	return chocan;
 }
+
