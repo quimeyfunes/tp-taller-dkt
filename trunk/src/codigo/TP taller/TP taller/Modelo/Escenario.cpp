@@ -68,8 +68,20 @@ Rectangulo* Escenario::crearRectangulo(ObjetoParseado objeto){
 
 void Escenario::simularAgua () {
 	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+		b2Body* cuerpo = (*it)->getBody();
 		if ((*it)->getPosicion().y > this->nivelAgua) {
-			//simuloAgua
+			b2Vec2 velocidad = cuerpo->GetLinearVelocity();
+			float velocidadY = velocidad.y;
+			if (velocidadY > velocidadAgua) {
+				if (velocidadY * 0.975 < velocidadAgua)  {
+					velocidadY = velocidadAgua;
+				} else {
+					velocidadY = velocidadY * 0.975;
+				}
+			}
+			cuerpo->SetLinearVelocity(b2Vec2(velocidad.x * 0.95,velocidadY));
 		}
+		cout<<cuerpo->GetLinearVelocity().y<<endl;
 	}
 }
+

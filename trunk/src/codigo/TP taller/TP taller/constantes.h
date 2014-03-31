@@ -66,6 +66,7 @@
 	#define iteracionesPosicion 2
 	#define friccion 0.3f
 	#define restitucion 0.2f
+	#define velocidadAgua 10
 
 
 

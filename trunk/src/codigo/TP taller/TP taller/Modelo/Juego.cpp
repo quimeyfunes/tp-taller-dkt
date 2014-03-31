@@ -1,6 +1,7 @@
 #include "Juego.h"
 
 Juego::Juego(){
+	this->enPausa = true;
 }
 
 void Juego::comenzar(){
@@ -46,7 +47,7 @@ void Juego::comenzar(){
 		case 2:
 			{
 			Rectangulo* rec = escenario->crearRectangulo(*it);
-			rec->agregarObservador(vista->crearFiguraDibujable((*it).x * escalaAncho, (*it).y * escalaAlto,(*it).ancho * escalaAncho,(*it).alto * escalaAlto, "imagenes/imagen.jpg" ));
+			rec->agregarObservador(vista->crearFiguraDibujable((*it).x * escalaAncho - (*it).ancho * escalaAncho /2, (*it).y * escalaAlto - (*it).alto * escalaAlto/2,(*it).ancho * escalaAncho,(*it).alto * escalaAlto, "imagenes/imagen.jpg" ));
 			}
 		default:
 			{
@@ -57,21 +58,26 @@ void Juego::comenzar(){
 	}
 			
 	bool jugar = true;
-
+	vista->Dibujar();
 	while((evento->type != SDL_QUIT)&&(jugar)){
 
 		SDL_PollEvent(evento);
 
-		if(evento->key.keysym.sym == SDLK_ESCAPE)
+		if(evento->key.keysym.sym == SDLK_ESCAPE) { 
 			jugar = false;
+		} 
+		//else if (evento->key.keysym.sym == SDLK_p) {
+		//	this->pausar();
+		//}
 		
-		world->Step(stepTiempo, iteracionesVelocidad, iteracionesPosicion);
+		//if (!this->enPausa) { 
+			world->Step(stepTiempo, iteracionesVelocidad, iteracionesPosicion);
+			
+			escenario->simularAgua(); 
+			escenario->notificar();
 		
-		escenario->simularAgua(); //Todavia no esta hecho
-		escenario->notificar();
-		
-		vista->Dibujar();
-
+			vista->Dibujar();
+		//}
 		SDL_Delay(10);
 		
 	}
