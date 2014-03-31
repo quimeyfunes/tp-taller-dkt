@@ -81,7 +81,6 @@ void Escenario::simularAgua () {
 			}
 			cuerpo->SetLinearVelocity(b2Vec2(velocidad.x * 0.95,velocidadY));
 		}
-		cout<<cuerpo->GetLinearVelocity().y<<endl;
 	}
 }
 
