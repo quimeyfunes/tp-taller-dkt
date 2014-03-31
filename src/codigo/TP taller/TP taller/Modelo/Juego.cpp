@@ -46,8 +46,11 @@ void Juego::comenzar(){
 			}
 		case 2:
 			{
-			Rectangulo* rec = escenario->crearRectangulo(*it);
-			rec->agregarObservador(vista->crearFiguraDibujable((*it).x * escalaAncho - (*it).ancho * escalaAncho /2, (*it).y * escalaAlto - (*it).alto * escalaAlto/2,(*it).ancho * escalaAncho,(*it).alto * escalaAlto, "imagenes/imagen.jpg" ));
+				Rectangulo* rec = escenario->crearRectangulo(*it);
+				if(rec){
+					rec->agregarObservador(vista->crearFiguraDibujable((*it).x * escalaAncho - (*it).ancho * escalaAncho /2, (*it).y * escalaAlto - (*it).alto * escalaAlto/2,(*it).ancho * escalaAncho,(*it).alto * escalaAlto, "imagenes/imagen.jpg" ));
+				
+				}
 			}
 		default:
 			{

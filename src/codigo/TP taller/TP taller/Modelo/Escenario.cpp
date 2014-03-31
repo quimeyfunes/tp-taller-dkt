@@ -63,8 +63,13 @@ Circulo* Escenario::crearCirculo(ObjetoParseado objeto){
 Rectangulo* Escenario::crearRectangulo(ObjetoParseado objeto){
 	Rectangulo* rectangulo = new Rectangulo(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.ancho,objeto.alto,objeto.masa);
 	if (this->haySuperposicion(rectangulo)){
-		//informar log
-		//Devolver algo
+		//Remuevo figura del world
+		rectangulo->getBody()->GetWorld()->DestroyBody(rectangulo->getBody());
+		std::stringstream info;
+		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con una agregada con anterioridad.";
+		Logger::getLogger()->escribir(info.str());
+		Logger::getLogger()->guardarEstado();
+		return NULL;
 	} else {
 		this->agregarFigura(rectangulo);
 		return rectangulo;
@@ -90,8 +95,14 @@ void Escenario::simularAgua () {
 }
 
 bool Escenario::haySuperposicion(Figura* figura){
+	bool chocan = false;
+	for (std::list<Figura*>::const_iterator iterator = this->listaFiguras->begin(); iterator != this->listaFiguras->end(); ++iterator) {
+		Figura* figuraActual = *iterator;
+		chocan = b2TestOverlap(figura->getBody()->GetFixtureList()->GetShape(),0,figuraActual->getBody()->GetFixtureList()->GetShape(),0,figura->getBody()->GetTransform(),figuraActual->getBody()->GetTransform());
+		if(chocan){
+			break;
+		}
+	}
 
-	//ARREGLAR ESTO
-	//return (figura->getBody()->GetContactList()->contact->IsTouching());
-	return false;
+	return chocan;
 }
