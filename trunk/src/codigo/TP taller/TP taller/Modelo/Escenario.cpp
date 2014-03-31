@@ -62,8 +62,13 @@ Circulo* Escenario::crearCirculo(ObjetoParseado objeto){
 
 Rectangulo* Escenario::crearRectangulo(ObjetoParseado objeto){
 	Rectangulo* rectangulo = new Rectangulo(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.ancho,objeto.alto,objeto.masa);
-	this->agregarFigura(rectangulo);
-	return rectangulo;
+	if (this->haySuperposicion(rectangulo)){
+		//informar log
+		//Devolver algo
+	} else {
+		this->agregarFigura(rectangulo);
+		return rectangulo;
+	}
 }
 
 void Escenario::simularAgua () {
@@ -84,3 +89,8 @@ void Escenario::simularAgua () {
 	}
 }
 
+bool Escenario::haySuperposicion(Figura* figura){
+
+	//ARREGLAR ESTO
+	return (figura->getBody()->GetContactList()->contact->IsTouching());
+}
