@@ -92,5 +92,6 @@ void Escenario::simularAgua () {
 bool Escenario::haySuperposicion(Figura* figura){
 
 	//ARREGLAR ESTO
-	return (figura->getBody()->GetContactList()->contact->IsTouching());
+	//return (figura->getBody()->GetContactList()->contact->IsTouching());
+	return false;
 }
