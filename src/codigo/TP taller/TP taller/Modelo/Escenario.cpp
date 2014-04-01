@@ -3,9 +3,11 @@
 Escenario::Escenario(){
 }
 
-Escenario::Escenario(int altoU,int anchoU,int nivelAgua){
+Escenario::Escenario(int altoU,int anchoU,int altoPx,int anchoPx,int nivelAgua){
 	this->altoU = altoU;
 	this->anchoU = anchoU;
+	this->anchoPx = anchoPx;
+	this->altoPx = altoPx;
 	this->nivelAgua = nivelAgua;
 	this->listaFiguras = new list<Figura*>();
 	
@@ -70,7 +72,17 @@ Rectangulo* Escenario::crearRectangulo(ObjetoParseado objeto){
 		Logger::getLogger()->escribir(info.str());
 		Logger::getLogger()->guardarEstado();
 		return NULL;
-	} else {
+	}
+	else if(this->haySuperposicionConTerreno(rectangulo)){
+		//Remuevo figura del world
+		this->getWorld()->DestroyBody(rectangulo->getBody());
+		std::stringstream info;
+		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con el terreno.";
+		Logger::getLogger()->escribir(info.str());
+		Logger::getLogger()->guardarEstado();
+		return NULL;
+	}
+	else {
 		this->agregarFigura(rectangulo);
 		return rectangulo;
 	}
@@ -113,6 +125,24 @@ bool Escenario::haySuperposicion(Figura* figura){
 	return chocan;
 }
 
+bool Escenario::haySuperposicionConTerreno(Figura* figura){
+	//Primero chequeo si la figura se superpone con la cadena
+	Terreno* terreno = this->getTerreno();
+	bool chocan = b2TestOverlap(figura->getBody()->GetFixtureList()->GetShape(),0,terreno->getBody()->GetFixtureList()->GetShape(),0,figura->getBody()->GetTransform(),terreno->getBody()->GetTransform());
+	if(chocan){
+		return true;
+	}
+	//Si no choca con los bordes del terreno tengo que chequear con la matriz
+	bool** matrizTerreno = terreno->getLectorTerreno()->getMatrizTerreno();
+	b2Vec2 posicion = figura->getBody()->GetPosition();
+	float x = (posicion.x * this->anchoPx)/this->anchoU;
+	float y = (posicion.y * this->altoPx)/this->altoU;
+	if(matrizTerreno[(int) floor(x)][(int) floor(y)]){
+		//Como hay un 1 quiere decir que el centro esta dentro del terreno
+		return true;
+	}
+	return false;
+}
 
 Terreno* Escenario::getTerreno(){
 	return this->terreno;

@@ -9,7 +9,7 @@ void Juego::comenzar(){
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
 	vector<ObjetoParseado>* objetos = parser->getObjetos();
-	Escenario* escenario = new Escenario(e->altoU,e->anchoU,e->nivelAgua);
+	Escenario* escenario = new Escenario(e->altoU,e->anchoU,e->altoPx,e->anchoPx,e->nivelAgua);
 	b2World* world = escenario->getWorld();
 	//Muy feo, lector recibe un char* y imagenTierra es string 
 	char* imagenTierra = new char[e->imagenTierra.size()+1];
@@ -20,6 +20,7 @@ void Juego::comenzar(){
 	
 	Terreno* terr = new Terreno(escenario->getWorld());
 	terr->generarTerreno(imagenTierra);
+	escenario->setTerreno(terr);
 
 	Vista* vista = new Vista(e);
 	

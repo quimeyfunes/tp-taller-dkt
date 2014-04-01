@@ -18,7 +18,7 @@ escenario:
           estatico: no
         - tipo: rect
           x: 18
-          y: 45
+          y: 90
           ancho: 3
           alto: 3
           color: 00FF00

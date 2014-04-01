@@ -14,14 +14,14 @@ Terreno::Terreno(b2World* world)
 
 void Terreno::generarTerreno(char* nombreArchivo)
 {
-	LectorTerreno* lectorT = new LectorTerreno(nombreArchivo);
-	bool** matrizTerreno = lectorT->getMatrizTerreno();
-	int anchoMatriz = lectorT->getAnchoMatriz();
-	int altoMatriz = lectorT->getAltoMatriz();
+	this->lectorTerreno = new LectorTerreno(nombreArchivo);
+	bool** matrizTerreno = lectorTerreno->getMatrizTerreno();
+	int anchoMatriz = lectorTerreno->getAnchoMatriz();
+	int altoMatriz = lectorTerreno->getAltoMatriz();
 	bool tierra = true;
 	bool huboTierra = false;
 	bool aguasProfundas = false;
-	int tamanioBorde = lectorT->getTamanoBorde();
+	int tamanioBorde = lectorTerreno->getTamanoBorde();
 	bool hayTierra = false;
 	int posVec = 0;
 	int k = 0;
@@ -71,10 +71,19 @@ void Terreno::generarTerreno(char* nombreArchivo)
 	fixtureDef.restitution = 0;
 	this->body->CreateFixture(&fixtureDef);
 
-	delete lectorT;
+
 	delete vecBorde;
+}
+
+b2Body* Terreno::getBody(){
+	return this->body;
+}
+
+LectorTerreno* Terreno::getLectorTerreno(){
+	return this->lectorTerreno;
 }
 
 Terreno::~Terreno(void)
 {
+	delete this->lectorTerreno;
 }
