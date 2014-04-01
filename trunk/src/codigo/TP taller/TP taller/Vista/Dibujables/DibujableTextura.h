@@ -4,7 +4,7 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "Dibujable.h"
-#include "../Parser/yaml/ParserYaml.h"
+#include "../../Parser/yaml/ParserYaml.h"
 #include <string>
 
 using namespace std;

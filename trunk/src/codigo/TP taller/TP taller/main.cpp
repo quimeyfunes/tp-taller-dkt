@@ -1,4 +1,4 @@
-#include "Modelo\Juego.h"
+#include "Modelo/Juego/Juego.h"
 #include <iostream>
 #include <vector>
 
