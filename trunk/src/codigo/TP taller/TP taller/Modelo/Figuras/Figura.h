@@ -4,8 +4,8 @@
 #include <iostream>
 #include <string>
 #include "Box2D/Box2D.h"
-#include "../Observable.h"
-#include "../constantes.h"
+#include "../../Observador/Observable.h"
+#include "../../constantes.h"
 
 
 using namespace std;
