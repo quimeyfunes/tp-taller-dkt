@@ -7,14 +7,22 @@ escenario:
     imagen_tierra: mascara1.png
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
+        - tipo: circ
+          x: 45
+          y: 0
+          escala: 4
+          color: FF0000
+          rot: 0
+          masa: 20
+          estatico: no
         - tipo: rect
-          x: 20
-          y: 45
+          x: 10
+          y: 3
           ancho: 3
           alto: 3
           color: 00FF00
           rot: 0
-          masa: 20
+          masa: 2000
           estatico: no
         - tipo: rect
           x: 18

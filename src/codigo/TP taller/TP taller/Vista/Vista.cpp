@@ -6,8 +6,8 @@ Vista::Vista(EscenarioParseado* e){
 	this->window = SDL_CreateWindow("Worms!", 50, 50, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN );
 	this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	this->listaDibujables = new list<Dibujable*>;
-	this->crearDibujable(0, 0,e->anchoPx, e->altoPx, e->imagenCielo);
-	this->crearDibujable(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx,(e->altoU - e->nivelAgua) * e->altoPx / e->altoU,texturaAgua);
+	this->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, e->imagenCielo);
+	this->crearDibujableTextura(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx,(e->altoU - e->nivelAgua) * e->altoPx / e->altoU,texturaAgua);
 	//this->crearSprite(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx, 15, spriteOlas, 2, 6, 256, 144);
 	
 }
@@ -33,25 +33,20 @@ void Vista::crearSprite(int x, int y, int anchoFrame, int altoFrame, string path
 	
 }
 
-Dibujable* Vista::crearDibujable(int x , int y ,int ancho,int alto, string pathImagen) {
+DibujableTextura* Vista::crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen) {
 	SDL_Rect rect;
 	rect.x = x;
 	rect.y = y;
 	rect.w = ancho;
 	rect.h = alto;
 	
-	Dibujable* dib = new Dibujable(this->renderer, rect, pathImagen);
+	DibujableTextura* dib = new DibujableTextura(this->renderer, rect, pathImagen);
 	this->agregarDibujable(dib);
 	return dib;
 }
 
-FiguraDibujable* Vista::crearFiguraDibujable(int x , int y ,int ancho,int alto, string pathImagen) {
-	SDL_Rect rect;
-	rect.x = x;
-	rect.y = y;
-	rect.w = ancho;
-	rect.h = alto;
-	FiguraDibujable* dib = new FiguraDibujable(this->renderer, rect, pathImagen);
+CirculoDibujable* Vista::crearCirculoDibujable(int x , int y ,int radioHorizontal, int radioVertical) {
+	CirculoDibujable* dib = new CirculoDibujable(x,y,radioHorizontal,radioVertical);
 	this->agregarDibujable(dib);
 	return dib;
 }
@@ -70,11 +65,6 @@ void Vista::Dibujar(){
 	for (list<Dibujable*>::iterator it = this->listaDibujables->begin(); it != this->listaDibujables->end(); it++) {
 		(*it)->dibujar(this->renderer);
 	}
-
 	SDL_RenderPresent(this->renderer);
 }
 
-void AgregarCieloAguaTierra(string pathCielo, string pathAgua, string pathTierra) {
-
-
-}

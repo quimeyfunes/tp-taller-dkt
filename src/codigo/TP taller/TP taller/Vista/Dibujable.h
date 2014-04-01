@@ -3,6 +3,7 @@
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include "SDL/SDL2_gfxPrimitives.h"
 #include "../Parser/yaml/ParserYaml.h"
 #include <string>
 
@@ -10,19 +11,10 @@ using namespace std;
 
 class Dibujable
 {
-	SDL_Rect rect;
-	SDL_Texture* imagen;
-	float anguloRotacion;
 public:
 	Dibujable();
-	Dibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen);
 	~Dibujable();
-	SDL_Rect getRect();
-	void setRect(SDL_Rect rect);
-	SDL_Texture* getImagen();
-	int getAngulo();
-	void setAngulo(int angulo);
-	void setColor(int* rgb);
+	virtual void setColor(int* rgb);
 	virtual void dibujar(SDL_Renderer* renderer);
 };
 

@@ -27,7 +27,7 @@ void Juego::comenzar(){
 
 	SDL_Event* evento = new SDL_Event();
 	
-	Dibujable* dibTierra = vista->crearDibujable( 0, 0 , lector->getAnchoMatriz(),lector->getAltoMatriz(),lector->getRutaTexturaActualizada());
+	Dibujable* dibTierra = vista->crearDibujableTextura( 0, 0 , lector->getAnchoMatriz(),lector->getAltoMatriz(),lector->getRutaTexturaActualizada());
 	
 	//Color tierra
 	string hex = "#00FF00";
@@ -41,15 +41,17 @@ void Juego::comenzar(){
 		switch ((*it).tipo) {
 		case 1: 
 			{
-			//Circulo* cir = escenario->crearCirculo(*it);
-			//cir->agregarObservador(vista->crearFiguraDibujable((*it).x * escalaAncho, (*it).y * escalaAlto,(*it).ancho * escalaAncho,(*it).alto * escalaAlto, "imagenes/r4.png" ));
+			Circulo* cir = escenario->crearCirculo(*it);
+			CirculoDibujable* circulo = vista->crearCirculoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto,(*it).escala * escalaAncho,(*it).escala* escalaAlto);
+			circulo->setColor(ParserDeHexARgb::parsearDeHexARgb((*it).color));
+			cir->agregarObservador(circulo);
 			}
 		case 2:
 			{
-				Rectangulo* rec = escenario->crearRectangulo(*it);
-				if(rec){
-					rec->agregarObservador(vista->crearFiguraDibujable((*it).x * escalaAncho - (*it).ancho * escalaAncho /2, (*it).y * escalaAlto - (*it).alto * escalaAlto/2,(*it).ancho * escalaAncho,(*it).alto * escalaAlto, "imagenes/imagen.jpg" ));
-				}
+				//Rectangulo* rec = escenario->crearRectangulo(*it);
+				//if(rec){
+				//	rec->agregarObservador(vista->crearFiguraDibujable((*it).x * escalaAncho - (*it).ancho * escalaAncho /2, (*it).y * escalaAlto - (*it).alto * escalaAlto/2,(*it).ancho * escalaAncho,(*it).alto * escalaAlto, "imagenes/imagen.jpg" ));
+				//}
 			}
 		default:
 			{
@@ -85,7 +87,7 @@ void Juego::comenzar(){
 		escenario->notificar();
 			
 		vista->Dibujar();
-		
+
 		SDL_Delay(10);
 		
 	}

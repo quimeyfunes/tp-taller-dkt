@@ -1,6 +1,6 @@
-#include "Dibujable.h"
+#include "DibujableTextura.h"
 
-class Sprite: public Dibujable{
+class Sprite: public DibujableTextura{
 
 private:
 
