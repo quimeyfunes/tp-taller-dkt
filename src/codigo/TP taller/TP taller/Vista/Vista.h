@@ -1,8 +1,8 @@
 #ifndef __VISTA_H__
 #define __VISTA_H__
 
-#include "DibujableTextura.h"
-#include "CirculoDibujable.h"
+#include "Dibujables/DibujableTextura.h"
+#include "Dibujables/CirculoDibujable.h"
 #include "../Parser/yaml/ParserYaml.h"
 #include <list>
 

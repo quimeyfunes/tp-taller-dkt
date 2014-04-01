@@ -4,7 +4,7 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "SDL/SDL2_gfxPrimitives.h"
-#include "../Parser/yaml/ParserYaml.h"
+#include "../../Parser/yaml/ParserYaml.h"
 #include <string>
 
 using namespace std;

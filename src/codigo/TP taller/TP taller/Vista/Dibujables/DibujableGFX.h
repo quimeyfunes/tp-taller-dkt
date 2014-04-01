@@ -4,8 +4,8 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "Dibujable.h"
-#include "../Observador.h"
-#include "../Modelo/Figura.h"
+#include "../../Observador/Observador.h"
+#include "../../Modelo/Figuras/Figura.h"
 
 using namespace std;
 

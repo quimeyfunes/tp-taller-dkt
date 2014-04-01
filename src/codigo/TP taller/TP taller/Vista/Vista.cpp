@@ -1,5 +1,5 @@
 #include "Vista.h"
-#include "Sprite.h"
+#include "Sprite/Sprite.h"
 
 Vista::Vista(EscenarioParseado* e){
 	SDL_Init( SDL_INIT_EVERYTHING );
@@ -8,7 +8,7 @@ Vista::Vista(EscenarioParseado* e){
 	this->listaDibujables = new list<Dibujable*>;
 	this->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, e->imagenCielo);
 	this->crearDibujableTextura(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx,(e->altoU - e->nivelAgua) * e->altoPx / e->altoU,texturaAgua);
-	//this->crearSprite(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx, 15, spriteOlas, 2, 6, 256, 144);
+	this->crearSprite(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx, 15, spriteOlas, 2, 6, 256, 144);
 	
 }
 
