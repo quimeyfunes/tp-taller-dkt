@@ -51,14 +51,50 @@ void Escenario::notificar() {
 
 Poligono* Escenario::crearPoligono(ObjetoParseado objeto){
 	Poligono* poligono = new Poligono(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.escala,objeto.masa,objeto.tipo);
-	this->agregarFigura(poligono);
-	return poligono;
+	if (this->haySuperposicion(poligono)){
+		//Remuevo figura del world
+		this->getWorld()->DestroyBody(poligono->getBody());
+		std::stringstream info;
+		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con una agregada con anterioridad.";
+		Logger::getLogger()->escribir(info.str());
+		Logger::getLogger()->guardarEstado();
+		return NULL;
+	} else if (this->haySuperposicionConTerreno(poligono)) {
+		//Remuevo figura del world
+		this->getWorld()->DestroyBody(poligono->getBody());
+		std::stringstream info;
+		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con el terreno.";
+		Logger::getLogger()->escribir(info.str());
+		Logger::getLogger()->guardarEstado();
+		return NULL;
+	} else {
+		this->agregarFigura(poligono);
+		return poligono;
+	}
 }
 
 Circulo* Escenario::crearCirculo(ObjetoParseado objeto){
 	Circulo* circulo = new Circulo(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.escala,objeto.masa);
-	this->agregarFigura(circulo);
-	return circulo;
+	if (this->haySuperposicion(circulo)){
+		//Remuevo figura del world
+		this->getWorld()->DestroyBody(circulo->getBody());
+		std::stringstream info;
+		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con una agregada con anterioridad.";
+		Logger::getLogger()->escribir(info.str());
+		Logger::getLogger()->guardarEstado();
+		return NULL;
+	} else if (this->haySuperposicionConTerreno(circulo)) {
+		//Remuevo figura del world
+		this->getWorld()->DestroyBody(circulo->getBody());
+		std::stringstream info;
+		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con el terreno.";
+		Logger::getLogger()->escribir(info.str());
+		Logger::getLogger()->guardarEstado();
+		return NULL;
+	} else {
+		this->agregarFigura(circulo);
+		return circulo;
+	}
 }
 
 Rectangulo* Escenario::crearRectangulo(ObjetoParseado objeto){
