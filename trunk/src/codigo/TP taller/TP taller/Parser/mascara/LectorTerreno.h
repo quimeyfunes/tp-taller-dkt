@@ -40,7 +40,7 @@ private:
 	void RGB_AMatrizBool();
 	//mapea una funcion a la matriz
 	void cargarFuncionEnMatriz(double* f);
-	void guardarMatrizEnPNG(char* nombreArchivo, bool transparente);
+	void guardarMatrizEnPNG(string nombreArchivo, bool transparente);
 
 	//cuando la imagen de terreno es invalida, se genera una matriz de terreno aleatoria
 	void generarMatrizAleatoria();
@@ -54,10 +54,10 @@ public:
 	
 	/*se le pasa por parametro el nombre del archivo, si no existe o no es formato PNG
 	se informa en el log y se genera un PNG aleatorio con ese nombre*/
-	LectorTerreno(char* nombreArchivo);
+	LectorTerreno(string nombreArchivo);
 
 	/*genera una imagen PNG de terreno aleatorio valido, con los parametros nombre, alto y ancho (en pixeles)*/
-	void generarTerrenoAleatorio(char* nombreArchivo);
+	void generarTerrenoAleatorio(string nombreArchivo);
 
 	int getTamanoBorde();
 

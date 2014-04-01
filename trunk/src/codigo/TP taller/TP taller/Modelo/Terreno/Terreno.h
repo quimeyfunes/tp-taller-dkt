@@ -16,10 +16,11 @@ private:
 	LectorTerreno* lectorTerreno;
 public:
 	Terreno(b2World* world);
-	void generarTerreno(char* nombre);
+	void generarTerreno(string nombre);
 	b2ChainShape* generarBorde(b2Vec2 borde); 
 	~Terreno();
 	b2Body* getBody();
+	LectorTerreno* getLector();
 	LectorTerreno* getLectorTerreno();
 };
 

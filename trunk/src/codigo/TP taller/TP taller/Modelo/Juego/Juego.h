@@ -15,17 +15,36 @@
 
 using namespace std;
 
-class Juego
-{
+typedef enum{
+	JUGANDO,
+	PAUSADO,
+	SALIR,
+}ESTADO_JUEGO;
+
+class Juego{
+
 private:
-    bool enSimulacion;
-	bool enPausa;
+
+	Vista* vista;
+	Escenario* escenario;
+	Terreno* terreno;
+	SDL_Event* evento;
+	b2World* mundo;
+
+	ESTADO_JUEGO estadoActual;
+
+	void reiniciar();
+	void salir();
+	void jugar();
+	void pausar();
+	void esperar();
+	void agregarObjetos(vector<ObjetoParseado>* objetos);
+	void leerEvento();
+	
 public:
 	Juego();
-	void comenzar();
-	void pausar();
-	void simular();
-	bool getPausa();
+	void ejecutar();
+	~Juego();
 };
 
 

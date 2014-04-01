@@ -2,8 +2,8 @@
 
 
 
-Terreno::Terreno(b2World* world)
-{
+Terreno::Terreno(b2World* world){
+
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
 	bodyDef.position.Set(0,0);
@@ -12,8 +12,8 @@ Terreno::Terreno(b2World* world)
 }
 
 
-void Terreno::generarTerreno(char* nombreArchivo)
-{
+void Terreno::generarTerreno(string nombreArchivo){
+
 	this->lectorTerreno = new LectorTerreno(nombreArchivo);
 	bool** matrizTerreno = lectorTerreno->getMatrizTerreno();
 	int anchoMatriz = lectorTerreno->getAnchoMatriz();
@@ -77,6 +77,11 @@ void Terreno::generarTerreno(char* nombreArchivo)
 
 b2Body* Terreno::getBody(){
 	return this->body;
+}
+
+LectorTerreno* Terreno::getLector(){
+
+	return this->lectorTerreno;
 }
 
 LectorTerreno* Terreno::getLectorTerreno(){

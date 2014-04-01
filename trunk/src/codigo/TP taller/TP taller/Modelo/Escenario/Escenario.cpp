@@ -12,7 +12,6 @@ Escenario::Escenario(int altoU,int anchoU,int altoPx,int anchoPx,int nivelAgua){
 	this->listaFiguras = new list<Figura*>();
 	
 	b2Vec2* gravity = new b2Vec2(gravedadX, gravedadY);
-	//// Construct a world object, which will hold and simulate the rigid bodies.
 	this->world = new b2World(*gravity);
 }
 
