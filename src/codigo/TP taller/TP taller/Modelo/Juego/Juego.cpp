@@ -92,10 +92,12 @@ void Juego::agregarObjetos(vector<ObjetoParseado>* objetos){
 		switch ((*it).tipo) {
 		case 1: 
 			{
-			Circulo* cir = escenario->crearCirculo(*it);
-			CirculoDibujable* circulo = vista->crearCirculoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto,(*it).escala * escalaAncho,(*it).escala* escalaAlto);
-			circulo->setColor(ParserDeHexARgb::parsearDeHexARgb((*it).color));
-			cir->agregarObservador(circulo);
+				Circulo* cir = escenario->crearCirculo(*it);
+				if (cir) {
+				CirculoDibujable* circulo = vista->crearCirculoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto,(*it).escala * escalaAncho,(*it).escala* escalaAlto);
+				circulo->setColor(ParserDeHexARgb::parsearDeHexARgb((*it).color));
+				cir->agregarObservador(circulo);
+				}
 			}
 		case 2:
 			{
@@ -106,7 +108,7 @@ void Juego::agregarObjetos(vector<ObjetoParseado>* objetos){
 			}
 		default:
 			{
-			//escenario->crearPoligono(*it);
+			//Poligono* pol = escenario->crearPoligono(*it);
 			//vista->crearDibujable((*it).x * escalaAncho, (*it).y * escalaAlto,(*it).ancho * escalaAncho,(*it).alto * escalaAlto, pathPoligono q venga );
 			}
 		}

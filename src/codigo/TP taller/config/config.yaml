@@ -4,7 +4,7 @@ escenario:
     altoun: 100
     anchoun: 100
     nivel_agua: 60
-    imagen_tierra: mascara1.png
+    imagen_tierra: mascara (1).png
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
         - tipo: circ
