@@ -2,11 +2,11 @@
 #include "generador\GeneradorFunciones.h"
 #include <string>
 
-LectorTerreno::LectorTerreno(char* nombreArchivo){
+LectorTerreno::LectorTerreno(string nombreArchivo){
 
 	logError = Logger::getLogger();
-	imagen = IMG_Load(nombreArchivo);
-	SDL_RWops *rwop = SDL_RWFromFile(nombreArchivo, "rb"); //para chequear si es PNG
+	imagen = IMG_Load(nombreArchivo.c_str());
+	SDL_RWops *rwop = SDL_RWFromFile(nombreArchivo.c_str(), "rb"); //para chequear si es PNG
 	
 	//asigno valores de alto y ancho
 	this->anchoMatriz = (!imagen)? anchoPxDEF : imagen->w;
@@ -122,7 +122,7 @@ vector<int> LectorTerreno::chequearTCT(int &numErrores){
 	return columnas;
 }
 
-void LectorTerreno::guardarMatrizEnPNG(char* nombreArchivo, bool transparente){
+void LectorTerreno::guardarMatrizEnPNG(string nombreArchivo, bool transparente){
 
 	Uint32* vectorPixeles = new Uint32[altoMatriz*anchoMatriz];
 	SDL_Surface* surNueva = IMG_Load(propiedadesPNG);
@@ -138,7 +138,7 @@ void LectorTerreno::guardarMatrizEnPNG(char* nombreArchivo, bool transparente){
 	surNueva->w = anchoMatriz;
 	surNueva->pitch = anchoMatriz*4;	//pitch: tamaño en bits de cada linea (ancho x bytes por pixel)
 	surNueva->pixels = vectorPixeles;
-	IMG_SavePNG(surNueva, nombreArchivo);
+	IMG_SavePNG(surNueva, nombreArchivo.c_str());
 
 	delete[] vectorPixeles;
 }
@@ -233,7 +233,7 @@ pixel LectorTerreno::boolAPixel(bool valor){
 	return p;
 }
 
-void LectorTerreno::generarTerrenoAleatorio(char* nombreArchivo){
+void LectorTerreno::generarTerrenoAleatorio(string nombreArchivo){
 
 	generarMatrizAleatoria();
 	guardarMatrizEnPNG(nombreArchivo, false);

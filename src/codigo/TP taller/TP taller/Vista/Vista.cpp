@@ -13,6 +13,8 @@ Vista::Vista(EscenarioParseado* e){
 }
 
 Vista::~Vista() {
+
+	SDL_Quit();
 	delete this->window;
 	delete this->renderer;
 	delete this->listaDibujables;

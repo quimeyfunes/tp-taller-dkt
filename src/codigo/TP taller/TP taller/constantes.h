@@ -10,7 +10,7 @@
 	#define texturaAgua "imagenes/texturas/agua.png"
 	#define spriteOlas "imagenes/texturas/olas.bmp"
 
-	const int timeStepOlas = 6;
+	const int timeStepOlas = 15;
 
 	const int maxPixelesInvalidosMascara = 10;
 	const int maxColumnasInvalidasMascara = 10;
@@ -65,9 +65,7 @@
 	#define iteracionesVelocidad 6
 	#define iteracionesPosicion 2
 	#define friccion 0.3f
-	#define restitucion 0.2f
+	#define restitucion 0.5f
 	#define velocidadAgua 10
-
-
 
 #endif

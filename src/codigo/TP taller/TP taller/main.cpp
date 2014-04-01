@@ -1,11 +1,13 @@
 #include "Modelo/Juego/Juego.h"
-#include <iostream>
-#include <vector>
 
-int main( int argc,  char** argv )
-{	
-	Juego* juego = new Juego();
-	juego->comenzar();
+int main(int argc, char* argv[]){	
 
-    return 0;    
+	try{
+		Juego* juego = new Juego();
+		juego->ejecutar();
+		delete juego;
+
+	}catch(exception &e){}
+
+	return 0;    
 }
