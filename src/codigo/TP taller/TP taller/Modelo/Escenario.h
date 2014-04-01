@@ -12,6 +12,7 @@
 #include "Circulo.h"
 #include "Rectangulo.h"
 #include "../constantes.h"
+#include "Terreno.h"
 
 using namespace std;
 
@@ -23,6 +24,7 @@ private:
     int anchoU;
     int nivelAgua;
 	list<Figura*>* listaFiguras;
+	Terreno* terreno;
 public:
 	Escenario();
 	Escenario(int altoU,int anchoU,int nivelAgua);
@@ -39,6 +41,9 @@ public:
 	void simularAgua();
 	void reiniciar();
 	bool haySuperposicion(Figura* figura);
+	Terreno* getTerreno();
+	void setTerreno(Terreno* terreno);
+
 };
 
 

@@ -64,7 +64,7 @@ Rectangulo* Escenario::crearRectangulo(ObjetoParseado objeto){
 	Rectangulo* rectangulo = new Rectangulo(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.ancho,objeto.alto,objeto.masa);
 	if (this->haySuperposicion(rectangulo)){
 		//Remuevo figura del world
-		rectangulo->getBody()->GetWorld()->DestroyBody(rectangulo->getBody());
+		this->getWorld()->DestroyBody(rectangulo->getBody());
 		std::stringstream info;
 		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con una agregada con anterioridad.";
 		Logger::getLogger()->escribir(info.str());
@@ -113,3 +113,11 @@ bool Escenario::haySuperposicion(Figura* figura){
 	return chocan;
 }
 
+
+Terreno* Escenario::getTerreno(){
+	return this->terreno;
+}
+
+void Escenario::setTerreno(Terreno* terreno){
+	this->terreno = terreno;
+}
