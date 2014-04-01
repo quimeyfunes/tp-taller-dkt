@@ -7,12 +7,12 @@
 #include <vector>
 #include <valarray>
 #include <list>
-#include "../Parser/yaml/ParserYaml.h"
-#include "Poligono.h"
-#include "Circulo.h"
-#include "Rectangulo.h"
-#include "../constantes.h"
-#include "Terreno.h"
+#include "../../Parser/yaml/ParserYaml.h"
+#include "../Figuras/Poligono.h"
+#include "../Figuras/Circulo.h"
+#include "../Figuras/Rectangulo.h"
+#include "../../constantes.h"
+#include "../Terreno/Terreno.h"
 
 using namespace std;
 

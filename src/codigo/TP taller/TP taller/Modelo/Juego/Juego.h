@@ -5,11 +5,11 @@
 #include "Box2D/Box2D.h"
 #include "SDL/SDL_image.h"
 #include "SDL/SDL2_gfxPrimitives.h"
-#include "yaml-cpp\yaml.h"
-#include "../Vista\Vista.h"
-#include "Escenario.h"
-#include "../Parser/ParserDeHexARgb.h"
-#include "Terreno.h"
+#include "yaml-cpp/yaml.h"
+#include "../../Vista/Vista.h"
+#include "../Escenario/Escenario.h"
+#include "../../Parser/ParserDeHexARgb.h"
+#include "../Terreno/Terreno.h"
 #include <iostream>
 #include <vector>
 
