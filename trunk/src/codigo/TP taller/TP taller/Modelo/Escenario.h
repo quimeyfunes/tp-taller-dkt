@@ -22,12 +22,14 @@ private:
 	b2World* world;  
 	int altoU;
     int anchoU;
+	int altoPx;
+    int anchoPx;
     int nivelAgua;
 	list<Figura*>* listaFiguras;
 	Terreno* terreno;
 public:
 	Escenario();
-	Escenario(int altoU,int anchoU,int nivelAgua);
+	Escenario(int altoU,int anchoU,int altoPx,int anchoPx,int nivelAgua);
     int getAltoU();
     int getAnchoU();
     int getNivelAgua();
@@ -41,6 +43,7 @@ public:
 	void simularAgua();
 	void reiniciar();
 	bool haySuperposicion(Figura* figura);
+	bool haySuperposicionConTerreno(Figura* figura);
 	Terreno* getTerreno();
 	void setTerreno(Terreno* terreno);
 
