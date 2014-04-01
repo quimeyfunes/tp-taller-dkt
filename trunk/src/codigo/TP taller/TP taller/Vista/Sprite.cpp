@@ -1,6 +1,6 @@
 #include "Sprite.h"
 
-Sprite::Sprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex): Dibujable(renderer, recDestino, path){
+Sprite::Sprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex): DibujableTextura(renderer, recDestino, path){
 
 	this->numCuadros = col*fil;
 	this->velocidadRefresco = timeStepOlas;

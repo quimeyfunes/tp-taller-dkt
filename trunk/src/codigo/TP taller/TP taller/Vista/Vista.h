@@ -1,7 +1,8 @@
 #ifndef __VISTA_H__
 #define __VISTA_H__
 
-#include "FiguraDibujable.h"
+#include "DibujableTextura.h"
+#include "CirculoDibujable.h"
 #include "../Parser/yaml/ParserYaml.h"
 #include <list>
 
@@ -18,9 +19,9 @@ public:
 	Vista(EscenarioParseado* e);
 	~Vista();
 	SDL_Renderer* getRenderer();
-	Dibujable* crearDibujable(int x , int y ,int ancho,int alto, string pathImagen);
+	DibujableTextura* crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen);
 	void crearSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex);
-	FiguraDibujable* crearFiguraDibujable(int x , int y ,int ancho,int alto, string pathImagen);
+	CirculoDibujable* crearCirculoDibujable(int x , int y ,int radioHorizontal,int radioVertical);
 	void agregarDibujable(Dibujable* dibujable);
 	list<Dibujable*>* getListaDibujables();
 	void Dibujar();

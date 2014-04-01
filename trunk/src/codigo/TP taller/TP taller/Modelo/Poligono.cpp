@@ -10,7 +10,7 @@ Poligono::Poligono(float x, float y, short int rotacion, b2World* world, bool es
 {
 	b2PolygonShape shape;
 	b2Vec2* vertices = new b2Vec2[n];
-	
+	this->escala = escala;
 	for (int i = 0; i < n; i++) {
 		float angulo = (2 * b2_pi / n);
 		float corrimiento = ((360-90*(n-2))/n) * 2 * b2_pi / 360; 
