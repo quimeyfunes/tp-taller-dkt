@@ -2,12 +2,17 @@
 
 
 
-Terreno::Terreno()
+Terreno::Terreno(b2World* world)
 {
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_staticBody;
+	bodyDef.position.Set(0,0);
+	bodyDef.angle = 0;
+	this->body = world->CreateBody(&bodyDef);
 }
 
 
-void Terreno::generarTerreno(b2World* world, char* nombreArchivo)
+void Terreno::generarTerreno(char* nombreArchivo)
 {
 	LectorTerreno* lectorT = new LectorTerreno(nombreArchivo);
 	bool** matrizTerreno = lectorT->getMatrizTerreno();
@@ -24,11 +29,6 @@ void Terreno::generarTerreno(b2World* world, char* nombreArchivo)
 
 	b2Vec2* vecBorde = new b2Vec2[anchoMatriz*2];
 	
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_staticBody;
-	bodyDef.position.Set(0,0);
-	bodyDef.angle = 0;
-	b2Body*	body = world->CreateBody(&bodyDef);
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 	// Recorro la matriz hasta encontrar tierra
 	float relacionAncho = e->anchoPx / e->anchoU;
@@ -69,7 +69,7 @@ void Terreno::generarTerreno(b2World* world, char* nombreArchivo)
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &chain;
 	fixtureDef.restitution = 0;
-	body->CreateFixture(&fixtureDef);
+	this->body->CreateFixture(&fixtureDef);
 
 	delete lectorT;
 	delete vecBorde;
