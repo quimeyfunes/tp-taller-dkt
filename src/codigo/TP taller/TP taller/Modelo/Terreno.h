@@ -11,10 +11,10 @@ using namespace std;
 
 class Terreno
 {
-
+	b2Body* body;
 public:
-	Terreno();
-	void generarTerreno(b2World* world, char* nombre);
+	Terreno(b2World* world);
+	void generarTerreno(char* nombre);
 	b2ChainShape* generarBorde(b2Vec2 borde); 
 	~Terreno();
 };

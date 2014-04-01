@@ -18,8 +18,8 @@ void Juego::comenzar(){
 	LectorTerreno* lector = new LectorTerreno(imagenTierra);
 	
 	
-	Terreno* terr = new Terreno();
-	terr->generarTerreno(escenario->getWorld(),imagenTierra);
+	Terreno* terr = new Terreno(escenario->getWorld());
+	terr->generarTerreno(imagenTierra);
 
 	Vista* vista = new Vista(e);
 	
