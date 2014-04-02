@@ -18,11 +18,12 @@ Juego::Juego(){
 
 void Juego::ejecutar(){
 
-	//no se si esta bueno que esto esté aca
+	//estas cosas acá dañan mi salud mental y emocional. Firma: Marian.
 	vector<ObjetoParseado>* objetos = ParserYaml::getParser()->getObjetos();	
 	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(),terreno->getLector()->getAltoMatriz(),terreno->getLector()->getRutaTexturaActualizada());
 	dibTierra->setColor(ParserDeHexARgb::parsearDeHexARgb("804000"));
 	agregarObjetos(objetos);
+	////////////////
 
 	//game loop
 	while(this->estadoActual != SALIR){
@@ -39,8 +40,7 @@ void Juego::ejecutar(){
 
 		escenario->notificar();	
 		vista->Dibujar();
-		SDL_Delay(4);
-
+		SDL_Delay(2);
 	}
 }
 
@@ -86,10 +86,7 @@ void Juego::alternarPausa(){
 	if(this->estadoActual != PAUSADO) this->estadoActual = PAUSADO;	else this->estadoActual = JUGANDO;
 }
 
-void Juego::esperar(){
-
-	
-}
+void Juego::esperar(){}
 
 //ni puta idea lo que hace esto -> lo dejé asi como estaba
 void Juego::agregarObjetos(vector<ObjetoParseado>* objetos){
@@ -128,4 +125,9 @@ void Juego::agregarObjetos(vector<ObjetoParseado>* objetos){
 }
 
 Juego::~Juego(){
+
+	delete this->escenario;
+	delete this->terreno;
+	delete this->evento;
+	delete Logger::getLogger();
 }
