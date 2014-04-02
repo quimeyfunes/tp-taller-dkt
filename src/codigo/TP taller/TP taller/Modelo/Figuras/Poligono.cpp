@@ -26,14 +26,13 @@ Poligono::Poligono(float x, float y, short int rotacion, b2World* world, bool es
 	fixtureDef.friction = friccion;
 	this->getBody()->CreateFixture(&fixtureDef);
 	this->n = n;
+	
 }
 
 
 short int Poligono::getCantidadDeLados(){
 	return this->n;
 }
-
-
 
 Poligono::~Poligono(void)
 {
