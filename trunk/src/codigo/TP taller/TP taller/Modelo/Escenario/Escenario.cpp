@@ -3,11 +3,9 @@
 Escenario::Escenario(){
 }
 
-Escenario::Escenario(int altoU,int anchoU,int altoPx,int anchoPx,int nivelAgua){
+Escenario::Escenario(int altoU,int anchoU,int nivelAgua){
 	this->altoU = altoU;
 	this->anchoU = anchoU;
-	this->anchoPx = anchoPx;
-	this->altoPx = altoPx;
 	this->nivelAgua = nivelAgua;
 	this->listaFiguras = new list<Figura*>();
 	
@@ -136,7 +134,7 @@ void Escenario::simularAgua () {
 					velocidadY = velocidadY * 0.975;
 				}
 			}
-			cuerpo->SetLinearVelocity(b2Vec2(velocidad.x * 0.95,velocidadY));
+			cuerpo->SetLinearVelocity(b2Vec2(velocidad.x * 0.975,velocidadY));
 		}
 	}
 }
@@ -169,9 +167,10 @@ bool Escenario::haySuperposicionConTerreno(Figura* figura){
 	}
 	//Si no choca con los bordes del terreno tengo que chequear con la matriz
 	bool** matrizTerreno = terreno->getLectorTerreno()->getMatrizTerreno();
+	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 	b2Vec2 posicion = figura->getBody()->GetPosition();
-	float x = (posicion.x * this->anchoPx)/this->anchoU;
-	float y = (posicion.y * this->altoPx)/this->altoU;
+	float x = (posicion.x * e->anchoPx)/this->anchoU;
+	float y = (posicion.y * e->altoPx)/this->altoU;
 	if(matrizTerreno[(int) floor(x)][(int) floor(y)]){
 		//Como hay un 1 quiere decir que el centro esta dentro del terreno
 		return true;

@@ -9,7 +9,8 @@ Vista::Vista(EscenarioParseado* e){
 	this->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, e->imagenCielo);
 	this->crearDibujableTextura(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx,(e->altoU - e->nivelAgua) * e->altoPx / e->altoU,texturaAgua);
 	this->crearSprite(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx, 15, spriteOlas, 2, 6, 256, 144);
-	
+	this->anchoPx = e->anchoPx;
+	this->altoPx = e->altoPx;
 }
 
 Vista::~Vista() {
@@ -53,6 +54,19 @@ CirculoDibujable* Vista::crearCirculoDibujable(int x , int y ,int radioHorizonta
 	return dib;
 }
 
+PoligonoDibujable* Vista::crearPoligonoDibujable(short int n, float escalaAncho, float escalaAlto) {
+	PoligonoDibujable* dib = new PoligonoDibujable(n,escalaAncho,escalaAlto);
+	this->agregarDibujable(dib);
+	return dib;
+}
+
+RectanguloDibujable* Vista::crearRectanguloDibujable(float ancho, float alto) {
+	RectanguloDibujable* dib = new RectanguloDibujable(ancho,alto);
+	this->agregarDibujable(dib);
+	return dib;
+}
+
+
 void Vista::agregarDibujable(Dibujable* dibujable) {
 	this->listaDibujables->push_back(dibujable);
 }
@@ -70,3 +84,10 @@ void Vista::Dibujar(){
 	SDL_RenderPresent(this->renderer);
 }
 
+int Vista::getAnchoPx() {
+	return this->anchoPx;
+}
+
+int Vista::getAltoPx() {
+	return this->altoPx;
+}

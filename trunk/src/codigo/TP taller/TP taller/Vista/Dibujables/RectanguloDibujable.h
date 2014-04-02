@@ -1,5 +1,5 @@
-#ifndef __POLIGONO_DIBUJABLE_H__
-#define __POLIGONO_DIBUJABLE_H__
+#ifndef __RECTANGULO_DIBUJABLE_H__
+#define __RECTANGULO_DIBUJABLE_H__
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
@@ -9,16 +9,16 @@
 
 using namespace std;
 
-class PoligonoDibujable : public Observador, public DibujableGFX
+class RectanguloDibujable : public Observador, public DibujableGFX
 {
 	short int* posicionesX;
 	short int* posicionesY;
-	float escalaAncho;
-	float escalaAlto;
+	float ancho;
+	float alto;
 	short int n;
 public:
-	PoligonoDibujable(short int n, float escalaAncho, float escalaAlto);
-	~PoligonoDibujable();
+	RectanguloDibujable(float escalaAncho, float escalaAlto);
+	~RectanguloDibujable();
 	void actualizar(Observable* observable);
 	void dibujar(SDL_Renderer* renderer);
 };

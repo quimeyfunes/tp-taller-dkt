@@ -22,14 +22,12 @@ private:
 	b2World* world;  
 	int altoU;
     int anchoU;
-	int altoPx;
-    int anchoPx;
     int nivelAgua;
 	list<Figura*>* listaFiguras;
 	Terreno* terreno;
 public:
 	Escenario();
-	Escenario(int altoU,int anchoU,int altoPx,int anchoPx,int nivelAgua);
+	Escenario(int altoU,int anchoU,int nivelAgua);
     int getAltoU();
     int getAnchoU();
     int getNivelAgua();

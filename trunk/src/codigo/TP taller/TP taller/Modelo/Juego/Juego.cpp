@@ -9,7 +9,7 @@ Juego::Juego(){
 	EscenarioParseado* e = parser->getEscenario();
 
 	this->vista = new Vista(e);
-	this->escenario = new Escenario(e->altoU,e->anchoU,e->altoPx,e->anchoPx,e->nivelAgua);
+	this->escenario = new Escenario(e->altoU,e->anchoU,e->nivelAgua);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
 	this->escenario->setTerreno(this->terreno);
@@ -26,7 +26,7 @@ void Juego::ejecutar(){
 	////////////////
 
 	//game loop
-	while(this->estadoActual != SALIR){
+	while(this->estadoActual != SALIR && (evento->type != SDL_QUIT)){
 		
 		this->leerEvento();
 
@@ -93,32 +93,41 @@ void Juego::agregarObjetos(vector<ObjetoParseado>* objetos){
 
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 
-		//Parsea objetos del yaml y hace figuras/dibujables(dibujables todavia no)
+	//Parsea objetos del yaml y hace figuras/dibujables(dibujables todavia no)
 	float escalaAncho = e->anchoPx / e->anchoU;
 	float escalaAlto = e->altoPx / e->altoU;
-	//Levanta cuadrados (de imagen) medio raro
 	for (std::vector<ObjetoParseado>::iterator it = objetos->begin(); it != objetos->end(); ++it) {
 		switch ((*it).tipo) {
 		case 1: 
 			{
 				Circulo* cir = escenario->crearCirculo(*it);
 				if (cir) {
-				CirculoDibujable* circulo = vista->crearCirculoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto,(*it).escala * escalaAncho,(*it).escala* escalaAlto);
-				circulo->setColor(ParserDeHexARgb::parsearDeHexARgb((*it).color));
-				cir->agregarObservador(circulo);
+					CirculoDibujable* circulo = vista->crearCirculoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto,(*it).escala * escalaAncho,(*it).escala* escalaAlto);
+					circulo->setColor(ParserDeHexARgb::parsearDeHexARgb((*it).color));
+					cir->agregarObservador(circulo);
 				}
+				break;
 			}
 		case 2:
 			{
-				//Rectangulo* rec = escenario->crearRectangulo(*it);
-				//if(rec){
-				//	rec->agregarObservador(vista->crearFiguraDibujable((*it).x * escalaAncho - (*it).ancho * escalaAncho /2, (*it).y * escalaAlto - (*it).alto * escalaAlto/2,(*it).ancho * escalaAncho,(*it).alto * escalaAlto, "imagenes/imagen.jpg" ));
-				//}
+				Rectangulo* rec = escenario->crearRectangulo(*it);
+				if(rec){
+					cout<<(*it).ancho<<endl;
+					RectanguloDibujable* rectangulo = vista->crearRectanguloDibujable((*it).ancho * escalaAncho, (*it).alto * escalaAlto);
+					rectangulo->setColor(ParserDeHexARgb::parsearDeHexARgb((*it).color));
+					rec->agregarObservador(rectangulo);
+				}
+				break;
 			}
 		default:
 			{
-			//Poligono* pol = escenario->crearPoligono(*it);
-			//vista->crearDibujable((*it).x * escalaAncho, (*it).y * escalaAlto,(*it).ancho * escalaAncho,(*it).alto * escalaAlto, pathPoligono q venga );
+				Poligono* pol = escenario->crearPoligono(*it);
+				if (pol) {
+					PoligonoDibujable* poligono = vista->crearPoligonoDibujable((*it).tipo,(*it).escala * escalaAncho, (*it).escala * escalaAlto);
+					poligono->setColor(ParserDeHexARgb::parsearDeHexARgb((*it).color));
+					pol->agregarObservador(poligono);
+				}
+				break;
 			}
 		}
 	}
