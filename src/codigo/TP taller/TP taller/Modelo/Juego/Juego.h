@@ -16,8 +16,8 @@
 using namespace std;
 
 typedef enum{
-	JUGANDO,
 	PAUSADO,
+	JUGANDO,
 	SALIR,
 }ESTADO_JUEGO;
 
@@ -31,12 +31,13 @@ private:
 	SDL_Event* evento;
 	b2World* mundo;
 
+	bool simulando;
 	ESTADO_JUEGO estadoActual;
 
 	void reiniciar();
 	void salir();
 	void jugar();
-	void pausar();
+	void alternarPausa();
 	void esperar();
 	void agregarObjetos(vector<ObjetoParseado>* objetos);
 	void leerEvento();

@@ -1,8 +1,8 @@
 #include "Juego.h"
 
 Juego::Juego(){
-
-	this->estadoActual = PAUSADO;
+	this->simulando = false;
+	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
 
 	ParserYaml* parser = ParserYaml::getParser();
@@ -29,11 +29,18 @@ void Juego::ejecutar(){
 		
 		this->leerEvento();
 
-		switch(estadoActual){
+		if(simulando){
+			switch(estadoActual){
 
-			case JUGANDO:		jugar();	break;
-			case PAUSADO:		esperar();	break;
+				case JUGANDO:		jugar();	break;
+				case PAUSADO:		esperar();	break;
+			}
 		}
+
+		escenario->notificar();	
+		vista->Dibujar();
+		SDL_Delay(4);
+
 	}
 }
 
@@ -41,21 +48,22 @@ void Juego::leerEvento(){
 
 	if (SDL_PollEvent(evento) != 0) {
 
+		if(evento->type == SDL_QUIT){
+			this->salir();
+			return;
+		}
+		
 		if(evento->type == SDL_KEYDOWN){
 
 			switch(evento->key.keysym.sym){
 
 			case SDLK_ESCAPE:	salir();			break;
 			case SDLK_s:		reiniciar();		break;
-			case SDLK_p:		pausar();			break;
+			case SDLK_p:		alternarPausa();	break;
 		
 			}
 		}
 	}
-	
-	escenario->notificar();	
-	vista->Dibujar();
-	SDL_Delay(4);
 }
 
 void Juego::jugar(){
@@ -68,15 +76,19 @@ void Juego::salir(){
 }
 
 void Juego::reiniciar(){
-	this->estadoActual = PAUSADO;
+	this->simulando = !simulando;
 	this->escenario->reiniciar();
+
+	if(this->estadoActual == PAUSADO) this->estadoActual = JUGANDO;
 }
 
-void Juego::pausar(){
+void Juego::alternarPausa(){
 	if(this->estadoActual != PAUSADO) this->estadoActual = PAUSADO;	else this->estadoActual = JUGANDO;
 }
 
 void Juego::esperar(){
+
+	
 }
 
 //ni puta idea lo que hace esto -> lo dejé asi como estaba
