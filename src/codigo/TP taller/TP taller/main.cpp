@@ -7,7 +7,8 @@ int main(int argc, char* argv[]){
 		juego->ejecutar();
 		delete juego;
 
-	}catch(exception &e){}
-
+	}catch(exception &e){
+	
+	}
 	return 0;    
 }
