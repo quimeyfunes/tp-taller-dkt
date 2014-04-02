@@ -17,8 +17,10 @@ CirculoDibujable::~CirculoDibujable() {
 void CirculoDibujable::actualizar(Observable* observable) {
 	Figura* fig = (Figura*)observable;
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
-	this->posicion.x = fig->getPosicion().x * e->anchoPx / e->anchoU;
-	this->posicion.y = fig->getPosicion().y * e->altoPx / e->altoU;
+	this->posicion.x = fig->getPosicion().x * (e->anchoPx / e->anchoU);
+	this->posicion.y = fig->getPosicion().y * (e->altoPx / e->altoU);
+	cout<<"cirU "<<fig->getPosicion().y<<endl;
+	cout<<"Cir "<<this->posicion.y<<endl;
 }
 
 void CirculoDibujable::dibujar(SDL_Renderer* renderer) {
