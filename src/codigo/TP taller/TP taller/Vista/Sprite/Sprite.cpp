@@ -30,6 +30,7 @@ Sprite::Sprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col
 
 
 Sprite::~Sprite(){
+	delete []this->recCuadro;
 }
 
 void Sprite::dibujar(SDL_Renderer *renderer){

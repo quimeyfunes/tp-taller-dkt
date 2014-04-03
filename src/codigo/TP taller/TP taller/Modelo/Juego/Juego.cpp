@@ -7,7 +7,7 @@ Juego::Juego(){
 
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
-
+	
 	this->vista = new Vista(e);
 	this->escenario = new Escenario(e->altoU,e->anchoU,e->nivelAgua);
 	this->terreno = new Terreno(this->escenario->getWorld());
