@@ -9,13 +9,15 @@
 
 using namespace std;
 
-class RectanguloDibujable : public Observador, public DibujableGFX
-{
+class RectanguloDibujable : public Observador, public DibujableGFX{
+private:
 	short int* posicionesX;
 	short int* posicionesY;
 	float ancho;
 	float alto;
 	short int n;
+
+	float escalaX, escalaY;
 public:
 	RectanguloDibujable(float escalaAncho, float escalaAlto);
 	~RectanguloDibujable();

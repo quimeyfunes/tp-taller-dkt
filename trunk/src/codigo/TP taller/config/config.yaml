@@ -3,7 +3,7 @@ escenario:
     anchopx: 600
     altoun: 100
     anchoun: 100
-    nivel_agua: 50
+    nivel_agua: 20
     imagen_tierra: mascara (1).png
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
@@ -14,7 +14,7 @@ escenario:
           color: FF0000
           rot: 0
           masa: 20
-          estatico: si
+          estatico: no
         - tipo: rect
           x: 54
           y: 8

@@ -8,6 +8,10 @@ RectanguloDibujable::RectanguloDibujable(float ancho,float alto)
 	this->posicionesY = new short int[this->n];
 	this->ancho = ancho;
 	this->alto = alto;
+
+	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
+	escalaX = e->anchoPx / e->anchoU;
+	escalaY = e->altoPx / e->altoU;
 };
 
 RectanguloDibujable::~RectanguloDibujable()
@@ -21,16 +25,14 @@ RectanguloDibujable::~RectanguloDibujable()
 void RectanguloDibujable::actualizar(Observable* observable) {
 	Figura* fig = (Figura*)observable;
 	b2PolygonShape* shape = (b2PolygonShape*)fig->getBody()->GetFixtureList()->GetShape();
-	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
-	float escalaAncho = e->anchoPx / e->anchoU;
-	float escalaAlto = e->altoPx / e->altoU;
-	b2Vec2 posicion = b2Vec2(fig->getPosicion().x * escalaAncho, fig->getPosicion().y * escalaAlto);
+
+	b2Vec2 posicion = b2Vec2(fig->getPosicion().x * escalaX, fig->getPosicion().y * escalaY);
 	float hipotenusa = shape->GetVertex(0).Length();//sqrt(this->ancho/2 * this->ancho/2 + this->alto/2 * this->alto/2);
 	for (int i = 0; i < this->n; i++) {
 		b2Vec2 vertice = shape->GetVertex(i);
 		float anguloNuevo = atan2(vertice.y*1.0,vertice.x*1.0) + fig->getAngulo();
-		this->posicionesX[i] = hipotenusa * escalaAncho * cos(anguloNuevo) + posicion.x;
-		this->posicionesY[i] = hipotenusa * escalaAlto * sin(anguloNuevo) + posicion.y;
+		this->posicionesX[i] = hipotenusa * escalaX * cos(anguloNuevo) + posicion.x;
+		this->posicionesY[i] = hipotenusa * escalaY * sin(anguloNuevo) + posicion.y;
 	}
 }
 
