@@ -9,9 +9,13 @@ Vista::Vista(EscenarioParseado* e){
 	this->listaDibujables = new list<Dibujable*>;
 	this->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, e->imagenCielo);
 	this->crearDibujableTextura(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx,(e->altoU - e->nivelAgua) * e->altoPx / e->altoU,texturaAgua);
-	this->crearSprite(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx, 15, spriteOlas, 2, 6, 256, 144);
 	this->crearScrollingSprite(0, 10, 140, 70, rutaNube1);
 	this->crearScrollingSprite(300, 30, 140, 50, rutaNube2);
+	this->crearSprite(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx, 15, spriteOlas, 2, 6, 256, 144);
+
+
+
+
 	
 	this->anchoPx = e->anchoPx;
 	this->altoPx = e->altoPx;
