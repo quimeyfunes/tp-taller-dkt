@@ -25,13 +25,12 @@ void RectanguloDibujable::actualizar(Observable* observable) {
 	float escalaAncho = e->anchoPx / e->anchoU;
 	float escalaAlto = e->altoPx / e->altoU;
 	b2Vec2 posicion = b2Vec2(fig->getPosicion().x * escalaAncho, fig->getPosicion().y * escalaAlto);
-	float hipotenusa = sqrt(this->ancho/2 * this->ancho/2 + this->alto/2 * this->alto/2);
+	float hipotenusa = shape->GetVertex(0).Length();//sqrt(this->ancho/2 * this->ancho/2 + this->alto/2 * this->alto/2);
 	for (int i = 0; i < this->n; i++) {
 		b2Vec2 vertice = shape->GetVertex(i);
 		float anguloNuevo = atan2(vertice.y*1.0,vertice.x*1.0) + fig->getAngulo();
-		this->posicionesX[i] = hipotenusa * cos(anguloNuevo) + posicion.x;
-		this->posicionesY[i] = hipotenusa * sin(anguloNuevo) + posicion.y;
-		//cout<<i<<" "<<vertice.x<< " " << vertice.y<<endl;
+		this->posicionesX[i] = hipotenusa * escalaAncho * cos(anguloNuevo) + posicion.x;
+		this->posicionesY[i] = hipotenusa * escalaAlto * sin(anguloNuevo) + posicion.y;
 	}
 }
 
