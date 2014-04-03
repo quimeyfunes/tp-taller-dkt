@@ -27,9 +27,10 @@ void ParserYaml::parsear()
 	try{
 		std::ifstream archivo(this->nombreArchivo,ios::out | ios::in);
 		if(!archivo.is_open()){
-			string mensaje = "El archivo config no se encuentra o es incorrecto.";
+			string mensaje = "El archivo config no se encuentra o es incorrecto. Se crea un config default.";
 			Logger::getLogger()->escribir(mensaje);
-			//TODO: Hay que levantar un config por default
+			this->nombreArchivo = this->crearConfigDefault();
+			this->parsear();
 			return;
 		}
 		YAML::Parser parser(archivo);
@@ -370,6 +371,7 @@ ObjetoParseado ParserYaml::getObjetoDefault(){
 	obj.y = yDEF;
 	obj.ancho = anchoObjDEF;
 	obj.alto = altoObjDEF;
+	obj.escala = 2;
 	obj.rotacion = rotacionDEF;
 	obj.masa = masaDEF;
 	obj.color = colorDEF;
@@ -392,5 +394,104 @@ ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
 		obj.escala = this->getValorFloat(nodo,"escala",escalaDef);
 	}
 	obj.linea = nodo.GetMark().line + 1;
+	//Chequeo si el objeto esta dentro del escenario
+	EscenarioParseado* es = this->getEscenario();
+	if(obj.x < 0 || obj.x > es->anchoU || obj.y < 0 || obj.y > es->altoU){
+		std::stringstream info;
+		info << obj.linea;
+		Logger::getLogger()->escribir("Error en parseo del yaml - El objeto de la linea "+info.str()+" no se encuentra dentro del escenario. Se utiliza una figura default.");
+		return this->getObjetoDefault();
+	}
 	return obj;
+}
+
+string ParserYaml::crearConfigDefault(){
+	YAML::Emitter out;
+	EscenarioParseado* es = this->getEscenarioDefault();
+	vector<ObjetoParseado>* objetos = this->getObjetosDefault();
+	out << YAML::BeginMap;
+	out << YAML::Key << "escenario";
+	out << YAML::Value << YAML::BeginMap;
+		out << YAML::Key << "altopx";
+		out << YAML::Value << es->altoPx;
+		out << YAML::Key << "anchopx";
+		out << YAML::Value << es->anchoPx;
+		out << YAML::Key << "altou";
+		out << YAML::Value << es->altoU;
+		out << YAML::Key << "anchou";
+		out << YAML::Value << es->anchoU;
+		out << YAML::Key << "nivel_agua";
+		out << YAML::Value << es->nivelAgua;
+		out << YAML::Key << "imagen_tierra";
+		out << YAML::Value << es->imagenTierra;
+		out << YAML::Key << "imagen_cielo";
+		out << YAML::Value << es->imagenCielo;
+		out << YAML::Key << "objetos";
+		out << YAML::Value << YAML::BeginSeq;
+		for(std::vector<ObjetoParseado>::iterator it = objetos->begin(); it != objetos->end(); ++it) {
+			ObjetoParseado obj = *it;
+			out << YAML::BeginMap;
+				out << YAML::Key << "tipo";
+				out << YAML::Value << this->getTipoStringByTipo(obj.tipo);
+				out << YAML::Key << "x";
+				out << YAML::Value << obj.x;
+				out << YAML::Key << "y";
+				out << YAML::Value << obj.y;
+				out << YAML::Key << "alto";
+				out << YAML::Value << obj.alto;
+				out << YAML::Key << "ancho";
+				out << YAML::Value << obj.ancho;
+				out << YAML::Key << "color";
+				out << YAML::Value << obj.color;
+				if(obj.tipo != rectanguloTipo){
+					out << YAML::Key << "escala";
+					out << YAML::Value << obj.escala;
+				}
+				out << YAML::Key << "rot";
+				out << YAML::Value << obj.rotacion;
+				out << YAML::Key << "masa";
+				out << YAML::Value << obj.masa;
+				out << YAML::Key << "estatico";
+				if(obj.estatico){
+					out << YAML::Value << "si";
+				}else{
+					out << YAML::Value << "no";
+				}
+				
+			out << YAML::EndMap;
+		}
+
+		out << YAML::Value << YAML::EndSeq;
+			
+	out << YAML::EndMap;
+
+	out << YAML::EndMap;
+	ofstream myfile("config/configDefault.yaml"); 
+	myfile << out.c_str();
+	myfile.close();
+
+	return "config/configDefault.yaml";
+}
+
+
+string ParserYaml::getTipoStringByTipo(int tipo){
+	if(tipo ==  circuloTipo){
+		return circuloString;
+	}
+	else if(tipo ==  rectanguloTipo){
+		return rectanguloString;
+	}
+	else if(tipo ==  trianguloTipo){
+		return trianguloString;
+	}
+	else if(tipo ==  cuadradoTipo){
+		return cuadradoString;
+	}
+	else if(tipo ==  pentagonoTipo){
+		return pentagonoString;
+	}
+	else if(tipo ==  hexagonoTipo){
+		return hexagonoString;
+	}
+	return rectanguloString;
 }

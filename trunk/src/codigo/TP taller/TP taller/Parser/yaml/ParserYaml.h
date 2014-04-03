@@ -67,6 +67,9 @@ private:
 	ObjetoParseado parsearObjeto(const YAML::Node &nodo);
 	vector<ObjetoParseado>* ParserYaml::getObjetosDefault();
 	ObjetoParseado ParserYaml::getObjetoDefault();
+	string crearConfigDefault();
+	string getTipoStringByTipo(int tipo);
+
 public:
 	ParserYaml(std::string pathArchivo);
 	ParserYaml();
