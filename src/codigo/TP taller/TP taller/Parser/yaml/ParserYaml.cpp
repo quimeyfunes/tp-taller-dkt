@@ -33,15 +33,21 @@ void ParserYaml::parsear()
 			this->parsear();
 			return;
 		}
+		
 		YAML::Parser parser(archivo);
-		YAML::Node doc;
+		
 
 		parser.GetNextDocument(this->documento);
 		
 		archivo.close();
 	} catch(YAML::ParserException& e) {
+		
 		Logger::getLogger()->escribir(e.what());
+		this->nombreArchivo = this->crearConfigDefault();
+		this->parsear();
+		
 	}
+	
 	Logger::getLogger()->guardarEstado();
 }
 
