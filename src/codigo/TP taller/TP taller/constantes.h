@@ -24,10 +24,10 @@
 	//Objetos
 	const unsigned tipoObjDEF=4;//Por defecto son cuadrados
 	const unsigned xDEF=5;
-	const unsigned yDEF=90;
+	const unsigned yDEF=5;
 	const unsigned anchoObjDEF=2;
 	const unsigned altoObjDEF=2;
-	#define colorDEF "#111111"
+	#define colorDEF "111111"
 	const unsigned rotacionDEF=45;
 	const unsigned masaDEF=3;
 	const bool estaticoDEF=false;
