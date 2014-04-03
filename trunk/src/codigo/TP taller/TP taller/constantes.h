@@ -9,8 +9,11 @@
 	#define texturaTerreno "imagenes/texturas/terrenoActual.png"
 	#define texturaAgua "imagenes/texturas/agua.png"
 	#define spriteOlas "imagenes/texturas/olas.bmp"
+	#define rutaNube1 "imagenes/texturas/nube1.bmp"
+	#define rutaNube2 "imagenes/texturas/nube2.bmp"
 
 	const int timeStepOlas = 25;
+	const int timeStepNubes = 20;
 	const int maxPixelesInvalidosMascara = 10;
 	const int maxColumnasInvalidasMascara = 10;
 

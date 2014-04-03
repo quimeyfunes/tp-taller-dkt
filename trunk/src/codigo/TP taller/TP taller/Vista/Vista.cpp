@@ -1,5 +1,6 @@
 #include "Vista.h"
 #include "Sprite/Sprite.h"
+#include "Sprite/ScrollingSprite.h"
 
 Vista::Vista(EscenarioParseado* e){
 	SDL_Init( SDL_INIT_EVERYTHING );
@@ -9,6 +10,9 @@ Vista::Vista(EscenarioParseado* e){
 	this->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, e->imagenCielo);
 	this->crearDibujableTextura(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx,(e->altoU - e->nivelAgua) * e->altoPx / e->altoU,texturaAgua);
 	this->crearSprite(0, e->nivelAgua * e->altoPx / e->altoU, e->anchoPx, 15, spriteOlas, 2, 6, 256, 144);
+	this->crearScrollingSprite(0, 10, 140, 70, rutaNube1);
+	this->crearScrollingSprite(300, 30, 140, 50, rutaNube2);
+	
 	this->anchoPx = e->anchoPx;
 	this->altoPx = e->altoPx;
 }
@@ -24,6 +28,17 @@ SDL_Renderer* Vista::getRenderer() {
 	return this->renderer;
 }
 
+void Vista::crearScrollingSprite(int x, int y, int ancho, int alto, string path){
+
+	SDL_Rect rec;
+	rec.x = x;
+	rec.y = y;
+	rec.w = ancho;
+	rec.h = alto;
+	ScrollingSprite* sprite = new ScrollingSprite(this->renderer, rec, path);
+	this->agregarDibujable(sprite);	
+}
+
 void Vista::crearSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex){
 
 	SDL_Rect recFrame;
@@ -32,8 +47,7 @@ void Vista::crearSprite(int x, int y, int anchoFrame, int altoFrame, string path
 	recFrame.w = anchoFrame;
 	recFrame.h = altoFrame;
 	Sprite* sprite = new Sprite(this->renderer, recFrame, path, col, fil, anchoTex, altoTex);
-	this->agregarDibujable(sprite);
-	
+	this->agregarDibujable(sprite);	
 }
 
 DibujableTextura* Vista::crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen) {
