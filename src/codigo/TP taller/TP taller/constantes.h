@@ -22,21 +22,21 @@
 	//Escenario
 	const unsigned anchoPxDEF=800;
 	const unsigned altoPxDEF=600;
-	const unsigned anchoUDEF=250;
-	const unsigned altoUDEF=250;
+	const unsigned anchoUDEF=400;
+	const unsigned altoUDEF=300;
 	const unsigned nivelAguaDEF=20;
 
 	//Objetos
 	const unsigned tipoObjDEF=4;//Por defecto son cuadrados
 	const unsigned xDEF=200;
-	const unsigned yDEF=200;
-	const unsigned anchoObjDEF=10;
-	const unsigned altoObjDEF=10;
-	#define colorDEF "000000"
+	const unsigned yDEF=250;
+	const unsigned anchoObjDEF=80;
+	const unsigned altoObjDEF=80;
+	#define colorDEF "222222"
 	const unsigned rotacionDEF=45;
 	const unsigned masaDEF=3;
 	const bool estaticoDEF=false;
-	const bool escalaDef=4;
+	const bool escalaDEF=5;
 
 	//cuando la imagen de terreno es invalida, se genera una con una f(x) aleatoria
 	//estos parametros ajustan el valor minimo y maximo de la funcion
