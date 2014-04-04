@@ -72,7 +72,8 @@ private:
 	ObjetoParseado ParserYaml::getObjetoDefault();
 	string crearConfigDefault();
 	string getTipoStringByTipo(int tipo);
-
+	//devuelve una posicion random dentro del escenario.
+	int getPosRandom(int porcentaje_min, int porcentaje_max, char eje);
 public:
 	ParserYaml(std::string pathArchivo);
 	ParserYaml();
