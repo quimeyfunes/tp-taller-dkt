@@ -356,7 +356,7 @@ EscenarioParseado* ParserYaml::getEscenarioDefault(){
 	esc->anchoPx = altoPxDEF;
 	esc->altoU = altoUDEF;
 	esc->anchoU = altoUDEF;
-	esc->nivelAgua = nivelAguaDEF;
+	esc->nivelAgua = altoUDEF - nivelAguaDEF;
 	esc->imagenTierra = mascaraTerrenoDEF;
 	esc->imagenCielo = texturaCieloDEF;
 	return esc;
@@ -397,7 +397,7 @@ ObjetoParseado ParserYaml::getObjetoDefault(){
 	ObjetoParseado obj;
 	obj.tipo = tipoObjDEF;
 	obj.x = getPosRandom(10,90,'x');
-	obj.y = getPosRandom(5,30,'y');
+	obj.y = this->escenario->altoU - getPosRandom(5,30,'y');
 	obj.ancho = anchoObjDEF;
 	obj.alto = altoObjDEF;
 	obj.escala = escalaDEF;
