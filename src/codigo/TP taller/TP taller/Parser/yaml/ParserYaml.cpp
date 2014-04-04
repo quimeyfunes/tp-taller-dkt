@@ -412,7 +412,7 @@ ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
 	ObjetoParseado obj;
 	obj.tipo = this->getValorTipoObjeto(nodo,"tipo",tipoObjDEF);
 	obj.x = this->getValorEscalar(nodo,"x",this->getPosRandom(10,90,'x'));
-	obj.y = this->escenario->altoU - this->getValorEscalar(nodo,"y",this->getPosRandom(70,95,'y'));
+	obj.y = this->getValorEscalar(nodo,"y",this->getPosRandom(5,30,'y'));
 	obj.ancho = this->getValorEscalar(nodo,"ancho",anchoObjDEF);
 	obj.alto = this->getValorEscalar(nodo,"alto",altoObjDEF);
 	obj.rotacion = this->getValorEscalar(nodo,"rot",rotacionDEF);
@@ -428,8 +428,9 @@ ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
 	if(obj.x < 0 || obj.x > es->anchoU || obj.y < 0 || obj.y > es->altoU){
 		std::stringstream info;
 		info << obj.linea;
-		Logger::getLogger()->escribir("Error en parseo del yaml - El objeto de la linea "+info.str()+" no se encuentra dentro del escenario. Se utiliza una figura default.");
-		return this->getObjetoDefault();
+		Logger::getLogger()->escribir("Error en parseo del yaml - El objeto de la linea "+info.str()+" no se encuentra dentro del escenario. se le seteo una posicion aleatoria dentro del escenario.");
+		obj.x = this->getPosRandom(10,90,'x');
+		obj.y = this->getPosRandom(5,30,'y');
 	}
 	return obj;
 }
