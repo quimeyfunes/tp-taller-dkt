@@ -18,8 +18,6 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->world = new b2World(*gravity);
 }
 
-
-
 int Escenario::getAltoU(){
 	return altoU;
 }
