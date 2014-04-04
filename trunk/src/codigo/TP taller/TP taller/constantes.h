@@ -6,6 +6,7 @@
 	#define propiedadesPNG "config/propiedadesPNG.png"
 	#define mascaraTerrenoDEF "imagenes/mascaras/mascaraDefault.png"
 	#define texturaCieloDEF "imagenes/texturas/cieloDefault.png"
+	#define texturaAguaDEF "imagenes/texturas/aguaDefault.png"
 	#define texturaTerreno "imagenes/texturas/terrenoActual.png"
 	#define texturaFondo "imagenes/fondo.png"
 	#define texturaAgua "imagenes/texturas/agua.png"
@@ -29,13 +30,13 @@
 	const unsigned tipoObjDEF=4;//Por defecto son cuadrados
 	const unsigned xDEF=200;
 	const unsigned yDEF=200;
-	const unsigned anchoObjDEF=2;
-	const unsigned altoObjDEF=2;
-	#define colorDEF "111111"
+	const unsigned anchoObjDEF=10;
+	const unsigned altoObjDEF=10;
+	#define colorDEF "000000"
 	const unsigned rotacionDEF=45;
 	const unsigned masaDEF=3;
 	const bool estaticoDEF=false;
-	const bool escalaDef=2;
+	const bool escalaDef=4;
 
 	//cuando la imagen de terreno es invalida, se genera una con una f(x) aleatoria
 	//estos parametros ajustan el valor minimo y maximo de la funcion

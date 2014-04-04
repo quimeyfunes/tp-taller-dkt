@@ -2,9 +2,13 @@
 
 DibujableTextura::DibujableTextura(){}
 
-DibujableTextura::DibujableTextura(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen) {
+DibujableTextura::DibujableTextura(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF) {
 	this->rect = rect;
 	this->imagen = IMG_LoadTexture(renderer, pathImagen.c_str());
+	if(!imagen){
+		Logger::getLogger()->escribir("No se encontró la textura " + pathImagen + ". Se usará la textura por defecto.");
+		this->imagen = IMG_LoadTexture(renderer, pathDEF.c_str());
+	}
 	this->anguloRotacion = 0;
 };
 

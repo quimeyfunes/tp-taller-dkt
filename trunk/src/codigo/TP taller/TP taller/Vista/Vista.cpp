@@ -44,14 +44,14 @@ void Vista::crearSprite(int x, int y, int anchoFrame, int altoFrame, string path
 	this->agregarDibujable(sprite);	
 }
 
-DibujableTextura* Vista::crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen) {
+DibujableTextura* Vista::crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF) {
 	SDL_Rect rect;
 	rect.x = x;
 	rect.y = y;
 	rect.w = ancho;
 	rect.h = alto;
 	
-	DibujableTextura* dib = new DibujableTextura(this->renderer, rect, pathImagen);
+	DibujableTextura* dib = new DibujableTextura(this->renderer, rect, pathImagen, imagenDEF);
 	this->agregarDibujable(dib);
 	return dib;
 }
