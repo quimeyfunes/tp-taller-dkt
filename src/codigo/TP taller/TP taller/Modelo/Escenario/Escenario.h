@@ -23,11 +23,13 @@ private:
 	int altoU;
     int anchoU;
     int nivelAgua;
+	static float relacionAncho;
+	static float relacionAlto;
 	list<Figura*>* listaFiguras;
 	Terreno* terreno;
 public:
 	Escenario();
-	Escenario(int altoU,int anchoU,int nivelAgua);
+	Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, float relacionAlto);
     int getAltoU();
     int getAnchoU();
     int getNivelAgua();
@@ -44,6 +46,8 @@ public:
 	bool haySuperposicionConTerreno(Figura* figura);
 	Terreno* getTerreno();
 	void setTerreno(Terreno* terreno);
+	static float getRelacionAncho();
+	static float getRelacionAlto();
 
 };
 

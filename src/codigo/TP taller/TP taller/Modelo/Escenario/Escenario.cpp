@@ -1,12 +1,17 @@
-#include "Escenario.h"
+#include "escenario.h"
+
+float Escenario::relacionAncho = 0;
+float Escenario::relacionAlto = 0;
 
 Escenario::Escenario(){
 }
 
-Escenario::Escenario(int altoU,int anchoU,int nivelAgua){
+Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, float relacionAlto){
 	this->altoU = altoU;
 	this->anchoU = anchoU;
 	this->nivelAgua = nivelAgua;
+	this->relacionAncho = relacionAncho;
+	this->relacionAlto = relacionAlto;
 	this->listaFiguras = new list<Figura*>();
 	
 	b2Vec2* gravity = new b2Vec2(gravedadX, gravedadY);
@@ -169,8 +174,8 @@ bool Escenario::haySuperposicionConTerreno(Figura* figura){
 	bool** matrizTerreno = terreno->getLectorTerreno()->getMatrizTerreno();
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 	b2Vec2 posicion = figura->getBody()->GetPosition();
-	float x = (posicion.x * e->anchoPx)/this->anchoU;
-	float y = (posicion.y * e->altoPx)/this->altoU;
+	float x = posicion.x * e->anchoPx / this->anchoU;
+	float y = posicion.y * e->altoPx / this->altoU;
 	//Si x coincide con el ancho de la matriz, le resto uno para que no se vaya de rango
 	if (x == terreno->getLectorTerreno()->getAnchoMatriz()) x--;
 	//Si y coincide con el alto de la matriz, le resto uno para que no se vaya de rango
@@ -188,4 +193,12 @@ Terreno* Escenario::getTerreno(){
 
 void Escenario::setTerreno(Terreno* terreno){
 	this->terreno = terreno;
+}
+
+float Escenario::getRelacionAncho(){
+	return relacionAncho;
+}
+
+float Escenario::getRelacionAlto(){
+	return relacionAlto;
 }
