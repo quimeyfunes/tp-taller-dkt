@@ -4,6 +4,7 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "Dibujable.h"
+#include "../../Modelo/Escenario/Escenario.h"
 #include "../../Observador/Observador.h"
 #include "../../Modelo/Figuras/Figura.h"
 

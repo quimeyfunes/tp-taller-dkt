@@ -16,8 +16,6 @@ private:
 	float ancho;
 	float alto;
 	short int n;
-
-	float escalaX, escalaY;
 public:
 	RectanguloDibujable(float escalaAncho, float escalaAlto);
 	~RectanguloDibujable();

@@ -32,8 +32,8 @@ void Terreno::generarTerreno(string nombreArchivo){
 	
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 	// Recorro la matriz hasta encontrar tierra
-	float relacionAncho = e->anchoPx / e->anchoU;
-	float relacionAlto = e->altoPx / e->altoU;
+	float relacionAncho = e->anchoPx * 1.0 / e->anchoU;
+	float relacionAlto = e->altoPx * 1.0 / e->altoU;
 	for (int i = 0; i < anchoMatriz; i+=relacionAncho){
 		hayTierra = false;
 		int contFil = 0;
