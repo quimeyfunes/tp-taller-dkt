@@ -411,8 +411,8 @@ ObjetoParseado ParserYaml::getObjetoDefault(){
 ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
 	ObjetoParseado obj;
 	obj.tipo = this->getValorTipoObjeto(nodo,"tipo",tipoObjDEF);
-	obj.x = this->getValorEscalar(nodo,"x",xDEF);
-	obj.y = this->escenario->altoU - this->getValorEscalar(nodo,"y",yDEF);
+	obj.x = this->getValorEscalar(nodo,"x",this->getPosRandom(10,90,'x'));
+	obj.y = this->escenario->altoU - this->getValorEscalar(nodo,"y",this->getPosRandom(5,30,'y'));
 	obj.ancho = this->getValorEscalar(nodo,"ancho",anchoObjDEF);
 	obj.alto = this->getValorEscalar(nodo,"alto",altoObjDEF);
 	obj.rotacion = this->getValorEscalar(nodo,"rot",rotacionDEF);
