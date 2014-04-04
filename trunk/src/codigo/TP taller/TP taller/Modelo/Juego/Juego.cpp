@@ -87,6 +87,7 @@ void Juego::esperar(){}
 
 void Juego::agregarTexturas(EscenarioParseado* e){
 
+	vista->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, texturaFondo);
 	vista->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, e->imagenCielo);
 	vista->crearScrollingSprite(0, 10, 140, 70, rutaNube1);
 	vista->crearScrollingSprite(300, 50, 140, 50, rutaNube2);

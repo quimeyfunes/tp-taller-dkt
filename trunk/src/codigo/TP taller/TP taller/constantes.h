@@ -7,6 +7,7 @@
 	#define mascaraTerrenoDEF "imagenes/mascaras/mascaraDefault.png"
 	#define texturaCieloDEF "imagenes/texturas/cieloDefault.png"
 	#define texturaTerreno "imagenes/texturas/terrenoActual.png"
+	#define texturaFondo "imagenes/fondo.png"
 	#define texturaAgua "imagenes/texturas/agua.png"
 	#define spriteOlas "imagenes/texturas/olas.png"
 	#define rutaNube1 "imagenes/texturas/nube1.png"
