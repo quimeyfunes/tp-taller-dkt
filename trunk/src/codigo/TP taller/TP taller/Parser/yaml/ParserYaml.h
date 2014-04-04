@@ -10,6 +10,8 @@
 #include <algorithm>
 #include "../../constantes.h"
 #include "../../Logger/Logger.h"
+#include <time.h>
+#include<windows.h>
 
 using namespace std;
 

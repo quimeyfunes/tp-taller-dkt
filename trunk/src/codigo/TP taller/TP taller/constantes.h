@@ -38,7 +38,7 @@
 	const unsigned yDEF=250;
 	const unsigned anchoObjDEF=80;
 	const unsigned altoObjDEF=80;
-	#define colorDEF "222222"
+	#define colorDEF "FF0000"
 	const unsigned rotacionDEF=45;
 	const unsigned masaDEF=3;
 	const bool estaticoDEF=false;
