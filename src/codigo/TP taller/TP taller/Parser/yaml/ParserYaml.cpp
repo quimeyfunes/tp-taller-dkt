@@ -397,7 +397,7 @@ ObjetoParseado ParserYaml::getObjetoDefault(){
 	ObjetoParseado obj;
 	obj.tipo = tipoObjDEF;
 	obj.x = getPosRandom(10,90,'x');
-	obj.y = this->escenario->altoU - getPosRandom(5,30,'y');
+	obj.y = this->escenario->altoU - getPosRandom(70,95,'y');
 	obj.ancho = anchoObjDEF;
 	obj.alto = altoObjDEF;
 	obj.escala = escalaDEF;
