@@ -59,7 +59,7 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 		esc->anchoPx = this->getValorEscalar(*nodoEscenario,"anchopx",altoPxDEF);
 		esc->altoU = this->getValorEscalar(*nodoEscenario,"altoun",altoUDEF);
 		esc->anchoU = this->getValorEscalar(*nodoEscenario,"anchoun",altoUDEF);
-		esc->nivelAgua = this->getValorEscalar(*nodoEscenario,"nivel_agua",nivelAguaDEF);
+		esc->nivelAgua = esc->altoU - this->getValorEscalar(*nodoEscenario,"nivel_agua",nivelAguaDEF);
 		esc->imagenTierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",mascaraTerrenoDEF);
 		esc->imagenCielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",texturaCieloDEF);
 		//this->validarSecuencia(*nodoEscenario,"objetos");
@@ -389,7 +389,7 @@ ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
 	ObjetoParseado obj;
 	obj.tipo = this->getValorTipoObjeto(nodo,"tipo",tipoObjDEF);
 	obj.x = this->getValorEscalar(nodo,"x",xDEF);
-	obj.y = this->getValorEscalar(nodo,"y",yDEF);
+	obj.y = this->escenario->altoU - this->getValorEscalar(nodo,"y",yDEF);
 	obj.ancho = this->getValorEscalar(nodo,"ancho",anchoObjDEF);
 	obj.alto = this->getValorEscalar(nodo,"alto",altoObjDEF);
 	obj.rotacion = this->getValorEscalar(nodo,"rot",rotacionDEF);
