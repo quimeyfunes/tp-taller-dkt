@@ -63,6 +63,15 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 		esc->imagenTierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",mascaraTerrenoDEF);
 		esc->imagenCielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",texturaCieloDEF);
 		//this->validarSecuencia(*nodoEscenario,"objetos");
+		if(esc->altoU > esc->altoPx){
+			Logger::getLogger()->escribir("Error en parseo del yaml - el alto en unidades no puede ser mayor al alto en pixeles, se setearán con el mismo valor.");
+			esc->altoU = esc->altoPx;
+		}
+		if(esc->anchoU > esc->anchoPx){
+			Logger::getLogger()->escribir("Error en parseo del yaml - el ancho en unidades no puede ser mayor al ancho en pixeles, se setearán con el mismo valor.");
+			esc->anchoU = esc->anchoPx;
+		}
+
 		return esc;
 	} else {
 		Logger::getLogger()->escribir("Error en parseo del yaml - No se encuentra el nodo del escenario. Se utiliza un escenario default.");
