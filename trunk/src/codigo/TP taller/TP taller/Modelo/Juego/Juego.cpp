@@ -103,8 +103,8 @@ void Juego::agregarObjetos(){
 	vector<ObjetoParseado>* objetos = ParserYaml::getParser()->getObjetos();	
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 
-	float escalaAncho = e->anchoPx / e->anchoU;
-	float escalaAlto = e->altoPx / e->altoU;
+	float escalaAncho = this->escenario->getRelacionAncho();
+	float escalaAlto = this->escenario->getRelacionAlto();
 	for (std::vector<ObjetoParseado>::iterator it = objetos->begin(); it != objetos->end(); ++it) {
 		switch ((*it).tipo) {
 		case 1: 
