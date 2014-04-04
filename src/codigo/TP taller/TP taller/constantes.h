@@ -8,9 +8,9 @@
 	#define texturaCieloDEF "imagenes/texturas/cieloDefault.png"
 	#define texturaTerreno "imagenes/texturas/terrenoActual.png"
 	#define texturaAgua "imagenes/texturas/agua.png"
-	#define spriteOlas "imagenes/texturas/olas.bmp"
-	#define rutaNube1 "imagenes/texturas/nube1.bmp"
-	#define rutaNube2 "imagenes/texturas/nube2.bmp"
+	#define spriteOlas "imagenes/texturas/olas.png"
+	#define rutaNube1 "imagenes/texturas/nube1.png"
+	#define rutaNube2 "imagenes/texturas/nube2.png"
 
 	const int timeStepOlas = 25;
 	const int timeStepNubes = 20;

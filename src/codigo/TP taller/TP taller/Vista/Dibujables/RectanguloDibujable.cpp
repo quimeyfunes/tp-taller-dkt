@@ -30,7 +30,7 @@ void RectanguloDibujable::actualizar(Observable* observable) {
 	float hipotenusa = shape->GetVertex(0).Length();//sqrt(this->ancho/2 * this->ancho/2 + this->alto/2 * this->alto/2);
 	for (int i = 0; i < this->n; i++) {
 		b2Vec2 vertice = shape->GetVertex(i);
-		float anguloNuevo = atan2(vertice.y*1.0,vertice.x*1.0) + fig->getAngulo();
+		float anguloNuevo = atan2f(vertice.y,vertice.x) + fig->getAngulo();
 		this->posicionesX[i] = hipotenusa * escalaX * cos(anguloNuevo) + posicion.x;
 		this->posicionesY[i] = hipotenusa * escalaY * sin(anguloNuevo) + posicion.y;
 	}

@@ -8,7 +8,6 @@ int main(int argc, char* argv[]){
 		delete juego;
 
 	}catch(exception &e){
-	
 	}
 	return 0;    
 }

@@ -39,7 +39,8 @@ private:
 	void jugar();
 	void alternarPausa();
 	void esperar();
-	void agregarObjetos(vector<ObjetoParseado>* objetos);
+	void agregarObjetos();
+	void agregarTexturas(EscenarioParseado* e);
 	void leerEvento();
 	
 public:
