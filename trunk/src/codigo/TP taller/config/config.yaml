@@ -1,5 +1,5 @@
 escenario:
-    altopx: 600
+    altopx: *
     anchopx: 800
     altoun: 250
     anchoun: 250

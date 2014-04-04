@@ -18,16 +18,16 @@
 	const int maxColumnasInvalidasMascara = 10;
 
 	//Escenario
-	const unsigned anchoPxDEF=1366;
-	const unsigned altoPxDEF=768;
-	const unsigned anchoUDEF=3000;
-	const unsigned altoUDEF=1000;
+	const unsigned anchoPxDEF=800;
+	const unsigned altoPxDEF=600;
+	const unsigned anchoUDEF=250;
+	const unsigned altoUDEF=250;
 	const unsigned nivelAguaDEF=20;
 
 	//Objetos
 	const unsigned tipoObjDEF=4;//Por defecto son cuadrados
-	const unsigned xDEF=5;
-	const unsigned yDEF=5;
+	const unsigned xDEF=200;
+	const unsigned yDEF=200;
 	const unsigned anchoObjDEF=2;
 	const unsigned altoObjDEF=2;
 	#define colorDEF "111111"
