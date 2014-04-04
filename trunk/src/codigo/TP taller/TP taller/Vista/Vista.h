@@ -12,11 +12,15 @@ using namespace std;
 
 class Vista
 {
+
+private:
+
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	list<Dibujable*>* listaDibujables;
 	int anchoPx;
 	int altoPx;
+
 public:
 
 	Vista(EscenarioParseado* e);

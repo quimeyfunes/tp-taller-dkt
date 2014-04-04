@@ -14,16 +14,13 @@ Juego::Juego(){
 	this->terreno->generarTerreno(e->imagenTierra);
 	this->escenario->setTerreno(this->terreno);
 	this->mundo = escenario->getWorld();
+
+	agregarTexturas(e);
+	agregarObjetos();
+
 }
 
 void Juego::ejecutar(){
-
-	//estas cosas acá dañan mi salud mental y emocional. Firma: Marian.
-	vector<ObjetoParseado>* objetos = ParserYaml::getParser()->getObjetos();	
-	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(),terreno->getLector()->getAltoMatriz(),terreno->getLector()->getRutaTexturaActualizada());
-	dibTierra->setColor(ParserDeHexARgb::parsearDeHexARgb("804000"));
-	agregarObjetos(objetos);
-	////////////////
 
 	//game loop
 	while(this->estadoActual != SALIR && (evento->type != SDL_QUIT)){
@@ -88,12 +85,23 @@ void Juego::alternarPausa(){
 
 void Juego::esperar(){}
 
-//ni puta idea lo que hace esto -> lo dejé asi como estaba
-void Juego::agregarObjetos(vector<ObjetoParseado>* objetos){
+void Juego::agregarTexturas(EscenarioParseado* e){
 
+	vista->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, e->imagenCielo);
+	vista->crearScrollingSprite(0, 10, 140, 70, rutaNube1);
+	vista->crearScrollingSprite(300, 50, 140, 50, rutaNube2);
+
+	vista->crearDibujableTextura(0, e->nivelAgua * (e->altoPx / e->altoU), e->anchoPx, e->altoPx - e->nivelAgua, texturaAgua);
+	vista->crearSprite(0, e->nivelAgua* (e->altoPx / e->altoU) - 15, e->anchoPx, 15, spriteOlas, 2, 6, 256, 144);
+	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(),terreno->getLector()->getAltoMatriz(),terreno->getLector()->getRutaTexturaActualizada());
+	dibTierra->setColor(ParserDeHexARgb::parsearDeHexARgb("804000"));
+}
+
+void Juego::agregarObjetos(){
+	
+	vector<ObjetoParseado>* objetos = ParserYaml::getParser()->getObjetos();	
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 
-	//Parsea objetos del yaml y hace figuras/dibujables(dibujables todavia no)
 	float escalaAncho = e->anchoPx / e->anchoU;
 	float escalaAlto = e->altoPx / e->altoU;
 	for (std::vector<ObjetoParseado>::iterator it = objetos->begin(); it != objetos->end(); ++it) {
