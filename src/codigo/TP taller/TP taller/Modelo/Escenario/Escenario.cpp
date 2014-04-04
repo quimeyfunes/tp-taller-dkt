@@ -171,8 +171,12 @@ bool Escenario::haySuperposicionConTerreno(Figura* figura){
 	b2Vec2 posicion = figura->getBody()->GetPosition();
 	float x = (posicion.x * e->anchoPx)/this->anchoU;
 	float y = (posicion.y * e->altoPx)/this->altoU;
+	//Si x coincide con el ancho de la matriz, le resto uno para que no se vaya de rango
+	if (x == terreno->getLectorTerreno()->getAnchoMatriz()) x--;
+	//Si y coincide con el alto de la matriz, le resto uno para que no se vaya de rango
+	if (y == terreno->getLectorTerreno()->getAltoMatriz()) y--;
 	if(matrizTerreno[(int) floor(x)][(int) floor(y)]){
-		//Como hay un 1 quiere decir que el centro esta dentro del terreno
+		//Como hay un 1 quiere decir que el centro esta dentro del terreno	
 		return true;
 	}
 	return false;

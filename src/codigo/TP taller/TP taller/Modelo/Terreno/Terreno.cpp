@@ -27,6 +27,7 @@ void Terreno::generarTerreno(string nombreArchivo){
 	int k = 0;
 	int contCol = 0;
 
+
 	b2Vec2* vecBorde = new b2Vec2[anchoMatriz*2];
 	
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
