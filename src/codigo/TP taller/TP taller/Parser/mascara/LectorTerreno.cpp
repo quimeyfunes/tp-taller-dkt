@@ -6,8 +6,6 @@ LectorTerreno::LectorTerreno(string nombreArchivo){
 
 	logError = Logger::getLogger();
 	imagen = IMG_Load(nombreArchivo.c_str());
-	SDL_RWops *rwop = SDL_RWFromFile(nombreArchivo.c_str(), "rb"); //para chequear si es PNG
-	
 	//asigno valores de alto y ancho
 	this->anchoMatriz = (!imagen)? anchoPxDEF : imagen->w;
 	this->altoMatriz =  (!imagen)? altoPxDEF  : imagen->h;
@@ -18,10 +16,9 @@ LectorTerreno::LectorTerreno(string nombreArchivo){
 		this->matrizTerreno[i] = new bool[altoMatriz];
 	}
 	
-	if((!imagen)||(!IMG_isPNG(rwop))){ //si no existe el archivo o no es PNG
+	if(!imagen){ //si no existe el archivo o no es PNG
 		
 		if(!imagen) logError->escribir("Error en el lector de mascara - No se encontró el archivo de mascara '" + nombreArchivo + "'.");
-		if(imagen && !IMG_isPNG(rwop)) logError->escribir("Error en el lector de mascara - El archivo de mascara no es de formato PNG o está dañado.");
 		logError->escribir("Se generará una imagen de terreno aleatoria.");
 		generarTerrenoAleatorio(nombreArchivo);
 		//al generar una nueva imagen , ya voy a tener la matriz de terreno cargada en memoria, asi que terminé (por eso el else)

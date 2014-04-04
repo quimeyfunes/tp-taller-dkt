@@ -26,6 +26,12 @@
 	const unsigned altoUDEF=300;
 	const unsigned nivelAguaDEF=20;
 
+	const unsigned altoUMIN=100;
+	const unsigned anchoUMIN=100;
+	const unsigned altoPXMIN=200;
+	const unsigned anchoPXMIN=200;
+
+
 	//Objetos
 	const unsigned tipoObjDEF=4;//Por defecto son cuadrados
 	const unsigned xDEF=200;

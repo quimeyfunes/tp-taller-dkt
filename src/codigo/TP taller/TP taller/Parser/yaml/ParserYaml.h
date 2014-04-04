@@ -49,6 +49,7 @@ private:
 	bool ParserYaml::esEntero(const std::string& s);
 	bool ParserYaml::esFloat(const std::string& s);
 	string getNodoInfo(const YAML::Node & nodo);
+	int validarMayorA(int valor, int limite);
 	int getValorEscalar(const YAML::Node & nodo, string clave, const int valorPorDefecto);
 	float getValorFloat(const YAML::Node & nodo, string clave, const float valorPorDefecto);
 	string getValorCadena(const YAML::Node & nodo, string clave, string valorPorDefecto);
