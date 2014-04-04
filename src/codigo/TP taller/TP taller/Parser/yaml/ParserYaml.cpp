@@ -396,8 +396,8 @@ vector<ObjetoParseado>* ParserYaml::getObjetosDefault(){
 ObjetoParseado ParserYaml::getObjetoDefault(){
 	ObjetoParseado obj;
 	obj.tipo = tipoObjDEF;
-	obj.x = xDEF;
-	obj.y = yDEF;
+	obj.x = getPosRandom(10,90,'x');
+	obj.y = getPosRandom(5,30,'y');
 	obj.ancho = anchoObjDEF;
 	obj.alto = altoObjDEF;
 	obj.escala = escalaDEF;
@@ -523,4 +523,32 @@ string ParserYaml::getTipoStringByTipo(int tipo){
 		return hexagonoString;
 	}
 	return rectanguloString;
+}
+
+
+//los porcenjates son para calcular el rango dentro del escenario.
+int ParserYaml::getPosRandom(int porcentaje_min, int porcentaje_max, char eje){
+	int posMin, posMax, resultado;
+	float min = (porcentaje_min+ 0.00) / 100;
+	float max = (porcentaje_max+ 0.00) / 100;
+	srand(time(NULL));
+	Sleep(150+rand()%250);
+	EscenarioParseado* es = this->getEscenario();
+
+	if(eje == 'x'){
+		posMin = (es->anchoU)*min;
+		posMax = (es->anchoU)*max;
+		resultado = posMin+rand()%(posMax+1-posMin);
+		return resultado;
+	}
+	else if(eje == 'y'){
+		posMin = (es->altoU)*min;
+		posMax = (es->altoU)*max;
+		resultado = posMin+rand()%(posMax+1-posMin);
+		return resultado;
+	}
+	else{
+		Logger::getLogger()->escribir("Error en la funcion ParserYaml::getPosRandom, el eje debe ser 'x' o 'y'...");
+		return 50;
+	}
 }
