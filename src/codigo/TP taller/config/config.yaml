@@ -1,17 +1,17 @@
 escenario:
-    altopx: *
+    altopx: 800
     anchopx: 800
-    altoun: 250
+    altoun: 100
     anchoun: 250
-    nivel_agua: 20
+    nivel_agua: 50
     imagen_tierra: mascara (1).png
-    imagen_cielo: imagenes/texturas/cielo.png
+    imagen_cielo: imagenes/texturas/nube1.png
     objetos:
-        - tipo: tri
-          x: 250
-          y: 250
-          escala: 5
+        - tipo: circ
+          x: 100
+          y: 100
+          escala: 10
           color: FF0000
-          rot: 45
+          rot: 0
           masa: 3
           estatico: no
