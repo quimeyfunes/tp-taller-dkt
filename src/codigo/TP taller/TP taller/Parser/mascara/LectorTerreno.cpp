@@ -20,8 +20,8 @@ LectorTerreno::LectorTerreno(string nombreArchivo){
 	
 	if((!imagen)||(!IMG_isPNG(rwop))){ //si no existe el archivo o no es PNG
 		
-		if(!imagen) logError->escribir("Error 001: no se encontró el archivo de terreno '" + string(nombreArchivo) + "'.");
-		if(imagen && !IMG_isPNG(rwop)) logError->escribir("Error 002: El archivo de terreno no es de formato PNG o está dañado.");
+		if(!imagen) logError->escribir("Error en el lector de mascara - No se encontró el archivo de mascara '" + nombreArchivo + "'.");
+		if(imagen && !IMG_isPNG(rwop)) logError->escribir("Error en el lector de mascara - El archivo de mascara no es de formato PNG o está dañado.");
 		logError->escribir("Se generará una imagen de terreno aleatoria.");
 		generarTerrenoAleatorio(nombreArchivo);
 		//al generar una nueva imagen , ya voy a tener la matriz de terreno cargada en memoria, asi que terminé (por eso el else)
@@ -194,7 +194,7 @@ char* LectorTerreno::getRutaTexturaActualizada(){
 void LectorTerreno::loguearErroresMatriz(vector<punto> pixeles, vector<int> columnas){
 
 	if(pixeles.size() > 0){
-		logError->escribir("Error 003: Mascara de terreno, se encontraron " + to_string((long long)pixeles.size()) + " pixeles de color invalido.");
+		logError->escribir("Error en el lector de mascara - Se encontraron " + to_string((long long)pixeles.size()) + " pixeles de color invalido.");
 		if(pixeles.size() <= maxPixelesInvalidosMascara){
 			//loguear posicion de cada pixel invalido
 			for(int i=0; i< pixeles.size(); i++)
@@ -203,7 +203,7 @@ void LectorTerreno::loguearErroresMatriz(vector<punto> pixeles, vector<int> colu
 	}
 
 	if(columnas.size() > 0){
-		logError->escribir("Error 004: Mascara de terreno, se encontraron " + to_string((long long)columnas.size()) + " columnas invalidas.");
+		logError->escribir("Error en el lector de mascara - Se encontraron " + to_string((long long)columnas.size()) + " columnas invalidas.");
 		if(columnas.size() <= maxColumnasInvalidasMascara){
 			//loguear posicion de cada columna invalida
 			for(int i=0; i< columnas.size(); i++)
