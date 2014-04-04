@@ -16,7 +16,7 @@ class DibujableTextura: public Dibujable
 	float anguloRotacion;
 public:
 	DibujableTextura();
-	DibujableTextura(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen);
+	DibujableTextura(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF);
 	~DibujableTextura();
 	SDL_Rect getRect();
 	void setRect(SDL_Rect rect);

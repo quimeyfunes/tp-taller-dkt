@@ -26,7 +26,7 @@ public:
 	Vista(EscenarioParseado* e);
 	~Vista();
 	SDL_Renderer* getRenderer();
-	DibujableTextura* crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen);
+	DibujableTextura* crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF);
 	void crearSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex);
 	void crearScrollingSprite(int x, int y, int ancho, int alto, string path);
 	CirculoDibujable* crearCirculoDibujable(int x , int y ,int radioHorizontal,int radioVertical);

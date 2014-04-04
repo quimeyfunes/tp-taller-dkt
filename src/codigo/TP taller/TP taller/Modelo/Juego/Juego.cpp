@@ -87,14 +87,14 @@ void Juego::esperar(){}
 
 void Juego::agregarTexturas(EscenarioParseado* e){
 
-	vista->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, texturaFondo);
-	vista->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, e->imagenCielo);
+	vista->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, texturaFondo, "");
+	vista->crearDibujableTextura(0, 0,e->anchoPx, e->altoPx, e->imagenCielo, texturaCieloDEF);
 	vista->crearScrollingSprite(0, 10, 140, 70, rutaNube1);
 	vista->crearScrollingSprite(300, 50, 140, 50, rutaNube2);
 
-	vista->crearDibujableTextura(0, e->nivelAgua * (e->altoPx / e->altoU), e->anchoPx, e->altoPx - e->nivelAgua, texturaAgua);
+	vista->crearDibujableTextura(0, e->nivelAgua * (e->altoPx / e->altoU), e->anchoPx, e->altoPx - e->nivelAgua, texturaAgua, texturaAguaDEF);
 	vista->crearSprite(0, e->nivelAgua* (e->altoPx / e->altoU) - 15, e->anchoPx, 15, spriteOlas, 2, 6, 256, 144);
-	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(),terreno->getLector()->getAltoMatriz(),terreno->getLector()->getRutaTexturaActualizada());
+	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(),terreno->getLector()->getAltoMatriz(),terreno->getLector()->getRutaTexturaActualizada(), "");
 	dibTierra->setColor(ParserDeHexARgb::parsearDeHexARgb("804000"));
 }
 
