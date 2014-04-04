@@ -15,3 +15,27 @@ escenario:
           rot: 0
           masa: 3
           estatico: no
+        - tipo: cuad
+          x: 320
+          y: 220
+          escala: 5
+          color: FF8888
+          rot: 45
+          masa: 3
+          estatico: no
+        - tipo: cuad
+          x: 320
+          y: 220
+          escala: 5
+          color: FF8888
+          rot: 45
+          masa: 3
+          estatico: no
+        - tipo: cuad
+          x: 320
+          y: 220
+          escala: 5
+          color: FF8888
+          rot: 45
+          masa: 3
+          estatico: no
