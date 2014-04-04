@@ -1,16 +1,16 @@
 escenario:
-    altopx: 800
-    anchopx: 800
-    altoun: 100
-    anchoun: 250
+    altopx: 600
+    anchopx: 600
+    altoun: 300
+    anchoun: 300
     nivel_agua: 50
-    imagen_tierra: mascara (1).png
-    imagen_cielo: imagenes/texturas/nube1.png
+    imagen_tierra: imagenes/mascaras/mascara.png
+    imagen_cielo: imagenes/texturas/cielo.png
     objetos:
         - tipo: circ
           x: 100
-          y: 100
-          escala: 10
+          y: 300
+          escala: 4
           color: FF0000
           rot: 0
           masa: 3
