@@ -54,7 +54,17 @@ void ParserYaml::parsear()
 int ParserYaml::validarMayorA(int valor, int limite, string nombre){
 	
 	if(valor<limite){
-		Logger::getLogger()->escribir("Error en parseo del yaml - '"+nombre+"' no puede ser menor que "+to_string((long long)limite)+" , se establecera valor minimo.");
+		Logger::getLogger()->escribir("Error en parseo del yaml - '"+nombre+"' no puede ser menor que "+to_string((long long)limite)+", se establecerá el valor minimo.");
+		return limite;
+	}
+
+	return valor;
+}
+
+int ParserYaml::validarMenorA(int valor, int limite, string nombre){
+
+	if(valor>limite){
+		Logger::getLogger()->escribir("Error en parseo del yaml - '"+nombre+"' no puede ser mayor que "+to_string((long long)limite)+" , se establecerá el valor maximo.");
 		return limite;
 	}
 
@@ -71,20 +81,14 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 		esc->anchoPx = validarMayorA(esc->anchoPx, anchoPXMIN, "anchopx");
 		esc->altoU = this->getValorEscalar(*nodoEscenario,"altoun",altoUDEF);
 		esc->altoU = validarMayorA(esc->altoU, altoUMIN, "altoun");
+		esc->altoU = validarMenorA(esc->altoU, esc->altoPx, "altoun");
 		esc->anchoU = this->getValorEscalar(*nodoEscenario,"anchoun",altoUDEF);
 		esc->anchoU = validarMayorA(esc->anchoU, anchoUMIN, "anchoun");
+		esc->anchoU = validarMenorA(esc->anchoU, esc->anchoPx, "anchoun");
 		esc->nivelAgua = esc->altoU - this->getValorEscalar(*nodoEscenario,"nivel_agua",nivelAguaDEF);
 		esc->imagenTierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",mascaraTerrenoDEF);
 		esc->imagenCielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",texturaCieloDEF);
 		//this->validarSecuencia(*nodoEscenario,"objetos");
-		if(esc->altoU > esc->altoPx){
-			Logger::getLogger()->escribir("Error en parseo del yaml - el alto en unidades no puede ser mayor al alto en pixeles, se setearán con el mismo valor.");
-			esc->altoU = esc->altoPx;
-		}
-		if(esc->anchoU > esc->anchoPx){
-			Logger::getLogger()->escribir("Error en parseo del yaml - el ancho en unidades no puede ser mayor al ancho en pixeles, se setearán con el mismo valor.");
-			esc->anchoU = esc->anchoPx;
-		}
 
 		return esc;
 	} else {
