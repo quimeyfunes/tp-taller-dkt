@@ -51,10 +51,10 @@ void ParserYaml::parsear()
 	Logger::getLogger()->guardarEstado();
 }
 
-int ParserYaml::validarMayorA(int valor, int limite){
+int ParserYaml::validarMayorA(int valor, int limite, string nombre){
 	
 	if(valor<limite){
-		Logger::getLogger()->escribir("Error en parseo del yaml - No se cumple una resolucion minima, se establecera resolucion por defecto.");
+		Logger::getLogger()->escribir("Error en parseo del yaml - '"+nombre+"' no puede ser menor que "+to_string((long long)limite)+" , se establecera valor minimo.");
 		return limite;
 	}
 
@@ -66,13 +66,13 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 	EscenarioParseado* esc = new EscenarioParseado();
 	if(nodoEscenario) {
 		esc->altoPx = this->getValorEscalar(*nodoEscenario,"altopx",altoPxDEF);
-		esc->altoPx = validarMayorA(esc->altoPx, altoPXMIN);
+		esc->altoPx = validarMayorA(esc->altoPx, altoPXMIN, "altopx");
 		esc->anchoPx = this->getValorEscalar(*nodoEscenario,"anchopx",altoPxDEF);
-		esc->anchoPx = validarMayorA(esc->anchoPx, anchoPXMIN);
+		esc->anchoPx = validarMayorA(esc->anchoPx, anchoPXMIN, "anchopx");
 		esc->altoU = this->getValorEscalar(*nodoEscenario,"altoun",altoUDEF);
-		esc->altoU = validarMayorA(esc->altoU, altoUMIN);
+		esc->altoU = validarMayorA(esc->altoU, altoUMIN, "altoun");
 		esc->anchoU = this->getValorEscalar(*nodoEscenario,"anchoun",altoUDEF);
-		esc->anchoU = validarMayorA(esc->anchoU, anchoUMIN);
+		esc->anchoU = validarMayorA(esc->anchoU, anchoUMIN, "anchoun");
 		esc->nivelAgua = esc->altoU - this->getValorEscalar(*nodoEscenario,"nivel_agua",nivelAguaDEF);
 		esc->imagenTierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",mascaraTerrenoDEF);
 		esc->imagenCielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",texturaCieloDEF);
