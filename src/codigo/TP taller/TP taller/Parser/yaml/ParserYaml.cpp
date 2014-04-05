@@ -397,7 +397,7 @@ ObjetoParseado ParserYaml::getObjetoDefault(){
 	ObjetoParseado obj;
 	obj.tipo = tipoObjDEF;
 	obj.x = getPosRandom(10,90,'x');
-	obj.y = getPosRandom(70,95,'y');
+	obj.y = getPosRandom(5,30,'y');
 	obj.ancho = anchoObjDEF;
 	obj.alto = altoObjDEF;
 	obj.escala = escalaDEF;
@@ -466,7 +466,7 @@ string ParserYaml::crearConfigDefault(){
 				out << YAML::Key << "x";
 				out << YAML::Value << obj.x;
 				out << YAML::Key << "y";
-				out << YAML::Value << obj.y;
+				out << YAML::Value << (es->altoU - obj.y);
 				out << YAML::Key << "alto";
 				out << YAML::Value << obj.alto;
 				out << YAML::Key << "ancho";
