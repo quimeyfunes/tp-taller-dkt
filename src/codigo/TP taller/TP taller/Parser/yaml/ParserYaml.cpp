@@ -464,9 +464,9 @@ string ParserYaml::crearConfigDefault(){
 		out << YAML::Value << es->altoPx;
 		out << YAML::Key << "anchopx";
 		out << YAML::Value << es->anchoPx;
-		out << YAML::Key << "altou";
+		out << YAML::Key << "altoun";
 		out << YAML::Value << es->altoU;
-		out << YAML::Key << "anchou";
+		out << YAML::Key << "anchoun";
 		out << YAML::Value << es->anchoU;
 		out << YAML::Key << "nivel_agua";
 		out << YAML::Value << es->nivelAgua;

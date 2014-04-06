@@ -1,8 +1,7 @@
 #ifndef CONSTANTES_H_
 #define CONSTANTES_H_
 
-	#define archivoLog "logErrors.txt"
-	#define configPath "config/config.yaml"
+	#define archivoLog "logErrores.txt"
 	#define propiedadesPNG "config/propiedadesPNG.png"
 	#define mascaraTerrenoDEF "imagenes/mascaras/mascaraDefault.png"
 	#define texturaCieloDEF "imagenes/texturas/cieloDefault.png"
