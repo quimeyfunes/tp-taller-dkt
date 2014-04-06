@@ -2,6 +2,7 @@
 
 int main(int argc, char* argv[]){	
 
+	ParserYaml::setConfigPath(argv[1]);
 	try{
 		Juego* juego = new Juego();
 		juego->ejecutar();
