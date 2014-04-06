@@ -158,9 +158,12 @@ bool Escenario::haySuperposicion(Figura* figura){
 bool Escenario::haySuperposicionConTerreno(Figura* figura){
 	//Primero chequeo si la figura se superpone con la cadena
 	Terreno* terreno = this->getTerreno();
-	bool chocan = b2TestOverlap(figura->getBody()->GetFixtureList()->GetShape(),0,terreno->getBody()->GetFixtureList()->GetShape(),0,figura->getBody()->GetTransform(),terreno->getBody()->GetTransform());
-	if(chocan){
-		return true;
+	b2ChainShape* shapeTerreno = (b2ChainShape*) terreno->getBody()->GetFixtureList()->GetShape();
+	for (int i = 0; i < shapeTerreno->GetChildCount();i++) {
+		bool chocan = b2TestOverlap(figura->getBody()->GetFixtureList()->GetShape(),0,shapeTerreno,i,figura->getBody()->GetTransform(),terreno->getBody()->GetTransform());
+		if(chocan){
+			return true;
+		}
 	}
 	//Si no choca con los bordes del terreno tengo que chequear con la matriz
 	bool** matrizTerreno = terreno->getLectorTerreno()->getMatrizTerreno();
