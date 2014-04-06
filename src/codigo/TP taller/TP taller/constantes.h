@@ -24,7 +24,7 @@
 	const unsigned altoPxDEF=600;
 	const unsigned anchoUDEF=400;
 	const unsigned altoUDEF=300;
-	const unsigned nivelAguaDEF=20;
+	const unsigned nivelAguaDEF=280;
 
 	const unsigned altoUMIN=100;
 	const unsigned anchoUMIN=100;

@@ -373,8 +373,10 @@ vector<ObjetoParseado>* ParserYaml::parsearObjetos(){
 		if(this->validarSecuencia(*nodoEscenario,"objetos")){
 			//Si es una secuencia, obtengo los objetos
 			return this->getValorSecuencia(*nodoEscenario,"objetos");
-		}
-		//Si no hay nodo objetis tengo que devolver un vector de objetos default
+		}else{
+			//Si no hay nodo objetis tengo que devolver un vector de objetos default
+			return this->getObjetosDefault();
+		}		
 	}else{
 		//Si no hay nodo escenario tengo que devolver un vector de objetos default
 		Logger::getLogger()->escribir("Error en parseo del yaml - No se encuentra el nodo del escenario. Se utilizan figuras default.");
@@ -446,7 +448,9 @@ ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
 string ParserYaml::crearConfigDefault(){
 	YAML::Emitter out;
 	EscenarioParseado* es = this->getEscenarioDefault();
+	escenario = es;
 	vector<ObjetoParseado>* objetos = this->getObjetosDefault();
+	escenario = NULL;
 	out << YAML::BeginMap;
 	out << YAML::Key << "escenario";
 	out << YAML::Value << YAML::BeginMap;
