@@ -155,18 +155,18 @@ string ParserYaml::getValorColor(const YAML::Node & nodo, string clave, string v
 	string valor;
 	if(this->validarCadena(nodo,clave,valor)){
 		//Primero tengo que validar que el color sea un string. Si lo es, valido que sean caracteres 0-1 y A-F
-		if( !(valor.length() > 6)){
+		if(valor.length() == 6){
 			for(int i=1; i<valor.length();i++){
 				if(!isxdigit(valor[i])){
 					//Si alguno de los caracteres no pertenece a los hexa devuelvo el valor por defecto
-					std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": se esperaba un valor Hexa(valores 0-9 y a-f). Se toma valor por defecto.";
+					std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": se esperaba un valor Hexa(valores 0-9 y a-f) de 6 caracteres. Se toma valor por defecto.";
 					Logger::getLogger()->escribir(message);
 					return valorPorDefecto;
 				}
 			}
 		}
 		else{
-			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": se esperaba un valor Hexa, el largo no puede ser mayor a 7. Se toma valor por defecto.";
+			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": se esperaba un valor Hexa, el largo no puede ser mayor ni menor a 6. Se toma valor por defecto.";
 			Logger::getLogger()->escribir(message);
 			return valorPorDefecto;
 		}
