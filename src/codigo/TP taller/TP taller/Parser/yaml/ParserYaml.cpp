@@ -38,8 +38,13 @@ void ParserYaml::parsear()
 		
 
 		parser.GetNextDocument(this->documento);
-		
 		archivo.close();
+		if(this->documento.size() == 0){
+			Logger::getLogger()->escribir("Error en parseo del yaml - el config se encuentra vacio. Se crea un config default");
+			this->nombreArchivo = this->crearConfigDefault();
+			this->parsear();
+		}
+
 	} catch(YAML::ParserException& e) {
 		
 		Logger::getLogger()->escribir(e.what());

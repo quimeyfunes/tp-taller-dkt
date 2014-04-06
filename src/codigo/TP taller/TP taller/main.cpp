@@ -8,6 +8,8 @@ int main(int argc, char* argv[]){
 		delete juego;
 
 	}catch(exception &e){
+		Logger::getLogger()->escribir(e.what());
+		Logger::getLogger()->guardarEstado();
 	}
 	return 0;    
 }
