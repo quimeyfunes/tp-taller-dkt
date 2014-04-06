@@ -314,12 +314,12 @@ bool ParserYaml::validarSecuencia(const YAML::Node &nodo, string clave){
 			return true;
 		}
 		else{
-			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave " + clave + " no es una secuencia.";
+			std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave " + clave + " no es una secuencia. Se utilizan objetos default.";
 			Logger::getLogger()->escribir(message);
 		}
 	}
 	else{
-		std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": no se encontro la clave " + clave + ".";
+		std::string message = "Error en parseo del yaml - " + this->getNodoInfo(nodo) + ": no se encontro la clave " + clave + ". Se utilizan objetos default.";
 		Logger::getLogger()->escribir(message);
 	}
 return false;
@@ -374,8 +374,9 @@ vector<ObjetoParseado>* ParserYaml::parsearObjetos(){
 			//Si es una secuencia, obtengo los objetos
 			return this->getValorSecuencia(*nodoEscenario,"objetos");
 		}else{
-			//Si no hay nodo objetis tengo que devolver un vector de objetos default
+			//Si no hay nodo objeto tengo que devolver un vector de objetos default
 			return this->getObjetosDefault();
+			Logger::getLogger()->guardarEstado();
 		}		
 	}else{
 		//Si no hay nodo escenario tengo que devolver un vector de objetos default
