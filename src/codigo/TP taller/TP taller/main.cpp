@@ -1,8 +1,9 @@
 #include "Modelo/Juego/Juego.h"
 
 int main(int argc, char* argv[]){	
-
+	if(argc == 2){
 	ParserYaml::setConfigPath(argv[1]);
+	}
 	try{
 		Juego* juego = new Juego();
 		juego->ejecutar();
