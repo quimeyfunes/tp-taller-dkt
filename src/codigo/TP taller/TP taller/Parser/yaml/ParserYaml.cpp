@@ -3,7 +3,7 @@
 ParserYaml* ParserYaml::parserInstancia = NULL;
 EscenarioParseado* ParserYaml::escenario = NULL;
 vector<ObjetoParseado>* ParserYaml::objetos = NULL;
-
+string ParserYaml::nombreArchivo = "";
 
 
 ParserYaml::ParserYaml(string nombreArchivo){
@@ -16,7 +16,7 @@ ParserYaml::ParserYaml(){
 
 ParserYaml* ParserYaml::getParser(){
 	if(parserInstancia == NULL) {
-		parserInstancia = new ParserYaml(configPath);
+		parserInstancia = new ParserYaml(ParserYaml::getConfigPath());
 		parserInstancia->parsear();
 	}
 	return parserInstancia;
@@ -570,4 +570,13 @@ int ParserYaml::getPosRandom(int porcentaje_min, int porcentaje_max, char eje){
 		Logger::getLogger()->escribir("Error en la funcion ParserYaml::getPosRandom, el eje debe ser 'x' o 'y'...");
 		return 50;
 	}
+}
+
+void ParserYaml::setConfigPath(char* path){
+	string s_path(path);
+	ParserYaml::nombreArchivo = s_path;
+}
+
+string ParserYaml::getConfigPath(){
+	return ParserYaml::nombreArchivo;
 }

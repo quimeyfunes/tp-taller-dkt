@@ -44,7 +44,7 @@ class ParserYaml
 {
 private:
 	static ParserYaml* parserInstancia;
-	string nombreArchivo;
+	static string nombreArchivo;
 	YAML::Node documento;
 	static EscenarioParseado* escenario;
 	static vector<ObjetoParseado>* objetos;
@@ -83,6 +83,8 @@ public:
 	//Tiene que devolver el escenario
 	EscenarioParseado* getEscenario();
 	vector<ObjetoParseado>* getObjetos();
+	static void setConfigPath(char* path);
+	static string getConfigPath();
 };
 
 
