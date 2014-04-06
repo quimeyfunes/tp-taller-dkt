@@ -55,16 +55,14 @@ Poligono* Escenario::crearPoligono(ObjetoParseado objeto){
 	if (this->haySuperposicion(poligono)){
 		//Remuevo figura del world
 		this->getWorld()->DestroyBody(poligono->getBody());
-		std::stringstream info;
-		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con una agregada con anterioridad.";
+		std::stringstream info = this->getMensajeSuperposicionObjeto(objeto.linea);
 		Logger::getLogger()->escribir(info.str());
 		Logger::getLogger()->guardarEstado();
 		return NULL;
 	} else if (this->haySuperposicionConTerreno(poligono)) {
 		//Remuevo figura del world
 		this->getWorld()->DestroyBody(poligono->getBody());
-		std::stringstream info;
-		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con el terreno.";
+		std::stringstream info = this->getMensajeSuperposicionTerreno(objeto.linea);
 		Logger::getLogger()->escribir(info.str());
 		Logger::getLogger()->guardarEstado();
 		return NULL;
@@ -79,16 +77,14 @@ Circulo* Escenario::crearCirculo(ObjetoParseado objeto){
 	if (this->haySuperposicion(circulo)){
 		//Remuevo figura del world
 		this->getWorld()->DestroyBody(circulo->getBody());
-		std::stringstream info;
-		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con una agregada con anterioridad.";
+		std::stringstream info = this->getMensajeSuperposicionObjeto(objeto.linea);
 		Logger::getLogger()->escribir(info.str());
 		Logger::getLogger()->guardarEstado();
 		return NULL;
 	} else if (this->haySuperposicionConTerreno(circulo)) {
 		//Remuevo figura del world
 		this->getWorld()->DestroyBody(circulo->getBody());
-		std::stringstream info;
-		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con el terreno.";
+		std::stringstream info = this->getMensajeSuperposicionTerreno(objeto.linea);
 		Logger::getLogger()->escribir(info.str());
 		Logger::getLogger()->guardarEstado();
 		return NULL;
@@ -103,8 +99,7 @@ Rectangulo* Escenario::crearRectangulo(ObjetoParseado objeto){
 	if (this->haySuperposicion(rectangulo)){
 		//Remuevo figura del world
 		this->getWorld()->DestroyBody(rectangulo->getBody());
-		std::stringstream info;
-		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con una agregada con anterioridad.";
+		std::stringstream info = this->getMensajeSuperposicionObjeto(objeto.linea);
 		Logger::getLogger()->escribir(info.str());
 		Logger::getLogger()->guardarEstado();
 		return NULL;
@@ -112,8 +107,7 @@ Rectangulo* Escenario::crearRectangulo(ObjetoParseado objeto){
 	else if(this->haySuperposicionConTerreno(rectangulo)){
 		//Remuevo figura del world
 		this->getWorld()->DestroyBody(rectangulo->getBody());
-		std::stringstream info;
-		info << "Error al agregar figura: la figura de la linea " << objeto.linea << " se superpone con el terreno.";
+		std::stringstream info = this->getMensajeSuperposicionTerreno(objeto.linea);
 		Logger::getLogger()->escribir(info.str());
 		Logger::getLogger()->guardarEstado();
 		return NULL;
@@ -199,4 +193,26 @@ float Escenario::getRelacionAncho(){
 
 float Escenario::getRelacionAlto(){
 	return relacionAlto;
+}
+
+std::stringstream Escenario::getMensajeSuperposicionObjeto(int linea){
+	std::stringstream info;
+	if(linea > 0){
+		info << "Error al agregar figura: la figura de la linea " << linea << " se superpone con una agregada con anterioridad.";
+	}else{
+		info << "Error al agregar figura: la figura default se superpone con una agregada con anterioridad.";
+	}
+
+	return info;
+}
+
+std::stringstream Escenario::getMensajeSuperposicionTerreno(int linea){
+	std::stringstream info;
+	if(linea > 0){
+		info << "Error al agregar figura: la figura de la linea " << linea << " se superpone con el terreno.";
+	}else{
+		info << "Error al agregar figura: la figura default se superpone con el terreno.";
+	}
+
+	return info;
 }

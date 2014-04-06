@@ -409,6 +409,7 @@ ObjetoParseado ParserYaml::getObjetoDefault(){
 	obj.masa = masaDEF;
 	obj.color = colorDEF;
 	obj.estatico = estaticoDEF;
+	obj.linea = -1;
 	return obj;
 }
 
@@ -417,14 +418,17 @@ ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
 	obj.tipo = this->getValorTipoObjeto(nodo,"tipo",tipoObjDEF);
 	obj.x = this->getValorEscalar(nodo,"x",this->getPosRandom(10,90,'x'));
 	obj.y = this->escenario->altoU - this->getValorEscalar(nodo,"y",this->getPosRandom(70,95,'y'));
-	obj.ancho = this->getValorEscalar(nodo,"ancho",anchoObjDEF);
-	obj.alto = this->getValorEscalar(nodo,"alto",altoObjDEF);
+	
 	obj.rotacion = this->getValorEscalar(nodo,"rot",rotacionDEF);
 	obj.masa = this->getValorEscalar(nodo,"masa",masaDEF);
 	obj.color = this->getValorColor(nodo,"color",colorDEF);
 	obj.estatico = this->getValorBool(nodo,"estatico",estaticoDEF);
 	if(obj.tipo != rectanguloTipo){
 		obj.escala = this->getValorFloat(nodo,"escala",escalaDEF);
+	}
+	else{
+		obj.ancho = this->getValorEscalar(nodo,"ancho",anchoObjDEF);
+		obj.alto = this->getValorEscalar(nodo,"alto",altoObjDEF);
 	}
 	obj.linea = nodo.GetMark().line + 1;
 	//Chequeo si el objeto esta dentro del escenario
