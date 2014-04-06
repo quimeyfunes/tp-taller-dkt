@@ -27,6 +27,8 @@ private:
 	static float relacionAlto;
 	list<Figura*>* listaFiguras;
 	Terreno* terreno;
+	std::stringstream getMensajeSuperposicionObjeto(int linea);
+	std::stringstream getMensajeSuperposicionTerreno(int linea);
 public:
 	Escenario();
 	Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, float relacionAlto);
