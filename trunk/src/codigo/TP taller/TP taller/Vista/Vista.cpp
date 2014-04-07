@@ -9,6 +9,8 @@ Vista::Vista(EscenarioParseado* e){
 	this->listaDibujables = new list<Dibujable*>;
 	this->anchoPx = e->anchoPx;
 	this->altoPx = e->altoPx;
+
+	SDL_SetWindowIcon(this->window, IMG_Load(rutaIcono));
 }
 
 Vista::~Vista() {

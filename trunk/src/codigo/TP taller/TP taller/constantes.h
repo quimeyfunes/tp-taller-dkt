@@ -12,6 +12,7 @@
 	#define spriteOlas "imagenes/texturas/olas.png"
 	#define rutaNube1 "imagenes/texturas/nube1.png"
 	#define rutaNube2 "imagenes/texturas/nube2.png"
+	#define rutaIcono "imagenes/texturas/icono.ico"
 
 	const int timeStepOlas = 30;
 	const int timeStepNubes = 25;
