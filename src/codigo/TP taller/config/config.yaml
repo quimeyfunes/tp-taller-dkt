@@ -8,15 +8,15 @@ escenario:
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
         - tipo: circ
-          x: 150
-          y: 75
+          x: 150.9
+          y: 75.3
           escala: 4
           color: FF0000
           rot: 0
           masa: 3
           estatico: no
         - tipo: cuad
-          x: 320
+          x: 25.5
           y: 220
           escala: 5
           color: FF8888
