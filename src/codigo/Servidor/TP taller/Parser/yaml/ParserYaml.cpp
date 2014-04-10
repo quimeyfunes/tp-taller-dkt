@@ -84,13 +84,13 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 		esc->altoPx = validarMayorA(esc->altoPx, altoPXMIN, "altopx");
 		esc->anchoPx = this->getValorEscalar(*nodoEscenario,"anchopx",altoPxDEF);
 		esc->anchoPx = validarMayorA(esc->anchoPx, anchoPXMIN, "anchopx");
-		esc->altoU = this->getValorEscalar(*nodoEscenario,"altoun",altoUDEF);
+		esc->altoU = this->getValorFloat(*nodoEscenario,"altoun",altoUDEF);
 		esc->altoU = validarMayorA(esc->altoU, altoUMIN, "altoun");
 		esc->altoU = validarMenorA(esc->altoU, esc->altoPx, "altoun");
-		esc->anchoU = this->getValorEscalar(*nodoEscenario,"anchoun",altoUDEF);
+		esc->anchoU = this->getValorFloat(*nodoEscenario,"anchoun",altoUDEF);
 		esc->anchoU = validarMayorA(esc->anchoU, anchoUMIN, "anchoun");
 		esc->anchoU = validarMenorA(esc->anchoU, esc->anchoPx, "anchoun");
-		esc->nivelAgua = esc->altoU - this->getValorEscalar(*nodoEscenario,"nivel_agua",nivelAguaDEF);
+		esc->nivelAgua = esc->altoU - this->getValorFloat(*nodoEscenario,"nivel_agua",nivelAguaDEF);
 		esc->imagenTierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",mascaraTerrenoDEF);
 		esc->imagenCielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",texturaCieloDEF);
 		//this->validarSecuencia(*nodoEscenario,"objetos");
@@ -151,7 +151,7 @@ bool ParserYaml::getValorBool(const YAML::Node & nodo, string clave, bool valorP
 	return valorPorDefecto;
 }
 
-string ParserYaml::getValorColor(const YAML::Node & nodo, string clave, string valorPorDefecto){
+string ParserYaml::getValorColor(const YAML::Node & nodo, string clave, string valorPorDefecto){  
 	string valor;
 	if(this->validarCadena(nodo,clave,valor)){
 		//Primero tengo que validar que el color sea un string. Si lo es, valido que sean caracteres 0-1 y A-F
@@ -424,8 +424,8 @@ ObjetoParseado ParserYaml::getObjetoDefault(){
 ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
 	ObjetoParseado obj;
 	obj.tipo = this->getValorTipoObjeto(nodo,"tipo",tipoObjDEF);
-	obj.x = this->getValorEscalar(nodo,"x",this->getPosRandom(10,90,'x'));
-	obj.y = this->escenario->altoU - this->getValorEscalar(nodo,"y",this->getPosRandom(70,95,'y'));
+	obj.x = this->getValorFloat(nodo,"x",this->getPosRandom(10,90,'x'));
+	obj.y = this->escenario->altoU - this->getValorFloat(nodo,"y",this->getPosRandom(70,95,'y'));
 	
 	obj.rotacion = this->getValorEscalar(nodo,"rot",rotacionDEF);
 	obj.masa = this->getValorEscalar(nodo,"masa",masaDEF);
@@ -435,19 +435,19 @@ ObjetoParseado ParserYaml::parsearObjeto(const YAML::Node &nodo){
 		obj.escala = this->getValorFloat(nodo,"escala",escalaDEF);
 	}
 	else{
-		obj.ancho = this->getValorEscalar(nodo,"ancho",anchoObjDEF);
-		obj.alto = this->getValorEscalar(nodo,"alto",altoObjDEF);
+		obj.ancho = this->getValorFloat(nodo,"ancho",anchoObjDEF);
+		obj.alto = this->getValorFloat(nodo,"alto",altoObjDEF);
 	}
 	obj.linea = nodo.GetMark().line + 1;
 	//Chequeo si el objeto esta dentro del escenario
 	EscenarioParseado* es = this->getEscenario();
-	if(obj.x < 0 || obj.x > es->anchoU || obj.y < 0 || obj.y > es->altoU){
+	/*if(obj.x < 0 || obj.x > es->anchoU || obj.y < 0 || obj.y > es->altoU){
 		std::stringstream info;
 		info << obj.linea;
 		Logger::getLogger()->escribir("Error en parseo del yaml - El objeto de la linea "+info.str()+" no se encuentra dentro del escenario. se le seteo una posicion aleatoria dentro del escenario.");
 		obj.x = this->getPosRandom(10,90,'x');
 		obj.y = this->getPosRandom(5,30,'y');
-	}
+	}*/
 	return obj;
 }
 

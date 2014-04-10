@@ -175,6 +175,9 @@ bool Escenario::haySuperposicionConTerreno(Figura* figura){
 	if (x == terreno->getLectorTerreno()->getAnchoMatriz()) x--;
 	//Si y coincide con el alto de la matriz, le resto uno para que no se vaya de rango
 	if (y == terreno->getLectorTerreno()->getAltoMatriz()) y--;
+	if(y >= terreno->getLectorTerreno()->getAltoMatriz() || x >= terreno->getLectorTerreno()->getAnchoMatriz() ||  y < 0 || x < 0){
+		return false;
+	}
 	if(matrizTerreno[(int) floor(x)][(int) floor(y)]){
 		//Como hay un 1 quiere decir que el centro esta dentro del terreno	
 		return true;
