@@ -32,8 +32,8 @@ escenario:
           masa: 3
           estatico: no
         - tipo: cuad
-          x: 320
-          y: 220
+          x: 60
+          y: 145
           escala: 5
           color: FF8888
           rot: 45
