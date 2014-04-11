@@ -21,4 +21,55 @@ void Servidor::actualizar()
 
         cliente_id++;
     }
+
+	recibirDeClientes();
+}
+
+
+void Servidor::recibirDeClientes()
+{
+    Paquete paquete;
+
+    // go through all clients
+    std::map<unsigned int, SOCKET>::iterator iter;
+
+    for(iter = red->sessions.begin(); iter != red->sessions.end(); iter++)
+    {
+        // get data for that client
+        int data_length = red->recibirData(iter->first, network_data);
+
+        if (data_length <= 0) 
+        {
+            //no data recieved
+            continue;
+        }
+
+        int i = 0;
+        while (i < (unsigned int)data_length) 
+        {
+            paquete.deserializar(&(network_data[i]));
+            i += sizeof(Paquete);
+
+			switch (paquete.tipoPaquete) {
+
+                case INIT_CONNECTION:
+
+                    printf("El servidor recibio el paquete inicial del cliente.\n");
+
+                    break;
+
+                case ACTION_EVENT:
+
+                    printf("El servidor recibio un paquete evento del cliente\n");
+
+                    break;
+
+                default:
+
+                    printf("Error en el tipo de paquete\n");
+
+                    break;
+            }
+        }
+    }
 }

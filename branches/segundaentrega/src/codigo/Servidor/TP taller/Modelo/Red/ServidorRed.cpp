@@ -105,3 +105,20 @@ bool ServidorRed::acceptarNuevoCliente(unsigned int & id)
 
     return false;
 }
+
+
+int ServidorRed::recibirData(unsigned int cliente_id, char * recvbuf)
+{
+    if( sessions.find(cliente_id) != sessions.end() )
+    {
+        SOCKET currentSocket = sessions[cliente_id];
+        iResult = Servicio::recibirMensaje(currentSocket, recvbuf, MAX_PACKET_SIZE);
+        if (iResult == 0)
+        {
+            printf("Coneccion cerrada\n");
+            closesocket(currentSocket);
+        }
+        return iResult;
+    }
+    return 0;
+} 

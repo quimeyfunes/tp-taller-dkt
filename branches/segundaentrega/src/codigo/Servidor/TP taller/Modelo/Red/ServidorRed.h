@@ -3,6 +3,7 @@
 #include "Servicio.h"
 #include <ws2tcpip.h>
 #include <map>
+
 using namespace std; 
 #pragma comment (lib, "Ws2_32.lib")
 
@@ -31,4 +32,7 @@ public:
 
 	// accept new connections
     bool acceptarNuevoCliente(unsigned int & id);
+
+	// receive incoming data
+    int recibirData(unsigned int cliente_id, char * recvbuf);
 };
