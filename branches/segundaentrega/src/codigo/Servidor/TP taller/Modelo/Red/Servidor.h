@@ -1,13 +1,4 @@
-#include <winsock2.h>
-#include <Windows.h>
-#include "ServicioRed.h"
-#include <ws2tcpip.h>
-#include <map>
-using namespace std; 
-#pragma comment (lib, "Ws2_32.lib")
-
-#define DEFAULT_BUFLEN 512
-#define DEFAULT_PORT "6881" 
+#include "ServidorRed.h"
 
 class Servidor
 {
@@ -17,18 +8,13 @@ public:
     Servidor(void);
     ~Servidor(void);
 
-    // Socket to listen for new connections
-    SOCKET socketEscuchador;
+    void actualizar();
 
-    // Socket to give to the clients
-    SOCKET socketClientes;
+private:
 
-    // for error checking return values
-    int iResult;
+   // IDs for the clients connecting for table in ServerNetwork 
+    static unsigned int cliente_id;
 
-    // table to keep track of each client's socket
-    std::map<unsigned int, SOCKET> sessions; 
-
-	// accept new connections
-    bool acceptarNuevoCliente(unsigned int & id);
+   // The ServerNetwork object 
+    ServidorRed* red;
 };
