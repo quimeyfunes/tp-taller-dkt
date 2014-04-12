@@ -21,7 +21,7 @@ Juego::Juego(){
 }
 
 void Juego::ejecutar(){
-
+	Logger::getLogger()->guardarEstado();
 	//game loop
 	while(this->estadoActual != SALIR && (evento->type != SDL_QUIT)){
 		
