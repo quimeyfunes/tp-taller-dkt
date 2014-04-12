@@ -13,15 +13,17 @@ Logger::Logger(){
 }
 
 void Logger::escribir(string texto){
-
+	//this->archivo->open(archivoLog, ofstream::app);
 	this->archivo->write(texto.c_str(), strlen(texto.c_str()));
 	this->archivo->write("\n", strlen("\n"));
+	//this->archivo->close();
 }
 
 void Logger::guardarEstado(){
 
 	this->archivo->close();
 	this->archivo->open(archivoLog, ofstream::app);
+
 }
 
 void Logger::ponerFecha(){

@@ -232,7 +232,7 @@ bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valo
 				*nodo_aux >> value_aux;
 				if(value_aux < 0){
 					//value_aux = value_aux * (-1);
-					std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": se esperaba un valor de la clave " + clave + " no es positivo.";
+					std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": se esperaba un valor positivo de la clave: " + clave +".";
 					Logger::getLogger()->escribir(message);
 					return false;
 				}
@@ -268,7 +268,7 @@ bool ParserYaml::validarFloat(const YAML::Node & nodo, string clave, float &valo
 				*nodo_aux >> value_aux;
 				if(value_aux < 0){
 					//value_aux = value_aux * (-1);
-					std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": se esperaba un valor de la clave " + clave + " no es positivo.";
+					std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": se esperaba un valor positivo de la clave: " + clave +".";
 					Logger::getLogger()->escribir(message);
 					return false;
 				}
@@ -295,7 +295,7 @@ bool ParserYaml::validarFloat(const YAML::Node & nodo, string clave, float &valo
 string ParserYaml::getNodoInfo(const YAML::Node & nodo){
 	YAML::Mark mark = nodo.GetMark();
 	std::stringstream info;
-	info << "Linea " << mark.line + 1 << ", Columna " << mark.pos + 1;
+	info << "Linea " << mark.line + 1 << " ";
 	return info.str();
 }
 
