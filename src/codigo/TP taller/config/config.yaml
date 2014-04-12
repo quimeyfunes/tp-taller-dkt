@@ -1,15 +1,15 @@
 escenario:
-    altopx: 500
-    anchopx: 500
-    altoun: 150
-    anchoun: 150	
-    nivel_agua: 100
+    altopx: 600
+    anchopx: 800
+    altoun: 300
+    anchoun: 400
+    nivel_agua: 10
     imagen_tierra: imagenes/mascaras/mascara.png
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
         - tipo: circ
-          x: 150.9
-          y: 75.3
+          x: 49
+          y: 750
           escala: 4
           color: FF0000
           rot: 0
@@ -17,25 +17,81 @@ escenario:
           estatico: no
         - tipo: cuad
           x: 25.5
-          y: 220
-          escala: 5
+          y: 2207
+          escala: 7
           color: FF8888
           rot: 45
           masa: 3
           estatico: no
         - tipo: cuad
-          x: 320
-          y: 220
+          x: 32
+          y: 222
           escala: 5
           color: FF8888
           rot: 45
           masa: 3
           estatico: no
-        - tipo: cuad
+        - tipo: circ
           x: 60
-          y: 145
+          y: 142
           escala: 5
+          color: BB4444
+          rot: 88
+          masa: 36
+          estatico: no
+        - tipo: cuad
+          x: 34
+          y: 1466
+          escala: 5
+          color: CC2222
+          rot: 45
+          masa: 43
+          estatico: no
+        - tipo: circ
+          x: 35
+          y: 862
+          escala: 5
+          color: DDEEFF
+          rot: 45
+          masa: 300
+          estatico: no
+        - tipo: hex
+          x: 60
+          y: 1523
+          escala: 15
           color: FF8888
           rot: 45
-          masa: 3
+          masa: 600
+          estatico: no
+        - tipo: hex
+          x: 65.5
+          y: 2523
+          escala: 15
+          color: FF8888
+          rot: 45
+          masa: 0
+          estatico: no
+        - tipo: circ
+          x: 60
+          y: 7000
+          escala: 15
+          color: 7F052A
+          rot: 45
+          masa: 8000
+          estatico: no
+        - tipo: circ
+          x: -55
+          y: 7500
+          escala: 5
+          color: 7F052A
+          rot: 45
+          masa: 8000
+          estatico: no
+        - tipo: circ
+          x: 64
+          y: 7555
+          escala: 15
+          color: 7F052A
+          rot: 45
+          masa: 8000
           estatico: no
