@@ -37,6 +37,7 @@ void Juego::ejecutar(){
 
 		escenario->notificar();	
 		vista->Dibujar();
+		
 	}
 }
 
@@ -91,7 +92,9 @@ void Juego::agregarTexturas(EscenarioParseado* e){
 	vista->crearScrollingSprite(0, 10, e->anchoPx / 5, e->altoPx/10, rutaNube1);
 	vista->crearScrollingSprite(e->anchoPx/2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
 	vista->crearDibujableTextura(0, e->nivelAgua * this->escenario->getRelacionAlto(), e->anchoPx, e->altoPx - e->nivelAgua, texturaAgua, texturaAguaDEF);
-	vista->crearSprite(0, e->nivelAgua* this->escenario->getRelacionAlto() - 15, e->anchoPx, 15, spriteOlas, 2, 6, 256, 144);
+	for(int i=0;i<4;i++){
+		vista->crearSprite( (i*e->anchoPx)/4, e->nivelAgua* this->escenario->getRelacionAlto() - 15, e->anchoPx/4, 15, spriteOlas, 2, 6, 256, 144);
+	}
 	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(),terreno->getLector()->getAltoMatriz(),terreno->getLector()->getRutaTexturaActualizada(), "");
 	dibTierra->setColor(ParserDeHexARgb::parsearDeHexARgb("804000"));
 }

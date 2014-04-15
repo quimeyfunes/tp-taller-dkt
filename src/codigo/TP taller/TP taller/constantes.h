@@ -70,11 +70,12 @@
 	//Constantes fisicas
 	#define gravedadX 0
 	#define gravedadY 9.8f
-	#define stepTiempo 1/60.0f
+	#define stepTiempo (float)(1/60.0)
 	#define iteracionesVelocidad 6
 	#define iteracionesPosicion 2
 	#define friccion 0.3f
 	#define restitucion 0.3f
-	#define velocidadAgua 10
+	#define velocidadAgua 8
+	#define desaceleracionAgua 0.973
 
 #endif
