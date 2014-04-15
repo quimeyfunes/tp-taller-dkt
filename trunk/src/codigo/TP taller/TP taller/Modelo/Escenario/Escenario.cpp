@@ -125,13 +125,13 @@ void Escenario::simularAgua () {
 			b2Vec2 velocidad = cuerpo->GetLinearVelocity();
 			float velocidadY = velocidad.y;
 			if (velocidadY > velocidadAgua) {
-				if (velocidadY * 0.975 < velocidadAgua)  {
+				if (velocidadY * desaceleracionAgua < velocidadAgua)  {
 					velocidadY = velocidadAgua;
 				} else {
-					velocidadY = velocidadY * 0.975;
+					velocidadY = velocidadY * desaceleracionAgua;
 				}
 			}
-			cuerpo->SetLinearVelocity(b2Vec2(velocidad.x * 0.975,velocidadY));
+			cuerpo->SetLinearVelocity(b2Vec2(velocidad.x * desaceleracionAgua,velocidadY));
 		}
 	}
 }
