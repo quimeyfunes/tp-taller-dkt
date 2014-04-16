@@ -20,7 +20,7 @@ escenario:
           y: 2207
           escala: 7
           color: FF8888
-          rot: 45
+          rot: 45.5
           masa: 3
           estatico: no
         - tipo: cuad

@@ -240,7 +240,7 @@ bool ParserYaml::validarEscalar(const YAML::Node & nodo, string clave, int &valo
 				return true;
 			}
 			else{
-				std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave " + clave + " no es numerico.";
+				std::string message = "Error en parseo del yaml - " + this->getNodoInfo(*nodo_aux) + ": el valor de la clave " + clave + " no es un numero entero.";
 				Logger::getLogger()->escribir(message);
 			}
 		}
