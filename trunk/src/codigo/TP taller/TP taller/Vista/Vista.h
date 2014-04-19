@@ -5,6 +5,8 @@
 #include "Dibujables/CirculoDibujable.h"
 #include "Dibujables/PoligonoDibujable.h"
 #include "Dibujables\RectanguloDibujable.h"
+#include "Sprite/Sprite.h"
+#include "Sprite/ScrollingSprite.h"
 #include "../Parser/yaml/ParserYaml.h"
 #include <list>
 
@@ -20,6 +22,7 @@ private:
 	list<Dibujable*>* listaDibujables;
 	int anchoPx;
 	int altoPx;
+	float corrimiento;
 
 public:
 
@@ -27,7 +30,7 @@ public:
 	~Vista();
 	SDL_Renderer* getRenderer();
 	DibujableTextura* crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF);
-	void crearSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex);
+	Sprite* crearSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex);
 	void crearScrollingSprite(int x, int y, int ancho, int alto, string path);
 	CirculoDibujable* crearCirculoDibujable(int x , int y ,int radioHorizontal,int radioVertical);
 	PoligonoDibujable* crearPoligonoDibujable(short int n, float escalaAncho, float escalaAlto);
@@ -37,6 +40,7 @@ public:
 	void Dibujar();
 	int getAnchoPx();
 	int getAltoPx();
+	void leerEvento(SDL_Event* evento);
 	
 };
 

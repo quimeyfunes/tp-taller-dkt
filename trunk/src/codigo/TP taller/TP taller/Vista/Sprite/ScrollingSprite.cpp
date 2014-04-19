@@ -15,9 +15,11 @@ ScrollingSprite::ScrollingSprite(SDL_Renderer* renderer, SDL_Rect rect, string p
 ScrollingSprite::~ScrollingSprite(){
 }
 
-void ScrollingSprite::dibujar(SDL_Renderer* renderer){
+void ScrollingSprite::dibujar(SDL_Renderer* renderer, int corrimiento){
 
-	SDL_RenderCopy(renderer, this->textura, NULL, &rec);
+	SDL_Rect rectAux = rec;
+	rectAux.x += corrimiento;
+	SDL_RenderCopy(renderer, this->textura, NULL, &rectAux);
 
 	contador++;
 	if(contador >= this->velocidadRefresco){
@@ -25,6 +27,6 @@ void ScrollingSprite::dibujar(SDL_Renderer* renderer){
 		contador = 0;
 	}
 
-	if(rec.x >= this->anchoEscenario) rec.x= -rec.w;
+	if(rec.x >= this->anchoEscenario) rec.x = -rec.w;
 	
 }

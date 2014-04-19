@@ -6,7 +6,7 @@ DibujableGFX::DibujableGFX(){
 DibujableGFX::~DibujableGFX(){
 }
 
-void DibujableGFX::dibujar(SDL_Renderer* renderer){
+void DibujableGFX::dibujar(SDL_Renderer* renderer, int corrimiento){
 }
 
 int* DibujableGFX::getColor(){

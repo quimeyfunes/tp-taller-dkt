@@ -23,8 +23,8 @@ public:
 	SDL_Texture* getImagen();
 	int getAngulo();
 	void setAngulo(int angulo);
-	void setColor(int* rgb);
-	void dibujar(SDL_Renderer* renderer);
+	void setColor(int* rgb, int a);
+	void dibujar(SDL_Renderer* renderer, int corrimiento);
 };
 
 #endif

@@ -33,7 +33,7 @@ Sprite::~Sprite(){
 	delete []this->recCuadro;
 }
 
-void Sprite::dibujar(SDL_Renderer *renderer){
+void Sprite::dibujar(SDL_Renderer *renderer, int corrimiento){
 
 	SDL_RenderCopy(renderer, this->textura, &this->recCuadro[frame], &this->recDest);
 	contador++;

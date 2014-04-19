@@ -36,10 +36,13 @@ void DibujableTextura::setAngulo(int angulo) {
 	this->anguloRotacion = angulo;
 }
 
-void DibujableTextura::setColor(int* rgb){
+void DibujableTextura::setColor(int* rgb, int a ){
 	SDL_SetTextureColorMod(this->imagen,rgb[0],rgb[1],rgb[2]);
+	SDL_SetTextureAlphaMod(this->imagen, a);
 }
 
-void DibujableTextura::dibujar(SDL_Renderer* renderer){
-	SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &this->getRect(),this->getAngulo(),NULL,SDL_FLIP_NONE);
+void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimiento){
+	SDL_Rect rect = this->getRect();
+	rect.x += corrimiento;
+	SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
 }

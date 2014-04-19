@@ -6,8 +6,8 @@ Dibujable::~Dibujable()
 {
 }
 
-void Dibujable::setColor(int* rgb){
+void Dibujable::setColor(int* rgb, int a){
 }
 
-void Dibujable::dibujar(SDL_Renderer* renderer){
+void Dibujable::dibujar(SDL_Renderer* renderer, int corrimiento){
 }
