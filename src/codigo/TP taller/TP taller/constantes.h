@@ -67,6 +67,9 @@
 	const unsigned pentagonoTipo=5;
 	const unsigned hexagonoTipo=6;
 
+	#define porcentajeScroll 0.075
+	#define velocidadScroll 600.0
+
 	//Constantes fisicas
 	#define gravedadX 0
 	#define gravedadY 9.8f

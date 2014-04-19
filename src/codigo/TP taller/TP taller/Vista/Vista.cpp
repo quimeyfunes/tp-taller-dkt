@@ -1,6 +1,5 @@
 #include "Vista.h"
-#include "Sprite/Sprite.h"
-#include "Sprite/ScrollingSprite.h"
+
 
 Vista::Vista(EscenarioParseado* e){
 	SDL_Init( SDL_INIT_EVERYTHING );
@@ -9,7 +8,7 @@ Vista::Vista(EscenarioParseado* e){
 	this->listaDibujables = new list<Dibujable*>;
 	this->anchoPx = e->anchoPx;
 	this->altoPx = e->altoPx;
-
+	this->corrimiento = 0;
 	SDL_SetWindowIcon(this->window, IMG_Load(rutaIcono));
 }
 
@@ -35,7 +34,7 @@ void Vista::crearScrollingSprite(int x, int y, int ancho, int alto, string path)
 	this->agregarDibujable(sprite);	
 }
 
-void Vista::crearSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex){
+Sprite* Vista::crearSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex){
 
 	SDL_Rect recFrame;
 	recFrame.x = x;
@@ -44,6 +43,7 @@ void Vista::crearSprite(int x, int y, int anchoFrame, int altoFrame, string path
 	recFrame.h = altoFrame;
 	Sprite* sprite = new Sprite(this->renderer, recFrame, path, col, fil, anchoTex, altoTex);
 	this->agregarDibujable(sprite);	
+	return sprite;
 }
 
 DibujableTextura* Vista::crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF) {
@@ -89,7 +89,7 @@ list<Dibujable*>* Vista::getListaDibujables(){
 void Vista::Dibujar(){
 	SDL_RenderClear(this->renderer);
 	for (list<Dibujable*>::iterator it = this->listaDibujables->begin(); it != this->listaDibujables->end(); it++) {
-		(*it)->dibujar(this->renderer);
+		(*it)->dibujar(this->renderer, this->corrimiento);
 	}
 	SDL_RenderPresent(this->renderer);
 }
@@ -100,4 +100,18 @@ int Vista::getAnchoPx() {
 
 int Vista::getAltoPx() {
 	return this->altoPx;
+}
+
+void Vista::leerEvento(SDL_Event* evento) {
+	int x,y;
+	//Para scroll
+	SDL_GetMouseState(&x,&y);
+	if ((x < (this->anchoPx * porcentajeScroll)) && ( x != 0)) {
+		this->corrimiento += this->anchoPx / (x * velocidadScroll);
+	} else {
+		if ((x > (this->anchoPx * (1 - porcentajeScroll))) && ( x != this->anchoPx)) {
+			this->corrimiento -= this->anchoPx / ((this->anchoPx - x) * velocidadScroll);
+		} 
+	}
+	//futuro zoom
 }

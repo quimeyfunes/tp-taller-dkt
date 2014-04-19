@@ -14,7 +14,7 @@ private:
 
 public:
 	Sprite(SDL_Renderer* renderer, SDL_Rect recFrame, string path, int col, int fil, int anchoTex, int altoTex);
-	virtual void dibujar(SDL_Renderer* renderer) override;
+	virtual void dibujar(SDL_Renderer* renderer, int corrimiento) override;
 	~Sprite();
 };
 

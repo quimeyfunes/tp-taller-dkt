@@ -43,6 +43,7 @@ void Juego::ejecutar(){
 
 void Juego::leerEvento(){
 
+	this->vista->leerEvento(evento);
 	if (SDL_PollEvent(evento) != 0) {
 
 		if(evento->type == SDL_QUIT){
@@ -54,12 +55,15 @@ void Juego::leerEvento(){
 
 			switch(evento->key.keysym.sym){
 
-			case SDLK_ESCAPE:	salir();			break;
-			case SDLK_s:		reiniciar();		break;
-			case SDLK_p:		alternarPausa();	break;
-		
+				case SDLK_ESCAPE:	salir();			break;
+				case SDLK_s:		reiniciar();		break;
+				case SDLK_p:		alternarPausa();	break;
+				/*case SDLK_UP:							break;
+				case SDLK_LEFT:							break;
+				case SDLK_RIGHT:						break; */
+
 			}
-		}
+		} 
 	}
 }
 
@@ -96,7 +100,7 @@ void Juego::agregarTexturas(EscenarioParseado* e){
 		vista->crearSprite( (i*e->anchoPx)/4, e->nivelAgua* this->escenario->getRelacionAlto() - 15, e->anchoPx/4, 15, spriteOlas, 2, 6, 256, 144);
 	}
 	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(),terreno->getLector()->getAltoMatriz(),terreno->getLector()->getRutaTexturaActualizada(), "");
-	dibTierra->setColor(ParserDeHexARgb::parsearDeHexARgb("804000"));
+	dibTierra->setColor(ParserDeHexARgb::parsearDeHexARgb("804000"),255);
 }
 
 void Juego::agregarObjetos(){
