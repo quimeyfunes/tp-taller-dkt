@@ -27,6 +27,8 @@ private:
 	static float relacionAlto;
 	list<Figura*>* listaFiguras;
 	Terreno* terreno;
+	Figura* figuraActiva;
+
 	std::stringstream getMensajeSuperposicionObjeto(int linea);
 	std::stringstream getMensajeSuperposicionTerreno(int linea);
 public:
@@ -50,7 +52,10 @@ public:
 	void setTerreno(Terreno* terreno);
 	static float getRelacionAncho();
 	static float getRelacionAlto();
-
+	void click(float x, float y);
+	void saltar();
+	void izquierda();
+	void derecha();
 };
 
 

@@ -10,6 +10,7 @@ Vista::Vista(EscenarioParseado* e){
 	this->altoPx = e->altoPx;
 	this->corrimiento = 0;
 	SDL_SetWindowIcon(this->window, IMG_Load(rutaIcono));
+	this->accion = JUGAR;
 }
 
 Vista::~Vista() {
@@ -19,6 +20,7 @@ Vista::~Vista() {
 	delete this->listaDibujables;
 	SDL_Quit();
 }
+
 SDL_Renderer* Vista::getRenderer() {
 	return this->renderer;
 }
@@ -76,7 +78,6 @@ RectanguloDibujable* Vista::crearRectanguloDibujable(float ancho, float alto) {
 	return dib;
 }
 
-
 void Vista::agregarDibujable(Dibujable* dibujable) {
 	this->listaDibujables->push_back(dibujable);
 }
@@ -102,16 +103,53 @@ int Vista::getAltoPx() {
 	return this->altoPx;
 }
 
-void Vista::leerEvento(SDL_Event* evento) {
+bool Vista::leerEvento(SDL_Event* evento) {
 	int x,y;
 	//Para scroll
+	const Uint8 *keys = SDL_GetKeyboardState(NULL);
+	
 	SDL_GetMouseState(&x,&y);
 	if ((x < (this->anchoPx * porcentajeScroll)) && ( x != 0)) {
-		this->corrimiento += this->anchoPx / (x * velocidadScroll);
+		this->corrimiento += this->anchoPx *velocidadScroll / x ;
 	} else {
 		if ((x > (this->anchoPx * (1 - porcentajeScroll))) && ( x != this->anchoPx)) {
-			this->corrimiento -= this->anchoPx / ((this->anchoPx - x) * velocidadScroll);
+			this->corrimiento -= this->anchoPx * velocidadScroll / (this->anchoPx - x);
 		} 
 	}
-	//futuro zoom
+	if (SDL_PollEvent(evento) != 0) {
+
+		if(evento->type == SDL_QUIT){
+			this->accion = SALIR;
+			return true;
+		}
+		
+		if(evento->type == SDL_KEYDOWN){
+
+			switch(evento->key.keysym.sym){
+
+			case SDLK_ESCAPE:	this->accion = SALIR;		return true;	break;
+			case SDLK_s:		this->accion = JUGAR;		return true;	break;
+			case SDLK_p:		this->accion = PAUSAR;		return true;	break;
+			case SDLK_UP:		this->accion = ARRIBA;		return true;	break;
+			case SDLK_LEFT:		this->accion = IZQUIERDA;	return true;	break;
+			case SDLK_RIGHT:	this->accion = DERECHA;		return true;	break; 
+
+			}
+			
+		}
+
+		if (evento->type == SDL_MOUSEBUTTONDOWN) {
+			this->accion = CLICK;
+			return true;
+		}
+	}
+	return false;
+}
+
+ACCION_REALIZADA Vista::getAccion(){
+	return this->accion;
+}
+
+float Vista::getCorrimiento(){
+	return this->corrimiento;
 }

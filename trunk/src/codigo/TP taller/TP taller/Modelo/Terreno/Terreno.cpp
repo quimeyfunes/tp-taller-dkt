@@ -45,9 +45,14 @@ void Terreno::generarTerreno(string nombreArchivo){
 					vecBorde[posVec].Set(i / relacionAncho,1000);
 					posVec++;
 				}
+
 				hayTierra = true;
 				huboTierra = true;
 				//Seteo las cordenadas del borde en el vector
+				if (posVec == 0) {
+					vecBorde[posVec].Set(i /relacionAncho,1000);
+					posVec++;
+				}
 				vecBorde[posVec].Set(i /relacionAncho,j /relacionAlto);
 				posVec++;
 				k++;
@@ -69,7 +74,8 @@ void Terreno::generarTerreno(string nombreArchivo){
 	chain.CreateChain(vecBorde, posVec);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &chain;
-	fixtureDef.restitution = 0;
+	fixtureDef.restitution = restitucion;
+	fixtureDef.friction = friccion;
 	this->body->CreateFixture(&fixtureDef);
 
 

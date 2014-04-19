@@ -7,43 +7,13 @@ escenario:
     imagen_tierra: imagenes/mascaras/mascara1.png
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
-        - tipo: circ
+        - tipo: cuad
           x: 44
           y: 250
-          escala: 4
+          escala: 6
+          ancho: 10
+          alto: 12
           color: FF0000
           rot: 0
           masa: 3
-          estatico: no
-        - tipo: circ
-          x: 60
-          y: 142
-          escala: 5
-          color: BB4444
-          rot: 88
-          masa: 36
-          estatico: no
-        - tipo: circ
-          x: 80
-          y: 250
-          escala: 5
-          color: DDEEFF
-          rot: 45
-          masa: 300
-          estatico: no
-        - tipo: circ
-          x: 100
-          y: 250
-          escala: 15
-          color: 7F052A
-          rot: 45
-          masa: 8000
-          estatico: no
-        - tipo: circ
-          x: 120
-          y: 250
-          escala: 5
-          color: 7F052A
-          rot: 45
-          masa: 8000
           estatico: no
