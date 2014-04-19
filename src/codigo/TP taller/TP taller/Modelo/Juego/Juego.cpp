@@ -23,7 +23,7 @@ Juego::Juego(){
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 	//game loop
-	while(this->estadoActual != SALIR && (evento->type != SDL_QUIT)){
+	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
 		this->leerEvento();
 
@@ -37,43 +37,39 @@ void Juego::ejecutar(){
 
 		escenario->notificar();	
 		vista->Dibujar();
+		SDL_Delay(1);
 		
 	}
 }
 
 void Juego::leerEvento(){
 
-	this->vista->leerEvento(evento);
-	if (SDL_PollEvent(evento) != 0) {
+	if (this->vista->leerEvento(evento)){
+	
+		switch(this->vista->getAccion()){
 
-		if(evento->type == SDL_QUIT){
-			this->salir();
-			return;
+		case SALIR:			salir();						break;
+		case JUGAR:			reiniciar();					break;
+		case PAUSAR:		alternarPausa();				break;
+		case ARRIBA:		this->escenario->saltar();		break;
+		case IZQUIERDA:		this->escenario->izquierda();	break;
+		case DERECHA:		this->escenario->derecha();		break; 
+		case CLICK:	
+			int x,y;
+			SDL_GetMouseState(&x,&y);
+			this->escenario->click( (x - this->vista->getCorrimiento())/ this->escenario->getRelacionAncho(), y / this->escenario->getRelacionAlto());
+			break;
 		}
-		
-		if(evento->type == SDL_KEYDOWN){
-
-			switch(evento->key.keysym.sym){
-
-				case SDLK_ESCAPE:	salir();			break;
-				case SDLK_s:		reiniciar();		break;
-				case SDLK_p:		alternarPausa();	break;
-				/*case SDLK_UP:							break;
-				case SDLK_LEFT:							break;
-				case SDLK_RIGHT:						break; */
-
-			}
-		} 
 	}
 }
 
 void Juego::jugar(){
 	mundo->Step(stepTiempo, iteracionesVelocidad, iteracionesPosicion);
-	escenario->simularAgua(); 
+	escenario->simularAgua();
 }
 
 void Juego::salir(){
-	this->estadoActual = SALIR;
+	this->estadoActual = SALIDA;
 }
 
 void Juego::reiniciar(){

@@ -68,7 +68,7 @@
 	const unsigned hexagonoTipo=6;
 
 	#define porcentajeScroll 0.075
-	#define velocidadScroll 600.0
+	#define velocidadScroll 1/600.0
 
 	//Constantes fisicas
 	#define gravedadX 0
@@ -76,7 +76,7 @@
 	#define stepTiempo (float)(1/60.0)
 	#define iteracionesVelocidad 6
 	#define iteracionesPosicion 2
-	#define friccion 0.3f
+	#define friccion 0.4f
 	#define restitucion 0.3f
 	#define velocidadAgua 8
 	#define desaceleracionAgua 0.973

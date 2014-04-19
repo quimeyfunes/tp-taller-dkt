@@ -34,5 +34,9 @@ void RectanguloDibujable::actualizar(Observable* observable) {
 }
 
 void RectanguloDibujable::dibujar(SDL_Renderer* renderer, int corrimiento){
-	filledPolygonRGBA(renderer,this->posicionesX,this->posicionesY,this->n,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
+	short int posX[4];
+	for (int i=0; i<4;i++) {
+		posX[i] = this->posicionesX[i] + corrimiento;
+	}
+	filledPolygonRGBA(renderer,posX,this->posicionesY,this->n,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
 }

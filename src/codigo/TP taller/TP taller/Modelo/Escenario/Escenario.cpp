@@ -16,6 +16,8 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	
 	b2Vec2* gravity = new b2Vec2(gravedadX, gravedadY);
 	this->world = new b2World(*gravity);
+
+	this->figuraActiva = NULL;
 }
 
 int Escenario::getAltoU(){
@@ -221,4 +223,28 @@ std::stringstream Escenario::getMensajeSuperposicionTerreno(int linea){
 	}
 
 	return info;
+}
+
+void Escenario::click(float x, float y){
+	for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+		if ((*it)->getBody()->GetFixtureList()->GetShape()->TestPoint((*it)->getBody()->GetTransform(),b2Vec2(x,y))) {
+			this->figuraActiva = (*it);
+			return;
+		}
+	}
+}
+void Escenario:: saltar(){
+	if (this->figuraActiva != NULL) {
+		this->figuraActiva->getBody()->ApplyLinearImpulse(b2Vec2(0,-60),this->figuraActiva->getPosicion(),true);
+	}
+}
+void Escenario::izquierda(){
+	if (this->figuraActiva != NULL) {
+		this->figuraActiva->getBody()->SetLinearVelocity(b2Vec2(-10,0));
+	}
+}
+void Escenario::derecha(){
+	if (this->figuraActiva != NULL) {
+		this->figuraActiva->getBody()->SetLinearVelocity(b2Vec2(10,0));
+	}
 }

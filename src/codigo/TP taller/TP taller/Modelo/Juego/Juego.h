@@ -18,7 +18,7 @@ using namespace std;
 typedef enum{
 	PAUSADO,
 	JUGANDO,
-	SALIR,
+	SALIDA,
 }ESTADO_JUEGO;
 
 class Juego{

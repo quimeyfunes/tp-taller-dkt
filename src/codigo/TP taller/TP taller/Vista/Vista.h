@@ -12,6 +12,16 @@
 
 using namespace std;
 
+typedef enum{
+	PAUSAR,
+	JUGAR,
+	SALIR,
+	IZQUIERDA,
+	ARRIBA,
+	DERECHA,
+	CLICK,
+}ACCION_REALIZADA;
+
 class Vista
 {
 
@@ -23,6 +33,8 @@ private:
 	int anchoPx;
 	int altoPx;
 	float corrimiento;
+	ACCION_REALIZADA accion;
+
 
 public:
 
@@ -40,8 +52,9 @@ public:
 	void Dibujar();
 	int getAnchoPx();
 	int getAltoPx();
-	void leerEvento(SDL_Event* evento);
-	
+	bool leerEvento(SDL_Event* evento);
+	ACCION_REALIZADA getAccion();
+	float getCorrimiento();
 };
 
 #endif
