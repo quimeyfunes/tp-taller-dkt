@@ -27,4 +27,5 @@ public:
     // ctor/dtor
     ClienteRed(void);
     ~ClienteRed(void);
+	int recibirData( char * recvbuf);
 };

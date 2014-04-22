@@ -96,3 +96,18 @@ ClienteRed::ClienteRed(void) {
     setsockopt( this->socketCliente, IPPROTO_TCP, TCP_NODELAY, &value, sizeof( value ) );
 
 }
+
+int ClienteRed::recibirData( char * recvbuf)
+{
+    
+        SOCKET currentSocket = this->socketCliente;
+        iResult = Servicio::recibirMensaje(currentSocket, recvbuf, MAX_PACKET_SIZE);
+        if (iResult == 0)
+        {
+            printf("Coneccion cerrada\n");
+            closesocket(currentSocket);
+        }
+        return iResult;
+    
+    return 0;
+} 
