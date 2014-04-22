@@ -14,6 +14,7 @@ typedef struct{
 	Uint8 R;
 	Uint8 G;
 	Uint8 B;
+	Uint8 A;
 }pixel;
 
 typedef struct{
@@ -31,13 +32,13 @@ private:
 	int anchoMatriz;
 	int altoMatriz;
 
-	bool esBlanco(pixel p);
-	bool esNegro(pixel p);
+	bool esCielo(pixel p);
+	bool esTierra(pixel p);
 	pixel boolAPixel(bool b);
 
 	/*convierte el vector de RGBA a una matriz de pixeles de dimensiones ancho x alto.
 	chequea si el vector es valido y carga una matriz pixel por pixel del terreno a usar.*/
-	void RGB_AMatrizBool();
+	void RGBA_AMatrizBool();
 	//mapea una funcion a la matriz
 	void cargarFuncionEnMatriz(double* f);
 	void guardarMatrizEnPNG(string nombreArchivo, bool transparente);
@@ -70,8 +71,3 @@ public:
 };
 
 #endif
-
-
-/*
-	generar textura transparente
-*/
