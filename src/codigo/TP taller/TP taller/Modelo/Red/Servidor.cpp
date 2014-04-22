@@ -50,15 +50,15 @@ void Servidor::recibirDeClientes()
             paquete.deserializar(&(network_data[i]));
             i += sizeof(Paquete);
 
-			switch (paquete.tipoPaquete) {
+			switch (paquete.getTipo()) {
 
-                case INIT_CONNECTION:
+                case paqueteInicial:
 
                     printf("El servidor recibio el paquete inicial del cliente.\n");
 
                     break;
 
-                case ACTION_EVENT:
+                case paqueteEvento:
 
                     printf("El servidor recibio un paquete evento del cliente\n");
 

@@ -1,7 +1,8 @@
 #pragma once
 #include <winsock2.h>
 #include <Windows.h>
-#include "DataRed.h"
+#include "Paquete.h"
+#include "../../constantes.h"
 
 class Servicio{
 
