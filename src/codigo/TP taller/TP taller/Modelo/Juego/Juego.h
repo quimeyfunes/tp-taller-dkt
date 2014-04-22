@@ -26,16 +26,16 @@ typedef enum{
 class Juego{
 
 private:
-
-	Cliente* clienteParaProbarUnaCosa; //despues sacar!
-
+	static Servidor* servidor;
+	static Cliente* cliente1; //despues sacar!
+	static Cliente* cliente2;
+	
 	Vista* vista;
 	Escenario* escenario;
 	Terreno* terreno;
 	SDL_Event* evento;
 	b2World* mundo;
-	static Servidor* servidor;
-	static Cliente* cliente; // cliente para probarrrrrrrrrrrrrrr
+
 
 	bool simulando;
 	ESTADO_JUEGO estadoActual;

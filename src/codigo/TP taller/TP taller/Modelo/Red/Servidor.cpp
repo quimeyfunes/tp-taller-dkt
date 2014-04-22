@@ -45,7 +45,7 @@ void Servidor::recibirDeClientes()
         }
 
         int i = 0;
-        while (i < (unsigned int)data_length) 
+        while (i < data_length) 
         {
             paquete.deserializar(&(network_data[i]));
             i += sizeof(Paquete);
@@ -54,19 +54,19 @@ void Servidor::recibirDeClientes()
 
                 case paqueteInicial:
 
-                    printf("El servidor recibio el paquete inicial del cliente.\n");
+					printf("El servidor recibio el paquete inicial del cliente %i.\n", iter->first);
 
                     break;
 
                 case paqueteEvento:
 
-					printf("El servidor recibio un paquete evento del cliente.\n");
+					printf("El servidor recibio un paquete evento del cliente %i.\n", iter->first);
 
                     break;
 
                 default:
 
-                    printf("Error en el tipo de paquete\n");
+                    printf("Error en el tipo de paquete.\n");
 
                     break;
             }

@@ -1,7 +1,9 @@
 #include "Juego.h"
 
 Servidor* Juego::servidor = NULL;
-Cliente* Juego::cliente = NULL;
+Cliente* Juego::cliente1 = NULL;
+Cliente* Juego::cliente2 = NULL;
+
 Juego::Juego(){
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
@@ -27,12 +29,12 @@ void Juego::ejecutar(){
 
 	//En el jugar pongo el loop del server
 	 servidor = new Servidor();
-	 cliente = new Cliente();
+	 cliente1 = new Cliente();
+	 cliente2 = new Cliente();
 	//Creo el trhead con el loop del servidor: en el loop se van a escuchar los clientes y a recibir los mensajes
 	 _beginthread( Juego::servidorLoop, 0, (void*)12);
 	 _beginthread(Juego::clienteLoop,0, (void*)12);
 	 //Puse el cliente aca para probar que se conecte pero obviamente esto se hacen en el cliente
-	 this->clienteParaProbarUnaCosa = new Cliente();
 
 	//game loop
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
@@ -66,8 +68,10 @@ void Juego::leerEvento(){
     Paquete paquete;
     paquete.setTipo(2);
     paquete.serializar(paquete_data);
-	//Servicio::enviarMensaje(this->clienteParaProbarUnaCosa->red->socketCliente, paquete_data, sizeof(Paquete));
-	Servicio::enviarMensaje(this->servidor->red->socketEscuchador, paquete_data, sizeof(Paquete));
+	Servicio::enviarMensaje(cliente1->red->socketCliente, paquete_data, sizeof(Paquete));
+	Servicio::enviarMensaje(cliente2->red->socketCliente, paquete_data, sizeof(Paquete));
+	for(int i=0; i< this->servidor->red->sessions.size(); i++)
+		Servicio::enviarMensaje(this->servidor->red->sessions.at(i), paquete_data, sizeof(Paquete));
 	////////////////////////////////
 
 		switch(this->vista->getAccion()){
@@ -192,8 +196,9 @@ void Juego::clienteLoop(void * arg)
 { 
     while(true) 
     {
-		
-        cliente->actualizar();
+		//para todos los clientes de una lista
+        cliente1->actualizar();
+		cliente2->actualizar();
 		
 		
     }
