@@ -124,8 +124,6 @@ void LectorTerreno::guardarMatrizEnPNG(string nombreArchivo, bool transparente){
 	Uint32* vectorPixeles = new Uint32[altoMatriz*anchoMatriz];
 	SDL_Surface* surNueva = IMG_Load(propiedadesPNG);
 
-	SDL_Surface* surDibujo = IMG_Load(dibujoTerreno);
-
 	Uint32 pCielo = transparente? SDL_MapRGBA(surNueva->format, 0xFF, 0xFF, 0xFF, 0x00) : SDL_MapRGB(surNueva->format, 0xFF, 0xFF, 0xFF);
 	Uint32 pTierra = transparente? SDL_MapRGBA(surNueva->format, 0xFF, 0xFF, 0xFF, 0xFF) : SDL_MapRGB(surNueva->format, 0x00, 0x00, 0x00);
 
@@ -276,16 +274,4 @@ LectorTerreno::~LectorTerreno(){
 		delete[] matrizTerreno[j];
 
 	delete[] this->matrizTerreno;
-}
-
-pixel LectorTerreno::sumarPixels(pixel p1, pixel p2){
-
-	pixel res;
-
-	res.R = p1.R + p2.R;
-	res.G = p1.G + p2.G;
-	res.B = p1.G + p2.G;
-	res.A = p1.A + p2.A;
-
-	return res;
 }
