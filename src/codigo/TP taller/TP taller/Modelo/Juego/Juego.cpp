@@ -1,5 +1,7 @@
 #include "Juego.h"
 
+Servidor* Juego::servidor = NULL;
+
 Juego::Juego(){
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
@@ -22,6 +24,15 @@ Juego::Juego(){
 
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
+
+	//En el jugar pongo el loop del server
+	 servidor = new Servidor();
+	//Creo el trhead con el loop del servidor: en el loop se van a escuchar los clientes y a recibir los mensajes
+	 _beginthread( Juego::servidorLoop, 0, (void*)12);
+
+	 //Puse el cliente aca para probar que se conecte pero obviamente esto se hacen en el cliente
+	 Cliente* cliente = new Cliente();
+
 	//game loop
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
@@ -141,6 +152,14 @@ void Juego::agregarObjetos(){
 			}
 		}
 	}
+}
+
+void Juego::servidorLoop(void * arg) 
+{ 
+    while(true) 
+    {
+        servidor->actualizar();
+    }
 }
 
 Juego::~Juego(){

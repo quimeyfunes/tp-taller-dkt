@@ -6,6 +6,8 @@
 #include "SDL/SDL_image.h"
 #include "SDL/SDL2_gfxPrimitives.h"
 #include "yaml-cpp/yaml.h"
+#include "../Red/Servidor.h"
+#include "../Red/Cliente.h"
 #include "../../Vista/Vista.h"
 #include "../Escenario/Escenario.h"
 #include "../../Parser/ParserDeHexARgb.h"
@@ -30,6 +32,7 @@ private:
 	Terreno* terreno;
 	SDL_Event* evento;
 	b2World* mundo;
+	static Servidor* servidor;
 
 	bool simulando;
 	ESTADO_JUEGO estadoActual;
@@ -42,6 +45,7 @@ private:
 	void agregarObjetos();
 	void agregarTexturas(EscenarioParseado* e);
 	void leerEvento();
+	static void servidorLoop(void * arg);
 	
 public:
 	Juego();
