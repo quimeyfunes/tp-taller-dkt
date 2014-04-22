@@ -27,6 +27,8 @@ class Juego{
 
 private:
 
+	Cliente* clienteParaProbarUnaCosa; //despues sacar!
+
 	Vista* vista;
 	Escenario* escenario;
 	Terreno* terreno;

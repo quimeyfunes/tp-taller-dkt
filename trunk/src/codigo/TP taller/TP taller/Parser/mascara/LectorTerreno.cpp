@@ -185,6 +185,17 @@ void LectorTerreno::escalarMatrizAEscenario(){
 }
 
 char* LectorTerreno::getRutaTexturaActualizada(){
+	//suma de pixeles:
+	pixel p1;
+	pixel p2;
+	pixel r;
+	p1.R= 0x00;
+	p1.G= 0x00;
+	p1.B= 0x00;
+
+
+
+
 
 	this->guardarMatrizEnPNG(texturaTerreno, true);
 	return texturaTerreno;
@@ -241,11 +252,11 @@ void LectorTerreno::generarTerrenoAleatorio(string nombreArchivo){
 }
 
 bool LectorTerreno::esCielo(pixel p){
-	return(p.A == 0x00)? true:false;
+	return((p.R == 0xFF)&&(p.G == 0xFF)&&(p.B == 0xFF))? true:false;
 }
 
 bool LectorTerreno::esTierra(pixel p){
-	return(p.A == 0xFF)? true:false;
+	return((p.R == 0x00)&&(p.G == 0x00)&&(p.B == 0x00))? true:false;
 }
 
 bool** LectorTerreno::getMatrizTerreno(){
@@ -265,4 +276,16 @@ LectorTerreno::~LectorTerreno(){
 		delete[] matrizTerreno[j];
 
 	delete[] this->matrizTerreno;
+}
+
+pixel LectorTerreno::sumarPixels(pixel p1, pixel p2){
+
+	pixel res;
+
+	res.R = p1.R + p2.R;
+	res.G = p1.G + p2.G;
+	res.B = p1.G + p2.G;
+	res.A = p1.A + p2.A;
+
+	return res;
 }

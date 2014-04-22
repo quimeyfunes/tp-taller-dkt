@@ -18,3 +18,11 @@ int Paquete::getTipo(){
 void Paquete::setTipo(int tipo){
 	this->tipo = tipo;
 }
+
+char* Paquete::getMensaje(){
+	return this->mensaje;
+}
+
+void Paquete::setMensaje(char* msg){
+	this->mensaje = msg;
+}

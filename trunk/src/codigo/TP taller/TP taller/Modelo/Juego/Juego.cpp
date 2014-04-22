@@ -31,7 +31,7 @@ void Juego::ejecutar(){
 	 _beginthread( Juego::servidorLoop, 0, (void*)12);
 
 	 //Puse el cliente aca para probar que se conecte pero obviamente esto se hacen en el cliente
-	 Cliente* cliente = new Cliente();
+	 this->clienteParaProbarUnaCosa = new Cliente();
 
 	//game loop
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
@@ -58,7 +58,16 @@ void Juego::ejecutar(){
 void Juego::leerEvento(){
 
 	if (this->vista->leerEvento(evento)){
-	
+
+		
+	//le envio un evento al servidor
+    char paquete_data[sizeof(Paquete)];
+    Paquete paquete;
+    paquete.setTipo(2);
+    paquete.serializar(paquete_data);
+	Servicio::enviarMensaje(this->clienteParaProbarUnaCosa->red->socketCliente, paquete_data, sizeof(Paquete));
+	////////////////////////////////
+
 		switch(this->vista->getAccion()){
 
 		case SALIR:			salir();						break;
