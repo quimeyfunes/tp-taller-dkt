@@ -9,7 +9,7 @@ Cliente::Cliente(void)
     char paquete_data[paquete_tamano];
 
     Paquete paquete;
-    paquete.tipoPaquete = INIT_CONNECTION;
+    paquete.setTipo(paqueteInicial);
 
     paquete.serializar(paquete_data);
 

@@ -73,12 +73,19 @@
 	//Constantes fisicas
 	#define gravedadX 0
 	#define gravedadY 9.8f
-	#define stepTiempo (float)(1/60.0)
+	#define stepTiempo (float)(2/60.0)
 	#define iteracionesVelocidad 6
 	#define iteracionesPosicion 2
 	#define friccion 0.4f
 	#define restitucion 0.3f
 	#define velocidadAgua 8
 	#define desaceleracionAgua 0.973
+
+	//Tipos de paquete
+	const unsigned paqueteInicial=1;
+	const unsigned paqueteEvento=2;
+	const unsigned paqueteMensaje=3;
+	const unsigned paqueteEstado=4;
+	#define MAX_PACKET_SIZE 1000000
 
 #endif
