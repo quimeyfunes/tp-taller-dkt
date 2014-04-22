@@ -35,6 +35,7 @@ private:
 	bool esCielo(pixel p);
 	bool esTierra(pixel p);
 	pixel boolAPixel(bool b);
+	pixel sumarPixels(pixel p1, pixel p2);
 
 	/*convierte el vector de RGBA a una matriz de pixeles de dimensiones ancho x alto.
 	chequea si el vector es valido y carga una matriz pixel por pixel del terreno a usar.*/

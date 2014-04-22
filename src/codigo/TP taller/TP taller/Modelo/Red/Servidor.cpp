@@ -60,7 +60,7 @@ void Servidor::recibirDeClientes()
 
                 case paqueteEvento:
 
-                    printf("El servidor recibio un paquete evento del cliente\n");
+					printf("El servidor recibio un paquete evento del cliente.\n");
 
                     break;
 
