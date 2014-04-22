@@ -35,6 +35,7 @@ private:
 	SDL_Event* evento;
 	b2World* mundo;
 	static Servidor* servidor;
+	static Cliente* cliente; // cliente para probarrrrrrrrrrrrrrr
 
 	bool simulando;
 	ESTADO_JUEGO estadoActual;
@@ -48,7 +49,7 @@ private:
 	void agregarTexturas(EscenarioParseado* e);
 	void leerEvento();
 	static void servidorLoop(void * arg);
-	
+	static void clienteLoop(void * arg);
 public:
 	Juego();
 	void ejecutar();

@@ -10,6 +10,7 @@ public:
 
     void actualizar();
 	void recibirDeClientes();
+	ServidorRed* red;
 private:
 
    // IDs for the clients connecting for table in ServerNetwork 
@@ -18,5 +19,5 @@ private:
    char network_data[MAX_PACKET_SIZE];
 
    // The ServerNetwork object 
-    ServidorRed* red;
+    
 };

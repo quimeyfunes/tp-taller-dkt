@@ -1,7 +1,7 @@
 #include "Juego.h"
 
 Servidor* Juego::servidor = NULL;
-
+Cliente* Juego::cliente = NULL;
 Juego::Juego(){
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
@@ -27,9 +27,10 @@ void Juego::ejecutar(){
 
 	//En el jugar pongo el loop del server
 	 servidor = new Servidor();
+	 cliente = new Cliente();
 	//Creo el trhead con el loop del servidor: en el loop se van a escuchar los clientes y a recibir los mensajes
 	 _beginthread( Juego::servidorLoop, 0, (void*)12);
-
+	 _beginthread(Juego::clienteLoop,0, (void*)12);
 	 //Puse el cliente aca para probar que se conecte pero obviamente esto se hacen en el cliente
 	 this->clienteParaProbarUnaCosa = new Cliente();
 
@@ -65,7 +66,8 @@ void Juego::leerEvento(){
     Paquete paquete;
     paquete.setTipo(2);
     paquete.serializar(paquete_data);
-	Servicio::enviarMensaje(this->clienteParaProbarUnaCosa->red->socketCliente, paquete_data, sizeof(Paquete));
+	//Servicio::enviarMensaje(this->clienteParaProbarUnaCosa->red->socketCliente, paquete_data, sizeof(Paquete));
+	Servicio::enviarMensaje(this->servidor->red->socketEscuchador, paquete_data, sizeof(Paquete));
 	////////////////////////////////
 
 		switch(this->vista->getAccion()){
@@ -183,4 +185,16 @@ Juego::~Juego(){
 	delete this->terreno;
 	delete this->evento;
 	delete Logger::getLogger();
+}
+
+
+void Juego::clienteLoop(void * arg) 
+{ 
+    while(true) 
+    {
+		
+        cliente->actualizar();
+		
+		
+    }
 }
