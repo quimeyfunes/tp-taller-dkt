@@ -46,6 +46,8 @@ void Juego::ejecutar(){
 			}
 		}
 
+		//HAY QUE CAMBIAR EL NOTIFICAR: ahora se llama al metodo notificar de observable, y ahi se avisa a los observadores del estado actual. Eso tiene
+		//que hacerse a traves de un mensaje a los clientes
 		escenario->notificar();	
 		vista->Dibujar();
 		SDL_Delay(1);
@@ -158,7 +160,11 @@ void Juego::servidorLoop(void * arg)
 { 
     while(true) 
     {
+		//En servidor actualizar se reciben clientes y se escuchan mensajes
         servidor->actualizar();
+		//If nuevo cliente -> tengo que agregar un nuevo juegador si no se supero el limite de jugadores
+
+		//If mensaje -> proceso el mensaje: si un jugador apreta boton, tengo que reflejarlo en el juego
     }
 }
 
