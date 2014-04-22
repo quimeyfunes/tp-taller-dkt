@@ -25,7 +25,7 @@ LectorTerreno::LectorTerreno(string nombreArchivo){
 	}else{
 		//si no hay error tengo que cargar mi matriz de terreno
 		//convierto RGBA a matriz y chequeo errores de terreno
-		RGB_AMatrizBool();
+		RGBA_AMatrizBool();
 	}
 
 	//cuando ya tengo mi matriz valida, la adapto para que entre en el escenario
@@ -34,7 +34,7 @@ LectorTerreno::LectorTerreno(string nombreArchivo){
 	logError->guardarEstado();
 }
 
-void LectorTerreno::RGB_AMatrizBool(){
+void LectorTerreno::RGBA_AMatrizBool(){
 
 	pixel pixActual;
 	punto posPixel;
@@ -49,8 +49,8 @@ void LectorTerreno::RGB_AMatrizBool(){
 			
 			SDL_GetRGB(vectorPixeles[j + (i*imagen->w)], imagen->format, &pixActual.R, &pixActual.G, &pixActual.B);
 
-			if(esBlanco(pixActual) || esNegro(pixActual)){ //chequea que todos los pixeles sean blancos o negros
-				matrizTerreno[j][i] = esNegro(pixActual);
+			if(esCielo(pixActual) || esTierra(pixActual)){ //chequea que todos los pixeles sean blancos o negros
+				matrizTerreno[j][i] = esTierra(pixActual);
 			}else{
 				cantErrores++;
 				posPixel.x = j;
@@ -123,6 +123,8 @@ void LectorTerreno::guardarMatrizEnPNG(string nombreArchivo, bool transparente){
 
 	Uint32* vectorPixeles = new Uint32[altoMatriz*anchoMatriz];
 	SDL_Surface* surNueva = IMG_Load(propiedadesPNG);
+
+	SDL_Surface* surDibujo = IMG_Load(dibujoTerreno);
 
 	Uint32 pCielo = transparente? SDL_MapRGBA(surNueva->format, 0xFF, 0xFF, 0xFF, 0x00) : SDL_MapRGB(surNueva->format, 0xFF, 0xFF, 0xFF);
 	Uint32 pTierra = transparente? SDL_MapRGBA(surNueva->format, 0xFF, 0xFF, 0xFF, 0xFF) : SDL_MapRGB(surNueva->format, 0x00, 0x00, 0x00);
@@ -220,11 +222,13 @@ pixel LectorTerreno::boolAPixel(bool valor){
 		p.R = 0x00;
 		p.G = 0x00;
 		p.B = 0x00;
+		p.A = 0xFF;
 
 	}else{ //valor == false, pixel blanco
 		p.R = 0xFF;
 		p.G = 0xFF;
 		p.B = 0XFF;
+		p.A = 0x00;
 	}
 
 	return p;
@@ -236,12 +240,12 @@ void LectorTerreno::generarTerrenoAleatorio(string nombreArchivo){
 	guardarMatrizEnPNG(nombreArchivo, false);
 }
 
-bool LectorTerreno::esBlanco(pixel p){
-	return((p.R == 0xFF)&&(p.G == 0xFF)&&(p.B == 0xFF))? true:false;
+bool LectorTerreno::esCielo(pixel p){
+	return(p.A == 0x00)? true:false;
 }
 
-bool LectorTerreno::esNegro(pixel p){
-	return((p.R == 0x00)&&(p.G == 0x00)&&(p.B == 0x00))? true:false;
+bool LectorTerreno::esTierra(pixel p){
+	return(p.A == 0xFF)? true:false;
 }
 
 bool** LectorTerreno::getMatrizTerreno(){
