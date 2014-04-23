@@ -13,6 +13,9 @@ Vista::Vista(EscenarioParseado* e){
 	this->accion = JUGAR;
 }
 
+Vista::Vista() {
+}
+
 Vista::~Vista() {
 
 	delete this->window;

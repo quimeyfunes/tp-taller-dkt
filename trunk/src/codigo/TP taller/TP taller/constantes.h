@@ -86,6 +86,7 @@
 	const unsigned paqueteEvento=2;
 	const unsigned paqueteMensaje=3;
 	const unsigned paqueteEstado=4;
+	const unsigned paqueteVista=5;
 	#define MAX_PACKET_SIZE 1000000
 
 #endif

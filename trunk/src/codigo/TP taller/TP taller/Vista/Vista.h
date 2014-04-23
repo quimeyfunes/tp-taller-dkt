@@ -39,6 +39,7 @@ private:
 public:
 
 	Vista(EscenarioParseado* e);
+	Vista();
 	~Vista();
 	SDL_Renderer* getRenderer();
 	DibujableTextura* crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF);
