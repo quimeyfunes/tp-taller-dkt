@@ -139,6 +139,14 @@ bool Vista::leerEvento(SDL_Event* evento) {
 
 			}
 			
+		} else {
+			if (evento->type == SDL_KEYUP) {
+				switch(evento->key.keysym.sym){
+					case SDLK_UP:		this->accion = SOLTARARRIBA;		return true;	break;
+					case SDLK_LEFT:		this->accion = SOLTARIZQUIERDA;		return true;	break;
+					case SDLK_RIGHT:	this->accion = SOLTARDERECHA;		return true;	break; 
+				}
+			}
 		}
 
 		if (evento->type == SDL_MOUSEBUTTONDOWN) {
