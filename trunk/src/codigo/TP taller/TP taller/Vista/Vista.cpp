@@ -3,7 +3,7 @@
 
 Vista::Vista(EscenarioParseado* e){
 	SDL_Init( SDL_INIT_EVERYTHING );
-	this->window = SDL_CreateWindow("Worms!", 50, 50, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN );
+	this->window = SDL_CreateWindow("Worms!", 50, 50, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN);
 	this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	this->listaDibujables = new list<Dibujable*>;
 	this->anchoPx = e->anchoPx;
@@ -11,6 +11,9 @@ Vista::Vista(EscenarioParseado* e){
 	this->corrimiento = 0;
 	SDL_SetWindowIcon(this->window, IMG_Load(rutaIcono));
 	this->accion = JUGAR;
+	this->escalaZoom = escalaZoomDefault;
+	this->posZoomX = 0;
+	this->posZoomY = 0;
 }
 
 Vista::Vista() {
@@ -93,7 +96,7 @@ list<Dibujable*>* Vista::getListaDibujables(){
 void Vista::Dibujar(){
 	SDL_RenderClear(this->renderer);
 	for (list<Dibujable*>::iterator it = this->listaDibujables->begin(); it != this->listaDibujables->end(); it++) {
-		(*it)->dibujar(this->renderer, this->corrimiento);
+		(*it)->dibujar(this->renderer, this->corrimiento, this->escalaZoom, this->posZoomX, this->posZoomY);
 	}
 	SDL_RenderPresent(this->renderer);
 }
@@ -153,6 +156,15 @@ bool Vista::leerEvento(SDL_Event* evento) {
 			this->accion = CLICK;
 			return true;
 		}
+
+		if (evento->type == SDL_MOUSEWHEEL){
+			if (evento->wheel.y > 0) {
+				this->setZoom(2);
+				this->setPosZoomX(x);
+				this->setPosZoomY(y);
+			} else
+				this->setZoom(1);
+		}
 	}
 	return false;
 }
@@ -163,4 +175,28 @@ ACCION_REALIZADA Vista::getAccion(){
 
 float Vista::getCorrimiento(){
 	return this->corrimiento;
+}
+
+int Vista::getZoom(){
+	return this->escalaZoom;
+}
+
+void Vista::setZoom(int escala){
+	this->escalaZoom = escala;
+}
+
+int Vista::getPosZoomX(){
+	return this->posZoomX;
+}
+
+int Vista::getPosZoomY(){
+	return this->posZoomY;
+}
+
+void Vista::setPosZoomX(int posX){
+	this->posZoomX = posX;
+}
+
+void Vista::setPosZoomY(int posY){
+	this->posZoomY = posY;
 }

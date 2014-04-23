@@ -20,7 +20,7 @@ public:
 	PoligonoDibujable(short int n, float escalaAncho, float escalaAlto);
 	~PoligonoDibujable();
 	void actualizar(Observable* observable);
-	void dibujar(SDL_Renderer* renderer, int corrimiento);
+	void dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY);
 };
 
 #endif

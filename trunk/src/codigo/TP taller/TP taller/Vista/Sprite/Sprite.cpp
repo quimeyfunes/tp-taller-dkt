@@ -33,9 +33,25 @@ Sprite::~Sprite(){
 	delete []this->recCuadro;
 }
 
-void Sprite::dibujar(SDL_Renderer *renderer, int corrimiento){
+void Sprite::dibujar(SDL_Renderer *renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY){
 
-	SDL_RenderCopy(renderer, this->textura, &this->recCuadro[frame], &this->recDest);
+	SDL_Rect rect = this->recDest;
+	int resize = 150;
+	int newH = ((rect.h) * (resize / 100));
+	int newW = ((rect.w) * (resize / 100));
+
+	if (escalaZoom != escalaZoomDefault) {
+		int scrollLeft = (( posZoomX * (resize / 100 )) - ((newW / 2) /2));
+		int scrollTop = ((posZoomY * (resize / 100)) - (( newH / 2 ) / 2));
+		rect.x -= scrollLeft;
+		rect.y -= scrollTop;
+		rect.h = newH*escalaZoom;
+		rect.w = newW*escalaZoom;
+		SDL_RenderCopy(renderer, this->textura, &this->recCuadro[frame], &rect);
+	} else {
+		SDL_RenderCopy(renderer, this->textura, &this->recCuadro[frame], &this->recDest);
+	}
+
 	contador++;
 	if(contador >= this->velocidadRefresco){
 		frame++;

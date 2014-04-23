@@ -12,7 +12,7 @@ private:
 
 public:
 	ScrollingSprite(SDL_Renderer* renderer, SDL_Rect rect, string path);
-	virtual void dibujar(SDL_Renderer* renderer, int corrimiento) override;
+	virtual void dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY) override;
 	~ScrollingSprite();
 };
 

@@ -33,7 +33,7 @@ void RectanguloDibujable::actualizar(Observable* observable) {
 	}
 }
 
-void RectanguloDibujable::dibujar(SDL_Renderer* renderer, int corrimiento){
+void RectanguloDibujable::dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY){
 	short int posX[4];
 	for (int i=0; i<4;i++) {
 		posX[i] = this->posicionesX[i] + corrimiento;

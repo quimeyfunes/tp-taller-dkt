@@ -20,7 +20,7 @@ public:
 	RectanguloDibujable(float escalaAncho, float escalaAlto);
 	~RectanguloDibujable();
 	void actualizar(Observable* observable);
-	void dibujar(SDL_Renderer* renderer, int corrimiento);
+	void dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY);
 };
 
 #endif
