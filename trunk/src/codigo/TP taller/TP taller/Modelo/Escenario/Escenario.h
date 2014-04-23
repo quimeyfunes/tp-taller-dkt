@@ -28,6 +28,9 @@ private:
 	list<Figura*>* listaFiguras;
 	Terreno* terreno;
 	Figura* figuraActiva;
+	bool puedeMoverseArriba;
+	bool puedeMoverseIzquierda;
+	bool puedeMoverseDerecha;
 
 	std::stringstream getMensajeSuperposicionObjeto(int linea);
 	std::stringstream getMensajeSuperposicionTerreno(int linea);
@@ -53,9 +56,12 @@ public:
 	static float getRelacionAncho();
 	static float getRelacionAlto();
 	void click(float x, float y);
+	void arriba(bool arriba);
+	void izquierda(bool izquierda);
+	void derecha(bool derecha);	
 	void saltar();
-	void izquierda();
-	void derecha();
+	void moverIzquierda();
+	void moverDerecha();
 };
 
 

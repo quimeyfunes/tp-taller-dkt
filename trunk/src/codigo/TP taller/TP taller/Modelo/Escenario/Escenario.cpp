@@ -18,6 +18,9 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->world = new b2World(*gravity);
 
 	this->figuraActiva = NULL;
+	this->puedeMoverseArriba = false;
+	this->puedeMoverseDerecha = false;
+	this->puedeMoverseIzquierda = false;
 }
 
 int Escenario::getAltoU(){
@@ -48,8 +51,9 @@ void Escenario::notificar() {
 	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		(*it)->notificar();
 	}
-
-
+	this->saltar();
+	this->moverDerecha();
+	this->moverIzquierda();
 }
 
 Poligono* Escenario::crearPoligono(ObjetoParseado objeto){
@@ -233,18 +237,37 @@ void Escenario::click(float x, float y){
 		}
 	}
 }
-void Escenario:: saltar(){
-	if (this->figuraActiva != NULL) {
-		this->figuraActiva->getBody()->ApplyLinearImpulse(b2Vec2(0,-60),this->figuraActiva->getPosicion(),true);
+
+void Escenario::arriba(bool arriba){
+	this->puedeMoverseArriba = arriba;
+}
+
+void Escenario::izquierda(bool izquierda){
+	this->puedeMoverseIzquierda = izquierda;
+}
+
+void Escenario::derecha(bool derecha){
+	this->puedeMoverseDerecha = derecha;
+}
+
+void Escenario::saltar(){
+	if ((this->figuraActiva != NULL) && (this->puedeMoverseArriba)) {
+		b2Body* cuerpo = this->figuraActiva->getBody();
+		cuerpo->ApplyLinearImpulse(b2Vec2(0,-3),this->figuraActiva->getPosicion(),true);
 	}
 }
-void Escenario::izquierda(){
-	if (this->figuraActiva != NULL) {
-		this->figuraActiva->getBody()->SetLinearVelocity(b2Vec2(-10,0));
+
+void Escenario::moverIzquierda(){
+	if ((this->figuraActiva != NULL) && (this->puedeMoverseIzquierda)) {
+		b2Body* cuerpo = this->figuraActiva->getBody();
+		cuerpo->SetLinearVelocity(b2Vec2(-10,cuerpo->GetLinearVelocity().y));
 	}
 }
-void Escenario::derecha(){
-	if (this->figuraActiva != NULL) {
-		this->figuraActiva->getBody()->SetLinearVelocity(b2Vec2(10,0));
+
+void Escenario::moverDerecha(){
+	if ((this->figuraActiva != NULL) && (this->puedeMoverseDerecha)) {
+		b2Body* cuerpo = this->figuraActiva->getBody();
+		cuerpo->SetLinearVelocity(b2Vec2(10,cuerpo->GetLinearVelocity().y));
 	}
 }
+

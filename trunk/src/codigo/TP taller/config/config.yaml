@@ -7,10 +7,9 @@ escenario:
     imagen_tierra: imagenes/mascaras/mascara1.png
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
-        - tipo: cuad
+        - tipo: rect
           x: 44
           y: 250
-          escala: 6
           ancho: 10
           alto: 12
           color: FF0000
