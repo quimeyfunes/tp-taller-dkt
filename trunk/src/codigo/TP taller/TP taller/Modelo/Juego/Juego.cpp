@@ -52,7 +52,7 @@ void Juego::ejecutar(){
 		
 		Paquete paquete;
 		paquete.setTipo(5);
-		char dataVista[sizeof(Paquete)];
+		char dataVista[sizeof(Vista)];
 		char dataPaquete[sizeof(Paquete)];
 		memcpy(dataVista, vista, sizeof(Vista));
 		paquete.setMensaje(dataVista);
@@ -62,8 +62,6 @@ void Juego::ejecutar(){
 
 		for(int i=0; i< this->servidor->red->sessions.size(); i++){
 			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), dataPaquete, sizeof(Paquete));
-			printf("Data paquete tamano:%d.\n",sizeof(dataPaquete));
-			printf("Se enviaron%d.\n",enviado);
 		}	
 		//vista->Dibujar();
 		SDL_Delay(1);

@@ -26,7 +26,6 @@ void Cliente::recibirDeServidor()
         // get data from server
         int data_length = red->recibirData(network_data);
 		Vista* vista = new Vista();
-		printf("Se recibieron%d.\n",data_length);
         if (data_length <= 0) 
         {
             //no data recieved
@@ -55,7 +54,8 @@ void Cliente::recibirDeServidor()
 					printf("El cliente recibio un paquete vista del servidor.\n");
 					
 					memcpy(vista, paquete.getMensaje(), sizeof(Vista));
-                    break;
+                    printf("Vista deserealizada.\n");
+					break;
                 default:
 
                     printf("Error en el tipo de paquete.Tipo es %d\n",paquete.getTipo());

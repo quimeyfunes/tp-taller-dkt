@@ -56,6 +56,7 @@ public:
 	bool leerEvento(SDL_Event* evento);
 	ACCION_REALIZADA getAccion();
 	float getCorrimiento();
+
 };
 
 #endif

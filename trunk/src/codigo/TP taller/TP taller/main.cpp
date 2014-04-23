@@ -27,7 +27,7 @@ int main(int argc, char* argv[]){
 			printf("Soy Cliente\n");
 			cliente = new Cliente();
 			clienteLoop();
-		}else{
+		}else if(argumento == "2"){
 			//Servidor
 			printf("Soy Servidor\n");
 			Juego* juego = new Juego();
