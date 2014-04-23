@@ -10,6 +10,7 @@ public:
 
     void actualizar();
 	void recibirDeClientes();
+	void enviarAeClientes(char* mensaje);
 	ServidorRed* red;
 private:
 

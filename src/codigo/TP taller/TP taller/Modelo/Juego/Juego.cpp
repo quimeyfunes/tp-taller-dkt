@@ -8,17 +8,14 @@ Juego::Juego(){
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
-
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
-	
 	this->vista = new Vista(e);
 	this->escenario = new Escenario(e->altoU,e->anchoU,e->nivelAgua,e->anchoPx * 1.0 / e->anchoU,e->altoPx * 1.0 / e->altoU);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
 	this->escenario->setTerreno(this->terreno);
 	this->mundo = escenario->getWorld();
-
 	agregarTexturas(e);
 	agregarObjetos();
 
@@ -29,11 +26,11 @@ void Juego::ejecutar(){
 
 	//En el jugar pongo el loop del server
 	 servidor = new Servidor();
-	 cliente1 = new Cliente();
-	 cliente2 = new Cliente();
+	 //cliente1 = new Cliente();
+	 //cliente2 = new Cliente();
 	//Creo el trhead con el loop del servidor: en el loop se van a escuchar los clientes y a recibir los mensajes
 	 _beginthread( Juego::servidorLoop, 0, (void*)12);
-	 _beginthread(Juego::clienteLoop,0, (void*)12);
+	 //_beginthread(Juego::clienteLoop,0, (void*)12);
 	 //Puse el cliente aca para probar que se conecte pero obviamente esto se hacen en el cliente
 
 	//game loop
@@ -51,8 +48,24 @@ void Juego::ejecutar(){
 
 		//HAY QUE CAMBIAR EL NOTIFICAR: ahora se llama al metodo notificar de observable, y ahi se avisa a los observadores del estado actual. Eso tiene
 		//que hacerse a traves de un mensaje a los clientes
-		escenario->notificar();	
-		vista->Dibujar();
+		escenario->notificar();
+		
+		Paquete paquete;
+		paquete.setTipo(5);
+		char dataVista[sizeof(Paquete)];
+		char dataPaquete[sizeof(Paquete)];
+		memcpy(dataVista, vista, sizeof(Vista));
+		paquete.setMensaje(dataVista);
+		paquete.serializar(dataPaquete);
+		/*Servicio::enviarMensaje(cliente1->red->socketCliente, dataPaquete, sizeof(Paquete));
+		Servicio::enviarMensaje(cliente2->red->socketCliente, paquete_data, sizeof(Paquete));*/
+
+		for(int i=0; i< this->servidor->red->sessions.size(); i++){
+			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), dataPaquete, sizeof(Paquete));
+			printf("Data paquete tamano:%d.\n",sizeof(dataPaquete));
+			printf("Se enviaron%d.\n",enviado);
+		}	
+		//vista->Dibujar();
 		SDL_Delay(1);
 		
 	}
@@ -64,14 +77,14 @@ void Juego::leerEvento(){
 
 		
 	//le envio un evento al servidor
-    char paquete_data[sizeof(Paquete)];
+    /*char paquete_data[sizeof(Paquete)];
     Paquete paquete;
     paquete.setTipo(2);
     paquete.serializar(paquete_data);
 	Servicio::enviarMensaje(cliente1->red->socketCliente, paquete_data, sizeof(Paquete));
 	Servicio::enviarMensaje(cliente2->red->socketCliente, paquete_data, sizeof(Paquete));
 	for(int i=0; i< this->servidor->red->sessions.size(); i++)
-		Servicio::enviarMensaje(this->servidor->red->sessions.at(i), paquete_data, sizeof(Paquete));
+		Servicio::enviarMensaje(this->servidor->red->sessions.at(i), paquete_data, sizeof(Paquete));*/
 	////////////////////////////////
 
 		switch(this->vista->getAccion()){

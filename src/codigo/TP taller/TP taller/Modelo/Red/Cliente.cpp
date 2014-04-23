@@ -20,11 +20,13 @@ Cliente::Cliente(void)
 
 void Cliente::recibirDeServidor()
 {
+
     Paquete paquete;
    
         // get data from server
         int data_length = red->recibirData(network_data);
-
+		Vista* vista = new Vista();
+		printf("Se recibieron%d.\n",data_length);
         if (data_length <= 0) 
         {
             //no data recieved
@@ -32,7 +34,7 @@ void Cliente::recibirDeServidor()
         }
 
         int i = 0;
-        while (i < data_length) 
+		while (i < data_length) 
         {
             paquete.deserializar(&(network_data[i]));
             i += sizeof(Paquete);
@@ -49,10 +51,14 @@ void Cliente::recibirDeServidor()
 					printf("El cliente recibio un paquete evento del servidor.\n");
 
                     break;
-
+				case paqueteVista:
+					printf("El cliente recibio un paquete vista del servidor.\n");
+					
+					memcpy(vista, paquete.getMensaje(), sizeof(Vista));
+                    break;
                 default:
 
-                    printf("Error en el tipo de paquete.\n");
+                    printf("Error en el tipo de paquete.Tipo es %d\n",paquete.getTipo());
 
                     break;
             }
