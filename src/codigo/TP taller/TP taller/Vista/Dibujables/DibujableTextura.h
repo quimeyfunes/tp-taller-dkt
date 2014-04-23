@@ -24,7 +24,7 @@ public:
 	int getAngulo();
 	void setAngulo(int angulo);
 	void setColor(int* rgb, int a);
-	void dibujar(SDL_Renderer* renderer, int corrimiento);
+	void dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY);
 };
 
 #endif

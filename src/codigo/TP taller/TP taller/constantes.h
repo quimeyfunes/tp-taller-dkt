@@ -70,6 +70,10 @@
 	#define porcentajeScroll 0.075
 	#define velocidadScroll 1/600.0
 
+	//Para Zoom
+	#define escalaZoomDefault 1
+	#define zoomMax 8
+
 	//Constantes fisicas
 	#define gravedadX 0
 	#define gravedadY 9.8f

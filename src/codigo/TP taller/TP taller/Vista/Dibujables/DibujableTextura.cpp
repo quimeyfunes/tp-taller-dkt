@@ -41,8 +41,24 @@ void DibujableTextura::setColor(int* rgb, int a ){
 	SDL_SetTextureAlphaMod(this->imagen, a);
 }
 
-void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimiento){
+void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY){
+
 	SDL_Rect rect = this->getRect();
 	rect.x += corrimiento;
-	SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
+	int resize = 150;
+	int newH = ((rect.h) * (resize / 100));
+	int newW = ((rect.w) * (resize / 100));
+
+	if ((escalaZoom != escalaZoomDefault) && (escalaZoom != zoomMax)) {
+
+		int scrollLeft = (( posZoomX * (resize / 100 )) - ((newW / 2) /2));
+		int scrollTop = ((posZoomY * (resize / 100)) - (( newH / 2 ) / 2));
+		rect.x -= scrollLeft;
+		rect.y -= scrollTop;
+		rect.h = newH*escalaZoom;
+		rect.w = newW*escalaZoom;
+		SDL_RenderCopyEx(renderer,this->getImagen(), NULL , &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
+	} else {
+		SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
+	}
 }

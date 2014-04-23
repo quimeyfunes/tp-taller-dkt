@@ -20,6 +20,6 @@ void CirculoDibujable::actualizar(Observable* observable) {
 	this->posicion.y = fig->getPosicion().y * Escenario::getRelacionAlto();
 }
 
-void CirculoDibujable::dibujar(SDL_Renderer* renderer,int corrimiento) {
+void CirculoDibujable::dibujar(SDL_Renderer* renderer,int corrimiento, int escalaZoom, int posZoomX, int posZoomY) {
 	filledEllipseRGBA(renderer,this->posicion.x + corrimiento,this->posicion.y,this->radioHorizontal,this->radioVertical,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
 }

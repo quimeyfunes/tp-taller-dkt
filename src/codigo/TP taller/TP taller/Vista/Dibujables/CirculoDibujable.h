@@ -18,7 +18,7 @@ public:
 	CirculoDibujable(int x, int y,int radioHorizontal,int radioVertical);
 	~CirculoDibujable();
 	void actualizar(Observable* observable);
-	void dibujar(SDL_Renderer* renderer, int corrimiento);
+	void dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY);
 };
 
 #endif
