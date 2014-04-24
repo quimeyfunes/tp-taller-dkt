@@ -35,3 +35,8 @@ void PoligonoDibujable::actualizar(Observable* observable) {
 void PoligonoDibujable::dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY){
 	filledPolygonRGBA(renderer,this->posicionesX,this->posicionesY,this->n,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
 }
+
+DibujableSerializado PoligonoDibujable::getDibujableSerializado(int& tamano){
+	DibujableSerializado serializado;
+	return serializado;
+}

@@ -1,14 +1,15 @@
 #ifndef __PAQUETE_H__
 #define __PAQUETE_H__
 
-#include <string.h>
+#include <string>
 using namespace std;
 
 class Paquete{
 
 private:
 	int tipo;
-	char* mensaje;
+	int tamanio;
+	string mensaje;
 
 public:
 	Paquete();
@@ -17,7 +18,10 @@ public:
 	int getTipo();
 	void setTipo(int tipo);
 
-	char* getMensaje();
-	void setMensaje(char* msg);
+	string getMensaje();
+	void setMensaje(string msg);
+
+	int getTamanio();
+	void setTamanio(int num);
 };
 #endif

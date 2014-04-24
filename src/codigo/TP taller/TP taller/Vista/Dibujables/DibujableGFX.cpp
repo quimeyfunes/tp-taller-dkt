@@ -17,3 +17,8 @@ void DibujableGFX::setColor(int* rgb){
 		this->color[i] = rgb[i];
 	}
 }
+
+DibujableSerializado DibujableGFX::getDibujableSerializado(int& tamano){
+	DibujableSerializado serializado;
+	return serializado;
+}

@@ -21,6 +21,7 @@ public:
 	~RectanguloDibujable();
 	void actualizar(Observable* observable);
 	void dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY);
+	DibujableSerializado getDibujableSerializado(int& tamano);
 };
 
 #endif
