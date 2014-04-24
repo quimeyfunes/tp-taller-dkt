@@ -54,17 +54,27 @@ void Juego::ejecutar(){
 		paquete.setTipo(5);
 		int i=0;
 		list<DibujableSerializado> lista = crearLista(i);
-		char* dataLista = new char[sizeof(list<DibujableSerializado>)];
-		
-		memcpy(dataLista, &lista, sizeof(list<DibujableSerializado>));
+		bool primero = true;
+		string dataListaString;
+		for (list<DibujableSerializado>::iterator it =lista.begin(); it != lista.end(); it++) {
+			char* dataObjetos = new char[sizeof(DibujableSerializado)];
+			memcpy(dataObjetos, &(*it), sizeof(DibujableSerializado));
+			if(!primero){
+				dataListaString += "#";
+			}else{
+				primero = false;
+			}
+			dataListaString+= StringUtil::charToString(dataObjetos);
+		}
+		//memcpy(dataLista, &lista, sizeof(list<DibujableSerializado>));
 	//	cout<<dataLista<<endl;
-		stringstream ss;
+		/*stringstream ss;
 		string dataListaString;
 		ss << dataLista;
-		ss >> dataListaString;
+		ss >> dataListaString;*/
 
 		paquete.setMensaje(dataListaString);
-		paquete.setTamanio(sizeof(list<DibujableSerializado>));
+		paquete.setTamanio((sizeof(DibujableSerializado)+4)*lista.size());
 
 		char dataPaquete[500];
 		paquete.serializar(dataPaquete);
