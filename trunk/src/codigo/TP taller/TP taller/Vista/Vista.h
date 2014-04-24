@@ -65,8 +65,8 @@ public:
 	void setZoom(int escala);
 	int getPosZoomX();
 	int getPosZoomY();
-	void setPosZoomX(int posX);
-	void setPosZoomY(int posY);
+	void setPosZoomX(int posX , int escalaZoom);
+	void setPosZoomY(int posY , int escalaZoom);
 
 };
 

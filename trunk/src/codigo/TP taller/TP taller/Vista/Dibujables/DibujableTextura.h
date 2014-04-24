@@ -26,6 +26,7 @@ public:
 	void setColor(int* rgb, int a);
 	void dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY);
 	DibujableSerializado getDibujableSerializado(int& tamano);
+	SDL_Rect realizarZoom(SDL_Rect rect, int posX, int PosY, int escalaZoom);
 };
 
 #endif

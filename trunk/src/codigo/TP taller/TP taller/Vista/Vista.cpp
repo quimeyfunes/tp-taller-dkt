@@ -160,8 +160,8 @@ bool Vista::leerEvento(SDL_Event* evento) {
 		if (evento->type == SDL_MOUSEWHEEL){
 			if (evento->wheel.y > 0) {
 				this->setZoom(2);
-				this->setPosZoomX(x);
-				this->setPosZoomY(y);
+				this->setPosZoomX(x, 2);
+				this->setPosZoomY(y, 2);
 			} else
 				this->setZoom(1);
 		}
@@ -193,10 +193,10 @@ int Vista::getPosZoomY(){
 	return this->posZoomY;
 }
 
-void Vista::setPosZoomX(int posX){
-	this->posZoomX = posX;
+void Vista::setPosZoomX(int posX, int escalaZoom){
+	this->posZoomX = ((posX * escalaZoom) - (this->anchoPx / 2));
 }
 
-void Vista::setPosZoomY(int posY){
-	this->posZoomY = posY;
+void Vista::setPosZoomY(int posY, int escalaZoom){
+	this->posZoomY = ((posY * escalaZoom)  - (this->altoPx / 2));
 }

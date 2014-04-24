@@ -36,17 +36,9 @@ Sprite::~Sprite(){
 void Sprite::dibujar(SDL_Renderer *renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY){
 
 	SDL_Rect rect = this->recDest;
-	int resize = 150;
-	int newH = ((rect.h) * (resize / 100));
-	int newW = ((rect.w) * (resize / 100));
 
-	if (escalaZoom != escalaZoomDefault) {
-		int scrollLeft = (( posZoomX * (resize / 100 )) - ((newW / 2) /2));
-		int scrollTop = ((posZoomY * (resize / 100)) - (( newH / 2 ) / 2));
-		rect.x -= scrollLeft;
-		rect.y -= scrollTop;
-		rect.h = newH*escalaZoom;
-		rect.w = newW*escalaZoom;
+	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
+		rect = realizarZoom(rect, posZoomX, posZoomY, escalaZoom);
 		SDL_RenderCopy(renderer, this->textura, &this->recCuadro[frame], &rect);
 	} else {
 		SDL_RenderCopy(renderer, this->textura, &this->recCuadro[frame], &this->recDest);
