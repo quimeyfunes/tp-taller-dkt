@@ -45,18 +45,9 @@ void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimiento, int esca
 
 	SDL_Rect rect = this->getRect();
 	rect.x += corrimiento;
-	int resize = 150;
-	int newH = ((rect.h) * (resize / 100));
-	int newW = ((rect.w) * (resize / 100));
 
-	if ((escalaZoom != escalaZoomDefault) && (escalaZoom != zoomMax)) {
-
-		int scrollLeft = (( posZoomX * (resize / 100 )) - ((newW / 2) /2));
-		int scrollTop = ((posZoomY * (resize / 100)) - (( newH / 2 ) / 2));
-		rect.x -= scrollLeft;
-		rect.y -= scrollTop;
-		rect.h = newH*escalaZoom;
-		rect.w = newW*escalaZoom;
+	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
+		rect = this->realizarZoom(rect, posZoomX, posZoomY, escalaZoom);
 		SDL_RenderCopyEx(renderer,this->getImagen(), NULL , &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
 	} else {
 		SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
@@ -66,4 +57,17 @@ void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimiento, int esca
 DibujableSerializado DibujableTextura::getDibujableSerializado(int& tamano){
 	DibujableSerializado serializado;
 	return serializado;
+}
+
+SDL_Rect DibujableTextura::realizarZoom(SDL_Rect rect, int posX, int posY, int escalaZoom){
+
+	SDL_Rect rectAux = rect;
+	rectAux.x = ((rectAux.x * escalaZoom ) - posX);
+	rectAux.y = ((rectAux.y  * escalaZoom)  - posY);
+	rectAux.h = rectAux.h * escalaZoom;
+	rectAux.w = rectAux.w * escalaZoom;
+
+	return rectAux;
+
+
 }
