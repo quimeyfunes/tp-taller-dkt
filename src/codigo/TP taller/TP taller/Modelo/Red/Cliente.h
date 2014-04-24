@@ -1,5 +1,6 @@
 #include "ClienteRed.h"
 #include "../../Vista/Vista.h"
+#include "../../Modelo/StringUtil.h"
 
 class Cliente
 {

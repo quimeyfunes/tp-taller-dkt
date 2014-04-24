@@ -14,6 +14,7 @@
 #include "../Terreno/Terreno.h"
 #include <iostream>
 #include <vector>
+#include "../StringUtil.h"
 
 using namespace std;
 
