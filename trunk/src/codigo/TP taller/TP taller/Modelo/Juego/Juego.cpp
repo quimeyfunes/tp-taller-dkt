@@ -16,7 +16,7 @@ Juego::Juego(){
 	this->terreno->generarTerreno(e->imagenTierra);
 	this->escenario->setTerreno(this->terreno);
 	this->mundo = escenario->getWorld();
-	agregarTexturas(e);
+	//agregarTexturas(e);
 	agregarObjetos();
 
 }
@@ -52,21 +52,46 @@ void Juego::ejecutar(){
 		
 		Paquete paquete;
 		paquete.setTipo(5);
-		char dataVista[sizeof(Vista)];
-		char dataPaquete[sizeof(Paquete)];
-		memcpy(dataVista, vista, sizeof(Vista));
-		paquete.setMensaje(dataVista);
+		int i=0;
+		list<DibujableSerializado> lista = crearLista(i);
+		char* dataLista = new char[sizeof(list<DibujableSerializado>)];
+		
+		memcpy(dataLista, &lista, sizeof(list<DibujableSerializado>));
+	//	cout<<dataLista<<endl;
+		stringstream ss;
+		string dataListaString;
+		ss << dataLista;
+		ss >> dataListaString;
+
+		paquete.setMensaje(dataListaString);
+		paquete.setTamanio(sizeof(list<DibujableSerializado>));
+
+		char dataPaquete[500];
 		paquete.serializar(dataPaquete);
 		/*Servicio::enviarMensaje(cliente1->red->socketCliente, dataPaquete, sizeof(Paquete));
 		Servicio::enviarMensaje(cliente2->red->socketCliente, paquete_data, sizeof(Paquete));*/
 
+		//printf("Paquete tamanio:%d .\n",sizeof(list<DibujableSerializado>)+500);
 		for(int i=0; i< this->servidor->red->sessions.size(); i++){
-			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), dataPaquete, sizeof(Paquete));
+			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), dataPaquete, 500);
 		}	
 		vista->Dibujar();
 		SDL_Delay(1);
 		
 	}
+}
+
+list<DibujableSerializado> Juego::crearLista(int &tamanio){
+	list<DibujableSerializado> lista;
+	tamanio=0;
+	for (list<Dibujable*>::iterator it = vista->getListaDibujables()->begin(); it != vista->getListaDibujables()->end(); it++) {
+		int tam;
+		lista.push_back((*it)->getDibujableSerializado(tam));
+		//tamanio += sizeof(*(*it));
+		tamanio += tam;
+	}
+
+	return lista;
 }
 
 void Juego::leerEvento(){

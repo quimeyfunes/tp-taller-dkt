@@ -6,7 +6,7 @@ Cliente::Cliente(void)
     red = new ClienteRed();
 
 	 // send init packet
-    const unsigned int paquete_tamano = sizeof(Paquete);
+    const unsigned int paquete_tamano = 500;
     char paquete_data[paquete_tamano];
 
     Paquete paquete;
@@ -20,12 +20,12 @@ Cliente::Cliente(void)
 
 void Cliente::recibirDeServidor()
 {
-
+	printf("Recibir de servidor.\n");
     Paquete paquete;
    
         // get data from server
         int data_length = red->recibirData(network_data);
-		Vista* vista = new Vista();
+		list<DibujableSerializado> lista;
         if (data_length <= 0) 
         {
             //no data recieved
@@ -35,8 +35,9 @@ void Cliente::recibirDeServidor()
         int i = 0;
 		while (i < data_length) 
         {
+			printf("ENTRO WHILE.\n");
             paquete.deserializar(&(network_data[i]));
-            i += sizeof(Paquete);
+            i += 500;
 			switch (paquete.getTipo()) {
 
                 case paqueteInicial:
@@ -52,9 +53,16 @@ void Cliente::recibirDeServidor()
                     break;
 				case paqueteVista:
 					printf("El cliente recibio un paquete vista del servidor.\n");
-					
-					memcpy(vista, paquete.getMensaje(), sizeof(Vista));
+					printf("Paquete tamanio:%d .\n",paquete.getTamanio());
+					printf("Pepe2\n");
+					memcpy(&lista, paquete.getMensaje().c_str(), paquete.getTamanio());
                     printf("Vista deserealizada.\n");
+					printf("Tamano de la lista:%d .\n",lista.size());
+					for (list<DibujableSerializado>::iterator it =lista.begin(); it != lista.end(); it++) {
+						printf("FOR.\n");
+						printf("PosX:%d .\n",(*it).posicionX);
+						printf("PosY:%d .\n",(*it).posicionY);
+					}
 					break;
                 default:
 

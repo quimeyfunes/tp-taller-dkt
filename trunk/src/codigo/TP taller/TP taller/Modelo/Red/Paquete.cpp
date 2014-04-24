@@ -4,11 +4,11 @@ Paquete::Paquete(){
 }
 
 void Paquete::serializar(char * data){
-	memcpy(data, this, sizeof(Paquete));
+	memcpy(data, this, 500);
 }
 
 void Paquete::deserializar(char * data){
-	memcpy(this, data, sizeof(Paquete));
+	memcpy(this, data, 500);
 }
 
 int Paquete::getTipo(){
@@ -19,10 +19,18 @@ void Paquete::setTipo(int tipo){
 	this->tipo = tipo;
 }
 
-char* Paquete::getMensaje(){
+string Paquete::getMensaje(){
 	return this->mensaje;
 }
 
-void Paquete::setMensaje(char* msg){
+void Paquete::setMensaje(string msg){
 	this->mensaje = msg;
+}
+
+int Paquete::getTamanio(){
+	return this->tamanio;
+}
+
+void Paquete::setTamanio(int num){
+	this->tamanio = num;
 }

@@ -7,7 +7,7 @@ escenario:
     imagen_tierra: imagenes/mascaras/mascara1.png
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
-        - tipo: rect
+        - tipo: circ
           x: 44
           y: 250
           ancho: 10
@@ -16,3 +16,4 @@ escenario:
           rot: 0
           masa: 3
           estatico: no
+          escala: 1

@@ -62,3 +62,8 @@ void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimiento, int esca
 		SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
 	}
 }
+
+DibujableSerializado DibujableTextura::getDibujableSerializado(int& tamano){
+	DibujableSerializado serializado;
+	return serializado;
+}

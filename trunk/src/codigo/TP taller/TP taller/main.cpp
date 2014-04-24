@@ -17,7 +17,7 @@ int main(int argc, char* argv[]){
 	}
 	else{Logger::getLogger()->escribir("No se recibió ningun parametro.");}*/
 
-	ParserYaml::setConfigPath("../config/config.yaml");
+	ParserYaml::setConfigPath("config/config.yaml");
 	try{
 		printf("Ingrese 1 para ser cliente, 2 para ser servidor.\n");
 		std::string argumento;

@@ -48,7 +48,7 @@ void Servidor::recibirDeClientes()
         while (i < data_length) 
         {
             paquete.deserializar(&(network_data[i]));
-            i += sizeof(Paquete);
+            i += 500;
 
 			switch (paquete.getTipo()) {
 
