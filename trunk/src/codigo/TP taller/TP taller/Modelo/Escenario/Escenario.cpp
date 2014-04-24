@@ -56,6 +56,30 @@ void Escenario::notificar() {
 	this->moverIzquierda();
 }
 
+Gusano* Escenario::crearGusano(ObjetoParseado objeto){
+	Gusano* gusano = new Gusano(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.ancho,objeto.alto,objeto.masa);
+	if (this->haySuperposicion(gusano)){
+		//Remuevo figura del world
+		this->getWorld()->DestroyBody(gusano->getBody());
+		std::stringstream info = this->getMensajeSuperposicionObjeto(objeto.linea);
+		Logger::getLogger()->escribir(info.str());
+		Logger::getLogger()->guardarEstado();
+		return NULL;
+	}
+	else if(this->haySuperposicionConTerreno(gusano)){
+		//Remuevo figura del world
+		this->getWorld()->DestroyBody(gusano->getBody());
+		std::stringstream info = this->getMensajeSuperposicionTerreno(objeto.linea);
+		Logger::getLogger()->escribir(info.str());
+		Logger::getLogger()->guardarEstado();
+		return NULL;
+	}
+	else {
+		this->agregarFigura(gusano);
+		return gusano;
+	}
+}
+
 Poligono* Escenario::crearPoligono(ObjetoParseado objeto){
 	Poligono* poligono = new Poligono(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.escala,objeto.masa,objeto.tipo);
 	if (this->haySuperposicion(poligono)){

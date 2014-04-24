@@ -93,6 +93,7 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 		esc->nivelAgua = esc->altoU - this->getValorFloat(*nodoEscenario,"nivel_agua",nivelAguaDEF);
 		esc->imagenTierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",mascaraTerrenoDEF);
 		esc->imagenCielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",texturaCieloDEF);
+		esc->imagenGusano = this->getValorCadena(*nodoEscenario, "imagen_gusano", rutaGusanoDEF);
 		//this->validarSecuencia(*nodoEscenario,"objetos");
 
 		return esc;
@@ -368,6 +369,7 @@ EscenarioParseado* ParserYaml::getEscenarioDefault(){
 	esc->nivelAgua = altoUDEF - nivelAguaDEF;
 	esc->imagenTierra = mascaraTerrenoDEF;
 	esc->imagenCielo = texturaCieloDEF;
+	esc->imagenGusano = rutaGusanoDEF;
 	return esc;
 }
 

@@ -8,6 +8,7 @@
 #include <valarray>
 #include <list>
 #include "../../Parser/yaml/ParserYaml.h"
+#include "../Figuras/Gusano.h"
 #include "../Figuras/Poligono.h"
 #include "../Figuras/Circulo.h"
 #include "../Figuras/Rectangulo.h"
@@ -45,6 +46,7 @@ public:
 	Poligono* crearPoligono(ObjetoParseado objeto);
 	Circulo* crearCirculo(ObjetoParseado objeto);
  	Rectangulo* crearRectangulo(ObjetoParseado objeto);
+	Gusano* crearGusano(ObjetoParseado objeto);
 	void agregarFigura(Figura* figura);
 	void notificar();
 	void simularAgua();

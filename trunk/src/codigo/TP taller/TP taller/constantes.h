@@ -13,6 +13,8 @@
 	#define rutaNube1 "imagenes/texturas/nube1.png"
 	#define rutaNube2 "imagenes/texturas/nube2.png"
 	#define rutaIcono "imagenes/texturas/icono.ico"
+	#define rutaGusano "imagenes/texturas/worm.png"
+	#define rutaGusanoDEF "imagenes/texturas/wormDefault.png"
 
 	const int timeStepOlas = 30;
 	const int timeStepNubes = 25;
