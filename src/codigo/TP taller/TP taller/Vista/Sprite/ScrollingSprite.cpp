@@ -20,7 +20,7 @@ void ScrollingSprite::dibujar(SDL_Renderer* renderer, int corrimiento, int escal
 	SDL_Rect rectAux = rec;
 	rectAux.x += corrimiento;
 	
-	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
+	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
 		rectAux = realizarZoom(rectAux, posZoomX, posZoomY, escalaZoom);
 		SDL_RenderCopy(renderer, this->textura , NULL , &rectAux);
 	} else {
