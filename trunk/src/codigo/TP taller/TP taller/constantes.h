@@ -73,6 +73,7 @@
 	//Para Zoom
 	#define escalaZoomDefault 1
 	#define zoomMax 8
+	#define zoomMin 1
 
 	//Constantes fisicas
 	#define gravedadX 0
