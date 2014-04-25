@@ -4,25 +4,26 @@
 Cliente::Cliente(void)
 {
     red = new ClienteRed();
-
 	 // send init packet
-    const unsigned int paquete_tamano = 500;
-    char paquete_data[paquete_tamano];
+	
+	string usuario = "marian";
+	int largoMensaje = usuario.size()+1;
+	int paquete_tamano = sizeof(int) + sizeof(int) + largoMensaje;
+    char* paquete_data = new char[paquete_tamano];
 
     Paquete paquete;
     paquete.setTipo(paqueteInicial);
-
+	paquete.setMensaje(usuario);
+	paquete.setTamanio(largoMensaje);
     paquete.serializar(paquete_data);
-
 	Servicio::enviarMensaje(red->socketCliente, paquete_data, paquete_tamano);
 }
 
 
 void Cliente::recibirDeServidor()
 {
-	printf("Recibir de servidor.\n");
+    Paquete* paquete = new Paquete();
    
-
         // get data from server
         int data_length = red->recibirData(network_data);
 		
@@ -35,43 +36,24 @@ void Cliente::recibirDeServidor()
         int i = 0;
 		while (i < data_length) 
         {
-			printf("ENTRO WHILE.\n");
-            //paquete.deserializar(&(network_data[i]));
+            paquete->deserializar(&(network_data[i]));
+			i += paquete->getPesoPaquete();
 
-			//deserializo el paquetito:
-			/*
-			int tamanioPaquete;
-			memcpy(&tamanioPaquete,&(network_data[i]),sizeof(int));
-			memcpy(&paquete,&(network_data[i])+sizeof(int),tamanioPaquete);
-			*/
-			 Paquete *paquete = new Paquete();
-			memcpy(&(network_data[i])+8,&(network_data[i])+8,8);
-			memcpy(paquete,&(network_data[i]),40);
-			//Quimey la tenes adentro, cagon.
-			//memmove(&mensaje,&(network_data[i])+8,11);
-			
-
-            i += 40;
 			switch (paquete->getTipo()) {
 
                 case paqueteInicial:
 
 					printf("El cliente recibio el paquete inicial del servidor.\n");
-
-                    break;
+					break;
 
                 case paqueteEvento:
 
 					printf("El cliente recibio un paquete evento del servidor.\n");
+					break;
 
-                    break;
 				case paqueteVista:
 					printf("El cliente recibio un paquete vista del servidor.\n");
-					printf("la variable tamanio tiene:%i \n", paquete->getTamanio());
-					printf("El mensaje tiene q ser: ");
-					cout << paquete->getMensaje();
 					
-					Sleep(4000);
 					//memcpy(&lista, paquete.getMensaje().c_str(), paquete.getTamanio());
 					//objetosSerializados = StringUtil::split(paquete.getMensaje(),'#');
 
@@ -92,6 +74,7 @@ void Cliente::recibirDeServidor()
                     break;
             }
         }
+		delete paquete;
     }
 
 
