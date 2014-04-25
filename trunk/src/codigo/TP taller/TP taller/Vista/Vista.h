@@ -53,6 +53,7 @@ public:
 	CirculoDibujable* crearCirculoDibujable(int x , int y ,int radioHorizontal,int radioVertical);
 	PoligonoDibujable* crearPoligonoDibujable(short int n, float escalaAncho, float escalaAlto);
 	RectanguloDibujable* crearRectanguloDibujable(float ancho, float alto);
+	GusanoDibujable* crearGusanoDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef);
 	void agregarDibujable(Dibujable* dibujable);
 	list<Dibujable*>* getListaDibujables();
 	void Dibujar();

@@ -84,6 +84,20 @@ RectanguloDibujable* Vista::crearRectanguloDibujable(float ancho, float alto) {
 	return dib;
 }
 
+GusanoDibujable* Vista::crearGusanoDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDEF){
+
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = ancho;
+	rect.h = alto;
+	
+	GusanoDibujable* dib = new GusanoDibujable(this->renderer, rect);
+	this->agregarDibujable(dib);
+	return dib;
+
+}
+
 void Vista::agregarDibujable(Dibujable* dibujable) {
 	this->listaDibujables->push_back(dibujable);
 }
