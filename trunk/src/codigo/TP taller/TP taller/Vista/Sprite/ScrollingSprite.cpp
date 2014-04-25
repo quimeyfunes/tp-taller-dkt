@@ -15,7 +15,7 @@ ScrollingSprite::ScrollingSprite(SDL_Renderer* renderer, SDL_Rect rect, string p
 ScrollingSprite::~ScrollingSprite(){
 }
 
-void ScrollingSprite::dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY){
+void ScrollingSprite::dibujar(SDL_Renderer* renderer, int corrimiento, float escalaZoom, int posZoomX, int posZoomY){
 
 	SDL_Rect rectAux = rec;
 	rectAux.x += corrimiento;
