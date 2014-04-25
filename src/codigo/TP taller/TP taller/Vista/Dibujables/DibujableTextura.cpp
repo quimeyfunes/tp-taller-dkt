@@ -36,8 +36,11 @@ void DibujableTextura::setAngulo(int angulo) {
 	this->anguloRotacion = angulo;
 }
 
-void DibujableTextura::setColor(int* rgb, int a ){
+void DibujableTextura::setColor(int* rgb){
 	SDL_SetTextureColorMod(this->imagen,rgb[0],rgb[1],rgb[2]);
+}
+
+void DibujableTextura::setTransparencia(int a){
 	SDL_SetTextureAlphaMod(this->imagen, a);
 }
 

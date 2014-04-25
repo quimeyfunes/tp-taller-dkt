@@ -22,7 +22,7 @@ class Dibujable
 public:
 	Dibujable();
 	~Dibujable();
-	virtual void setColor(int* rgb, int a);
+	virtual void setColor(int* rgb);
 	virtual void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, float escalaZoom, int posZoomX, int posZoomY);
 	virtual DibujableSerializado getDibujableSerializado(int& tamano);
 };
