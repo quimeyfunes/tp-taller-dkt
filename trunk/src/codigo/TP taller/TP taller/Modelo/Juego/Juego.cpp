@@ -53,9 +53,10 @@ void Juego::ejecutar(){
 		Paquete paquete;
 		paquete.setTipo(5);
 		int i=0;
-		list<DibujableSerializado> lista = crearLista(i);
+		string lista = crearLista(i);
 		bool primero = true;
-		string dataListaString;
+		//string dataListaString;
+		/*
 		for (list<DibujableSerializado>::iterator it =lista.begin(); it != lista.end(); it++) {
 			char* dataObjetos = new char[sizeof(DibujableSerializado)];
 			memcpy(dataObjetos, &(*it), sizeof(DibujableSerializado));
@@ -65,7 +66,9 @@ void Juego::ejecutar(){
 				primero = false;
 			}
 			dataListaString+= StringUtil::charToString(dataObjetos);
+			;
 		}
+		*/
 		//memcpy(dataLista, &lista, sizeof(list<DibujableSerializado>));
 	//	cout<<dataLista<<endl;
 		/*stringstream ss;
@@ -73,7 +76,8 @@ void Juego::ejecutar(){
 		ss << dataLista;
 		ss >> dataListaString;*/
 
-		paquete.setMensaje(dataListaString);
+
+		paquete.setMensaje(lista);
 		paquete.setTamanio((sizeof(DibujableSerializado)+4)*lista.size());
 
 		char dataPaquete[500];
@@ -90,15 +94,19 @@ void Juego::ejecutar(){
 		
 	}
 }
-
-list<DibujableSerializado> Juego::crearLista(int &tamanio){
-	list<DibujableSerializado> lista;
+//list<DibujableSerializado>
+string Juego::crearLista(int &tamanio){
+	//list<DibujableSerializado> lista;
+	string lista;
 	tamanio=0;
 	for (list<Dibujable*>::iterator it = vista->getListaDibujables()->begin(); it != vista->getListaDibujables()->end(); it++) {
-		int tam;
-		lista.push_back((*it)->getDibujableSerializado(tam));
+
+		char* dataObjetos = new char[sizeof(DibujableSerializado)];
+		memcpy(dataObjetos, &(*it), sizeof(DibujableSerializado));
+		lista+= StringUtil::charToString(dataObjetos);
+		lista+= "#";
 		//tamanio += sizeof(*(*it));
-		tamanio += tam;
+		
 	}
 
 	return lista;

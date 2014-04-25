@@ -30,7 +30,8 @@ private:
 	static Servidor* servidor;
 	static Cliente* cliente1; //despues sacar!
 	static Cliente* cliente2;
-	list<DibujableSerializado> Juego::crearLista(int &tamanio);
+	//list<DibujableSerializado> Juego::crearLista(int &tamanio);
+	string Juego::crearLista(int &tamanio);
 	Vista* vista;
 	Escenario* escenario;
 	Terreno* terreno;

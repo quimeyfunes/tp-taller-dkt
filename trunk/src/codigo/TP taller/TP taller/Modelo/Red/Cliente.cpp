@@ -57,16 +57,20 @@ void Cliente::recibirDeServidor()
 					printf("Paquete tamanio:%d .\n",paquete.getTamanio());
 					printf("Pepe2\n");
 					//memcpy(&lista, paquete.getMensaje().c_str(), paquete.getTamanio());
-					objetosSerializados = StringUtil::split(paquete.getMensaje(),'#');
+					//objetosSerializados = StringUtil::split(paquete.getMensaje(),'#');
 					printf("Vista deserealizada.\n");
-					printf("Tamano de la lista:%d .\n",lista.size());
-					for (std::vector<string>::iterator it =objetosSerializados.begin(); it != objetosSerializados.end(); it++) {
+					//printf("Tamano de la lista:%d .\n",lista.size());
+					/*for (std::vector<string>::iterator it =objetosSerializados.begin(); it != objetosSerializados.end(); it++) {
 						printf("FOR.\n");
 						DibujableSerializado dib;
 						memcpy(&dib, (*it).c_str(), sizeof(DibujableSerializado));
 						printf("PosX:%d .\n",dib.posicionX);
 						printf("PosY:%d .\n",dib.posicionY);
-					}
+					}*/
+
+					DibujableSerializado dib;
+					memcpy(&dib, paquete.getMensaje().c_str(), sizeof(DibujableSerializado));
+
 					break;
                 default:
 
