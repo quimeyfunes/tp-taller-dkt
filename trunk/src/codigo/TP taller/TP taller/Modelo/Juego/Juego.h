@@ -50,6 +50,7 @@ private:
 	void esperar();
 	void agregarObjetos();
 	void agregarTexturas(EscenarioParseado* e);
+	void agregarAgua(EscenarioParseado* e);
 	void leerEvento();
 	static void servidorLoop(void * arg);
 	static void clienteLoop(void * arg);
