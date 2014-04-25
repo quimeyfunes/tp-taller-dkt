@@ -196,7 +196,7 @@ bool Escenario::haySuperposicionConTerreno(Figura* figura){
 		}
 	}
 	//Si no choca con los bordes del terreno tengo que chequear con la matriz
-	bool** matrizTerreno = terreno->getLectorTerreno()->getMatrizTerreno();
+	pixel** matrizTerreno = terreno->getLectorTerreno()->getMatrizTerreno();
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 	b2Vec2 posicion = figura->getBody()->GetPosition();
 	float x = posicion.x * e->anchoPx / this->anchoU;
@@ -208,7 +208,7 @@ bool Escenario::haySuperposicionConTerreno(Figura* figura){
 	if(y >= terreno->getLectorTerreno()->getAltoMatriz() || x >= terreno->getLectorTerreno()->getAnchoMatriz() ||  y < 0 || x < 0){
 		return false;
 	}
-	if(matrizTerreno[(int) floor(x)][(int) floor(y)]){
+	if(terreno->getLectorTerreno()->esTierra(matrizTerreno[(int)floor(x)][(int)floor(y)])){
 		//Como hay un 1 quiere decir que el centro esta dentro del terreno	
 		return true;
 	}

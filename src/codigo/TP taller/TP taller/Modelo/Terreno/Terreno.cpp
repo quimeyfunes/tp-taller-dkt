@@ -15,10 +15,9 @@ Terreno::Terreno(b2World* world){
 void Terreno::generarTerreno(string nombreArchivo){
 
 	this->lectorTerreno = new LectorTerreno(nombreArchivo);
-	bool** matrizTerreno = lectorTerreno->getMatrizTerreno();
+	pixel** matrizTerreno = lectorTerreno->getMatrizTerreno();
 	int anchoMatriz = lectorTerreno->getAnchoMatriz();
 	int altoMatriz = lectorTerreno->getAltoMatriz();
-	bool tierra = true;
 	bool huboTierra = false;
 	bool aguasProfundas = false;
 	int tamanioBorde = lectorTerreno->getTamanoBorde();
@@ -39,7 +38,7 @@ void Terreno::generarTerreno(string nombreArchivo){
 		int contFil = 0;
 		for (int j = 0; ((j < altoMatriz) && !(hayTierra)); j++){
 			//Encuentro el borde y genero un chain
-			if (matrizTerreno[i][j] == tierra){
+			if (lectorTerreno->esTierra(matrizTerreno[i][j])){
 				if (aguasProfundas){
 					aguasProfundas = false;
 					vecBorde[posVec].Set(i / relacionAncho,1000);
