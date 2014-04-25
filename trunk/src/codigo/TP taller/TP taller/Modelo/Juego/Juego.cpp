@@ -139,7 +139,7 @@ void Juego::leerEvento(){
 		case CLICK:	
 			int x,y;
 			SDL_GetMouseState(&x,&y);
-			this->escenario->click( (x - this->vista->getCorrimiento())/ this->escenario->getRelacionAncho(), y / this->escenario->getRelacionAlto());
+			this->escenario->click( (x - this->vista->getCorrimientoX())/ this->escenario->getRelacionAncho(), (y - this->vista->getCorrimientoY()) / this->escenario->getRelacionAlto());
 			break;
 		}
 	}
@@ -178,11 +178,11 @@ void Juego::agregarTexturas(EscenarioParseado* e){
 		vista->crearSprite( (i*e->anchoPx)/4, e->nivelAgua* this->escenario->getRelacionAlto() - 15, e->anchoPx/4, 15, spriteOlas, 2, 6, 256, 144);
 	}
 	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(),terreno->getLector()->getAltoMatriz(),terreno->getLector()->getRutaTexturaActualizada(), "");
-	dibTierra->setColor(ParserDeHexARgb::parsearDeHexARgb("804000"),255);
+	//dibTierra->setColor(ParserDeHexARgb::parsearDeHexARgb("804000"));
 }
 
 void Juego::agregarObjetos(){
-	
+	Gusano* worm;
 	vector<ObjetoParseado>* objetos = ParserYaml::getParser()->getObjetos();	
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 
@@ -201,16 +201,22 @@ void Juego::agregarObjetos(){
 				break;
 			}
 		case 2:
-			{
-				Rectangulo* rec = escenario->crearRectangulo(*it);
-				if(rec){
-					cout<<(*it).ancho<<endl;
-					RectanguloDibujable* rectangulo = vista->crearRectanguloDibujable((*it).ancho * escalaAncho, (*it).alto * escalaAlto);
-					rectangulo->setColor(ParserDeHexARgb::parsearDeHexARgb((*it).color));
-					rec->agregarObservador(rectangulo);
-				}
-				break;
-			}
+			//{
+			//	Rectangulo* rec = escenario->crearRectangulo(*it);
+			//	if(rec){
+			//		cout<<(*it).ancho<<endl;
+			//		RectanguloDibujable* rectangulo = vista->crearRectanguloDibujable((*it).ancho * escalaAncho, (*it).alto * escalaAlto);
+			//		rectangulo->setColor(ParserDeHexARgb::parsearDeHexARgb((*it).color));
+			//		rec->agregarObservador(rectangulo);
+			//	}
+			//	break;
+			//}
+			worm = escenario->crearGusano(*it);
+			if (worm){
+				GusanoDibujable* gusano = vista->crearGusanoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * escalaAncho, (*it).alto * escalaAlto, rutaGusano, rutaGusanoDEF);
+				worm->agregarObservador(gusano);
+			} 
+			break;
 		default:
 			{
 				Poligono* pol = escenario->crearPoligono(*it);
