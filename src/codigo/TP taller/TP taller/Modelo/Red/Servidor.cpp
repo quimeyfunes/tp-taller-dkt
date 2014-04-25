@@ -1,4 +1,5 @@
 #include "Servidor.h"
+#include <iostream>
 
 unsigned int Servidor::cliente_id; 
 
@@ -17,7 +18,7 @@ void Servidor::actualizar()
     // get new clients
     if(red->acceptarNuevoCliente(cliente_id))
     {
-        printf("cliente %d se ha conectado al servidor\n",cliente_id); 
+        //printf("cliente %d se ha conectado al servidor\n",cliente_id); 
 
         cliente_id++;
     }
@@ -28,8 +29,7 @@ void Servidor::actualizar()
 
 void Servidor::recibirDeClientes()
 {
-    Paquete paquete;
-
+    Paquete* paquete = new Paquete();
     // go through all clients
     std::map<unsigned int, SOCKET>::iterator iter;
 
@@ -41,35 +41,35 @@ void Servidor::recibirDeClientes()
         if (data_length <= 0) 
         {
             //no data recieved
-            continue;
+            //continue;
         }
 
         int i = 0;
         while (i < data_length) 
         {
-            paquete.deserializar(&(network_data[i]));
-            i += 500;
+			
+            paquete->deserializar(&(network_data[i]));
+			i+= paquete->getPesoPaquete();
 
-			switch (paquete.getTipo()) {
+			switch (paquete->getTipo()) {
 
                 case paqueteInicial:
 
-					printf("El servidor recibio el paquete inicial del cliente %i.\n", iter->first);
-
+					cout<<paquete->getMensaje()<<" se ha conectado al servidor."<<endl;
+					cout<<"Quimey la tenes adentro."<<endl;
                     break;
 
                 case paqueteEvento:
 
 					printf("El servidor recibio un paquete evento del cliente %i.\n", iter->first);
-
                     break;
 
                 default:
 
                     printf("Error en el tipo de paquete.\n");
-
                     break;
             }
         }
     }
+	delete paquete;
 }

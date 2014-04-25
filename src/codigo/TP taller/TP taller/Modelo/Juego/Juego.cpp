@@ -16,7 +16,7 @@ Juego::Juego(){
 	this->terreno->generarTerreno(e->imagenTierra);
 	this->escenario->setTerreno(this->terreno);
 	this->mundo = escenario->getWorld();
-	//agregarTexturas(e);
+	agregarTexturas(e);
 	agregarObjetos();
 
 }
@@ -73,19 +73,18 @@ void Juego::ejecutar(){
 		/*Servicio::enviarMensaje(cliente1->red->socketCliente, dataPaquete, sizeof(Paquete));
 		Servicio::enviarMensaje(cliente2->red->socketCliente, paquete_data, sizeof(Paquete));*/
 		
-		Paquete paquete;
-		paquete.setTipo(5);
-		paquete.setTamanio(24);
-		string mensaje = "hola si";
-		paquete.setMensaje(mensaje);
+		//Paquete paquete;
+		//paquete.setTipo(5);
+		//string mensaje = "hola";
+		//paquete.setMensaje(mensaje);
 	
-		char data[40];
-		memcpy(data,&paquete,40);
+		//printf("%i\n %i\n ",sizeof(paquete)-sizeof(string),mensaje.length());
 
+		/*
 		for(int i=0; i< this->servidor->red->sessions.size(); i++){
-			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), data, 40);
+			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), data, 500);
 		}	
-		
+		*/
 		
 		vista->Dibujar();
 		SDL_Delay(1);
