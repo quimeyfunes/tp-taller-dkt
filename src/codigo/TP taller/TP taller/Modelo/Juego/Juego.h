@@ -15,6 +15,7 @@
 #include <iostream>
 #include <vector>
 #include "../StringUtil.h"
+#include "clasePrueba.h"
 
 using namespace std;
 

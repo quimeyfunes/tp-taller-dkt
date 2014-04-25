@@ -49,46 +49,43 @@ void Juego::ejecutar(){
 		//HAY QUE CAMBIAR EL NOTIFICAR: ahora se llama al metodo notificar de observable, y ahi se avisa a los observadores del estado actual. Eso tiene
 		//que hacerse a traves de un mensaje a los clientes
 		escenario->notificar();
+		/*
+
+		//vamos a mandar un lindo paquetito a los clientes:
+		clasePrueba *pObjeto = new clasePrueba();
+		pObjeto->posX = 14;
+		pObjeto->posY = 7;
+		//serializo el objeto:
+		char* objetoSerializado[sizeof(clasePrueba)];
+		memcpy(objetoSerializado,pObjeto,sizeof(clasePrueba));
+		string mensaje = StringUtil::charToString(*objetoSerializado);
+		
+		//cargo el msj en el paquete:
+		Paquete paquete;
+		paquete.setTipo(5);
+		paquete.setMensaje(mensaje);
+		int tamanioPaquete = mensaje.length() + sizeof(paquete) - sizeof(string);
+		char data[500];
+		
+		memcpy(data,&tamanioPaquete, sizeof(int));
+		memcpy(data+sizeof(int),&paquete, tamanioPaquete);
+
+		/*Servicio::enviarMensaje(cliente1->red->socketCliente, dataPaquete, sizeof(Paquete));
+		Servicio::enviarMensaje(cliente2->red->socketCliente, paquete_data, sizeof(Paquete));*/
 		
 		Paquete paquete;
 		paquete.setTipo(5);
-		int i=0;
-		string lista = crearLista(i);
-		bool primero = true;
-		//string dataListaString;
+		string mensaje = "hola";
+		paquete.setMensaje(mensaje);
+	
+		printf("%i\n %i\n ",sizeof(paquete)-sizeof(string),mensaje.length());
+
 		/*
-		for (list<DibujableSerializado>::iterator it =lista.begin(); it != lista.end(); it++) {
-			char* dataObjetos = new char[sizeof(DibujableSerializado)];
-			memcpy(dataObjetos, &(*it), sizeof(DibujableSerializado));
-			if(!primero){
-				dataListaString += "#";
-			}else{
-				primero = false;
-			}
-			dataListaString+= StringUtil::charToString(dataObjetos);
-			;
-		}
-		*/
-		//memcpy(dataLista, &lista, sizeof(list<DibujableSerializado>));
-	//	cout<<dataLista<<endl;
-		/*stringstream ss;
-		string dataListaString;
-		ss << dataLista;
-		ss >> dataListaString;*/
-
-
-		paquete.setMensaje(lista);
-		paquete.setTamanio((sizeof(DibujableSerializado)+4)*lista.size());
-
-		char dataPaquete[500];
-		paquete.serializar(dataPaquete);
-		/*Servicio::enviarMensaje(cliente1->red->socketCliente, dataPaquete, sizeof(Paquete));
-		Servicio::enviarMensaje(cliente2->red->socketCliente, paquete_data, sizeof(Paquete));*/
-
-		//printf("Paquete tamanio:%d .\n",sizeof(list<DibujableSerializado>)+500);
 		for(int i=0; i< this->servidor->red->sessions.size(); i++){
-			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), dataPaquete, 500);
+			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), data, 500);
 		}	
+		*/
+		
 		vista->Dibujar();
 		SDL_Delay(1);
 		
