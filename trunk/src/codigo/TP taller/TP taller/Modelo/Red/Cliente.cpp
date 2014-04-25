@@ -45,7 +45,7 @@ void Cliente::recibirDeServidor()
 			memcpy(&paquete,&(network_data[i])+sizeof(int),tamanioPaquete);
 			*/
 			 Paquete *paquete = new Paquete();
-			memcpy(&(network_data[i])+8,&(network_data[i])+8,16);
+			memcpy(&(network_data[i])+8,&(network_data[i])+8,8);
 			memcpy(paquete,&(network_data[i]),40);
 			//Quimey la tenes adentro, cagon.
 			//memmove(&mensaje,&(network_data[i])+8,11);
