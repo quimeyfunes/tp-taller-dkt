@@ -18,6 +18,8 @@ Juego::Juego(){
 	this->mundo = escenario->getWorld();
 	agregarTexturas(e);
 	agregarObjetos();
+	agregarAgua(e);
+	
 
 }
 
@@ -174,11 +176,13 @@ void Juego::agregarTexturas(EscenarioParseado* e){
 	vista->crearScrollingSprite(0, 10,  terreno->getLector()->getAnchoMatriz() / 5, terreno->getLector()->getAltoMatriz() /10, rutaNube1);
 	vista->crearScrollingSprite( terreno->getLector()->getAnchoMatriz() /2, 30, terreno->getLector()->getAnchoMatriz() / 5, terreno->getLector()->getAltoMatriz() / 10, rutaNube2);
 	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(),terreno->getLector()->getAltoMatriz(),terreno->getLector()->getRutaTexturaActualizada(), "");
-	vista->crearDibujableTextura(0, e->nivelAgua*this->escenario->getRelacionAlto(), terreno->getLector()->getAnchoMatriz(), terreno->getLector()->getAltoMatriz() - e->nivelAgua*this->escenario->getRelacionAlto(), texturaAgua, texturaAguaDEF);
+}
+
+void Juego::agregarAgua(EscenarioParseado* e){
+		vista->crearDibujableTextura(0, e->nivelAgua*this->escenario->getRelacionAlto(), terreno->getLector()->getAnchoMatriz(), terreno->getLector()->getAltoMatriz() - e->nivelAgua*this->escenario->getRelacionAlto(), texturaAgua, texturaAguaDEF);
 	for(int i=0;i<4;i++){
 		vista->crearSprite( (i* terreno->getLector()->getAnchoMatriz())/4, e->nivelAgua* this->escenario->getRelacionAlto() - 15,  terreno->getLector()->getAnchoMatriz()/4, 15, spriteOlas, 2, 6, 256, 144);
 	}
-	//dibTierra->setColor(ParserDeHexARgb::parsearDeHexARgb("804000"));
 }
 
 void Juego::agregarObjetos(){
