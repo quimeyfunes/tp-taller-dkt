@@ -30,10 +30,11 @@ void GusanoDibujable::actualizar(Observable* observable) {
 	
 }
 
-void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimiento , float escalaZoom, int posZoomX, int posZoomY){
+void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY){
 	
 	SDL_Rect rect = this->rect;
-	rect.x += corrimiento;
+	rect.x += corrimientoX;
+	rect.y += corrimientoY;
 
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
 		rect = realizarZoom(rect, posZoomX, posZoomY, escalaZoom);

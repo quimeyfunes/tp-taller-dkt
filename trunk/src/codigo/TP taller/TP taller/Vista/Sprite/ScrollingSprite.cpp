@@ -15,10 +15,11 @@ ScrollingSprite::ScrollingSprite(SDL_Renderer* renderer, SDL_Rect rect, string p
 ScrollingSprite::~ScrollingSprite(){
 }
 
-void ScrollingSprite::dibujar(SDL_Renderer* renderer, int corrimiento, float escalaZoom, int posZoomX, int posZoomY){
+void ScrollingSprite::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY){
 
 	SDL_Rect rectAux = rec;
-	rectAux.x += corrimiento;
+	rectAux.x += corrimientoX;
+	rectAux.y += corrimientoY;
 	
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
 		rectAux = realizarZoom(rectAux, posZoomX, posZoomY, escalaZoom);

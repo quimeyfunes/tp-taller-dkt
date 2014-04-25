@@ -5,6 +5,7 @@
 #include "Dibujables/CirculoDibujable.h"
 #include "Dibujables/PoligonoDibujable.h"
 #include "Dibujables\RectanguloDibujable.h"
+#include "Dibujables\GusanoDibujable.h"
 #include "Sprite/Sprite.h"
 #include "Sprite/ScrollingSprite.h"
 #include "../Parser/yaml/ParserYaml.h"
@@ -35,7 +36,8 @@ private:
 	list<Dibujable*>* listaDibujables;
 	int anchoPx;
 	int altoPx;
-	float corrimiento;
+	float corrimientoX;
+	float corrimientoY;
 	ACCION_REALIZADA accion;
 	float escalaZoom;
 	int posZoomX;
@@ -61,11 +63,13 @@ public:
 	int getAltoPx();
 	bool leerEvento(SDL_Event* evento);
 	ACCION_REALIZADA getAccion();
-	float getCorrimiento();
+	float getCorrimientoX();
+	float getCorrimientoY();
 	int getZoom();
 	void setZoom(float escala);
 	int getPosZoomX();
 	int getPosZoomY();
+	void scroll(int x ,int y );
 
 };
 
