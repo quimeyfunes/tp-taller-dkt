@@ -41,17 +41,18 @@ void DibujableTextura::setColor(int* rgb, int a ){
 	SDL_SetTextureAlphaMod(this->imagen, a);
 }
 
-void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY){
+void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimiento, float escalaZoom, int posZoomX, int posZoomY){
 
 	SDL_Rect rect = this->getRect();
 	rect.x += corrimiento;
-
+	
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
 		rect = this->realizarZoom(rect, posZoomX, posZoomY, escalaZoom);
 		SDL_RenderCopyEx(renderer,this->getImagen(), NULL , &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
 	} else {
 		SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
 	}
+	
 }
 
 DibujableSerializado DibujableTextura::getDibujableSerializado(int& tamano){
@@ -59,7 +60,7 @@ DibujableSerializado DibujableTextura::getDibujableSerializado(int& tamano){
 	return serializado;
 }
 
-SDL_Rect DibujableTextura::realizarZoom(SDL_Rect rect, int posX, int posY, int escalaZoom){
+SDL_Rect DibujableTextura::realizarZoom(SDL_Rect rect, int posX, int posY, float escalaZoom){
 
 	SDL_Rect rectAux = rect;
 	rectAux.x = ((rectAux.x * escalaZoom ) - posX);

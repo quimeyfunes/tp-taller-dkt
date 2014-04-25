@@ -37,7 +37,7 @@ private:
 	int altoPx;
 	float corrimiento;
 	ACCION_REALIZADA accion;
-	int escalaZoom;
+	float escalaZoom;
 	int posZoomX;
 	int posZoomY;
 
@@ -62,11 +62,9 @@ public:
 	ACCION_REALIZADA getAccion();
 	float getCorrimiento();
 	int getZoom();
-	void setZoom(int escala);
+	void setZoom(float escala);
 	int getPosZoomX();
 	int getPosZoomY();
-	void setPosZoomX(int posX , int escalaZoom);
-	void setPosZoomY(int posY , int escalaZoom);
 
 };
 

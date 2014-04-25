@@ -115,13 +115,13 @@ bool Vista::leerEvento(SDL_Event* evento) {
 	const Uint8 *keys = SDL_GetKeyboardState(NULL);
 	
 	SDL_GetMouseState(&x,&y);
-	if ((x < (this->anchoPx * porcentajeScroll)) && ( x != 0)) {
+	/*if ((x < (this->anchoPx * porcentajeScroll)) && ( x != 0)) {
 		this->corrimiento += this->anchoPx *velocidadScroll / x ;
 	} else {
 		if ((x > (this->anchoPx * (1 - porcentajeScroll))) && ( x != this->anchoPx)) {
 			this->corrimiento -= this->anchoPx * velocidadScroll / (this->anchoPx - x);
 		} 
-	}
+	}*/
 	if (SDL_PollEvent(evento) != 0) {
 
 		if(evento->type == SDL_QUIT){
@@ -158,15 +158,19 @@ bool Vista::leerEvento(SDL_Event* evento) {
 		}
 
 		if (evento->type == SDL_MOUSEWHEEL){
-			if (evento->wheel.y > 0) {
-				this->setZoom(this->escalaZoom*2);
-				this->setPosZoomX(x, this->escalaZoom);
-				this->setPosZoomY(y, this->escalaZoom);
-			} else {
-				this->setZoom(this->escalaZoom / 2);
-				this->setPosZoomX(x, this->escalaZoom);
-				this->setPosZoomY(y, this->escalaZoom);
+			if (this->escalaZoom == zoomMin) {
+				this->posZoomX = 0;
+				this->posZoomY = 0;
 			}
+			this->posZoomX = (this->posZoomX + x ) / this->escalaZoom;
+			this->posZoomY = (this->posZoomY + y ) / this->escalaZoom;
+			if (evento->wheel.y > 0) {
+				this->setZoom(this->escalaZoom + 0.25);
+			} else {
+				this->setZoom(this->escalaZoom - 0.25);
+			}
+			this->posZoomX = ((this->posZoomX * escalaZoom) - (this->anchoPx / 2));
+			this->posZoomY = ((this->posZoomY * escalaZoom)  - (this->altoPx / 2));
 		}
 	}
 	return false;
@@ -184,12 +188,11 @@ int Vista::getZoom(){
 	return this->escalaZoom;
 }
 
-void Vista::setZoom(int escala){
-
+void Vista::setZoom(float escala){
 	if (escala > zoomMax) {
 		this->escalaZoom = zoomMax;
 	} else 
-		if (escalaZoom < zoomMin) {
+		if (escala < zoomMin) {
 			this->escalaZoom = zoomMin;
 		} else {
 			this->escalaZoom = escala;
@@ -204,10 +207,3 @@ int Vista::getPosZoomY(){
 	return this->posZoomY;
 }
 
-void Vista::setPosZoomX(int posX, int escalaZoom){
-	this->posZoomX = ((posX * escalaZoom) - (this->anchoPx / 2));
-}
-
-void Vista::setPosZoomY(int posY, int escalaZoom){
-	this->posZoomY = ((posY * escalaZoom)  - (this->altoPx / 2));
-}
