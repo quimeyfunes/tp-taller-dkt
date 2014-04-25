@@ -7,11 +7,12 @@ class Cliente
 
 public:
 
-    Cliente();
+    Cliente(string nombre);
     ~Cliente(void);
-
+	string username;
     ClienteRed* red; 
 	void recibirDeServidor();
+	void enviarEstado();
 	void actualizar();
 
 private:

@@ -1,24 +1,39 @@
 #include "Cliente.h" 
 
 
-Cliente::Cliente(void)
+Cliente::Cliente(string nombre)
 {
+	this->username=nombre;
     red = new ClienteRed();
 	 // send init packet
 	
-	string usuario = "marian";
-	int largoMensaje = usuario.size()+1;
+	int largoMensaje = username.size()+1;
 	int paquete_tamano = sizeof(int) + sizeof(int) + largoMensaje;
     char* paquete_data = new char[paquete_tamano];
 
     Paquete paquete;
     paquete.setTipo(paqueteInicial);
-	paquete.setMensaje(usuario);
+	paquete.setMensaje(username);
 	paquete.setTamanio(largoMensaje);
     paquete.serializar(paquete_data);
 	Servicio::enviarMensaje(red->socketCliente, paquete_data, paquete_tamano);
 }
 
+void Cliente::enviarEstado(){
+
+	string mensaje = "";
+	int largoMensaje = 1;
+	int paquete_tamano = sizeof(int) + sizeof(int) + largoMensaje;
+    char* paquete_data = new char[paquete_tamano];
+
+    Paquete paquete;
+    paquete.setTipo(paqueteEstado);
+	paquete.setMensaje(mensaje);
+	paquete.setTamanio(largoMensaje);
+    paquete.serializar(paquete_data);
+	Servicio::enviarMensaje(red->socketCliente, paquete_data, paquete_tamano);
+
+}
 
 void Cliente::recibirDeServidor()
 {
@@ -81,4 +96,5 @@ void Cliente::recibirDeServidor()
 void Cliente::actualizar() 
 {
 	recibirDeServidor();
+	enviarEstado();
 }

@@ -24,8 +24,13 @@ int main(int argc, char* argv[]){
 		std::cin >> argumento;
 		if(argumento == "1"){
 			//Cliente
-			printf("Soy Cliente\n");
-			cliente = new Cliente();
+			printf("Soy Cliente.\n");
+			printf("Ingrese su nombre de usuario: ");
+			string nombre;
+			cin.ignore();
+			getline(cin, nombre);
+
+			cliente = new Cliente(nombre);
 			clienteLoop();
 		}else if(argumento == "2"){
 			//Servidor
