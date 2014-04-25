@@ -23,7 +23,6 @@ struct EscenarioParseado{
     int nivelAgua;
     string imagenTierra;
     string imagenCielo;
-	string imagenGusano;
 };
 
 
