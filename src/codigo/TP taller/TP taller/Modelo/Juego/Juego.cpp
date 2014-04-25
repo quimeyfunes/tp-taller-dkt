@@ -75,16 +75,18 @@ void Juego::ejecutar(){
 		
 		Paquete paquete;
 		paquete.setTipo(5);
+		paquete.setTamanio(24);
 		string mensaje = "hola";
 		paquete.setMensaje(mensaje);
 	
-		printf("%i\n %i\n ",sizeof(paquete)-sizeof(string),mensaje.length());
+		char data[20];
+		memcpy(data,&paquete,20);
 
-		/*
+		
 		for(int i=0; i< this->servidor->red->sessions.size(); i++){
-			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), data, 500);
+			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), data, 20);
 		}	
-		*/
+		
 		
 		vista->Dibujar();
 		SDL_Delay(1);
