@@ -2,7 +2,6 @@
 #define __PAQUETE_H__
 
 #include <string>
-
 using namespace std;
 
 class Paquete{
@@ -24,5 +23,8 @@ public:
 
 	int getTamanio();
 	void setTamanio(int num);
+
+	int getPesoPaquete();
+
 };
 #endif
