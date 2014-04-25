@@ -3,11 +3,12 @@
 
 Vista::Vista(EscenarioParseado* e){
 	SDL_Init( SDL_INIT_EVERYTHING );
-	this->window = SDL_CreateWindow("Worms!", 50, 50, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN);
+	this->anchoPx = e->anchoPx / escalaX_Matriz;
+	this->altoPx = e->altoPx / escalaY_Matriz;
+	this->window = SDL_CreateWindow("Worms!", 50, 50, anchoPx, altoPx,  SDL_WINDOW_SHOWN);
 	this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	this->listaDibujables = new list<Dibujable*>;
-	this->anchoPx = e->anchoPx;
-	this->altoPx = e->altoPx;
+
 	this->corrimientoX = 0;
 	this->corrimientoY = 0;
 	SDL_SetWindowIcon(this->window, IMG_Load(rutaIcono));

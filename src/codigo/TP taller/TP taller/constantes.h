@@ -21,8 +21,8 @@
 	const int maxColumnasInvalidasMascara = 10;
 
 	//para que el terreno sea mas grande que la pantalla
-	const double escalaX_Matriz = 1.5;
-	const double escalaY_Matriz = 1.5;
+	const double escalaX_Matriz = 1.2;
+	const double escalaY_Matriz = 1.2;
 
 	//Escenario
 	const unsigned anchoPxDEF=800;
