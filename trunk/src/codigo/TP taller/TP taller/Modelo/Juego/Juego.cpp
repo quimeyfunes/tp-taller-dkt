@@ -76,15 +76,14 @@ void Juego::ejecutar(){
 		Paquete paquete;
 		paquete.setTipo(5);
 		paquete.setTamanio(24);
-		string mensaje = "hola";
+		string mensaje = "hola si";
 		paquete.setMensaje(mensaje);
 	
-		char data[20];
-		memcpy(data,&paquete,20);
+		char data[40];
+		memcpy(data,&paquete,40);
 
-		
 		for(int i=0; i< this->servidor->red->sessions.size(); i++){
-			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), data, 20);
+			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), data, 40);
 		}	
 		
 		
