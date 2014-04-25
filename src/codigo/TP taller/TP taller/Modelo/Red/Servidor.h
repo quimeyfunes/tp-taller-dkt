@@ -19,6 +19,16 @@ private:
 	// data buffer
    char network_data[MAX_PACKET_SIZE];
 
+   int MAX_CLIENTES;
    // The ServerNetwork object 
+
+   typedef struct structCliente{
+	   string username;
+	   int time;
+	   bool activo;
+
+   }cliente;
+
+   cliente* clientes;
     
 };
