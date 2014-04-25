@@ -8,7 +8,8 @@ Vista::Vista(EscenarioParseado* e){
 	this->listaDibujables = new list<Dibujable*>;
 	this->anchoPx = e->anchoPx;
 	this->altoPx = e->altoPx;
-	this->corrimiento = 0;
+	this->corrimientoX = 0;
+	this->corrimientoY = 0;
 	SDL_SetWindowIcon(this->window, IMG_Load(rutaIcono));
 	this->accion = JUGAR;
 	this->escalaZoom = escalaZoomDefault;
@@ -110,7 +111,7 @@ list<Dibujable*>* Vista::getListaDibujables(){
 void Vista::Dibujar(){
 	SDL_RenderClear(this->renderer);
 	for (list<Dibujable*>::iterator it = this->listaDibujables->begin(); it != this->listaDibujables->end(); it++) {
-		(*it)->dibujar(this->renderer, this->corrimiento, this->escalaZoom, this->posZoomX, this->posZoomY);
+		(*it)->dibujar(this->renderer, this->corrimientoX, this->corrimientoY, this->escalaZoom, this->posZoomX, this->posZoomY);
 	}
 	SDL_RenderPresent(this->renderer);
 }
@@ -126,16 +127,8 @@ int Vista::getAltoPx() {
 bool Vista::leerEvento(SDL_Event* evento) {
 	int x,y;
 	//Para scroll
-	const Uint8 *keys = SDL_GetKeyboardState(NULL);
-	
 	SDL_GetMouseState(&x,&y);
-	/*if ((x < (this->anchoPx * porcentajeScroll)) && ( x != 0)) {
-		this->corrimiento += this->anchoPx *velocidadScroll / x ;
-	} else {
-		if ((x > (this->anchoPx * (1 - porcentajeScroll))) && ( x != this->anchoPx)) {
-			this->corrimiento -= this->anchoPx * velocidadScroll / (this->anchoPx - x);
-		} 
-	}*/
+	this->scroll(x,y);
 	if (SDL_PollEvent(evento) != 0) {
 
 		if(evento->type == SDL_QUIT){
@@ -194,8 +187,12 @@ ACCION_REALIZADA Vista::getAccion(){
 	return this->accion;
 }
 
-float Vista::getCorrimiento(){
-	return this->corrimiento;
+float Vista::getCorrimientoX(){
+	return this->corrimientoX;
+}
+
+float Vista::getCorrimientoY(){
+	return this->corrimientoY;
 }
 
 int Vista::getZoom(){
@@ -221,3 +218,20 @@ int Vista::getPosZoomY(){
 	return this->posZoomY;
 }
 
+void Vista::scroll(int x , int y) {
+	if ((x < (this->anchoPx * porcentajeScroll)) && ( x != 0)) {
+		this->corrimientoX += this->anchoPx *velocidadScroll / x ;
+	} else {
+		if ((x > (this->anchoPx * (1 - porcentajeScroll))) && ( x != this->anchoPx)) {
+			this->corrimientoX -= this->anchoPx * velocidadScroll / (this->anchoPx - x);
+		} 
+	}
+	if ((y < (this->altoPx * porcentajeScroll)) && ( y != 0)) {
+		this->corrimientoY += this->altoPx * velocidadScroll / y ;
+	} else {
+		if ((y > (this->altoPx * (1 - porcentajeScroll))) && ( y != this->altoPx)) {
+			this->corrimientoY -= this->altoPx * velocidadScroll / (this->altoPx - y);
+		} 
+	}
+
+}

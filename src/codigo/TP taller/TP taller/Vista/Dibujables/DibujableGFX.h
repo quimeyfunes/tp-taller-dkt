@@ -16,7 +16,7 @@ class DibujableGFX: public Observador, public Dibujable
 public:
 	DibujableGFX();
 	~DibujableGFX();
-	virtual void dibujar(SDL_Renderer* renderer, int corrimiento, int escalaZoom, int posZoomX, int posZoomY);
+	virtual void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, int escalaZoom, int posZoomX, int posZoomY);
 	virtual DibujableSerializado getDibujableSerializado(int& tamano);
 	int* getColor();
 	void setColor(int* rgb);

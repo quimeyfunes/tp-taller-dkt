@@ -33,7 +33,7 @@ Sprite::~Sprite(){
 	delete []this->recCuadro;
 }
 
-void Sprite::dibujar(SDL_Renderer *renderer, int corrimiento, float escalaZoom, int posZoomX, int posZoomY){
+void Sprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY){
 
 	SDL_Rect rect = this->recDest;
 
