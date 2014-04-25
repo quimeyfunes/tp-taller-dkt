@@ -80,9 +80,9 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 	const YAML::Node *nodoEscenario = this->documento.FindValue("escenario");
 	EscenarioParseado* esc = new EscenarioParseado();
 	if(nodoEscenario) {
-		esc->altoPx = this->getValorEscalar(*nodoEscenario,"altopx",altoPxDEF);
+		esc->altoPx = (double)(escalaX_Matriz * this->getValorEscalar(*nodoEscenario,"altopx",altoPxDEF));
 		esc->altoPx = validarMayorA(esc->altoPx, altoPXMIN, "altopx");
-		esc->anchoPx = this->getValorEscalar(*nodoEscenario,"anchopx",altoPxDEF);
+		esc->anchoPx = (double)(escalaY_Matriz * this->getValorEscalar(*nodoEscenario,"anchopx",altoPxDEF));
 		esc->anchoPx = validarMayorA(esc->anchoPx, anchoPXMIN, "anchopx");
 		esc->altoU = this->getValorFloat(*nodoEscenario,"altoun",altoUDEF);
 		esc->altoU = validarMayorA(esc->altoU, altoUMIN, "altoun");

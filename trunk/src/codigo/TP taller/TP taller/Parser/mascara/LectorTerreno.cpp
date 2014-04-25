@@ -23,8 +23,6 @@ LectorTerreno::LectorTerreno(string nombreArchivo){
 		generarTerrenoAleatorio(nombreArchivo);
 		//al generar una nueva imagen , ya voy a tener la matriz de terreno cargada en memoria, asi que terminé (por eso el else)
 	}else{
-		//si no hay error tengo que cargar mi matriz de terreno
-		//convierto RGBA a matriz y chequeo errores de terreno
 		crearMatrizRGBA();
 	}
 
@@ -47,14 +45,6 @@ void LectorTerreno::crearMatrizRGBA(){
 			
 			SDL_GetRGBA(vectorPixeles[j + (i*imagen->w)], imagen->format, &pixActual.R, &pixActual.G, &pixActual.B, &pixActual.A);
 			matrizTerreno[j][i] = pixActual;
-			//if(esCielo(pixActual) || esTierra(pixActual)){ //chequea que todos los pixeles sean blancos o negros
-			//	matrizTerreno[j][i] = esTierra(pixActual);
-			//}else{
-			//	cantErrores++;
-			//	posPixel.x = j;
-			//	posPixel.y = i;
-			//	pixelesInvalidos.push_back(posPixel);
-			//}
 		}
 	}
 	//hago una pasada columna por columna para chequear TCT
@@ -140,12 +130,9 @@ void LectorTerreno::guardarMatrizEnPNG(string nombreArchivo){
 	Uint32* vectorPixeles = new Uint32[altoMatriz*anchoMatriz];
 	SDL_Surface* surNueva = IMG_Load(propiedadesPNG);
 
-	//Uint32 pCielo = transparente? SDL_MapRGBA(surNueva->format, 0xFF, 0xFF, 0xFF, 0x00) : SDL_MapRGB(surNueva->format, 0xFF, 0xFF, 0xFF);
-	//Uint32 pTierra = transparente? SDL_MapRGBA(surNueva->format, 0xFF, 0xFF, 0xFF, 0xFF) : SDL_MapRGB(surNueva->format, 0x00, 0x00, 0x00);
-
 	for(unsigned y = 0; y < altoMatriz; y++)
 		for(unsigned x = 0; x < anchoMatriz; x++){
-			vectorPixeles[x + (y*anchoMatriz)] = pixelToUint32(matrizTerreno[x][y], surNueva->format);//?  pTierra : pCielo; 
+			vectorPixeles[x + (y*anchoMatriz)] = pixelToUint32(matrizTerreno[x][y], surNueva->format);
 		}
 
 	surNueva->h = altoMatriz;
@@ -169,8 +156,8 @@ int LectorTerreno::getTamanoBorde(){
 void LectorTerreno::escalarMatrizAEscenario(){
 
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
-	int altoEscenario = e->altoPx * escalaX_Matriz;
-	int anchoEscenario = e->anchoPx * escalaY_Matriz;
+	int altoEscenario = e->altoPx;
+	int anchoEscenario = e->anchoPx;
 	double escalaX = (double)anchoEscenario/(double)this->anchoMatriz;
 	double escalaY = (double)altoEscenario/(double)this->altoMatriz;	
 

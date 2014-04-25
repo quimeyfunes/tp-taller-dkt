@@ -7,7 +7,7 @@ private:
 	SDL_Rect rec;
 	SDL_Texture* textura;
 	int velocidadRefresco;
-	int anchoEscenario;
+	double anchoEscenario;
 	int contador;
 
 public:

@@ -8,6 +8,7 @@ ScrollingSprite::ScrollingSprite(SDL_Renderer* renderer, SDL_Rect rect, string p
 	this->velocidadRefresco = timeStepNubes;
 	
 	this->anchoEscenario = ParserYaml::getParser()->getEscenario()->anchoPx;
+	//printf("%i", this->anchoEscenario);
 	this->contador=0;
 }
 
