@@ -6,7 +6,7 @@ Dibujable::~Dibujable()
 {
 }
 
-void Dibujable::setColor(int* rgb, int a){
+void Dibujable::setColor(int* rgb){
 }
 
 void Dibujable::dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, float escalaZoom, int posZoomX, int posZoomY){

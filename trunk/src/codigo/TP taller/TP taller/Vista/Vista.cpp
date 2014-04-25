@@ -165,19 +165,7 @@ bool Vista::leerEvento(SDL_Event* evento) {
 		}
 
 		if (evento->type == SDL_MOUSEWHEEL){
-			if (this->escalaZoom == zoomMin) {
-				this->posZoomX = 0;
-				this->posZoomY = 0;
-			}
-			this->posZoomX = (this->posZoomX + x ) / this->escalaZoom;
-			this->posZoomY = (this->posZoomY + y ) / this->escalaZoom;
-			if (evento->wheel.y > 0) {
-				this->setZoom(this->escalaZoom + 0.25);
-			} else {
-				this->setZoom(this->escalaZoom - 0.25);
-			}
-			this->posZoomX = ((this->posZoomX * escalaZoom) - (this->anchoPx / 2));
-			this->posZoomY = ((this->posZoomY * escalaZoom)  - (this->altoPx / 2));
+			this->zoom(evento,x,y);
 		}
 	}
 	return false;
@@ -233,5 +221,43 @@ void Vista::scroll(int x , int y) {
 			this->corrimientoY -= this->altoPx * velocidadScroll / (this->altoPx - y);
 		} 
 	}
+	this->validarScroll();
+}
 
+void Vista::validarScroll() {
+	//Proximamente... (?)
+}
+
+void Vista::zoom(SDL_Event* evento,int x, int y) {
+	if (this->escalaZoom == zoomMin) {
+		this->posZoomX = 0;
+		this->posZoomY = 0;
+	}
+	this->posZoomX = (this->posZoomX + x ) / this->escalaZoom;
+	this->posZoomY = (this->posZoomY + y ) / this->escalaZoom;
+	if (evento->wheel.y > 0) {
+		this->setZoom(this->escalaZoom + 0.25);
+	} else {
+		this->setZoom(this->escalaZoom - 0.25);
+	}
+	this->posZoomX = ((this->posZoomX * escalaZoom) - (this->anchoPx / 2));
+	this->posZoomY = ((this->posZoomY * escalaZoom)  - (this->altoPx / 2));
+	this->validarZoom();
+}
+
+void Vista::validarZoom() {
+	if ((this->posZoomX + this->anchoPx) > (this->anchoPx * this->escalaZoom)) {
+		this->posZoomX = this->anchoPx * (this->escalaZoom - 1);
+	} else {
+		if (this->posZoomX < 0) {
+			this->posZoomX = 0;
+		}
+	}
+	if ((this->posZoomY + this->altoPx) > (this->altoPx* this->escalaZoom)) {
+		this->posZoomY = this->altoPx * (this->escalaZoom - 1);
+	} else {
+		if (this->posZoomY < 0) {
+			this->posZoomY = 0;
+		}
+	}
 }
