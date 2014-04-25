@@ -39,10 +39,14 @@ void Cliente::recibirDeServidor()
             //paquete.deserializar(&(network_data[i]));
 
 			//deserializo el paquetito:
+			/*
 			int tamanioPaquete;
 			memcpy(&tamanioPaquete,&(network_data[i]),sizeof(int));
 			memcpy(&paquete,&(network_data[i])+sizeof(int),tamanioPaquete);
-
+			*/
+			memcpy(&paquete,&(network_data[i]),20);
+			string mensaje = "xxxx";
+			memcpy(&mensaje,&(network_data[i])+8,10);
 
             i += 500;
 			switch (paquete.getTipo()) {
@@ -60,7 +64,11 @@ void Cliente::recibirDeServidor()
                     break;
 				case paqueteVista:
 					printf("El cliente recibio un paquete vista del servidor.\n");
+					printf("la variable tamanio tiene:%i \n", paquete.getTamanio());
+					printf("El mensaje tiene q ser: ");
+					cout << mensaje;
 					
+
 					//memcpy(&lista, paquete.getMensaje().c_str(), paquete.getTamanio());
 					//objetosSerializados = StringUtil::split(paquete.getMensaje(),'#');
 

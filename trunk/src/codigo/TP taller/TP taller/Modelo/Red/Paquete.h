@@ -2,6 +2,7 @@
 #define __PAQUETE_H__
 
 #include <string>
+
 using namespace std;
 
 class Paquete{
