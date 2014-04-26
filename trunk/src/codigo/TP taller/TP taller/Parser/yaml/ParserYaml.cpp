@@ -80,14 +80,14 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 	const YAML::Node *nodoEscenario = this->documento.FindValue("escenario");
 	EscenarioParseado* esc = new EscenarioParseado();
 	if(nodoEscenario) {
-		esc->altoPx = (double)(escalaX_Matriz * this->getValorEscalar(*nodoEscenario,"altopx",altoPxDEF));
+		esc->altoPx = (double)(escalaY_Matriz * this->getValorEscalar(*nodoEscenario,"altopx",altoPxDEF));
 		esc->altoPx = validarMayorA(esc->altoPx, altoPXMIN, "altopx");
-		esc->anchoPx = (double)(escalaY_Matriz * this->getValorEscalar(*nodoEscenario,"anchopx",altoPxDEF));
+		esc->anchoPx = (double)(escalaX_Matriz * this->getValorEscalar(*nodoEscenario,"anchopx",anchoPxDEF));
 		esc->anchoPx = validarMayorA(esc->anchoPx, anchoPXMIN, "anchopx");
-		esc->altoU = this->getValorFloat(*nodoEscenario,"altoun",altoUDEF);
+		esc->altoU = (double)(escalaY_Matriz * this->getValorFloat(*nodoEscenario,"altoun",altoUDEF));
 		esc->altoU = validarMayorA(esc->altoU, altoUMIN, "altoun");
 		esc->altoU = validarMenorA(esc->altoU, esc->altoPx, "altoun");
-		esc->anchoU = this->getValorFloat(*nodoEscenario,"anchoun",altoUDEF);
+		esc->anchoU = (double)(escalaX_Matriz * this->getValorFloat(*nodoEscenario,"anchoun",anchoUDEF));
 		esc->anchoU = validarMayorA(esc->anchoU, anchoUMIN, "anchoun");
 		esc->anchoU = validarMenorA(esc->anchoU, esc->anchoPx, "anchoun");
 		esc->nivelAgua = esc->altoU - this->getValorFloat(*nodoEscenario,"nivel_agua",nivelAguaDEF);

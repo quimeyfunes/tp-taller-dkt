@@ -18,8 +18,8 @@ using namespace std;
 struct EscenarioParseado{
 	double altoPx;
     double anchoPx;
-    int altoU;
-    int anchoU;
+    double altoU;
+    double anchoU;
     int nivelAgua;
     string imagenTierra;
     string imagenCielo;
