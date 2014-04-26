@@ -3,19 +3,16 @@
 
 Cliente::Cliente(string nombre){
 
-    //red = new ClienteRed();
+    red = new ClienteRed();
 	this->username=nombre;
 	this->activo = false;
-	//enviarPaquete(red->socketCliente, paqueteInicial, this->username);
+	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
 
 	//Esto deberia ir en otro lado creo
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
-	printf("aa\n");
 	this->juego = new JuegoCliente();
-	printf("bb\n");
 	this->juego->ejecutar();
-	printf("cc\n");
 }
 
 void Cliente::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){

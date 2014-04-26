@@ -30,7 +30,6 @@ int main(int argc, char* argv[]){
 			string nombre;
 			cin.ignore();
 			getline(cin, nombre);
-
 			cliente = new Cliente(nombre);
 			clienteLoop();
 		}else if(argumento == "2"){
