@@ -1,5 +1,4 @@
 #include "ClienteRed.h"
-#include "../../Modelo/Juego/JuegoCliente.h"
 
 class Cliente
 {
@@ -15,7 +14,6 @@ public:
 	void actualizar();
 
 private:
-	JuegoCliente* juego;
 	bool activo;
 	char network_data[MAX_PACKET_SIZE];
 	void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);

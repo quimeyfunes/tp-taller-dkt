@@ -8,6 +8,7 @@
 #include "Juego.h"
 #include <iostream>
 #include <vector>
+#include "../Red/Cliente.h"
 #include "../StringUtil.h"
 
 
@@ -21,6 +22,7 @@ private:
 	/*Vista* vista;
 	Escenario* escenario;
 	SDL_Event* evento;*/
+	static Cliente* cliente;
 	list<Dibujable*>* dibujablesBase;
 	void reiniciar();
 	void salir();
@@ -32,6 +34,7 @@ private:
 	void leerEvento();
 public:
 	JuegoCliente();
+	JuegoCliente(string nombreCliente);
 	void ejecutar();
 	~JuegoCliente();
 	void actualizarDibujables(Paquete* paqueteVista);

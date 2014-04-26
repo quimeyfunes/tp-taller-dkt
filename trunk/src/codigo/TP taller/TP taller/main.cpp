@@ -1,16 +1,16 @@
-#include "Modelo/Red/Cliente.h"
+#include "Modelo/Juego/JuegoCliente.h"
 #include <process.h>
 
-Cliente* cliente = NULL;
+//Cliente* cliente = NULL;
 
-void clienteLoop() 
-{ 
-    while(true) 
-    {
-		cliente->actualizar();
-		SDL_Delay(1);
-    }
-}
+//void clienteLoop() 
+//{ 
+//    while(true) 
+//    {
+//		cliente->actualizar();
+//		SDL_Delay(1);
+//    }
+//}
 
 int main(int argc, char* argv[]){
 	/*if(argc >= 2){
@@ -30,8 +30,9 @@ int main(int argc, char* argv[]){
 			string nombre;
 			cin.ignore();
 			getline(cin, nombre);
-			cliente = new Cliente(nombre);
-			clienteLoop();
+			JuegoCliente* juego = new JuegoCliente(nombre);
+			juego->ejecutar();
+			delete juego;
 		}else if(argumento == "2"){
 			//Servidor
 			printf("Soy Servidor\n");

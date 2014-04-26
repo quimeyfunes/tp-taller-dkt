@@ -2,17 +2,10 @@
 
 
 Cliente::Cliente(string nombre){
-
     red = new ClienteRed();
 	this->username=nombre;
 	this->activo = false;
 	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
-
-	//Esto deberia ir en otro lado creo
-	ParserYaml* parser = ParserYaml::getParser();
-	EscenarioParseado* e = parser->getEscenario();
-	this->juego = new JuegoCliente();
-	this->juego->ejecutar();
 }
 
 void Cliente::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
@@ -59,7 +52,7 @@ void Cliente::recibirDeServidor()
 
                 case paqueteInicial:
 					// si recibi hola, activarme y empezar a mandar paquetes
-					cout<<paquete->getMensaje();
+					//cout<<paquete->getMensaje();
 					this->activo=true;
 					break;
 
@@ -86,7 +79,7 @@ void Cliente::recibirDeServidor()
 					break;
 
 				case paqueteFinal:
-					cout<<paquete->getMensaje();
+					//cout<<paquete->getMensaje();
 					this->activo=false;
 					break;
                 default:
