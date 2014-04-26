@@ -7,7 +7,6 @@
 #include "SDL/SDL2_gfxPrimitives.h"
 #include "yaml-cpp/yaml.h"
 #include "../Red/Servidor.h"
-#include "../Red/Cliente.h"
 #include "../../Vista/Vista.h"
 #include "../Escenario/Escenario.h"
 #include "../../Parser/ParserDeHexARgb.h"
@@ -29,33 +28,32 @@ class Juego{
 
 private:
 	static Servidor* servidor;
-	static Cliente* cliente1; //despues sacar!
-	static Cliente* cliente2;
 	//list<DibujableSerializado> Juego::crearLista(int &tamanio);
-	string Juego::crearLista(int &tamanio);
-	Vista* vista;
-	Escenario* escenario;
-	Terreno* terreno;
-	SDL_Event* evento;
 	b2World* mundo;
 
 
-	bool simulando;
-	ESTADO_JUEGO estadoActual;
-
+	void agregarObjetos();
+	
+	static void servidorLoop(void * arg);
+	static void clienteLoop(void * arg);
+public:
+	string Juego::crearLista(int &tamanio);
+	Vista* vista;
+	Escenario* escenario;
+	SDL_Event* evento;
+	Terreno* terreno;
 	void reiniciar();
 	void salir();
 	void jugar();
 	void alternarPausa();
 	void esperar();
-	void agregarObjetos();
 	void agregarTexturas(EscenarioParseado* e);
 	void agregarAgua(EscenarioParseado* e);
 	void leerEvento();
-	static void servidorLoop(void * arg);
-	static void clienteLoop(void * arg);
-public:
+	bool simulando;
+	ESTADO_JUEGO estadoActual;
 	Juego();
+	Juego(string texto);
 	void ejecutar();
 	~Juego();
 };

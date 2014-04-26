@@ -106,12 +106,16 @@ void Vista::agregarDibujable(Dibujable* dibujable) {
 
 list<Dibujable*>* Vista::getListaDibujables(){
 	return this->listaDibujables;
-	
+}
+
+void Vista::setListaDibujables(list<Dibujable*>* dibujables){
+	this->listaDibujables = dibujables;
 }
 
 void Vista::Dibujar(){
 	SDL_RenderClear(this->renderer);
-	for (list<Dibujable*>::iterator it = this->listaDibujables->begin(); it != this->listaDibujables->end(); it++) {
+	list<Dibujable*>* dibu = this->listaDibujables;
+	for (list<Dibujable*>::iterator it = dibu->begin(); it != dibu->end(); it++) {
 		(*it)->dibujar(this->renderer, this->corrimientoX, this->corrimientoY, this->escalaZoom, this->anchoPx, this->altoPx);
 	}
 	SDL_RenderPresent(this->renderer);

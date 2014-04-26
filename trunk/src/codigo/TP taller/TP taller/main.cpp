@@ -1,4 +1,4 @@
-#include "Modelo/Juego/Juego.h"
+#include "Modelo/Red/Cliente.h"
 #include <process.h>
 
 Cliente* cliente = NULL;
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]){
 		}else if(argumento == "2"){
 			//Servidor
 			printf("Soy Servidor\n");
-			Juego* juego = new Juego();
+			Juego* juego = new Juego("a");
 			juego->ejecutar();
 			delete juego;
 		}

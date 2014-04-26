@@ -1,10 +1,11 @@
 #include "Juego.h"
 
 Servidor* Juego::servidor = NULL;
-Cliente* Juego::cliente1 = NULL;
-Cliente* Juego::cliente2 = NULL;
 
 Juego::Juego(){
+}
+
+Juego::Juego(string texto){
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
@@ -22,6 +23,7 @@ Juego::Juego(){
 	
 
 }
+
 
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
@@ -87,30 +89,27 @@ void Juego::ejecutar(){
 			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), data, 500);
 		}	
 		*/
-		PoligonoDibujable* pol = new PoligonoDibujable(2,4,10);
-		string cirSerializado = pol->serializar();
-		PoligonoDibujable* pol2 = new PoligonoDibujable();
-		pol2->deserealizar(cirSerializado);
-		delete pol;
-		delete pol2;
 		vista->Dibujar();
 		SDL_Delay(1);
 		
 	}
 }
-//list<DibujableSerializado>
+
 string Juego::crearLista(int &tamanio){
 	//list<DibujableSerializado> lista;
-	string lista;
+	string lista = "";
+	string serializado = "";
 	tamanio=0;
+	bool first = true;
 	for (list<Dibujable*>::iterator it = vista->getListaDibujables()->begin(); it != vista->getListaDibujables()->end(); it++) {
-
-		/*char* dataObjetos = new char[sizeof(DibujableSerializado)];
-		memcpy(dataObjetos, &(*it), sizeof(DibujableSerializado));
-		lista+= StringUtil::charToString(dataObjetos);
-		lista+= "#";*/
-		//tamanio += sizeof(*(*it));
-		
+		if(!first){
+			lista += separadorEntidades;
+			first = false;
+		}
+		serializado = (*it)->serializar();
+		if(serializado != ""){
+			lista += serializado;
+		}
 	}
 
 	return lista;
@@ -265,12 +264,5 @@ Juego::~Juego(){
 
 void Juego::clienteLoop(void * arg) 
 { 
-    while(true) 
-    {
-		//para todos los clientes de una lista
-        cliente1->actualizar();
-		cliente2->actualizar();
-		
-		
-    }
+
 }
