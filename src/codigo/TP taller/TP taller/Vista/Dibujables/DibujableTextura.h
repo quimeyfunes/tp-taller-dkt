@@ -25,7 +25,7 @@ public:
 	void setAngulo(int angulo);
 	void setColor(int* rgb);
 	void setTransparencia(int a);
-	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY);
+	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	SDL_Rect realizarZoom(SDL_Rect rect, int posX, int PosY, float escalaZoom);
 	virtual string serializar();
 	virtual void deserealizar(string aDeserealizar);

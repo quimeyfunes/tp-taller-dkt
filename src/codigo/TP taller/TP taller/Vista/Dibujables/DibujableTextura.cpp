@@ -48,14 +48,12 @@ void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimientoX,int corr
 
 	SDL_Rect rect = this->getRect();
 	
-	
-	rect.x -= corrimientoX;
-	rect.y -= corrimientoY;
-	
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
 		rect = this->realizarZoom(this->getRect(), corrimientoX, corrimientoY, escalaZoom);
 		SDL_RenderCopyEx(renderer,this->getImagen(), NULL , &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
 	} else {
+		rect.x -= corrimientoX;
+		rect.y -= corrimientoY;
 		SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
 	}
 	
@@ -64,6 +62,7 @@ void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimientoX,int corr
 SDL_Rect DibujableTextura::realizarZoom(SDL_Rect rect, int corrimientoX, int corrimientoY, float escalaZoom){
 
 	SDL_Rect rectAux = rect;
+
 	rectAux.x = (rectAux.x  * escalaZoom ) - corrimientoX;
 	rectAux.y = (rectAux.y  * escalaZoom)  - corrimientoY;
 	rectAux.h = rectAux.h * escalaZoom;

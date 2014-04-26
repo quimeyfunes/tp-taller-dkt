@@ -16,8 +16,6 @@ Vista::Vista(EscenarioParseado* e){
 	SDL_SetWindowIcon(this->window, IMG_Load(rutaIcono));
 	this->accion = JUGAR;
 	this->escalaZoom = escalaZoomDefault;
-	this->posZoomX = 0;
-	this->posZoomY = 0;
 }
 
 Vista::Vista() {
@@ -114,7 +112,7 @@ list<Dibujable*>* Vista::getListaDibujables(){
 void Vista::Dibujar(){
 	SDL_RenderClear(this->renderer);
 	for (list<Dibujable*>::iterator it = this->listaDibujables->begin(); it != this->listaDibujables->end(); it++) {
-		(*it)->dibujar(this->renderer, this->corrimientoX, this->corrimientoY, this->escalaZoom, this->posZoomX, this->posZoomY);
+		(*it)->dibujar(this->renderer, this->corrimientoX, this->corrimientoY, this->escalaZoom, this->anchoPx, this->altoPx);
 	}
 	SDL_RenderPresent(this->renderer);
 }
@@ -169,8 +167,6 @@ bool Vista::leerEvento(SDL_Event* evento) {
 
 		if (evento->type == SDL_MOUSEWHEEL){
 			this->zoom(evento,x,y);
-			this->corrimientoX = this->posZoomX;
-			this->corrimientoY = this->posZoomY;
 		}
 	}
 	this->validarCorrimiento();
@@ -189,7 +185,7 @@ float Vista::getCorrimientoY(){
 	return this->corrimientoY;
 }
 
-int Vista::getZoom(){
+float Vista::getZoom(){
 	return this->escalaZoom;
 }
 
@@ -202,14 +198,6 @@ void Vista::setZoom(float escala){
 		} else {
 			this->escalaZoom = escala;
 		}
-}
-
-int Vista::getPosZoomX(){
-	return this->posZoomX;
-}
-
-int Vista::getPosZoomY(){
-	return this->posZoomY;
 }
 
 void Vista::scroll(int x , int y) {
@@ -230,24 +218,18 @@ void Vista::scroll(int x , int y) {
 }
 
 void Vista::zoom(SDL_Event* evento,int x, int y) {
-	if (this->escalaZoom == zoomMin) {
-		this->posZoomX = 0;
-		this->posZoomY = 0;
-	}
-	
-	this->posZoomX = (this->corrimientoX + x ) / this->escalaZoom;
-	this->posZoomY = (this->corrimientoY + y ) / this->escalaZoom;
-	this->corrimientoX = this->escalaZoom;
-	this->corrimientoY = this->escalaZoom;
 
+	this->corrimientoX = (this->corrimientoX + x ) / this->escalaZoom;
+	this->corrimientoY = (this->corrimientoY + y ) / this->escalaZoom;
+	
 	if (evento->wheel.y > 0) {
 		this->setZoom(this->escalaZoom + 0.25);
 	} else {
 		this->setZoom(this->escalaZoom - 0.25);
 	}
 
-	this->posZoomX = ((this->posZoomX + corrimientoX) * escalaZoom) - this->anchoPx / 2;
-	this->posZoomY = ((this->posZoomY + corrimientoY) * escalaZoom)  - this->altoPx / 2;
+	this->corrimientoX = (this->corrimientoX * escalaZoom) - this->anchoPx / 2;
+	this->corrimientoY = (this->corrimientoY * escalaZoom)  - this->altoPx / 2;
 }
 
 void Vista::validarCorrimiento() {

@@ -2,13 +2,13 @@ escenario:
     altopx: 600
     anchopx: 800
     altoun: 300
-    anchoun: 500
+    anchoun: 750
     nivel_agua: 100
     imagen_tierra: imagenes/mascaras/mascara1.png
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
         - tipo: rect
-          x: 450
+          x: 700
           y: 200
           ancho: 10
           alto: 10

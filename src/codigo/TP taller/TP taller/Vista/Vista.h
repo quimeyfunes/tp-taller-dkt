@@ -42,8 +42,6 @@ private:
 	float corrimientoY;
 	ACCION_REALIZADA accion;
 	float escalaZoom;
-	int posZoomX;
-	int posZoomY;
 
 public:
 
@@ -67,10 +65,8 @@ public:
 	ACCION_REALIZADA getAccion();
 	float getCorrimientoX();
 	float getCorrimientoY();
-	int getZoom();
+	float getZoom();
 	void setZoom(float escala);
-	int getPosZoomX();
-	int getPosZoomY();
 	void scroll(int x ,int y );
 	void zoom(SDL_Event* evento,int x, int y);
 	void validarCorrimiento();

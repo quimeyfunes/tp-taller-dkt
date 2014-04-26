@@ -17,7 +17,7 @@ public:
 	Dibujable();
 	~Dibujable();
 	virtual void setColor(int* rgb);
-	virtual void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, float escalaZoom, int posZoomX, int posZoomY);
+	virtual void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	virtual string serializar();
 	virtual void deserealizar(string aDeserealizar);
 };

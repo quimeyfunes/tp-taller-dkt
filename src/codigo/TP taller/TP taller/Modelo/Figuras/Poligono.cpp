@@ -6,7 +6,7 @@ Poligono::Poligono(void)
 }
 
 Poligono::Poligono(float x, float y, short int rotacion, b2World* world, bool estatico, float escala, float masa, short int n)
-	: Figura(x, y, rotacion, world, estatico)
+	: Figura(x, y, rotacion, world, estatico, false)
 {
 	b2PolygonShape shape;
 	b2Vec2* vertices = new b2Vec2[n];

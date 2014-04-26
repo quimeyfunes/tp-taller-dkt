@@ -6,7 +6,7 @@ DibujableGFX::DibujableGFX(){
 DibujableGFX::~DibujableGFX(){
 }
 
-void DibujableGFX::dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, int escalaZoom, int posZoomX, int posZoomY){
+void DibujableGFX::dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, int escalaZoom, int anchoPx, int altoPx){
 }
 
 int* DibujableGFX::getColor(){

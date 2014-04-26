@@ -146,8 +146,7 @@ void Juego::leerEvento(){
 		case CLICK:	
 			int x,y;
 			SDL_GetMouseState(&x,&y);
-			this->escenario->click((x + this->vista->getCorrimientoX()) / relacionPPU,  (y + this->vista->getCorrimientoY()) / relacionPPU);
-			//this->escenario->click( (x - this->vista->getCorrimientoX())/ this->escenario->getRelacionAncho(), (y - this->vista->getCorrimientoY()) / this->escenario->getRelacionAlto());
+			this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
 			break;
 		}
 	}
@@ -198,8 +197,8 @@ void Juego::agregarObjetos(){
 	vector<ObjetoParseado>* objetos = ParserYaml::getParser()->getObjetos();	
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 
-	float escalaAncho = relacionPPU;//this->escenario->getRelacionAncho();
-	float escalaAlto = relacionPPU;//this->escenario->getRelacionAlto();
+	float escalaAncho = relacionPPU;
+	float escalaAlto = relacionPPU;
 	for (std::vector<ObjetoParseado>::iterator it = objetos->begin(); it != objetos->end(); ++it) {
 		switch ((*it).tipo) {
 		case 1: 

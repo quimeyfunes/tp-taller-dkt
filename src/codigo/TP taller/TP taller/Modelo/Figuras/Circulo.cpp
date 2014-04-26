@@ -7,7 +7,7 @@ Circulo::Circulo(void)
 }
 
 Circulo::Circulo(float x, float y, short int rotacion, b2World* world, bool estatico, float radio, float masa)
-	: Figura(x, y, rotacion, world, estatico) //Llamo al constructor del padre
+	: Figura(x, y, rotacion, world, estatico, false) //Llamo al constructor del padre
 {
 	this->escala;
 	b2CircleShape circleShape;
