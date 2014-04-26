@@ -3,9 +3,9 @@
 
 Vista::Vista(EscenarioParseado* e){
 	SDL_Init( SDL_INIT_EVERYTHING );
-	this->anchoPx = e->anchoPx / escalaX_Matriz;
-	this->altoPx = e->altoPx / escalaY_Matriz;
-	this->window = SDL_CreateWindow("Worms!", 50, 50, anchoPx, altoPx,  SDL_WINDOW_SHOWN);
+	this->anchoPx = e->anchoPx;
+	this->altoPx = e->altoPx;
+	this->window = SDL_CreateWindow("Worms!", 250, 50, anchoPx, altoPx,  SDL_WINDOW_SHOWN);
 	this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	this->listaDibujables = new list<Dibujable*>;
 
@@ -129,7 +129,7 @@ bool Vista::leerEvento(SDL_Event* evento) {
 	int x,y;
 	//Para scroll
 	SDL_GetMouseState(&x,&y);
-	this->scroll(x,y);
+	//this->scroll(x,y);
 	if (SDL_PollEvent(evento) != 0) {
 
 		if(evento->type == SDL_QUIT){
@@ -167,6 +167,8 @@ bool Vista::leerEvento(SDL_Event* evento) {
 
 		if (evento->type == SDL_MOUSEWHEEL){
 			this->zoom(evento,x,y);
+			this->corrimientoX = this->posZoomX;
+			this->corrimientoY = this->posZoomY;
 		}
 	}
 	return false;
@@ -192,8 +194,8 @@ void Vista::setZoom(float escala){
 	if (escala > zoomMax) {
 		this->escalaZoom = zoomMax;
 	} else 
-		if (escala < zoomMin) {
-			this->escalaZoom = zoomMin;
+		if (escala < 0.66666) {
+			this->escalaZoom = 0.66666;
 		} else {
 			this->escalaZoom = escala;
 		}
@@ -230,19 +232,22 @@ void Vista::validarScroll() {
 }
 
 void Vista::zoom(SDL_Event* evento,int x, int y) {
-	if (this->escalaZoom == zoomMin) {
+	if (this->escalaZoom == 0.6666) {
 		this->posZoomX = 0;
 		this->posZoomY = 0;
+		return;
 	}
-	this->posZoomX = (this->posZoomX + x ) / this->escalaZoom;
-	this->posZoomY = (this->posZoomY + y ) / this->escalaZoom;
+	this->posZoomX = (this->corrimientoX + x ) / this->escalaZoom;
+	this->posZoomY = (this->corrimientoY + y ) / this->escalaZoom;
+	this->corrimientoX /= this->escalaZoom;
+	this->corrimientoY /= this->escalaZoom;
 	if (evento->wheel.y > 0) {
 		this->setZoom(this->escalaZoom + 0.25);
 	} else {
 		this->setZoom(this->escalaZoom - 0.25);
 	}
-	this->posZoomX = ((this->posZoomX * escalaZoom) - (this->anchoPx / 2));
-	this->posZoomY = ((this->posZoomY * escalaZoom)  - (this->altoPx / 2));
+	this->posZoomX = (((this->posZoomX + corrimientoX) * escalaZoom) - (this->anchoPx / 2));
+	this->posZoomY = (((this->posZoomY + corrimientoY) * escalaZoom)  - (this->altoPx / 2));
 	this->validarZoom();
 }
 

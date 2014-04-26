@@ -20,9 +20,8 @@
 	const int timeStepNubes = 25;
 	const int maxColumnasInvalidasMascara = 10;
 
-	//para que el terreno sea mas grande que la pantalla
-	const double escalaX_Matriz = 1.2;
-	const double escalaY_Matriz = 1.2;
+	//Relacion Pixel por Unidad
+	const float relacionPPU = 4;
 
 	//Escenario
 	const unsigned anchoPxDEF=800;
@@ -54,9 +53,9 @@
 	const int fMinDEFAULT = 0;
 	const int fMaxDEFAULT = 350;
 
-	const double PI = 3.1415926535;
-	#define DEGTORAD 0.0174532925199432957f
-	#define RADTODEG 57.295779513082320876f
+	const float PI = 3.1415926535;
+	const float DEGTORAD = 0.0174532925199432957f;
+	const float RADTODEG = 57.295779513082320876f;
 
 	//Figuras
 	#define trianguloString "tri"
@@ -72,24 +71,24 @@
 	const unsigned pentagonoTipo=5;
 	const unsigned hexagonoTipo=6;
 
-	#define porcentajeScroll 0.075
-	#define velocidadScroll 1/600.0
+	const float porcentajeScroll = 0.075;
+	const float velocidadScroll = 1/600.0;
 
 	//Para Zoom
-	#define escalaZoomDefault 1
-	#define zoomMax 8
-	#define zoomMin 1
+	const int escalaZoomDefault = 1;
+	const int zoomMax = 8;
+	const int zoomMin = 1;
 
 	//Constantes fisicas
-	#define gravedadX 0
-	#define gravedadY 9.8f
-	#define stepTiempo (float)(2/60.0)
-	#define iteracionesVelocidad 6
-	#define iteracionesPosicion 2
-	#define friccion 0.4f
-	#define restitucion 0.3f
-	#define velocidadAgua 8
-	#define desaceleracionAgua 0.973
+	const int gravedadX = 0;
+	const float gravedadY = 9.8f;
+	const float stepTiempo = 2/60.0;
+	const int iteracionesVelocidad = 6;
+	const int iteracionesPosicion = 2;
+	const float friccion = 0.4f;
+	const float restitucion = 0.3f;
+	const int velocidadAgua = 8;
+	const float desaceleracionAgua = 0.973;
 
 	//Tipos de paquete
 	const unsigned paqueteInicial=1;
