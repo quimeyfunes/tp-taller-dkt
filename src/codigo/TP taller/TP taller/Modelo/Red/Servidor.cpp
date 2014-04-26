@@ -57,6 +57,7 @@ void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
     paquete->serializar(paquete_data);
 	Servicio::enviarMensaje(sock, paquete_data, paquete_tamano);
 	delete paquete;
+	delete paquete_data;
 }
 
 void Servidor::recibirDeClientes()
