@@ -43,7 +43,10 @@ void RectanguloDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int c
 	filledPolygonRGBA(renderer,posX,posY,this->n,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
 }
 
-DibujableSerializado RectanguloDibujable::getDibujableSerializado(int& tamano){
-	DibujableSerializado serializado;
+string RectanguloDibujable::serializar(){
+	string serializado = "";
 	return serializado;
+}
+
+void RectanguloDibujable::deserealizar(string aDeserealizar){
 }

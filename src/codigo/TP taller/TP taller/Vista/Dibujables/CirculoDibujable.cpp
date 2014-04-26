@@ -24,13 +24,10 @@ void CirculoDibujable::dibujar(SDL_Renderer* renderer,int corrimientoX, int corr
 	filledEllipseRGBA(renderer,this->posicion.x + corrimientoX,this->posicion.y + corrimientoY,this->radioHorizontal,this->radioVertical,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
 }
 
-DibujableSerializado CirculoDibujable::getDibujableSerializado(int& tamano){
-	DibujableSerializado serializado;
-	serializado.radioHorizontal = this->radioHorizontal;
-	serializado.radioVertical = this->radioVertical;
-	serializado.posicionX = this->posicion.x;
-	serializado.posicionY = this->posicion.y;
-
-	tamano = sizeof(DibujableSerializado);
+string CirculoDibujable::serializar(){
+	string serializado = "";
 	return serializado;
+}
+void CirculoDibujable::
+	deserealizar(string aDeserealizar){
 }

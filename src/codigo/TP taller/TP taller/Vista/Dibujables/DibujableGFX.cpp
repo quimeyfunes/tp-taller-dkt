@@ -18,7 +18,10 @@ void DibujableGFX::setColor(int* rgb){
 	}
 }
 
-DibujableSerializado DibujableGFX::getDibujableSerializado(int& tamano){
-	DibujableSerializado serializado;
+string DibujableGFX::serializar(){
+	string serializado = "";
 	return serializado;
+}
+
+void DibujableGFX::deserealizar(string aDeserealizar){
 }
