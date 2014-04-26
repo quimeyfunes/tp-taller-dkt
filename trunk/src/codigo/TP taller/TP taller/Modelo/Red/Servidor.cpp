@@ -23,22 +23,46 @@ void Servidor::actualizar()
 {
 
     // get new clients
-	if(cliente_id < MAX_CLIENTES){
-		if(red->acceptarNuevoCliente(cliente_id))
-		{
-			//printf("cliente %d se ha conectado al servidor\n",cliente_id); 
-			//aca chequeo si lo acepto o no
-			cliente_id++;
-		}
+
+	if(red->acceptarNuevoCliente(cliente_id))
+	{
+		//dejo que se conecte un 5to cliente, por si estaba congelado, o para poder decirle que no hay mas lugar
+		cliente_id++;	
 	}
+	
 
 	recibirDeClientes();
 }
 
+int Servidor::existeUser(string user){
+
+	for(int i=0; i<MAX_CLIENTES; i++){
+		if(clientes[i].username == user){
+			return i;
+		}
+	}
+	return -1;
+}
+
+void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
+
+	int largoMensaje = mensaje.size()+1;
+	int paquete_tamano = sizeof(int) + sizeof(int) + largoMensaje;
+    char* paquete_data = new char[paquete_tamano];
+
+    Paquete* paquete = new Paquete();
+    paquete->setTipo(tipoPaquete);
+	paquete->setMensaje(mensaje);
+	paquete->setTamanio(largoMensaje);
+    paquete->serializar(paquete_data);
+	Servicio::enviarMensaje(sock, paquete_data, paquete_tamano);
+	delete paquete;
+}
 
 void Servidor::recibirDeClientes()
 {
     Paquete* paquete = new Paquete();
+	int id;
     // go through all clients
     std::map<unsigned int, SOCKET>::iterator iter;
 
@@ -46,12 +70,6 @@ void Servidor::recibirDeClientes()
     {
         // get data for that client
         int data_length = red->recibirData(iter->first, network_data);
-
-        if (data_length <= 0) 
-        {
-            //no data recieved
-            //continue;
-        }
 
         int i = 0;
         while (i < data_length) 
@@ -62,11 +80,30 @@ void Servidor::recibirDeClientes()
 
 			switch (paquete->getTipo()) {
 
-                case paqueteInicial:
-					this->clientes[iter->first].activo=true;
-					this->clientes[iter->first].username = paquete->getMensaje();
-					this->clientes[iter->first].time = time(NULL);
-					cout<<paquete->getMensaje()<<" se ha conectado al servidor."<<endl;
+                case paqueteInicial:	
+
+					id = existeUser(paquete->getMensaje());
+					if(existeUser(paquete->getMensaje()) != -1){	//si existe el username
+						if(!clientes[id].activo){					//si ese username esta congelado
+							clientes[id].activo=true;				//descongelo y doy bienvenida
+							clientes[id].time=time(NULL);
+							enviarPaquete(red->sessions.at(iter->first), paqueteInicial, "Bienvenido de nuevo, "+clientes[id].username+ ".");
+							cout<<clientes[id].username<<" se ha conectado."<<endl;
+						}else{										//si no esta congelado, es xq ya existe un usuario con ese nombre
+							enviarPaquete(red->sessions.at(iter->first), paqueteFinal, "Ya existe otro usuario con su nombre.");
+						}
+					}else{											//si no existe username, tengo que ver si hay lugar para uno nuevo
+						if(cliente_id < 4){					    	//si hay lugar 
+							this->clientes[iter->first].activo=true;//le asigno un espacio y doy la bienvenida
+							this->clientes[iter->first].username = paquete->getMensaje();
+							this->clientes[iter->first].time = time(NULL);
+							enviarPaquete(red->sessions.at(iter->first), paqueteInicial, "Bienvenido, "+clientes[iter->first].username+".");
+							cout<<clientes[iter->first].username<<" se ha conectado."<<endl;
+						}else{
+																	//si no hay lugar, lo saco
+							enviarPaquete(red->sessions.at(iter->first), paqueteFinal, "Ya se ha alcanzado la cantidad maxima de clientes.");
+						}
+					}
                     break;
 
                 case paqueteEvento:

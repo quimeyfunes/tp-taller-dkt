@@ -19,6 +19,9 @@ private:
 	// data buffer
    char network_data[MAX_PACKET_SIZE];
 
+   int existeUser(string nombre);
+   void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);
+
    int MAX_CLIENTES;
    // The ServerNetwork object 
 
@@ -26,7 +29,7 @@ private:
 	   string username;
 	   int time;
 	   bool activo;
-
+	   //Sesion* sesion;
    }cliente;
 
    cliente* clientes;
