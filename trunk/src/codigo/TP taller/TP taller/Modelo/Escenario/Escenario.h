@@ -55,8 +55,8 @@ public:
 	bool haySuperposicionConTerreno(Figura* figura);
 	Terreno* getTerreno();
 	void setTerreno(Terreno* terreno);
-	static float getRelacionAncho();
-	static float getRelacionAlto();
+	//static float getRelacionAncho();
+	//static float getRelacionAlto();
 	void click(float x, float y);
 	void arriba(bool arriba);
 	void izquierda(bool izquierda);

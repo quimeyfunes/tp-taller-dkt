@@ -49,11 +49,11 @@ void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimientoX,int corr
 	SDL_Rect rect = this->getRect();
 	
 	
-	rect.x += corrimientoX;
-	rect.y += corrimientoY;
+	rect.x -= corrimientoX;
+	rect.y -= corrimientoY;
 	
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
-		rect = this->realizarZoom(rect, posZoomX, posZoomY, escalaZoom);
+		rect = this->realizarZoom(this->getRect(), corrimientoX, corrimientoY, escalaZoom);
 		SDL_RenderCopyEx(renderer,this->getImagen(), NULL , &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
 	} else {
 		SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);

@@ -24,8 +24,8 @@ PoligonoDibujable::~PoligonoDibujable()
 void PoligonoDibujable::actualizar(Observable* observable) {
 	Figura* fig = (Figura*)observable;
 	b2PolygonShape* shape = (b2PolygonShape*)fig->getBody()->GetFixtureList()->GetShape();
-	float escalaAncho = Escenario::getRelacionAncho();
-	float escalaAlto = Escenario::getRelacionAlto();
+	float escalaAncho = relacionPPU;//Escenario::getRelacionAncho();
+	float escalaAlto = relacionPPU;//Escenario::getRelacionAlto();
 	b2Vec2 posicion = b2Vec2(fig->getPosicion().x * escalaAncho, fig->getPosicion().y * escalaAlto);
 	for (int i = 0; i < this->n; i++) {
 		b2Vec2 vertice = shape->GetVertex(i);

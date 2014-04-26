@@ -1,7 +1,7 @@
 #include "escenario.h"
 
-float Escenario::relacionAncho = 0;
-float Escenario::relacionAlto = 0;
+//float Escenario::relacionAncho = 0;
+//float Escenario::relacionAlto = 0;
 
 Escenario::Escenario(){
 }
@@ -10,8 +10,8 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->altoU = altoU;
 	this->anchoU = anchoU;
 	this->nivelAgua = nivelAgua;
-	this->relacionAncho = relacionAncho;
-	this->relacionAlto = relacionAlto;
+	//this->relacionAncho = relacionAncho;
+	//this->relacionAlto = relacionAlto;
 	this->listaFiguras = new list<Figura*>();
 	
 	b2Vec2* gravity = new b2Vec2(gravedadX, gravedadY);
@@ -223,13 +223,13 @@ void Escenario::setTerreno(Terreno* terreno){
 	this->terreno = terreno;
 }
 
-float Escenario::getRelacionAncho(){
+/*float Escenario::getRelacionAncho(){
 	return relacionAncho;
 }
 
 float Escenario::getRelacionAlto(){
 	return relacionAlto;
-}
+}*/
 
 std::stringstream Escenario::getMensajeSuperposicionObjeto(int linea){
 	std::stringstream info;

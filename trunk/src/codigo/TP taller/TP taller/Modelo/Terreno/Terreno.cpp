@@ -29,11 +29,11 @@ void Terreno::generarTerreno(string nombreArchivo){
 
 	b2Vec2* vecBorde = new b2Vec2[anchoMatriz*2];
 	
-	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
+	/*EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 	// Recorro la matriz hasta encontrar tierra
 	float relacionAncho = e->anchoPx * 1.0 / e->anchoU;
-	float relacionAlto = e->altoPx * 1.0 / e->altoU;
-	for (int i = 0; i < anchoMatriz; i+=relacionAncho){
+	float relacionAlto = e->altoPx * 1.0 / e->altoU;*/
+	for (int i = 0; i < anchoMatriz; i+=relacionPPU) { 
 		hayTierra = false;
 		int contFil = 0;
 		for (int j = 0; ((j < altoMatriz) && !(hayTierra)); j++){
@@ -41,7 +41,7 @@ void Terreno::generarTerreno(string nombreArchivo){
 			if (lectorTerreno->esTierra(matrizTerreno[i][j])){
 				if (aguasProfundas){
 					aguasProfundas = false;
-					vecBorde[posVec].Set(i / relacionAncho,1000);
+					vecBorde[posVec].Set(i / relacionPPU,1000);
 					posVec++;
 				}
 
@@ -49,10 +49,10 @@ void Terreno::generarTerreno(string nombreArchivo){
 				huboTierra = true;
 				//Seteo las cordenadas del borde en el vector
 				if (posVec == 0) {
-					vecBorde[posVec].Set(i /relacionAncho,1000);
+					vecBorde[posVec].Set(i /relacionPPU,1000);
 					posVec++;
 				}
-				vecBorde[posVec].Set(i /relacionAncho,j /relacionAlto);
+				vecBorde[posVec].Set(i /relacionPPU,j /relacionPPU);
 				posVec++;
 				k++;
 			} else {
@@ -62,7 +62,7 @@ void Terreno::generarTerreno(string nombreArchivo){
 		}
 
 		if ((contFil == altoMatriz) && (huboTierra) && ( k != tamanioBorde)){
-			vecBorde[posVec].Set((i- relacionAncho) / relacionAncho,1000);
+			vecBorde[posVec].Set((i- relacionPPU) / relacionPPU,1000);
 			posVec++;
 			aguasProfundas = true;
 			huboTierra = false;

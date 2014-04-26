@@ -19,8 +19,8 @@ CirculoDibujable::~CirculoDibujable() {
 
 void CirculoDibujable::actualizar(Observable* observable) {
 	Figura* fig = (Figura*)observable;
-	this->posicion.x = fig->getPosicion().x * Escenario::getRelacionAncho();
-	this->posicion.y = fig->getPosicion().y * Escenario::getRelacionAlto();
+	this->posicion.x = fig->getPosicion().x * relacionPPU;//Escenario::getRelacionAncho();
+	this->posicion.y = fig->getPosicion().y * relacionPPU;//Escenario::getRelacionAlto();
 }
 
 void CirculoDibujable::dibujar(SDL_Renderer* renderer,int corrimientoX, int corrimientoY, int escalaZoom, int posZoomX, int posZoomY) {

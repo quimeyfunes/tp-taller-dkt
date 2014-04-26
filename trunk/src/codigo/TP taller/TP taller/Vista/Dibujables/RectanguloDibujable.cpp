@@ -21,8 +21,8 @@ RectanguloDibujable::~RectanguloDibujable()
 void RectanguloDibujable::actualizar(Observable* observable) {
 	Figura* fig = (Figura*)observable;
 	b2PolygonShape* shape = (b2PolygonShape*)fig->getBody()->GetFixtureList()->GetShape();
-	float escalaX = Escenario::getRelacionAncho();
-	float escalaY = Escenario::getRelacionAlto();
+	float escalaX = relacionPPU;//Escenario::getRelacionAncho();
+	float escalaY = relacionPPU;//Escenario::getRelacionAlto();
 	b2Vec2 posicion = b2Vec2(fig->getPosicion().x * escalaX, fig->getPosicion().y * escalaY);
 	float hipotenusa = shape->GetVertex(0).Length();//sqrt(this->ancho/2 * this->ancho/2 + this->alto/2 * this->alto/2);
 	for (int i = 0; i < this->n; i++) {
