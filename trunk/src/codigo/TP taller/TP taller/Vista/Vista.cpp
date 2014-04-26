@@ -227,11 +227,6 @@ void Vista::scroll(int x , int y) {
 			this->corrimientoY += this->altoPx * velocidadScroll / (this->altoPx - y);
 		} 
 	}
-	this->validarScroll();
-}
-
-void Vista::validarScroll() {
-	//Proximamente... (?)
 }
 
 void Vista::zoom(SDL_Event* evento,int x, int y) {
