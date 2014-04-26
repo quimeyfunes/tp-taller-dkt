@@ -100,10 +100,10 @@ string Juego::crearLista(int &tamanio){
 	tamanio=0;
 	for (list<Dibujable*>::iterator it = vista->getListaDibujables()->begin(); it != vista->getListaDibujables()->end(); it++) {
 
-		char* dataObjetos = new char[sizeof(DibujableSerializado)];
+		/*char* dataObjetos = new char[sizeof(DibujableSerializado)];
 		memcpy(dataObjetos, &(*it), sizeof(DibujableSerializado));
 		lista+= StringUtil::charToString(dataObjetos);
-		lista+= "#";
+		lista+= "#";*/
 		//tamanio += sizeof(*(*it));
 		
 	}

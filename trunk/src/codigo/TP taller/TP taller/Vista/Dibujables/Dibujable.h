@@ -7,24 +7,19 @@
 #include "Box2D/Box2D.h"
 #include "../../Parser/yaml/ParserYaml.h"
 #include <string>
+#include "../../Modelo/Red/Serializable.h"
 
 using namespace std;
 
-struct DibujableSerializado{
-    int posicionX;
-	int posicionY;
-	int radioHorizontal;
-    int radioVertical;
-};
-
-class Dibujable
+class Dibujable: public Serializable
 {
 public:
 	Dibujable();
 	~Dibujable();
 	virtual void setColor(int* rgb);
 	virtual void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, float escalaZoom, int posZoomX, int posZoomY);
-	virtual DibujableSerializado getDibujableSerializado(int& tamano);
+	virtual string serializar();
+	virtual void deserealizar(string aDeserealizar);
 };
 
 #endif

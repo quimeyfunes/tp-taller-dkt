@@ -59,11 +59,6 @@ void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimientoX,int corr
 	
 }
 
-DibujableSerializado DibujableTextura::getDibujableSerializado(int& tamano){
-	DibujableSerializado serializado;
-	return serializado;
-}
-
 SDL_Rect DibujableTextura::realizarZoom(SDL_Rect rect, int posX, int posY, float escalaZoom){
 
 	SDL_Rect rectAux = rect;
@@ -75,4 +70,12 @@ SDL_Rect DibujableTextura::realizarZoom(SDL_Rect rect, int posX, int posY, float
 	return rectAux;
 
 
+}
+
+string DibujableTextura::serializar(){
+	string serializado = "";
+	return serializado;
+}
+
+void DibujableTextura::deserealizar(string aDeserealizar){
 }

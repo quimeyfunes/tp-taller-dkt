@@ -36,7 +36,10 @@ void PoligonoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int cor
 	filledPolygonRGBA(renderer,this->posicionesX,this->posicionesY,this->n,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
 }
 
-DibujableSerializado PoligonoDibujable::getDibujableSerializado(int& tamano){
-	DibujableSerializado serializado;
+string PoligonoDibujable::serializar(){
+	string serializado = "";
 	return serializado;
+}
+
+void PoligonoDibujable::deserealizar(string aDeserealizar){
 }

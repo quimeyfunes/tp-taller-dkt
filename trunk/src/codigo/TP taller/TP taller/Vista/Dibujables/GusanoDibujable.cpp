@@ -43,3 +43,11 @@ void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corri
 		SDL_RenderCopyEx(renderer,this->imagen,NULL, &rect, this->anguloRotacion ,NULL,SDL_FLIP_NONE);
 	}
 }
+
+string GusanoDibujable::serializar(){
+	string serializado = "";
+	return serializado;
+}
+
+void GusanoDibujable::deserealizar(string aDeserealizar){
+}
