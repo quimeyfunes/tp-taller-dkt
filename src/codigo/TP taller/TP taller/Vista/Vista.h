@@ -72,7 +72,6 @@ public:
 	int getPosZoomX();
 	int getPosZoomY();
 	void scroll(int x ,int y );
-	void validarScroll();
 	void zoom(SDL_Event* evento,int x, int y);
 	void validarCorrimiento();
 
