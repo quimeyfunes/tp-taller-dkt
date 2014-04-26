@@ -1,38 +1,32 @@
 #include "Cliente.h" 
 
 
-Cliente::Cliente(string nombre)
-{
-	this->username=nombre;
+Cliente::Cliente(string nombre){
+
     red = new ClienteRed();
-	 // send init packet
-	
-	int largoMensaje = username.size()+1;
+	this->username=nombre;
+	this->activo = true;
+	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
+}
+
+void Cliente::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
+
+	int largoMensaje = mensaje.size()+1;
 	int paquete_tamano = sizeof(int) + sizeof(int) + largoMensaje;
     char* paquete_data = new char[paquete_tamano];
 
-    Paquete paquete;
-    paquete.setTipo(paqueteInicial);
-	paquete.setMensaje(username);
-	paquete.setTamanio(largoMensaje);
-    paquete.serializar(paquete_data);
-	Servicio::enviarMensaje(red->socketCliente, paquete_data, paquete_tamano);
+    Paquete* paquete = new Paquete();
+    paquete->setTipo(tipoPaquete);
+	paquete->setMensaje(mensaje);
+	paquete->setTamanio(largoMensaje);
+    paquete->serializar(paquete_data);
+	Servicio::enviarMensaje(sock, paquete_data, paquete_tamano);
+	delete paquete;
 }
 
 void Cliente::enviarEstado(){
 
-	string mensaje = "";
-	int largoMensaje = 1;
-	int paquete_tamano = sizeof(int) + sizeof(int) + largoMensaje;
-    char* paquete_data = new char[paquete_tamano];
-
-    Paquete paquete;
-    paquete.setTipo(paqueteEstado);
-	paquete.setMensaje(mensaje);
-	paquete.setTamanio(largoMensaje);
-    paquete.serializar(paquete_data);
-	Servicio::enviarMensaje(red->socketCliente, paquete_data, paquete_tamano);
-
+	enviarPaquete(red->socketCliente, paqueteEstado, "ok");
 }
 
 void Cliente::recibirDeServidor()
@@ -57,8 +51,9 @@ void Cliente::recibirDeServidor()
 			switch (paquete->getTipo()) {
 
                 case paqueteInicial:
-
-					printf("El cliente recibio el paquete inicial del servidor.\n");
+					// si recibi hola, activarme y empezar a mandar paquetes
+					cout<<paquete->getMensaje();
+					this->activo=true;
 					break;
 
                 case paqueteEvento:
@@ -82,6 +77,11 @@ void Cliente::recibirDeServidor()
 					}*/
 
 					break;
+
+				case paqueteFinal:
+					cout<<paquete->getMensaje();
+					this->activo=false;
+					break;
                 default:
 
                     printf("Error en el tipo de paquete.Tipo es %d\n",paquete->getTipo());
@@ -95,6 +95,8 @@ void Cliente::recibirDeServidor()
 
 void Cliente::actualizar() 
 {
-	recibirDeServidor();
-	enviarEstado();
+	if(this->activo){	//despues si no esta activo, salir de aca y cerrar consola
+		recibirDeServidor();
+		enviarEstado();
+	}
 }
