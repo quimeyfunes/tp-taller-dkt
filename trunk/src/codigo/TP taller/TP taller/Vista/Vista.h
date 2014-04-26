@@ -36,6 +36,8 @@ private:
 	list<Dibujable*>* listaDibujables;
 	int anchoPx;
 	int altoPx;
+	int anchoPxTot;
+	int altoPxTot;
 	float corrimientoX;
 	float corrimientoY;
 	ACCION_REALIZADA accion;
@@ -72,7 +74,7 @@ public:
 	void scroll(int x ,int y );
 	void validarScroll();
 	void zoom(SDL_Event* evento,int x, int y);
-	void validarZoom();
+	void validarCorrimiento();
 
 };
 

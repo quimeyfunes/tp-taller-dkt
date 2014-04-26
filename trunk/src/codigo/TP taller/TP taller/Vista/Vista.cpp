@@ -5,6 +5,8 @@ Vista::Vista(EscenarioParseado* e){
 	SDL_Init( SDL_INIT_EVERYTHING );
 	this->anchoPx = e->anchoPx;
 	this->altoPx = e->altoPx;
+	this->anchoPxTot = e->anchoU * relacionPPU;
+	this->altoPxTot = e->altoU * relacionPPU;
 	this->window = SDL_CreateWindow("Worms!", 250, 50, anchoPx, altoPx,  SDL_WINDOW_SHOWN);
 	this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	this->listaDibujables = new list<Dibujable*>;
@@ -94,7 +96,7 @@ GusanoDibujable* Vista::crearGusanoDibujable(int x, int y, int ancho, int alto, 
 	rect.w = ancho;
 	rect.h = alto;
 	
-	GusanoDibujable* dib = new GusanoDibujable(this->renderer, rect);
+	GusanoDibujable* dib = new GusanoDibujable(this->renderer, rect,pathImagen,imagenDEF);
 	this->agregarDibujable(dib);
 	return dib;
 
@@ -171,6 +173,7 @@ bool Vista::leerEvento(SDL_Event* evento) {
 			this->corrimientoY = this->posZoomY;
 		}
 	}
+	this->validarCorrimiento();
 	return false;
 }
 
@@ -236,33 +239,35 @@ void Vista::zoom(SDL_Event* evento,int x, int y) {
 		this->posZoomX = 0;
 		this->posZoomY = 0;
 	}
+	
 	this->posZoomX = (this->corrimientoX + x ) / this->escalaZoom;
 	this->posZoomY = (this->corrimientoY + y ) / this->escalaZoom;
-	this->corrimientoX /= this->escalaZoom;
-	this->corrimientoY /= this->escalaZoom;
+	this->corrimientoX = this->escalaZoom;
+	this->corrimientoY = this->escalaZoom;
+
 	if (evento->wheel.y > 0) {
 		this->setZoom(this->escalaZoom + 0.25);
 	} else {
 		this->setZoom(this->escalaZoom - 0.25);
 	}
-	this->posZoomX = (((this->posZoomX + corrimientoX) * escalaZoom) - (this->anchoPx / 2));
-	this->posZoomY = (((this->posZoomY + corrimientoY) * escalaZoom)  - (this->altoPx / 2));
-	this->validarZoom();
+
+	this->posZoomX = ((this->posZoomX + corrimientoX) * escalaZoom) - this->anchoPx / 2;
+	this->posZoomY = ((this->posZoomY + corrimientoY) * escalaZoom)  - this->altoPx / 2;
 }
 
-void Vista::validarZoom() {
-	if ((this->posZoomX + this->anchoPx) > (this->anchoPx * this->escalaZoom)) {
-		this->posZoomX = this->anchoPx * (this->escalaZoom - 1);
+void Vista::validarCorrimiento() {
+	if ((this->corrimientoX + this->anchoPx) > this->anchoPxTot * escalaZoom) {
+		this->corrimientoX = this->anchoPxTot * escalaZoom - this->anchoPx;
 	} else {
-		if (this->posZoomX < 0) {
-			this->posZoomX = 0;
+		if (this->corrimientoX < 0) {
+			this->corrimientoX = 0;
 		}
 	}
-	if ((this->posZoomY + this->altoPx) > (this->altoPx* this->escalaZoom)) {
-		this->posZoomY = this->altoPx * (this->escalaZoom - 1);
+	if ((this->corrimientoY + this->altoPx) > this->altoPxTot * escalaZoom) {
+		this->corrimientoY = this->altoPxTot * escalaZoom- this->altoPx;
 	} else {
-		if (this->posZoomY < 0) {
-			this->posZoomY = 0;
+		if (this->corrimientoY < 0) {
+			this->corrimientoY = 0;
 		}
 	}
 }

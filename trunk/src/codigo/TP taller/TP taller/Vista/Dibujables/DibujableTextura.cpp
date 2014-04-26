@@ -61,11 +61,11 @@ void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimientoX,int corr
 	
 }
 
-SDL_Rect DibujableTextura::realizarZoom(SDL_Rect rect, int posX, int posY, float escalaZoom){
+SDL_Rect DibujableTextura::realizarZoom(SDL_Rect rect, int corrimientoX, int corrimientoY, float escalaZoom){
 
 	SDL_Rect rectAux = rect;
-	rectAux.x = ((rectAux.x * escalaZoom ) - posX);
-	rectAux.y = ((rectAux.y  * escalaZoom)  - posY);
+	rectAux.x = (rectAux.x  * escalaZoom ) - corrimientoX;
+	rectAux.y = (rectAux.y  * escalaZoom)  - corrimientoY;
 	rectAux.h = rectAux.h * escalaZoom;
 	rectAux.w = rectAux.w * escalaZoom;
 

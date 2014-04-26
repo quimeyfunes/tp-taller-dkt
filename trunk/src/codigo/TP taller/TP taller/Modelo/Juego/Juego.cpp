@@ -145,7 +145,7 @@ void Juego::leerEvento(){
 		case CLICK:	
 			int x,y;
 			SDL_GetMouseState(&x,&y);
-			this->escenario->click((x - this->vista->getCorrimientoX()) / relacionPPU,  (y - this->vista->getCorrimientoY()) / relacionPPU);
+			this->escenario->click((x + this->vista->getCorrimientoX()) / relacionPPU,  (y + this->vista->getCorrimientoY()) / relacionPPU);
 			//this->escenario->click( (x - this->vista->getCorrimientoX())/ this->escenario->getRelacionAncho(), (y - this->vista->getCorrimientoY()) / this->escenario->getRelacionAlto());
 			break;
 		}
