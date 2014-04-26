@@ -91,7 +91,8 @@ void Juego::ejecutar(){
 		string cirSerializado = pol->serializar();
 		PoligonoDibujable* pol2 = new PoligonoDibujable();
 		pol2->deserealizar(cirSerializado);
-
+		delete pol;
+		delete pol2;
 		vista->Dibujar();
 		SDL_Delay(1);
 		
