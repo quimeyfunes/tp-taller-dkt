@@ -58,6 +58,7 @@ public:
 	GusanoDibujable* crearGusanoDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef);
 	void agregarDibujable(Dibujable* dibujable);
 	list<Dibujable*>* getListaDibujables();
+	void setListaDibujables(list<Dibujable*>* dibujables);
 	void Dibujar();
 	int getAnchoPx();
 	int getAltoPx();
