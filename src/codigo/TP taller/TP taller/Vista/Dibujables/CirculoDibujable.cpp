@@ -9,6 +9,9 @@ CirculoDibujable::CirculoDibujable(int x,int y, int radioHorizontal,int radioVer
 	this->radioVertical = radioVertical;
 };
 
+CirculoDibujable::CirculoDibujable() {
+}
+
 CirculoDibujable::~CirculoDibujable() {
 }
 
@@ -26,8 +29,23 @@ void CirculoDibujable::dibujar(SDL_Renderer* renderer,int corrimientoX, int corr
 
 string CirculoDibujable::serializar(){
 	string serializado = "";
+	serializado = StringUtil::int2string(serializadoCirculoDibujable);
+	serializado += separadorCampoTipoEntidades;    
+	serializado += StringUtil::int2string(this->radioHorizontal);
+	serializado += separadorCamposEntidades;    
+	serializado += StringUtil::int2string(this->radioVertical);;
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->posicion.x);
+    serializado += separadorCamposEntidades;
+    serializado += StringUtil::int2string(this->posicion.y);;
 	return serializado;
 }
-void CirculoDibujable::
-	deserealizar(string aDeserealizar){
+void CirculoDibujable::deserealizar(string aDeserealizar){
+	vector<string> des = StringUtil::split(aDeserealizar,separadorCampoTipoEntidades);
+	//des.at(0) tiene el tipo, des.at(0) tiene el resto de los atributos
+	vector<string> atributos = StringUtil::split(des.at(1),separadorCamposEntidades);
+    this->radioHorizontal = StringUtil::str2int(atributos.at(0));
+    this->radioVertical = StringUtil::str2int(atributos.at(1));
+	this->posicion.x = StringUtil::str2int(atributos.at(2));
+	this->posicion.y = StringUtil::str2int(atributos.at(3));
 }

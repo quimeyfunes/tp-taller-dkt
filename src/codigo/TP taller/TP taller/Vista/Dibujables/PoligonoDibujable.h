@@ -18,6 +18,7 @@ class PoligonoDibujable : public Observador, public DibujableGFX
 	short int n;
 public:
 	PoligonoDibujable(short int n, float escalaAncho, float escalaAlto);
+	PoligonoDibujable();
 	~PoligonoDibujable();
 	void actualizar(Observable* observable);
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY);

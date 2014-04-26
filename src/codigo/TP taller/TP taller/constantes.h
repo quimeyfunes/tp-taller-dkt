@@ -99,4 +99,16 @@
 	const unsigned paqueteVista=5;
 	#define MAX_PACKET_SIZE 1000000
 
+	//Serializacion
+	const char separadorCamposEntidades = '#';
+	const char separadorCamposArreglo = ',';
+	const char separadorCampoTipoEntidades = '&';
+	const char separadorEntidades = ';';
+
+	#define serializadoCirculoDibujable 1
+	#define serializadoDibujableTextura 2
+	#define serializadoGusanoDibujable 3
+	#define serializadoPoligonoDibujable 4
+	#define serializadoRectanguloDibujable 5
+
 #endif
