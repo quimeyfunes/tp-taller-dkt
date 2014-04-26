@@ -156,8 +156,8 @@ int LectorTerreno::getTamanoBorde(){
 void LectorTerreno::escalarMatrizAEscenario(){
 
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
-	int altoEscenario = e->altoPx;
-	int anchoEscenario = e->anchoPx;
+	int altoEscenario = e->altoU * relacionPPU;
+	int anchoEscenario = e->anchoU * relacionPPU;
 	double escalaX = (double)anchoEscenario/(double)this->anchoMatriz;
 	double escalaY = (double)altoEscenario/(double)this->altoMatriz;	
 

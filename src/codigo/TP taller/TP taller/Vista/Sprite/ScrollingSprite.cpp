@@ -7,7 +7,7 @@ ScrollingSprite::ScrollingSprite(SDL_Renderer* renderer, SDL_Rect rect, string p
 	this->textura = IMG_LoadTexture(renderer, path.c_str());
 	this->velocidadRefresco = timeStepNubes;
 	
-	this->anchoEscenario = ParserYaml::getParser()->getEscenario()->anchoPx;
+	this->anchoEscenario = ParserYaml::getParser()->getEscenario()->anchoU*relacionPPU;
 	//printf("%i", this->anchoEscenario);
 	this->contador=0;
 }

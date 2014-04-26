@@ -11,7 +11,7 @@ Juego::Juego(){
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
 	this->vista = new Vista(e);
-	this->escenario = new Escenario(e->altoU,e->anchoU,e->nivelAgua, e->anchoPx / e->anchoU, e->altoPx / e->altoU);
+	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
 	this->escenario->setTerreno(this->terreno);
@@ -175,17 +175,17 @@ void Juego::esperar(){}
 
 void Juego::agregarTexturas(EscenarioParseado* e){
 
-	vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(), terreno->getLector()->getAltoMatriz(), texturaFondo, "");
-	vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(), terreno->getLector()->getAltoMatriz(), e->imagenCielo, texturaCieloDEF);
+	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, texturaFondo, "");
+	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenCielo, texturaCieloDEF);
 	vista->crearScrollingSprite(0, 10,  e->anchoPx/ 5, e->altoPx /10, rutaNube1);
-	vista->crearScrollingSprite( terreno->getLector()->getAnchoMatriz() /2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
-	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(),terreno->getLector()->getAltoMatriz(),terreno->getLector()->getRutaTexturaActualizada(), "");
+	vista->crearScrollingSprite( e->anchoU*relacionPPU/2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
+	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU,terreno->getLector()->getRutaTexturaActualizada(), "");
 }
 
 void Juego::agregarAgua(EscenarioParseado* e){
-		vista->crearDibujableTextura(0, e->nivelAgua*this->escenario->getRelacionAlto(), terreno->getLector()->getAnchoMatriz(), terreno->getLector()->getAltoMatriz() - e->nivelAgua*this->escenario->getRelacionAlto(), texturaAgua, texturaAguaDEF);
+	vista->crearDibujableTextura(0, e->nivelAgua*relacionPPU, e->anchoU*relacionPPU, (e->altoU - e->nivelAgua) *relacionPPU, texturaAgua, texturaAguaDEF);
 	for(int i=0;i<4;i++){
-		vista->crearSprite( (i* terreno->getLector()->getAnchoMatriz())/4, e->nivelAgua* this->escenario->getRelacionAlto() - 15,  terreno->getLector()->getAnchoMatriz()/4, 15, spriteOlas, 2, 6, 256, 144);
+		vista->crearSprite( (i* e->anchoU*relacionPPU)/4, e->nivelAgua*relacionPPU - 15,  e->anchoU*relacionPPU/4, 15, spriteOlas, 2, 6, 256, 144);
 	}
 }
 
