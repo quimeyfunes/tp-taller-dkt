@@ -8,12 +8,13 @@ Servidor::Servidor(void){
     // id's to assign clients for our table
     cliente_id = 0;
 	MAX_CLIENTES = 4;
-
-	this->clientes = new cliente[MAX_CLIENTES];
-	for(int i=0; i<MAX_CLIENTES; i++){
+	clienteEnEspera = false;
+	this->clientes = new cliente[MAX_CLIENTES +1];
+	for(int i=0; i<MAX_CLIENTES +1; i++){
 		this->clientes[i].activo=false;
 		this->clientes[i].time=0;
 		this->clientes[i].username= "";
+		this->clientes[i].socket = INVALID_SOCKET;
 	}
     // set up the server network to listen 
     red = new ServidorRed(); 
@@ -21,27 +22,11 @@ Servidor::Servidor(void){
 
 void Servidor::actualizar() 
 {
-
-    // get new clients
-
-	if(red->acceptarNuevoCliente(cliente_id))
-	{
-		//dejo que se conecte un 5to cliente, por si estaba congelado, o para poder decirle que no hay mas lugar
-		cliente_id++;	
+	if(red->aceptarNuevoCliente()){
+		this->clientes[MAX_CLIENTES].socket = red->sessions.at(0); //es el cliente en espera
 	}
-	
 
 	recibirDeClientes();
-}
-
-int Servidor::existeUser(string user){
-
-	for(int i=0; i<MAX_CLIENTES; i++){
-		if(clientes[i].username == user){
-			return i;
-		}
-	}
-	return -1;
 }
 
 void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
@@ -60,69 +45,72 @@ void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
 	delete paquete_data;
 }
 
+int Servidor::buscarCliente(string nombre){
+
+	for(int i=0; i< MAX_CLIENTES; i++){
+		if(clientes[i].username == nombre) return i;
+	}
+	return -1;
+}
+
 void Servidor::recibirDeClientes()
 {
     Paquete* paquete = new Paquete();
-	int id;
-	int quitarSocket= -1;
     // go through all clients
-    std::map<unsigned int, SOCKET>::iterator iter;
+    //std::map<unsigned int, SOCKET>::iterator iter;
 
-    for(iter = red->sessions.begin(); iter != red->sessions.end(); iter++)
+    //for(iter = red->sessions.begin(); iter != red->sessions.end(); iter++)
+	for(int i=0; i < MAX_CLIENTES +1; i++)
     {
         // get data for that client
-        int data_length = red->recibirData(iter->first, network_data);
-		
-        int i = 0;
-        while (i < data_length) 
+        int data_length = 0;
+		int id;
+		if(clientes[i].socket != INVALID_SOCKET) data_length = red->recibirData(clientes[i].socket, network_data);
+        int cantData = 0;
+        while (cantData < data_length) 
         {
-			
-            paquete->deserializar(&(network_data[i]));
-			i+= paquete->getPesoPaquete();
-
+            paquete->deserializar(&(network_data[cantData]));
+			cantData+= paquete->getPesoPaquete();
 			switch (paquete->getTipo()) {
 
-                case paqueteInicial:	
-
-					id = existeUser(paquete->getMensaje());
-					if(existeUser(paquete->getMensaje()) != -1){	//si existe el username
-						if(!clientes[id].activo){					//si ese username esta congelado
-							clientes[id].activo=true;				//descongelo y doy bienvenida
+                case paqueteInicial:	//en el getMensaje tengo el username
+					id = buscarCliente(paquete->getMensaje());
+					if(id != -1){										//si existe el username
+						if(!clientes[id].activo){						//si ese username esta congelado
+							clientes[id].activo=true;					//descongelo y doy bienvenida
 							clientes[id].time=time(NULL);
-							enviarPaquete(red->sessions.at(iter->first), paqueteInicial, "Bienvenido de nuevo, "+clientes[id].username+ ".");
-							red->sessions.at(id) = red->sessions.at(iter->first);
-							quitarSocket=iter->first;
-							cliente_id--;
+							clientes[id].socket = red->sessions.at(0);
+							enviarPaquete(clientes[id].socket, paqueteInicial, "Bienvenido de nuevo, "+clientes[id].username+ ".");
 							cout<<clientes[id].username<<" se ha reconectado."<<endl;
 						}else{										//si no esta congelado, es xq ya existe un usuario con ese nombre
-							enviarPaquete(red->sessions.at(iter->first), paqueteFinal, "Ya existe otro usuario con su nombre.");
-							quitarSocket=iter->first;
-							cliente_id--;
+							enviarPaquete(clientes[i].socket, paqueteFinal, "Ya existe otro usuario con su nombre.");
 						}
 					}else{											//si no existe username, tengo que ver si hay lugar para uno nuevo
-						if(cliente_id-1 < 4){					    	//si hay lugar 
-							this->clientes[cliente_id].activo=true;//le asigno un espacio y doy la bienvenida
+						if(cliente_id < MAX_CLIENTES){				//si hay lugar 
+							
+							this->clientes[cliente_id].activo=true;			//le asigno un espacio y doy la bienvenida
 							this->clientes[cliente_id].username = paquete->getMensaje();
 							this->clientes[cliente_id].time = time(NULL);
-							enviarPaquete(red->sessions.at(iter->first), paqueteInicial, "Bienvenido, "+clientes[iter->first].username+".");
+							this->clientes[cliente_id].socket = red->sessions.at(0);
+							enviarPaquete(clientes[cliente_id].socket, paqueteInicial, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
+							cliente_id++;
+
 						}else{
 																	//si no hay lugar, lo saco
-							enviarPaquete(red->sessions.at(iter->first), paqueteFinal, "Ya se ha alcanzado la cantidad maxima de clientes.");
-							quitarSocket=iter->first;
-							cliente_id--;
+							enviarPaquete(clientes[i].socket, paqueteFinal, "Ya se ha alcanzado la cantidad maxima de clientes.");
 						}
 					}
                     break;
 
                 case paqueteEvento:
 
-					printf("El servidor recibio un paquete evento del cliente %i.\n", iter->first);
+					printf("El servidor recibio un paquete evento del cliente %i.\n", i);
                     break;
 
 				case paqueteEstado:
 
-					this->clientes[iter->first].time = time(NULL);
+					this->clientes[i].time = time(NULL);
 					break;
 
                 default:
@@ -133,12 +121,11 @@ void Servidor::recibirDeClientes()
         }
     }
 
-	if(quitarSocket != -1) red->sessions.erase(quitarSocket);
-
 	for(int i=0; i< MAX_CLIENTES; i++){
 		if(clientes[i].activo){
 			if(time(NULL) - clientes[i].time > 1){	//1 segundo de espera
 				clientes[i].activo=false;
+				clientes[i].socket = INVALID_SOCKET;
 				cout<<clientes[i].username<<" se ha desconectado."<<endl;
 			}
 		}

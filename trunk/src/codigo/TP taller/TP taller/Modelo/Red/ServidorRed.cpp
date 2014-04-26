@@ -2,7 +2,8 @@
 
 ServidorRed::ServidorRed(void)
 {
-
+	
+	sessions.insert( pair<unsigned int, SOCKET>(0, INVALID_SOCKET) );
     // create WSADATA object
     WSADATA wsaData;
 
@@ -86,7 +87,7 @@ ServidorRed::ServidorRed(void)
 }
 
 
-bool ServidorRed::acceptarNuevoCliente(unsigned int & id)
+bool ServidorRed::aceptarNuevoCliente()
 {
     // if client waiting, accept the connection and save the socket
     this->socketClientes = accept(this->socketEscuchador,NULL,NULL);
@@ -98,8 +99,7 @@ bool ServidorRed::acceptarNuevoCliente(unsigned int & id)
         setsockopt( this->socketClientes, IPPROTO_TCP, TCP_NODELAY, &value, sizeof( value ) );
 
         // insert new client into session id table
-        sessions.insert( pair<unsigned int, SOCKET>(id, this->socketClientes) );
-
+		sessions.at(0) = this->socketClientes;
         return true;
     }
 
@@ -107,18 +107,13 @@ bool ServidorRed::acceptarNuevoCliente(unsigned int & id)
 }
 
 
-int ServidorRed::recibirData(unsigned int cliente_id, char * recvbuf)
+int ServidorRed::recibirData(SOCKET sock, char * recvbuf)
 {
-    if( sessions.find(cliente_id) != sessions.end() )
-    {
-        SOCKET currentSocket = sessions[cliente_id];
-        iResult = Servicio::recibirMensaje(currentSocket, recvbuf, MAX_PACKET_SIZE);
+        iResult = Servicio::recibirMensaje(sock, recvbuf, MAX_PACKET_SIZE);
         if (iResult == 0)
         {
             printf("Coneccion cerrada\n");
-            closesocket(currentSocket);
+            closesocket(sock);
         }
         return iResult;
-    }
-    return 0;
 } 

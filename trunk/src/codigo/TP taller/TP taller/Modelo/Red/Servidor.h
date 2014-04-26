@@ -18,16 +18,17 @@ private:
     static unsigned int cliente_id;
 	// data buffer
    char network_data[MAX_PACKET_SIZE];
-
-   int existeUser(string nombre);
+   int buscarCliente(string nombre);
    void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);
-
+   bool clienteEnEspera;
    int MAX_CLIENTES;
    // The ServerNetwork object 
 
-   typedef struct structCliente{
+   
+	typedef struct structCliente{
 	   string username;
 	   int time;
+	   SOCKET socket;
 	   bool activo;
 	   //Sesion* sesion;
    }cliente;
