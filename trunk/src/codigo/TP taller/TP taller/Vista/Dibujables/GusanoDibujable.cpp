@@ -4,6 +4,7 @@
 GusanoDibujable::GusanoDibujable(SDL_Renderer* renderer, SDL_Rect rect)
 {
 	this->rect = rect;
+
 	this->imagen = IMG_LoadTexture(renderer, rutaGusano);
 	string pathImagen = "imagenes/texturas/worm.png";
 	//this->superficie = IMG_Load(pathImagen.c_str());
@@ -33,6 +34,7 @@ void GusanoDibujable::actualizar(Observable* observable) {
 void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY){
 	
 	SDL_Rect rect = this->rect;
+	cout<<"X"<<rect.x + rect.w/2<<"  Y:  "<<rect.y + rect.h/2<<endl;
 	rect.x += corrimientoX;
 	rect.y += corrimientoY;
 

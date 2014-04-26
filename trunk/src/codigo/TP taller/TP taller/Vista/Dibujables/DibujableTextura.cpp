@@ -47,6 +47,8 @@ void DibujableTextura::setTransparencia(int a){
 void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY){
 
 	SDL_Rect rect = this->getRect();
+	
+	
 	rect.x += corrimientoX;
 	rect.y += corrimientoY;
 	

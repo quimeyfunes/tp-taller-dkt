@@ -8,12 +8,12 @@ escenario:
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
         - tipo: rect
-          x: 44
-          y: 250
+          x: 400
+          y: 299
           ancho: 10
-          alto: 12
+          alto: 10
           color: FF0000
           rot: 0
           masa: 3
           estatico: no
-          escala: 1
+          
