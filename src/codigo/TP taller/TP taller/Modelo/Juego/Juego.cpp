@@ -177,8 +177,8 @@ void Juego::agregarTexturas(EscenarioParseado* e){
 
 	vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(), terreno->getLector()->getAltoMatriz(), texturaFondo, "");
 	vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(), terreno->getLector()->getAltoMatriz(), e->imagenCielo, texturaCieloDEF);
-	vista->crearScrollingSprite(0, 10,  e->anchoPx/escalaX_Matriz / 5, e->altoPx/escalaY_Matriz /10, rutaNube1);
-	vista->crearScrollingSprite( terreno->getLector()->getAnchoMatriz() /2, 30, e->anchoPx/escalaX_Matriz / 5, e->altoPx/escalaY_Matriz / 10, rutaNube2);
+	vista->crearScrollingSprite(0, 10,  e->anchoPx/ 5, e->altoPx /10, rutaNube1);
+	vista->crearScrollingSprite( terreno->getLector()->getAnchoMatriz() /2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
 	Dibujable* dibTierra = vista->crearDibujableTextura(0, 0, terreno->getLector()->getAnchoMatriz(),terreno->getLector()->getAltoMatriz(),terreno->getLector()->getRutaTexturaActualizada(), "");
 }
 
