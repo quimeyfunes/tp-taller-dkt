@@ -194,8 +194,8 @@ void Vista::setZoom(float escala){
 	if (escala > zoomMax) {
 		this->escalaZoom = zoomMax;
 	} else 
-		if (escala < 0.66666) {
-			this->escalaZoom = 0.66666;
+		if (escala < zoomMin) {
+			this->escalaZoom = zoomMin;
 		} else {
 			this->escalaZoom = escala;
 		}
@@ -211,17 +211,17 @@ int Vista::getPosZoomY(){
 
 void Vista::scroll(int x , int y) {
 	if ((x < (this->anchoPx * porcentajeScroll)) && ( x != 0)) {
-		this->corrimientoX += this->anchoPx *velocidadScroll / x ;
+		this->corrimientoX -= this->anchoPx *velocidadScroll / x ;
 	} else {
 		if ((x > (this->anchoPx * (1 - porcentajeScroll))) && ( x != this->anchoPx)) {
-			this->corrimientoX -= this->anchoPx * velocidadScroll / (this->anchoPx - x);
+			this->corrimientoX += this->anchoPx * velocidadScroll / (this->anchoPx - x);
 		} 
 	}
 	if ((y < (this->altoPx * porcentajeScroll)) && ( y != 0)) {
-		this->corrimientoY += this->altoPx * velocidadScroll / y ;
+		this->corrimientoY -= this->altoPx * velocidadScroll / y ; 
 	} else {
 		if ((y > (this->altoPx * (1 - porcentajeScroll))) && ( y != this->altoPx)) {
-			this->corrimientoY -= this->altoPx * velocidadScroll / (this->altoPx - y);
+			this->corrimientoY += this->altoPx * velocidadScroll / (this->altoPx - y);
 		} 
 	}
 	this->validarScroll();
@@ -232,10 +232,9 @@ void Vista::validarScroll() {
 }
 
 void Vista::zoom(SDL_Event* evento,int x, int y) {
-	if (this->escalaZoom == 0.6666) {
+	if (this->escalaZoom == zoomMin) {
 		this->posZoomX = 0;
 		this->posZoomY = 0;
-		return;
 	}
 	this->posZoomX = (this->corrimientoX + x ) / this->escalaZoom;
 	this->posZoomY = (this->corrimientoY + y ) / this->escalaZoom;

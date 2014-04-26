@@ -145,7 +145,8 @@ void Juego::leerEvento(){
 		case CLICK:	
 			int x,y;
 			SDL_GetMouseState(&x,&y);
-			this->escenario->click( (x - this->vista->getCorrimientoX())/ this->escenario->getRelacionAncho(), (y - this->vista->getCorrimientoY()) / this->escenario->getRelacionAlto());
+			this->escenario->click((x - this->vista->getCorrimientoX()) / relacionPPU,  (y - this->vista->getCorrimientoY()) / relacionPPU);
+			//this->escenario->click( (x - this->vista->getCorrimientoX())/ this->escenario->getRelacionAncho(), (y - this->vista->getCorrimientoY()) / this->escenario->getRelacionAlto());
 			break;
 		}
 	}
@@ -183,8 +184,10 @@ void Juego::agregarTexturas(EscenarioParseado* e){
 }
 
 void Juego::agregarAgua(EscenarioParseado* e){
+	//vista->crearDibujableTextura(0, e->nivelAgua*this->escenario->getRelacionAlto(), terreno->getLector()->getAnchoMatriz(), terreno->getLector()->getAltoMatriz() - e->nivelAgua*this->escenario->getRelacionAlto(), texturaAgua, texturaAguaDEF);
 	vista->crearDibujableTextura(0, e->nivelAgua*relacionPPU, e->anchoU*relacionPPU, (e->altoU - e->nivelAgua) *relacionPPU, texturaAgua, texturaAguaDEF);
 	for(int i=0;i<4;i++){
+		//vista->crearSprite( (i* terreno->getLector()->getAnchoMatriz())/4, e->nivelAgua* this->escenario->getRelacionAlto() - 15,  terreno->getLector()->getAnchoMatriz()/4, 15, spriteOlas, 2, 6, 256, 144);
 		vista->crearSprite( (i* e->anchoU*relacionPPU)/4, e->nivelAgua*relacionPPU - 15,  e->anchoU*relacionPPU/4, 15, spriteOlas, 2, 6, 256, 144);
 	}
 }
@@ -194,8 +197,8 @@ void Juego::agregarObjetos(){
 	vector<ObjetoParseado>* objetos = ParserYaml::getParser()->getObjetos();	
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 
-	float escalaAncho = this->escenario->getRelacionAncho();
-	float escalaAlto = this->escenario->getRelacionAlto();
+	float escalaAncho = relacionPPU;//this->escenario->getRelacionAncho();
+	float escalaAlto = relacionPPU;//this->escenario->getRelacionAlto();
 	for (std::vector<ObjetoParseado>::iterator it = objetos->begin(); it != objetos->end(); ++it) {
 		switch ((*it).tipo) {
 		case 1: 
