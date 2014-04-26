@@ -14,15 +14,10 @@
 #include <string>
 
 class GusanoDibujable: public DibujableTextura, public Observador{
-private:
-	SDL_Rect rect;
-	SDL_Texture* imagen;
-	//SDL_Surface* superficie;
-	float anguloRotacion;
 
 public:
 	GusanoDibujable();
-	GusanoDibujable(SDL_Renderer* renderer, SDL_Rect rect);
+	GusanoDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF);
 	~GusanoDibujable();
 	void actualizar(Observable* observable);
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY);

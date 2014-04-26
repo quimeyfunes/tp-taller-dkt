@@ -21,7 +21,7 @@
 	const int maxColumnasInvalidasMascara = 10;
 
 	//Relacion Pixel por Unidad
-	const float relacionPPU = 2;
+	const float relacionPPU = 3;
 
 	//Escenario
 	const unsigned anchoPxDEF=800;

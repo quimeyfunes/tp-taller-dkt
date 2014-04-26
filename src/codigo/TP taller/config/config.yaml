@@ -8,8 +8,8 @@ escenario:
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
         - tipo: rect
-          x: 380
-          y: 299
+          x: 450
+          y: 200
           ancho: 10
           alto: 10
           color: FF0000
