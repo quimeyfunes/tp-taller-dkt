@@ -36,7 +36,7 @@ void Cliente::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
 
 void Cliente::enviarEstado(){
 
-	enviarPaquete(red->socketCliente, paqueteEstado, "ok");
+	enviarPaquete(red->socketCliente, paqueteEstado, this->username);
 }
 
 void Cliente::recibirDeServidor()
