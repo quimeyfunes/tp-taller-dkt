@@ -24,8 +24,8 @@ PoligonoDibujable::~PoligonoDibujable()
 void PoligonoDibujable::actualizar(Observable* observable) {
 	Figura* fig = (Figura*)observable;
 	b2PolygonShape* shape = (b2PolygonShape*)fig->getBody()->GetFixtureList()->GetShape();
-	float escalaAncho = relacionPPU;//Escenario::getRelacionAncho();
-	float escalaAlto = relacionPPU;//Escenario::getRelacionAlto();
+	float escalaAncho = relacionPPU;
+	float escalaAlto = relacionPPU;
 	b2Vec2 posicion = b2Vec2(fig->getPosicion().x * escalaAncho, fig->getPosicion().y * escalaAlto);
 	for (int i = 0; i < this->n; i++) {
 		b2Vec2 vertice = shape->GetVertex(i);
@@ -35,7 +35,7 @@ void PoligonoDibujable::actualizar(Observable* observable) {
 	}
 }
 
-void PoligonoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY){
+void PoligonoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx){
 	filledPolygonRGBA(renderer,this->posicionesX,this->posicionesY,this->n,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
 }
 

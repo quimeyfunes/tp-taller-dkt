@@ -19,11 +19,11 @@ CirculoDibujable::~CirculoDibujable() {
 
 void CirculoDibujable::actualizar(Observable* observable) {
 	Figura* fig = (Figura*)observable;
-	this->posicion.x = fig->getPosicion().x * relacionPPU;//Escenario::getRelacionAncho();
-	this->posicion.y = fig->getPosicion().y * relacionPPU;//Escenario::getRelacionAlto();
+	this->posicion.x = fig->getPosicion().x * relacionPPU;
+	this->posicion.y = fig->getPosicion().y * relacionPPU;
 }
 
-void CirculoDibujable::dibujar(SDL_Renderer* renderer,int corrimientoX, int corrimientoY, int escalaZoom, int posZoomX, int posZoomY) {
+void CirculoDibujable::dibujar(SDL_Renderer* renderer,int corrimientoX, int corrimientoY, int escalaZoom, int anchoPx, int altoPx) {
 	filledEllipseRGBA(renderer,this->posicion.x + corrimientoX,this->posicion.y + corrimientoY,this->radioHorizontal,this->radioVertical,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
 }
 

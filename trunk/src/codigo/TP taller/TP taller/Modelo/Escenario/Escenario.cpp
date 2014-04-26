@@ -223,14 +223,6 @@ void Escenario::setTerreno(Terreno* terreno){
 	this->terreno = terreno;
 }
 
-/*float Escenario::getRelacionAncho(){
-	return relacionAncho;
-}
-
-float Escenario::getRelacionAlto(){
-	return relacionAlto;
-}*/
-
 std::stringstream Escenario::getMensajeSuperposicionObjeto(int linea){
 	std::stringstream info;
 	if(linea > 0){

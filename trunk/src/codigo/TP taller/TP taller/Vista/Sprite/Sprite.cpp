@@ -33,17 +33,18 @@ Sprite::~Sprite(){
 	delete []this->recCuadro;
 }
 
-void Sprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY){
+void Sprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
 
 	SDL_Rect rect = this->recDest;
 
-	rect.x -=corrimientoX;
-	rect.y -=corrimientoY;
+	
 
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
-		rect = realizarZoom(rect, posZoomX, posZoomY, escalaZoom);
+		rect = realizarZoom(this->recDest, corrimientoX, corrimientoY, escalaZoom);
 		SDL_RenderCopy(renderer, this->textura, &this->recCuadro[frame], &rect);
 	} else {
+		rect.x -=corrimientoX;
+		rect.y -=corrimientoY;
 		SDL_RenderCopy(renderer, this->textura, &this->recCuadro[frame], &rect);
 	}
 

@@ -21,10 +21,10 @@ RectanguloDibujable::~RectanguloDibujable()
 void RectanguloDibujable::actualizar(Observable* observable) {
 	Figura* fig = (Figura*)observable;
 	b2PolygonShape* shape = (b2PolygonShape*)fig->getBody()->GetFixtureList()->GetShape();
-	float escalaX = relacionPPU;//Escenario::getRelacionAncho();
-	float escalaY = relacionPPU;//Escenario::getRelacionAlto();
+	float escalaX = relacionPPU;
+	float escalaY = relacionPPU;
 	b2Vec2 posicion = b2Vec2(fig->getPosicion().x * escalaX, fig->getPosicion().y * escalaY);
-	float hipotenusa = shape->GetVertex(0).Length();//sqrt(this->ancho/2 * this->ancho/2 + this->alto/2 * this->alto/2);
+	float hipotenusa = shape->GetVertex(0).Length();
 	for (int i = 0; i < this->n; i++) {
 		b2Vec2 vertice = shape->GetVertex(i);
 		float anguloNuevo = atan2f(vertice.y,vertice.x) + fig->getAngulo();
@@ -33,7 +33,7 @@ void RectanguloDibujable::actualizar(Observable* observable) {
 	}
 }
 
-void RectanguloDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, int escalaZoom, int posZoomX, int posZoomY){
+void RectanguloDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, int escalaZoom, int anchoPx, int altoPx){
 	short int posX[4];
 	short int posY[4];
 	for (int i=0; i<4;i++) {

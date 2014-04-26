@@ -21,7 +21,7 @@ public:
 	PoligonoDibujable();
 	~PoligonoDibujable();
 	void actualizar(Observable* observable);
-	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY);
+	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	virtual string serializar();
 	virtual void deserealizar(string aDeserealizar);
 };

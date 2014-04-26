@@ -29,10 +29,8 @@ void Terreno::generarTerreno(string nombreArchivo){
 
 	b2Vec2* vecBorde = new b2Vec2[anchoMatriz*2];
 	
-	/*EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
+
 	// Recorro la matriz hasta encontrar tierra
-	float relacionAncho = e->anchoPx * 1.0 / e->anchoU;
-	float relacionAlto = e->altoPx * 1.0 / e->altoU;*/
 	for (int i = 0; i < anchoMatriz; i+=relacionPPU) { 
 		hayTierra = false;
 		int contFil = 0;

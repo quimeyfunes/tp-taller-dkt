@@ -8,7 +8,7 @@ Gusano::Gusano()
 
 
 Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa)
-	: Figura(x , y , rotacion, world, estatico)
+	: Figura(x , y , rotacion, world, estatico, true)
 {
 	
 	b2PolygonShape rectanguloShape;

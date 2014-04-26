@@ -15,13 +15,13 @@ void GusanoDibujable::actualizar(Observable* observable) {
 
 	Figura* fig = (Figura*)observable;
 	SDL_Rect rect = this->getRect();
-	rect.x = (fig->getPosicion().x * relacionPPU) - rect.w /2;//Escenario::getRelacionAncho()) - rect.w /2);
-	rect.y = (fig->getPosicion().y * relacionPPU) - rect.h /2;//Escenario::getRelacionAlto()) - rect.h /2);
+	rect.x = (fig->getPosicion().x * relacionPPU) - rect.w /2;
+	rect.y = (fig->getPosicion().y * relacionPPU) - rect.h /2;
 	this->setRect(rect);
 	
 }
 
-void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY){
+void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
 	
 	SDL_Rect rect = this->getRect();
 	//cout<<"X"<<rect.x + rect.w/2<<"  Y:  "<<rect.y + rect.h/2<<endl;
