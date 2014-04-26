@@ -64,6 +64,7 @@ void Servidor::recibirDeClientes()
 {
     Paquete* paquete = new Paquete();
 	int id;
+	int quitarSocket= -1;
     // go through all clients
     std::map<unsigned int, SOCKET>::iterator iter;
 
@@ -71,7 +72,7 @@ void Servidor::recibirDeClientes()
     {
         // get data for that client
         int data_length = red->recibirData(iter->first, network_data);
-
+		
         int i = 0;
         while (i < data_length) 
         {
@@ -89,20 +90,27 @@ void Servidor::recibirDeClientes()
 							clientes[id].activo=true;				//descongelo y doy bienvenida
 							clientes[id].time=time(NULL);
 							enviarPaquete(red->sessions.at(iter->first), paqueteInicial, "Bienvenido de nuevo, "+clientes[id].username+ ".");
-							cout<<clientes[id].username<<" se ha conectado."<<endl;
+							red->sessions.at(id) = red->sessions.at(iter->first);
+							quitarSocket=iter->first;
+							cliente_id--;
+							cout<<clientes[id].username<<" se ha reconectado."<<endl;
 						}else{										//si no esta congelado, es xq ya existe un usuario con ese nombre
 							enviarPaquete(red->sessions.at(iter->first), paqueteFinal, "Ya existe otro usuario con su nombre.");
+							quitarSocket=iter->first;
+							cliente_id--;
 						}
 					}else{											//si no existe username, tengo que ver si hay lugar para uno nuevo
-						if(cliente_id < 4){					    	//si hay lugar 
-							this->clientes[iter->first].activo=true;//le asigno un espacio y doy la bienvenida
-							this->clientes[iter->first].username = paquete->getMensaje();
-							this->clientes[iter->first].time = time(NULL);
+						if(cliente_id-1 < 4){					    	//si hay lugar 
+							this->clientes[cliente_id].activo=true;//le asigno un espacio y doy la bienvenida
+							this->clientes[cliente_id].username = paquete->getMensaje();
+							this->clientes[cliente_id].time = time(NULL);
 							enviarPaquete(red->sessions.at(iter->first), paqueteInicial, "Bienvenido, "+clientes[iter->first].username+".");
-							cout<<clientes[iter->first].username<<" se ha conectado."<<endl;
+							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
 						}else{
 																	//si no hay lugar, lo saco
 							enviarPaquete(red->sessions.at(iter->first), paqueteFinal, "Ya se ha alcanzado la cantidad maxima de clientes.");
+							quitarSocket=iter->first;
+							cliente_id--;
 						}
 					}
                     break;
@@ -125,9 +133,11 @@ void Servidor::recibirDeClientes()
         }
     }
 
+	if(quitarSocket != -1) red->sessions.erase(quitarSocket);
+
 	for(int i=0; i< MAX_CLIENTES; i++){
 		if(clientes[i].activo){
-			if(time(NULL) - clientes[i].time > 2){	//2 segundos de espera
+			if(time(NULL) - clientes[i].time > 1){	//1 segundo de espera
 				clientes[i].activo=false;
 				cout<<clientes[i].username<<" se ha desconectado."<<endl;
 			}

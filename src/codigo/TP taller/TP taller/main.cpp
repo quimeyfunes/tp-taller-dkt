@@ -8,6 +8,7 @@ void clienteLoop()
     while(true) 
     {
 		cliente->actualizar();
+		SDL_Delay(1);
     }
 }
 

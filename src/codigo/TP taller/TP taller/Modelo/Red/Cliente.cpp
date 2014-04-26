@@ -5,7 +5,7 @@ Cliente::Cliente(string nombre){
 
     red = new ClienteRed();
 	this->username=nombre;
-	this->activo = true;
+	this->activo = false;
 	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
 }
 
@@ -96,8 +96,6 @@ void Cliente::recibirDeServidor()
 
 void Cliente::actualizar() 
 {
-	if(this->activo){	//despues si no esta activo, salir de aca y cerrar consola
 		recibirDeServidor();
-		enviarEstado();
-	}
+		if(activo)enviarEstado();
 }
