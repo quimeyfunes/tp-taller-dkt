@@ -1,7 +1,8 @@
 #include "JuegoCliente.h"
 
+Cliente* JuegoCliente::cliente = NULL;
 
-JuegoCliente::JuegoCliente(){
+JuegoCliente::JuegoCliente(string nombreCliente){
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
@@ -15,6 +16,7 @@ JuegoCliente::JuegoCliente(){
 	agregarTexturas(e);
 	agregarAgua(e);
 	this->dibujablesBase = this->vista->getListaDibujables();
+	cliente = new Cliente(nombreCliente);
 }
 
 void JuegoCliente::ejecutar(){
@@ -24,7 +26,7 @@ void JuegoCliente::ejecutar(){
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
 		this->leerEvento();
-
+		this->cliente->actualizar();
 		if(simulando){
 			switch(estadoActual){
 
@@ -74,7 +76,7 @@ void JuegoCliente::leerEvento(){
 }
 
 void JuegoCliente::jugar(){
-	Juego::jugar();
+	escenario->simularAgua();
 }
 
 void JuegoCliente::salir(){
