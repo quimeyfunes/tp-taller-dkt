@@ -46,8 +46,27 @@ void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corri
 
 string GusanoDibujable::serializar(){
 	string serializado = "";
+	serializado = StringUtil::int2string(serializadoGusanoDibujable);
+	serializado += separadorCampoTipoEntidades;    
+	serializado += StringUtil::float2string(this->anguloRotacion);
+	serializado += separadorCamposEntidades;    
+	serializado += StringUtil::int2string(this->rect.x);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->rect.y);
+    serializado += separadorCamposEntidades;
+    serializado += StringUtil::int2string(this->rect.w);
+	serializado += separadorCamposEntidades;
+    serializado += StringUtil::int2string(this->rect.h);
 	return serializado;
 }
 
 void GusanoDibujable::deserealizar(string aDeserealizar){
+	vector<string> des = StringUtil::split(aDeserealizar,separadorCampoTipoEntidades);
+	//des.at(0) tiene el tipo, des.at(0) tiene el resto de los atributos
+	vector<string> atributos = StringUtil::split(des.at(1),separadorCamposEntidades);
+	this->anguloRotacion = StringUtil::str2float(atributos.at(0).c_str());
+    this->rect.x = StringUtil::str2int(atributos.at(1));
+	this->rect.y = StringUtil::str2int(atributos.at(2));
+	this->rect.w = StringUtil::str2int(atributos.at(3));
+	this->rect.h = StringUtil::str2int(atributos.at(4));
 }

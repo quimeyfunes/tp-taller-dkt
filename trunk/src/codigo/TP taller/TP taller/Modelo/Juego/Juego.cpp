@@ -87,7 +87,11 @@ void Juego::ejecutar(){
 			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), data, 500);
 		}	
 		*/
-		
+		PoligonoDibujable* pol = new PoligonoDibujable(2,4,10);
+		string cirSerializado = pol->serializar();
+		PoligonoDibujable* pol2 = new PoligonoDibujable();
+		pol2->deserealizar(cirSerializado);
+
 		vista->Dibujar();
 		SDL_Delay(1);
 		

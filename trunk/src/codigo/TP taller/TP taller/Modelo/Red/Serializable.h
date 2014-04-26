@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include "../StringUtil.h"
 
 using namespace std;
 

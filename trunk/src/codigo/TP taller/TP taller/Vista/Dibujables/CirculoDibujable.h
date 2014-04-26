@@ -16,6 +16,7 @@ class CirculoDibujable : public Observador, public DibujableGFX
 	int radioVertical;
 public:
 	CirculoDibujable(int x, int y,int radioHorizontal,int radioVertical);
+	CirculoDibujable();
 	~CirculoDibujable();
 	void actualizar(Observable* observable);
 	void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, int escalaZoom, int posZoomX, int posZoomY);
