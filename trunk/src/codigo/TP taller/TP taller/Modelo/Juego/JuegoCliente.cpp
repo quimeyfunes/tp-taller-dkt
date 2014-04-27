@@ -15,7 +15,8 @@ JuegoCliente::JuegoCliente(string nombreCliente){
 	this->escenario->setTerreno(this->terreno);
 	agregarTexturas(e);
 	agregarAgua(e);
-	this->dibujablesBase = this->vista->getListaDibujables();
+	this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
+	copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
 	cliente = new Cliente(nombreCliente);
 }
 
@@ -27,6 +28,9 @@ void JuegoCliente::ejecutar(){
 		
 		this->leerEvento();
 		this->cliente->actualizar();
+		string vistaSerializada = this->cliente->vistaSerializada;
+		this->crearLista(vistaSerializada);
+
 		if(simulando){
 			switch(estadoActual){
 
@@ -99,6 +103,57 @@ void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 
 void JuegoCliente::agregarAgua(EscenarioParseado* e){
 	Juego::agregarAgua(e);
+}
+
+list<Dibujable*>* JuegoCliente::crearLista(string vistaSerializada){
+	list<Dibujable*>* lista = new list<Dibujable*>(this->dibujablesBase->size());
+	copy(this->dibujablesBase->begin(),this->dibujablesBase->end(),lista->begin());
+	//Saco el agua
+	lista->pop_back();
+
+	vector<string> entidadesSerializadas = StringUtil::split(vistaSerializada,separadorEntidades);
+	for (int i = 0; i < entidadesSerializadas.size(); i++) {
+		string entidadSerializada = entidadesSerializadas.at(i);
+		vector<string> des = StringUtil::split(entidadSerializada,separadorCampoTipoEntidades);
+		switch (StringUtil::str2int(des.at(0))){
+			case serializadoGusanoDibujable: {
+				GusanoDibujable* gusano = new GusanoDibujable();
+				gusano->deserealizar(entidadSerializada);
+
+				gusano = new GusanoDibujable(this->vista->renderer, gusano->getRect(), rutaGusano, rutaGusanoDEF);
+				lista->push_back(gusano);
+				break;
+			}
+			case serializadoCirculoDibujable:{
+				CirculoDibujable* circulo = new CirculoDibujable();
+				circulo->deserealizar(entidadSerializada);
+				lista->push_back(circulo);
+				break;
+			}
+			case serializadoPoligonoDibujable:{
+				PoligonoDibujable* poligono = new PoligonoDibujable();
+				poligono->deserealizar(entidadSerializada);
+				lista->push_back(poligono);
+				break;
+			}
+			case serializadoRectanguloDibujable:{
+				RectanguloDibujable* rectangulo = new RectanguloDibujable();
+				rectangulo->deserealizar(entidadSerializada);
+				lista->push_back(rectangulo);
+				break;
+			}
+		default:
+			{
+				break;
+			}
+		}
+
+		this->vista->setListaDibujables(lista);
+	}
+	//Agrego a lo ultimo el agua
+	lista->push_back(this->dibujablesBase->back());
+
+	return lista;
 }
 
 JuegoCliente::~JuegoCliente(){
