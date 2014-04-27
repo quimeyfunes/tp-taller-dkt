@@ -72,6 +72,7 @@
 	const unsigned cuadradoTipo=4;
 	const unsigned pentagonoTipo=5;
 	const unsigned hexagonoTipo=6;
+	const unsigned gusanoTipo = 7;
 
 	const float porcentajeScroll = 0.075;
 	const float velocidadScroll = 1/600.0;
@@ -91,7 +92,8 @@
 	const float restitucion = 0.3f;
 	const int velocidadAgua = 8;
 	const float desaceleracionAgua = 0.973;
-
+	const int anguloMinimoSalto  = -135 * DEGTORAD;
+	const int anguloMaximoSalto  = -45 * DEGTORAD;
 	//Tipos de paquete
 	const unsigned paqueteInicial=1;
 	const unsigned paqueteEvento=2;

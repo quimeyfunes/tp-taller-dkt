@@ -29,7 +29,8 @@ private:
 	list<Figura*>* listaFiguras;
 	Terreno* terreno;
 	Figura* figuraActiva;
-	bool puedeMoverseArriba;
+	bool puedeMoverseArriba; //Esta es true si se apreta arriba
+	bool puedeSaltar;		//Esta es true si esta tocando algo por abajo
 	bool puedeMoverseIzquierda;
 	bool puedeMoverseDerecha;
 
@@ -57,11 +58,13 @@ public:
 	void setTerreno(Terreno* terreno);
 	void click(float x, float y);
 	void arriba(bool arriba);
+	void setPuedeSaltar(bool puedeSaltar);
 	void izquierda(bool izquierda);
 	void derecha(bool derecha);	
 	void saltar();
 	void moverIzquierda();
 	void moverDerecha();
+	Figura* getFiguraActiva();
 };
 
 

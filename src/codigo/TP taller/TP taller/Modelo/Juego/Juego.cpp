@@ -17,6 +17,9 @@ Juego::Juego(string texto){
 	this->terreno->generarTerreno(e->imagenTierra);
 	this->escenario->setTerreno(this->terreno);
 	this->mundo = escenario->getWorld();
+	ResolverContacto* resolverContacto = new ResolverContacto();
+	resolverContacto->setEscenario(this->escenario);
+	this->mundo->SetContactListener(resolverContacto);
 	agregarTexturas(e);
 	agregarObjetos();
 	agregarAgua(e);
