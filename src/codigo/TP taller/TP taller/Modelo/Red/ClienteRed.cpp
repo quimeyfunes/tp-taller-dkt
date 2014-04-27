@@ -1,6 +1,6 @@
 #include "ClienteRed.h"
 
-ClienteRed::ClienteRed(void) {
+ClienteRed::ClienteRed(string ip) {
 
     // create WSADATA object
     WSADATA wsaData;
@@ -31,7 +31,10 @@ ClienteRed::ClienteRed(void) {
 
 
 	//resolve server address and port 
-    iResult = getaddrinfo("127.0.0.1", DEFAULT_PORT, &hints, &result);
+	char* _ip = new char[ip.size()+1];
+	strcpy(_ip, ip.c_str());
+    iResult = getaddrinfo(_ip, DEFAULT_PORT, &hints, &result);
+	delete _ip;
 
     if( iResult != 0 ) 
     {

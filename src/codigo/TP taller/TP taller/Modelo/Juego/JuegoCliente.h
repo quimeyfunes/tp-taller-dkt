@@ -35,7 +35,7 @@ private:
 	list<Dibujable*>* crearLista(string vistaSerializada);
 public:
 	JuegoCliente();
-	JuegoCliente(string nombreCliente);
+	JuegoCliente(string nombreCliente, string ip);
 	void ejecutar();
 	~JuegoCliente();
 	void actualizarDibujables(Paquete* paqueteVista);
