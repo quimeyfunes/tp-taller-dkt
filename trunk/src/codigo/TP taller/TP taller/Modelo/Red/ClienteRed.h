@@ -25,7 +25,7 @@ public:
     SOCKET socketCliente;
 
     // ctor/dtor
-    ClienteRed(void);
+    ClienteRed(string ip);
     ~ClienteRed(void);
 	int recibirData( char * recvbuf);
 };

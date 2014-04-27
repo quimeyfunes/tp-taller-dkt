@@ -2,7 +2,7 @@
 
 Cliente* JuegoCliente::cliente = NULL;
 
-JuegoCliente::JuegoCliente(string nombreCliente){
+JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
@@ -17,7 +17,7 @@ JuegoCliente::JuegoCliente(string nombreCliente){
 	agregarAgua(e);
 	this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
 	copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
-	cliente = new Cliente(nombreCliente);
+	cliente = new Cliente(nombreCliente, ip);
 }
 
 void JuegoCliente::ejecutar(){
@@ -158,7 +158,7 @@ list<Dibujable*>* JuegoCliente::crearLista(string vistaSerializada){
 
 JuegoCliente::~JuegoCliente(){
 
-	delete this->escenario;
-	delete this->evento;
-	delete Logger::getLogger();
+	//delete this->escenario;
+	//delete this->evento;
+	//delete Logger::getLogger();
 }

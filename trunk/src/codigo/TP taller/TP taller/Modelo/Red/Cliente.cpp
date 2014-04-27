@@ -1,8 +1,8 @@
 #include "Cliente.h" 
+#include <iostream>
 
-
-Cliente::Cliente(string nombre){
-    red = new ClienteRed();
+Cliente::Cliente(string nombre, string ip){
+    red = new ClienteRed(ip);
 	this->username=nombre;
 	this->activo = false;
 	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
@@ -52,7 +52,7 @@ void Cliente::recibirDeServidor()
 
                 case paqueteInicial:
 					// si recibi hola, activarme y empezar a mandar paquetes
-					//cout<<paquete->getMensaje();
+					cout<<paquete->getMensaje();
 					this->activo=true;
 					break;
 
@@ -62,12 +62,12 @@ void Cliente::recibirDeServidor()
 					break;
 
 				case paqueteVista:
-					printf("El cliente recibio un paquete vista del servidor.\n");
+				//	printf("El cliente recibio un paquete vista del servidor.\n");
 					this->vistaSerializada = paquete->getMensaje();
 					break;
 
 				case paqueteFinal:
-					//cout<<paquete->getMensaje();
+					cout<<paquete->getMensaje();
 					this->activo=false;
 					break;
                 default:

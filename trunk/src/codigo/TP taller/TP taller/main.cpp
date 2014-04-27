@@ -30,7 +30,10 @@ int main(int argc, char* argv[]){
 			string nombre;
 			cin.ignore();
 			getline(cin, nombre);
-			JuegoCliente* juego = new JuegoCliente(nombre);
+			printf("Ingrese la direccion IP del servidor: ");
+			string ip;
+			cin>>ip;
+			JuegoCliente* juego = new JuegoCliente(nombre, ip);
 			juego->ejecutar();
 			delete juego;
 		}else if(argumento == "2"){

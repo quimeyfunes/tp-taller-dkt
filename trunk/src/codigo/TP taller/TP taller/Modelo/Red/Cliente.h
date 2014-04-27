@@ -5,7 +5,7 @@ class Cliente
 
 public:
 
-    Cliente(string nombre);
+    Cliente(string nombre, string ip);
     ~Cliente(void);
 	string username;
     ClienteRed* red; 
