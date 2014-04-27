@@ -14,6 +14,7 @@
 #include <iostream>
 #include <vector>
 #include "../StringUtil.h"
+#include "../ResolverContacto.h"
 
 
 using namespace std;

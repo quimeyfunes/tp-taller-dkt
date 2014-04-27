@@ -21,6 +21,7 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->puedeMoverseArriba = false;
 	this->puedeMoverseDerecha = false;
 	this->puedeMoverseIzquierda = false;
+	this->puedeSaltar = false;
 }
 
 int Escenario::getAltoU(){
@@ -258,6 +259,10 @@ void Escenario::arriba(bool arriba){
 	this->puedeMoverseArriba = arriba;
 }
 
+void Escenario::setPuedeSaltar(bool puedeSaltar) {
+	this->puedeSaltar = puedeSaltar;
+}
+
 void Escenario::izquierda(bool izquierda){
 	this->puedeMoverseIzquierda = izquierda;
 }
@@ -267,9 +272,11 @@ void Escenario::derecha(bool derecha){
 }
 
 void Escenario::saltar(){
-	if ((this->figuraActiva != NULL) && (this->puedeMoverseArriba)) {
+	if ((this->figuraActiva != NULL) && (this->puedeMoverseArriba) && (this->puedeSaltar)) {
 		b2Body* cuerpo = this->figuraActiva->getBody();
-		cuerpo->ApplyLinearImpulse(b2Vec2(0,-3),this->figuraActiva->getPosicion(),true);
+		cuerpo->SetLinearVelocity(b2Vec2(cuerpo->GetLinearVelocity().x,-50));
+		//cuerpo->ApplyLinearImpulse(b2Vec2(0,-100),this->figuraActiva->getPosicion(),true);
+		this->puedeSaltar = false;
 	}
 }
 
@@ -291,3 +298,6 @@ void Escenario::moverDerecha(){
 	}
 }
 
+Figura* Escenario::getFiguraActiva(){
+	return this->figuraActiva;
+}

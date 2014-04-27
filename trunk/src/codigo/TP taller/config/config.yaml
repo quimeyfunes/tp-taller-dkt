@@ -16,4 +16,12 @@ escenario:
           rot: 0
           masa: 3
           estatico: no
-          
+        - tipo: rect
+          x: 400
+          y: 250
+          ancho: 15
+          alto: 20
+          color: FF0000
+          rot: 0
+          masa: 3
+          estatico: no

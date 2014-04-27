@@ -22,6 +22,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	fixtureDef.restitution = restitucion;
 	fixtureDef.friction = friccion;
 	this->getBody()->CreateFixture(&fixtureDef);
+	this->setTipo(gusanoTipo);
 
 }
 

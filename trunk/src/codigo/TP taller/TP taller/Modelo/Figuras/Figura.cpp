@@ -20,10 +20,13 @@ Figura::Figura(float x, float y, short int rotacion, b2World* world, bool estati
 	this->anguloInicial = rotacion * DEGTORAD;
 	//Angulo en radianes
 	myBodyDef.angle = this->anguloInicial; 
+	myBodyDef.userData = this;
 
 	this->body = world->CreateBody(&myBodyDef);
 	this->movimientoDer = false;
 	this->movimientoIzq = false;
+
+	this->tipo = circuloTipo;
 }
 
 
@@ -46,6 +49,15 @@ b2Vec2 Figura::getPosicion()
 float Figura::getAngulo()
 {
 	return this->body->GetAngle();
+}
+
+void Figura::setTipo(int tipo) {
+	this->tipo = tipo;
+}
+
+
+int Figura::getTipo() {
+	return this->tipo;
 }
 
 void Figura::reiniciar(){

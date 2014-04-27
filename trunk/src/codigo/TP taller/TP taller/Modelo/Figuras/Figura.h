@@ -17,6 +17,7 @@ private:
 	b2Body* body;
 	b2Vec2 posicionInicial;
 	float anguloInicial;
+	int tipo;
 	bool movimientoDer;
 	bool movimientoIzq;
 
@@ -33,6 +34,8 @@ public:
 	bool seMueveALaIzq();
 	void setMovimientoIzq(bool movIzq);
 	float getAngulo();
+	void setTipo(int tipo);
+	int getTipo();
 	~Figura();
 };
 
