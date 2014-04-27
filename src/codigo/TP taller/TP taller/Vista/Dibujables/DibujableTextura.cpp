@@ -80,3 +80,12 @@ string DibujableTextura::serializar(){
 
 void DibujableTextura::deserealizar(string aDeserealizar){
 }
+
+void DibujableTextura::setImagen(SDL_Renderer* renderer, string path){
+
+	this->imagen = IMG_LoadTexture(renderer, path.c_str());
+	if(!imagen){
+		Logger::getLogger()->escribir("No se encontró la textura " + path + ". Se usará la textura por defecto.");
+		this->imagen = IMG_LoadTexture(renderer, rutaGusanoDEF);
+	}
+}

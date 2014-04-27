@@ -23,6 +23,7 @@ public:
 	SDL_Rect getRect();
 	void setRect(SDL_Rect rect);
 	SDL_Texture* getImagen();
+	void setImagen(SDL_Renderer* renderer, string path);
 	int getAngulo();
 	void setAngulo(int angulo);
 	void setColor(int* rgb);

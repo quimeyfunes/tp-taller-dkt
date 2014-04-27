@@ -10,8 +10,8 @@ escenario:
         - tipo: rect
           x: 500
           y: 250
-          ancho: 10
-          alto: 10
+          ancho: 15
+          alto: 20
           color: FF0000
           rot: 0
           masa: 3
