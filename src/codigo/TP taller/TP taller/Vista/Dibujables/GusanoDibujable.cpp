@@ -18,7 +18,7 @@ GusanoDibujable::~GusanoDibujable()
 void GusanoDibujable::actualizar(Observable* observable) {
 
 	Figura* fig = (Figura*)observable;
-	SDL_Rect rect = this->getRect();
+	SDL_Rect rect = this->rect;
 	rect.x = (fig->getPosicion().x * relacionPPU) - rect.w /2;
 	rect.y = (fig->getPosicion().y * relacionPPU) - rect.h /2;
 	this->setRect(rect);
@@ -27,16 +27,16 @@ void GusanoDibujable::actualizar(Observable* observable) {
 
 void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
 	
-	SDL_Rect rect = this->getRect();
+	SDL_Rect rect = this->rect;
 	//cout<<"X"<<rect.x + rect.w/2<<"  Y:  "<<rect.y + rect.h/2<<endl;
 	rect.x -= corrimientoX;
 	rect.y -= corrimientoY;
 
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
-		rect = realizarZoom(this->getRect(), corrimientoX, corrimientoY, escalaZoom);
-		SDL_RenderCopyEx(renderer,this->getImagen(), NULL , &rect, this->getAngulo() ,NULL,SDL_FLIP_NONE);
+		rect = realizarZoom(this->rect, corrimientoX, corrimientoY, escalaZoom);
+		SDL_RenderCopyEx(renderer,this->imagen, NULL , &rect, this->anguloRotacion ,NULL,SDL_FLIP_NONE);
 	} else {
-		SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &rect, this->getAngulo(),NULL,SDL_FLIP_NONE);
+		SDL_RenderCopyEx(renderer,this->imagen, NULL, &rect, this->anguloRotacion,NULL,SDL_FLIP_NONE);
 	}
 }
 
@@ -44,15 +44,15 @@ string GusanoDibujable::serializar(){
 	string serializado = "";
 	serializado = StringUtil::int2string(serializadoGusanoDibujable);
 	serializado += separadorCampoTipoEntidades;    
-	serializado += StringUtil::float2string(this->getAngulo());
+	serializado += StringUtil::float2string(this->anguloRotacion);
 	serializado += separadorCamposEntidades;    
-	serializado += StringUtil::int2string(this->getRect().x);
+	serializado += StringUtil::int2string(this->rect.x);
 	serializado += separadorCamposEntidades;
-	serializado += StringUtil::int2string(this->getRect().y);
+	serializado += StringUtil::int2string(this->rect.y);
     serializado += separadorCamposEntidades;
-    serializado += StringUtil::int2string(this->getRect().w);
+    serializado += StringUtil::int2string(this->rect.w);
 	serializado += separadorCamposEntidades;
-    serializado += StringUtil::int2string(this->getRect().h);
+    serializado += StringUtil::int2string(this->rect.h);
 	return serializado;
 }
 
