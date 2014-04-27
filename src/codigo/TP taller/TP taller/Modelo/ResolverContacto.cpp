@@ -20,7 +20,6 @@ void ResolverContacto::PreSolve(b2Contact* contact, const b2Manifold* oldManifol
 		b2Vec2 localNormal = fixtureA->GetBody()->GetLocalVector( worldManifold.normal );
 		if (this->escenario->getFiguraActiva() == figura) {
 			float angle = b2Atan2( localNormal.y, localNormal.x );
-			cout<<"figuraA: "<<angle<<endl;
 			if ( figura->getTipo() == gusanoTipo && anguloMinimoSalto < (-angle) && (-angle) < anguloMaximoSalto)
 				this->escenario->setPuedeSaltar(true);
 		}
@@ -33,7 +32,7 @@ void ResolverContacto::PreSolve(b2Contact* contact, const b2Manifold* oldManifol
 		b2Vec2 localNormal = fixtureB->GetBody()->GetLocalVector( worldManifold.normal );
 		if (this->escenario->getFiguraActiva() == figura) {
 		
-			float angle = b2Atan2( localNormal.y, localNormal.x );	cout<<"figuraB: "<<angle<<endl;
+			float angle = b2Atan2( localNormal.y, localNormal.x );
 			if ( figura->getTipo() == gusanoTipo && anguloMinimoSalto < angle && angle < anguloMaximoSalto)
 				this->escenario->setPuedeSaltar(true);
 		}
