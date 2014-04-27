@@ -28,14 +28,10 @@ Juego::Juego(string texto){
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 
-	//En el jugar pongo el loop del server
 	 servidor = new Servidor();
-	 //cliente1 = new Cliente();
-	 //cliente2 = new Cliente();
 	//Creo el trhead con el loop del servidor: en el loop se van a escuchar los clientes y a recibir los mensajes
 	 _beginthread( Juego::servidorLoop, 0, (void*)12);
 	 //_beginthread(Juego::clienteLoop,0, (void*)12);
-	 //Puse el cliente aca para probar que se conecte pero obviamente esto se hacen en el cliente
 
 	//game loop
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
@@ -49,49 +45,14 @@ void Juego::ejecutar(){
 				case PAUSADO:		esperar();	break;
 			}
 		}
-
-		//HAY QUE CAMBIAR EL NOTIFICAR: ahora se llama al metodo notificar de observable, y ahi se avisa a los observadores del estado actual. Eso tiene
-		//que hacerse a traves de un mensaje a los clientes
 		escenario->notificar();
-		/*
 
-		//vamos a mandar un lindo paquetito a los clientes:
-		clasePrueba *pObjeto = new clasePrueba();
-		pObjeto->posX = 14;
-		pObjeto->posY = 7;
-		//serializo el objeto:
-		char* objetoSerializado[sizeof(clasePrueba)];
-		memcpy(objetoSerializado,pObjeto,sizeof(clasePrueba));
-		string mensaje = StringUtil::charToString(*objetoSerializado);
-		
-		//cargo el msj en el paquete:
-		Paquete paquete;
-		paquete.setTipo(5);
-		paquete.setMensaje(mensaje);
-		int tamanioPaquete = mensaje.length() + sizeof(paquete) - sizeof(string);
-		char data[500];
-		
-		memcpy(data,&tamanioPaquete, sizeof(int));
-		memcpy(data+sizeof(int),&paquete, tamanioPaquete);
-
-		/*Servicio::enviarMensaje(cliente1->red->socketCliente, dataPaquete, sizeof(Paquete));
-		Servicio::enviarMensaje(cliente2->red->socketCliente, paquete_data, sizeof(Paquete));*/
-		
-		//Paquete paquete;
-		//paquete.setTipo(5);
-		//string mensaje = "hola";
-		//paquete.setMensaje(mensaje);
-	
-		//printf("%i\n %i\n ",sizeof(paquete)-sizeof(string),mensaje.length());
-
-		/*
-		for(int i=0; i< this->servidor->red->sessions.size(); i++){
-			int enviado = Servicio::enviarMensaje(this->servidor->red->sessions.at(i), data, 500);
-		}	
-		*/
+		//Le envio a todos los clientes los dibujales actualizados
+		int tamanio;
+		string dibujablesSerializados = this->crearLista(tamanio);
+		this->servidor->enviarTodosLosClientes(paqueteVista,dibujablesSerializados);
 		vista->Dibujar();
 		SDL_Delay(1);
-		
 	}
 }
 

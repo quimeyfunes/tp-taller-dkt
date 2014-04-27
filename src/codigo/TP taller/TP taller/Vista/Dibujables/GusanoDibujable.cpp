@@ -6,6 +6,10 @@ GusanoDibujable::GusanoDibujable(SDL_Renderer* renderer, SDL_Rect rect,string pa
 {
 }
 
+GusanoDibujable::GusanoDibujable()
+{
+}
+
 
 GusanoDibujable::~GusanoDibujable()
 {

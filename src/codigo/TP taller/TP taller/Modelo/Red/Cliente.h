@@ -12,6 +12,7 @@ public:
 	void recibirDeServidor();
 	void enviarEstado();
 	void actualizar();
+	string vistaSerializada;
 
 private:
 	bool activo;

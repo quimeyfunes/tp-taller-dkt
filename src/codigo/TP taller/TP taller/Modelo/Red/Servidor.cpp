@@ -45,6 +45,12 @@ void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
 	delete paquete_data;
 }
 
+void Servidor::enviarTodosLosClientes(int tipoPaquete, string mensaje){
+	for(int i=0; i < MAX_CLIENTES +1; i++){
+		enviarPaquete(clientes[i].socket, tipoPaquete, mensaje);
+	}
+}
+
 int Servidor::buscarCliente(string nombre){
 
 	for(int i=0; i< MAX_CLIENTES; i++){

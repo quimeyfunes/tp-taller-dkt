@@ -10,6 +10,10 @@ RectanguloDibujable::RectanguloDibujable(float ancho,float alto)
 	this->alto = alto;
 };
 
+RectanguloDibujable::RectanguloDibujable()
+{
+}
+
 RectanguloDibujable::~RectanguloDibujable()
 {
 	delete[] this->posicionesX;

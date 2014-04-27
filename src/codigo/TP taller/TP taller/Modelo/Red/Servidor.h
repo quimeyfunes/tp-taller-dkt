@@ -11,6 +11,7 @@ public:
     void actualizar();
 	void recibirDeClientes();
 	void enviarAeClientes(char* mensaje);
+	void enviarTodosLosClientes(int tipoPaquete, string mensaje);
 	ServidorRed* red;
 private:
 
