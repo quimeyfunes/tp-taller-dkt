@@ -9,7 +9,7 @@ Sprite::Sprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col
 	int tamanioCuadroX = anchoTex / col;
 	int tamanioCuadroY = altoTex / fil;
 	this->frame = 0;
-	this->recDest = recDestino;
+	this->rect = recDestino;
 
 	this->recCuadro = new SDL_Rect[numCuadros];
 	for(int i=0; i< numCuadros; i++){
@@ -24,7 +24,7 @@ Sprite::Sprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col
 		}
 	}
 	
-	this->textura = IMG_LoadTexture(renderer, path.c_str());
+	this->imagen = IMG_LoadTexture(renderer, path.c_str());
 	
 }
 
@@ -35,17 +35,15 @@ Sprite::~Sprite(){
 
 void Sprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
 
-	SDL_Rect rect = this->recDest;
-
-	
+	SDL_Rect rect = this->rect;
 
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
-		rect = realizarZoom(this->recDest, corrimientoX, corrimientoY, escalaZoom);
-		SDL_RenderCopy(renderer, this->textura, &this->recCuadro[frame], &rect);
+		rect = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
+		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame], &rect);
 	} else {
 		rect.x -=corrimientoX;
 		rect.y -=corrimientoY;
-		SDL_RenderCopy(renderer, this->textura, &this->recCuadro[frame], &rect);
+		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame], &rect);
 	}
 
 	contador++;

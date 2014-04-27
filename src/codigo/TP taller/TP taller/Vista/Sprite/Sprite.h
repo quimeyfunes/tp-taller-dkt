@@ -5,8 +5,6 @@ class Sprite: public DibujableTextura{
 private:
 
 	SDL_Rect* recCuadro;
-	SDL_Rect recDest;
-	SDL_Texture* textura;
 	int frame;
 	int numCuadros;
 	int velocidadRefresco;

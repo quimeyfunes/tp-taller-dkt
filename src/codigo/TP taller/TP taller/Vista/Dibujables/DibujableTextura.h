@@ -9,10 +9,13 @@
 
 using namespace std;
 
-class DibujableTextura: public Dibujable
-{
+class DibujableTextura: public Dibujable{
+
+protected: 
 	SDL_Rect rect;
 	SDL_Texture* imagen;
+
+private:
 	float anguloRotacion;
 public:
 	DibujableTextura();

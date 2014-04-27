@@ -4,8 +4,6 @@ class ScrollingSprite: public DibujableTextura{
 
 private:
 
-	SDL_Rect rec;
-	SDL_Texture* textura;
 	int velocidadRefresco;
 	double anchoEscenario;
 	int contador;
