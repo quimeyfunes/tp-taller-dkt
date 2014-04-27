@@ -37,7 +37,7 @@ void Sprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, 
 
 	SDL_Rect rect = this->rect;
 
-	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
+	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
 		rect = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
 		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame], &rect);
 	} else {

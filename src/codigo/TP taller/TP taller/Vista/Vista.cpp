@@ -15,7 +15,8 @@ Vista::Vista(EscenarioParseado* e){
 	this->corrimientoY = 0;
 	SDL_SetWindowIcon(this->window, IMG_Load(rutaIcono));
 	this->accion = JUGAR;
-	this->escalaZoom = escalaZoomDefault;
+	this->setZoom(escalaZoomDefault);
+	
 }
 
 Vista::Vista() {
@@ -196,12 +197,21 @@ float Vista::getZoom(){
 void Vista::setZoom(float escala){
 	if (escala > zoomMax) {
 		this->escalaZoom = zoomMax;
-	} else 
-		if (escala < zoomMin) {
-			this->escalaZoom = zoomMin;
-		} else {
-			this->escalaZoom = escala;
-		}
+		return;
+	} 
+	float zoomMinAncho = this->anchoPx * 1.0 / this->anchoPxTot;
+	float zoomMinAlto = this->altoPx * 1.0 / this->altoPxTot;
+	if ((zoomMinAlto > zoomMinAncho) && (escala < zoomMinAlto)){
+		this->escalaZoom = zoomMinAlto;
+		return;
+	}
+	if ((zoomMinAlto < zoomMinAncho) && (escala < zoomMinAncho)){
+		this->escalaZoom = zoomMinAncho;
+		return;
+	}
+
+	this->escalaZoom = escala;
+		
 }
 
 void Vista::scroll(int x , int y) {
@@ -223,17 +233,20 @@ void Vista::scroll(int x , int y) {
 
 void Vista::zoom(SDL_Event* evento,int x, int y) {
 
-	this->corrimientoX = (this->corrimientoX + x ) / this->escalaZoom;
-	this->corrimientoY = (this->corrimientoY + y ) / this->escalaZoom;
-	
+	float escalaAnterior = this->escalaZoom;
+		
 	if (evento->wheel.y > 0) {
 		this->setZoom(this->escalaZoom + 0.25);
 	} else {
 		this->setZoom(this->escalaZoom - 0.25);
 	}
 
-	this->corrimientoX = (this->corrimientoX * escalaZoom) - this->anchoPx / 2;
-	this->corrimientoY = (this->corrimientoY * escalaZoom)  - this->altoPx / 2;
+	if (this->escalaZoom != escalaAnterior) {
+		this->corrimientoX = (this->corrimientoX + x ) / escalaAnterior;
+		this->corrimientoY = (this->corrimientoY + y ) / escalaAnterior;
+		this->corrimientoX = (this->corrimientoX * escalaZoom) - this->anchoPx / 2;
+		this->corrimientoY = (this->corrimientoY * escalaZoom)  - this->altoPx / 2;
+	}
 }
 
 void Vista::validarCorrimiento() {
@@ -252,3 +265,4 @@ void Vista::validarCorrimiento() {
 		}
 	}
 }
+

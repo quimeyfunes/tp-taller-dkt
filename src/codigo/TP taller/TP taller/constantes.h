@@ -80,7 +80,7 @@
 	//Para Zoom
 	const int escalaZoomDefault = 1;
 	const int zoomMax = 8;
-	const int zoomMin = 1;
+	//const int zoomMin = 1;
 
 	//Constantes fisicas
 	const int gravedadX = 0;

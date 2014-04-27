@@ -67,7 +67,7 @@ void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corri
 	if ( (this->hayCambioImgIzq())  && (this->contIzq == 1) )
 		this->setImagen(renderer, rutaGusanoIzq);
 	
-	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
+	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
 		rect = realizarZoom(this->rect, corrimientoX, corrimientoY, escalaZoom);
 		SDL_RenderCopyEx(renderer,this->imagen, NULL , &rect, this->anguloRotacion ,NULL,SDL_FLIP_NONE);
 	} else {
