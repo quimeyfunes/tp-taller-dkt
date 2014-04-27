@@ -46,15 +46,15 @@ void DibujableTextura::setTransparencia(int a){
 
 void DibujableTextura::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int posZoomX, int posZoomY){
 
-	SDL_Rect rect = this->getRect();
+	SDL_Rect rect = this->rect;
 	
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
-		rect = this->realizarZoom(this->getRect(), corrimientoX, corrimientoY, escalaZoom);
-		SDL_RenderCopyEx(renderer,this->getImagen(), NULL , &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
+		rect = this->realizarZoom(this->rect, corrimientoX, corrimientoY, escalaZoom);
+		SDL_RenderCopyEx(renderer,this->imagen, NULL , &rect,this->anguloRotacion,NULL,SDL_FLIP_NONE);
 	} else {
 		rect.x -= corrimientoX;
 		rect.y -= corrimientoY;
-		SDL_RenderCopyEx(renderer,this->getImagen(),NULL, &rect,this->getAngulo(),NULL,SDL_FLIP_NONE);
+		SDL_RenderCopyEx(renderer,this->imagen,NULL, &rect,this->anguloRotacion,NULL,SDL_FLIP_NONE);
 	}
 	
 }
