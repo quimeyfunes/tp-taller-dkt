@@ -14,7 +14,12 @@
 #include <string>
 
 class GusanoDibujable: public DibujableTextura, public Observador{
-
+private:
+	bool cambiarImgDer;
+	bool cambiarImgIzq;
+	int contIzq;
+	int contDer;
+	int contFrent;
 public:
 	GusanoDibujable();
 	GusanoDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF);
@@ -23,6 +28,10 @@ public:
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	virtual string serializar();
 	virtual void deserealizar(string aDeserealizar);
+	void setCambiarImgDer(bool cambio);
+	bool hayCambioImgDer();
+	void setCambiarImgIzq(bool cambio);
+	bool hayCambioImgIzq();
 };
 
 #endif

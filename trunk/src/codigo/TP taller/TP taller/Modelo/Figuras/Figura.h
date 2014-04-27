@@ -17,6 +17,8 @@ private:
 	b2Body* body;
 	b2Vec2 posicionInicial;
 	float anguloInicial;
+	bool movimientoDer;
+	bool movimientoIzq;
 
 public:
 
@@ -26,6 +28,10 @@ public:
 	b2Body* getBody();
 	b2Vec2 getPosicion();
 	void reiniciar();
+	bool seMueveALaDer();
+	void setMovimientoDer(bool movDer);
+	bool seMueveALaIzq();
+	void setMovimientoIzq(bool movIzq);
 	float getAngulo();
 	~Figura();
 };

@@ -22,6 +22,8 @@ Figura::Figura(float x, float y, short int rotacion, b2World* world, bool estati
 	myBodyDef.angle = this->anguloInicial; 
 
 	this->body = world->CreateBody(&myBodyDef);
+	this->movimientoDer = false;
+	this->movimientoIzq = false;
 }
 
 
@@ -51,8 +53,26 @@ void Figura::reiniciar(){
 	this->body->SetAngularVelocity(0);
 	this->body->SetLinearVelocity(b2Vec2(0,0));
 	this->body->SetAwake(true);
+	this->setMovimientoIzq(false);
+	this->setMovimientoDer(false);
 }
 
 Figura::~Figura(void)
 {
+}
+
+bool Figura::seMueveALaDer(){
+	return this->movimientoDer;
+}
+
+void Figura::setMovimientoDer(bool movDer){
+	this->movimientoDer = movDer;
+}
+
+bool Figura::seMueveALaIzq(){
+	return this->movimientoIzq;
+}
+
+void Figura::setMovimientoIzq(bool movIzq){
+	this->movimientoIzq = movIzq;
 }

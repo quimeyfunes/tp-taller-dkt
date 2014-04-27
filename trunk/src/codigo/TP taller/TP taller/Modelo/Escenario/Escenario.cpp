@@ -277,6 +277,8 @@ void Escenario::moverIzquierda(){
 	if ((this->figuraActiva != NULL) && (this->puedeMoverseIzquierda)) {
 		b2Body* cuerpo = this->figuraActiva->getBody();
 		cuerpo->SetLinearVelocity(b2Vec2(-10,cuerpo->GetLinearVelocity().y));
+		this->figuraActiva->setMovimientoIzq(true);
+		this->figuraActiva->setMovimientoDer(false);
 	}
 }
 
@@ -284,6 +286,8 @@ void Escenario::moverDerecha(){
 	if ((this->figuraActiva != NULL) && (this->puedeMoverseDerecha)) {
 		b2Body* cuerpo = this->figuraActiva->getBody();
 		cuerpo->SetLinearVelocity(b2Vec2(10,cuerpo->GetLinearVelocity().y));
+		this->figuraActiva->setMovimientoDer(true);
+		this->figuraActiva->setMovimientoIzq(false);
 	}
 }
 
