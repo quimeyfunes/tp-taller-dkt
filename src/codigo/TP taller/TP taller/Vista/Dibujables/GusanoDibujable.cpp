@@ -60,19 +60,13 @@ void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corri
 	rect.x -= corrimientoX;
 	rect.y -= corrimientoY;
 
-	if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent == 1) ){
-		cout << "Entre Frente" << endl;
+	if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent == 1) )
 		this->setImagen(renderer, rutaGusano);
-	}
-	if ( (this->hayCambioImgDer()) && (this->contDer == 1 ) ){
-		cout << "Entre Der " << endl;
+	if ( (this->hayCambioImgDer()) && (this->contDer == 1 ) )
 		this->setImagen(renderer, rutaGusanoDer);
-	}
-	if ( (this->hayCambioImgIzq())  && (this->contIzq == 1) ){
-		cout << "Entre Izq" << endl;
+	if ( (this->hayCambioImgIzq())  && (this->contIzq == 1) )
 		this->setImagen(renderer, rutaGusanoIzq);
-	}
-
+	
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax) && (escalaZoom >= zoomMin)) {
 		rect = realizarZoom(this->rect, corrimientoX, corrimientoY, escalaZoom);
 		SDL_RenderCopyEx(renderer,this->imagen, NULL , &rect, this->anguloRotacion ,NULL,SDL_FLIP_NONE);
