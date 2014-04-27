@@ -209,7 +209,12 @@ void Vista::setZoom(float escala){
 		this->escalaZoom = zoomMinAncho;
 		return;
 	}
-
+	// Cuando pasa a zoomMin termina con un numero (generalmente) no multiplo de 0.25. Aca lo vuelvo a multiplo de 0.25. 
+	int esc = escala * 100;
+	if (esc % 25 != 0) { 
+		this->escalaZoom = (esc / 25) * 0.25;
+		return;
+	}
 	this->escalaZoom = escala;
 		
 }
