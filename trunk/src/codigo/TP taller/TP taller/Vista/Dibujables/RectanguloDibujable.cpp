@@ -37,12 +37,12 @@ void RectanguloDibujable::actualizar(Observable* observable) {
 	}
 }
 
-void RectanguloDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, int escalaZoom, int anchoPx, int altoPx){
+void RectanguloDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx){
 	short int posX[4];
 	short int posY[4];
 	for (int i=0; i<4;i++) {
-		posX[i] = this->posicionesX[i] + corrimientoX;
-		posY[i] = this->posicionesY[i] + corrimientoY;
+		posX[i] = (this->posicionesX[i] * escalaZoom) - corrimientoX;
+		posY[i] = (this->posicionesY[i] * escalaZoom) - corrimientoY;
 	}
 	filledPolygonRGBA(renderer,posX,posY,this->n,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
 }

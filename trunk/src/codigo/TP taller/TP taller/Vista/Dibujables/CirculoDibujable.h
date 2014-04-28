@@ -19,7 +19,7 @@ public:
 	CirculoDibujable();
 	~CirculoDibujable();
 	void actualizar(Observable* observable);
-	void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, int escalaZoom,int anchoPx, int altoPx);
+	void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, float escalaZoom,int anchoPx, int altoPx);
 	virtual string serializar();
 	virtual void deserealizar(string aDeserealizar);
 };

@@ -27,6 +27,7 @@ void PoligonoDibujable::actualizar(Observable* observable) {
 	float escalaAncho = relacionPPU;
 	float escalaAlto = relacionPPU;
 	b2Vec2 posicion = b2Vec2(fig->getPosicion().x * escalaAncho, fig->getPosicion().y * escalaAlto);
+	cout<<fig->getAngulo()<<endl;
 	for (int i = 0; i < this->n; i++) {
 		b2Vec2 vertice = shape->GetVertex(i);
 		float anguloNuevo = atan2(vertice.y*1.0,vertice.x*1.0) + fig->getAngulo();
@@ -36,7 +37,14 @@ void PoligonoDibujable::actualizar(Observable* observable) {
 }
 
 void PoligonoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx){
-	filledPolygonRGBA(renderer,this->posicionesX,this->posicionesY,this->n,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
+	short int posX[6]; // De 6 porque hexagono es el maximo y no quiero hacer int* pos = new int[this->n] en cada ciclo
+	short int posY[6];
+	for (int i=0; i<this->n;i++) {
+		posX[i] = (this->posicionesX[i] * escalaZoom) - corrimientoX;
+		posY[i] = (this->posicionesY[i] * escalaZoom) - corrimientoY;
+	}
+	
+	filledPolygonRGBA(renderer,posX,posY,this->n,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
 }
 
 string PoligonoDibujable::serializar(){

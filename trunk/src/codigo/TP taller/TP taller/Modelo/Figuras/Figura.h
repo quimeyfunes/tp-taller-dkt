@@ -36,6 +36,7 @@ public:
 	float getAngulo();
 	void setTipo(int tipo);
 	int getTipo();
+	virtual bool meClickeo(float x, float y);
 	~Figura();
 };
 
