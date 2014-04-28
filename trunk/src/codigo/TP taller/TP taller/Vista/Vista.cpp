@@ -96,10 +96,20 @@ GusanoDibujable* Vista::crearGusanoDibujable(int x, int y, int ancho, int alto, 
 	rect.h = alto;
 	
 	GusanoDibujable* dib = new GusanoDibujable(this->renderer, rect,pathImagen,imagenDEF);
+	CartelDibujable* dib2 = dib->getCartel();
+
+	/*SDL_Rect rectCart = dib2->getRect();
+	rectCart.x = rect.x;
+	rectCart.y = rect.y + 80;
+	rectCart.w = rect.w;
+	rectCart.h = rect.h / 4;*/
+
 	this->agregarDibujable(dib);
+	this->agregarDibujable(dib2);
 	return dib;
 
 }
+
 
 void Vista::agregarDibujable(Dibujable* dibujable) {
 	this->listaDibujables->push_back(dibujable);

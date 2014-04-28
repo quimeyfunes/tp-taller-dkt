@@ -9,6 +9,15 @@ GusanoDibujable::GusanoDibujable(SDL_Renderer* renderer, SDL_Rect rect,string pa
 	this->contIzq = 0;
 	this->contDer = 0;
 	this->contFrent = 0;
+
+	SDL_Rect rectCart = rect;
+	//rectCart.x = rect.x - rect.w / 2;
+	//rectCart.y = rect.y - 40;
+	rectCart.w = rect.w;
+	rectCart.h = rect.h / 4;
+
+	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF);
+	
 }
 
 GusanoDibujable::GusanoDibujable()
@@ -18,6 +27,7 @@ GusanoDibujable::GusanoDibujable()
 
 GusanoDibujable::~GusanoDibujable()
 {
+	delete this->cartel;
 }
 
 void GusanoDibujable::actualizar(Observable* observable) {
@@ -51,6 +61,12 @@ void GusanoDibujable::actualizar(Observable* observable) {
 	rect.y = (fig->getPosicion().y * relacionPPU) - rect.h /2;
 	this->setRect(rect);
 	
+	SDL_Rect rectCartel = this->cartel->getRect();
+	rectCartel.x = (fig->getPosicion().x * relacionPPU) - rect.w / 2;
+	rectCartel.y = ((fig->getPosicion().y * relacionPPU) - rect.h / 2) - alturaCartel;
+	this->cartel->setRect(rectCartel);
+
+
 }
 
 void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
@@ -118,4 +134,8 @@ void GusanoDibujable::setCambiarImgIzq(bool cambio){
 
 bool GusanoDibujable::hayCambioImgIzq(){
 	return this->cambiarImgIzq;
+}
+
+CartelDibujable* GusanoDibujable::getCartel(){
+	return this->cartel;
 }

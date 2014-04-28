@@ -12,6 +12,7 @@
 #include "../../Observador/Observador.h"
 #include "../../Modelo/Figuras/Figura.h"
 #include <string>
+#include "CartelDibujable.h"
 
 class GusanoDibujable: public DibujableTextura, public Observador{
 private:
@@ -20,12 +21,14 @@ private:
 	int contIzq;
 	int contDer;
 	int contFrent;
+	CartelDibujable* cartel;
 public:
 	GusanoDibujable();
 	GusanoDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF);
 	~GusanoDibujable();
 	void actualizar(Observable* observable);
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
+	CartelDibujable* getCartel();
 	virtual string serializar();
 	virtual void deserealizar(string aDeserealizar);
 	void setCambiarImgDer(bool cambio);
