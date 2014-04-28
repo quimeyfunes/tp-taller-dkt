@@ -23,8 +23,8 @@ void CirculoDibujable::actualizar(Observable* observable) {
 	this->posicion.y = fig->getPosicion().y * relacionPPU;
 }
 
-void CirculoDibujable::dibujar(SDL_Renderer* renderer,int corrimientoX, int corrimientoY, int escalaZoom, int anchoPx, int altoPx) {
-	filledEllipseRGBA(renderer,this->posicion.x + corrimientoX,this->posicion.y + corrimientoY,this->radioHorizontal,this->radioVertical,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
+void CirculoDibujable::dibujar(SDL_Renderer* renderer,int corrimientoX, int corrimientoY, float escalaZoom, int anchoPx, int altoPx) {
+	filledEllipseRGBA(renderer,(this->posicion.x * escalaZoom) - corrimientoX,(this->posicion.y * escalaZoom) - corrimientoY,this->radioHorizontal * escalaZoom,this->radioVertical * escalaZoom,this->getColor()[0],this->getColor()[1],this->getColor()[2],255);
 }
 
 string CirculoDibujable::serializar(){

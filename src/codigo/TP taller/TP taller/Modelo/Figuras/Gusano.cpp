@@ -29,3 +29,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 Gusano::~Gusano(void)
 {
 }
+
+bool Gusano::meClickeo(float x,float y) {
+	return this->getBody()->GetFixtureList()->GetShape()->TestPoint(this->getBody()->GetTransform(),b2Vec2(x,y));
+}

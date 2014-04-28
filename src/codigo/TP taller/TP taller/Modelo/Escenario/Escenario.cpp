@@ -248,7 +248,7 @@ std::stringstream Escenario::getMensajeSuperposicionTerreno(int linea){
 
 void Escenario::click(float x, float y){
 	for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
-		if ((*it)->getBody()->GetFixtureList()->GetShape()->TestPoint((*it)->getBody()->GetTransform(),b2Vec2(x,y))) {
+		if ((*it)->meClickeo(x,y)) {
 			this->figuraActiva = (*it);
 			return;
 		}

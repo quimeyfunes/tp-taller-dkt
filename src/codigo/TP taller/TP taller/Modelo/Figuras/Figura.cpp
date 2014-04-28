@@ -88,3 +88,7 @@ bool Figura::seMueveALaIzq(){
 void Figura::setMovimientoIzq(bool movIzq){
 	this->movimientoIzq = movIzq;
 }
+
+bool Figura::meClickeo(float x,float y) {
+	return false;
+}
