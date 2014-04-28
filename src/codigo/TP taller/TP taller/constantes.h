@@ -17,10 +17,14 @@
 	#define rutaGusanoDer "imagenes/texturas/wormDer.png"
 	#define rutaGusanoIzq "imagenes/texturas/wormIzq.png"
 	#define rutaGusanoDEF "imagenes/texturas/wormDefault.png"
+	#define rutaCartel "imagenes/texturas/cartel.png"
+	#define rutaCartelDEF "imagenes/texturas/cartelDefault.png"
 
 	const int timeStepOlas = 30;
 	const int timeStepNubes = 25;
 	const int maxColumnasInvalidasMascara = 10;
+
+	const int alturaCartel = 20;
 
 	//Relacion Pixel por Unidad
 	const float relacionPPU = 2;

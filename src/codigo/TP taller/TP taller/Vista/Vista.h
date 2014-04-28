@@ -5,6 +5,7 @@
 #include "Dibujables/CirculoDibujable.h"
 #include "Dibujables/PoligonoDibujable.h"
 #include "Dibujables\RectanguloDibujable.h"
+#include "Dibujables\CartelDibujable.h"
 #include "Dibujables\GusanoDibujable.h"
 #include "Sprite/Sprite.h"
 #include "Sprite/ScrollingSprite.h"
