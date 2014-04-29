@@ -173,6 +173,12 @@ void Escenario::reiniciar(){
 	}
 }
 
+void Escenario::reiniciarTeclas(){
+	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+		(*it)->quieto();
+	}
+}
+
 bool Escenario::haySuperposicion(Figura* figura){
 	bool chocan = false;
 	for (std::list<Figura*>::const_iterator iterator = this->listaFiguras->begin(); iterator != this->listaFiguras->end(); ++iterator) {

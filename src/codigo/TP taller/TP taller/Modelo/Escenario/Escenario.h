@@ -52,6 +52,7 @@ public:
 	void notificar();
 	void simularAgua();
 	void reiniciar();
+	void reiniciarTeclas();
 	bool haySuperposicion(Figura* figura);
 	bool haySuperposicionConTerreno(Figura* figura);
 	Terreno* getTerreno();
