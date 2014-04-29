@@ -29,6 +29,7 @@ public:
 	b2Body* getBody();
 	b2Vec2 getPosicion();
 	void reiniciar();
+	void quieto();
 	bool seMueveALaDer();
 	void setMovimientoDer(bool movDer);
 	bool seMueveALaIzq();

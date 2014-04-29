@@ -29,6 +29,11 @@ Figura::Figura(float x, float y, short int rotacion, b2World* world, bool estati
 	this->tipo = circuloTipo;
 }
 
+void Figura::quieto(){
+
+	this->setMovimientoIzq(false);
+	this->setMovimientoDer(false);
+}
 
 b2Body* Figura::getBody()
 {
@@ -92,3 +97,5 @@ void Figura::setMovimientoIzq(bool movIzq){
 bool Figura::meClickeo(float x,float y) {
 	return false;
 }
+
+

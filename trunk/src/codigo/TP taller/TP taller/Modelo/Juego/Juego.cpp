@@ -104,8 +104,10 @@ void Juego::leerEvento(){
 		case IZQUIERDA:		this->escenario->izquierda(true);	break;
 		case DERECHA:		this->escenario->derecha(true);		break; 
 		case SOLTARARRIBA:		this->escenario->arriba(false);		break;
-		case SOLTARIZQUIERDA:	this->escenario->izquierda(false);	break;
-		case SOLTARDERECHA:		this->escenario->derecha(false);	break; 
+		case SOLTARIZQUIERDA:	{this->escenario->izquierda(false);
+								 this->escenario->reiniciarTeclas();}	break;
+		case SOLTARDERECHA:		{this->escenario->derecha(false);
+								 this->escenario->reiniciarTeclas();}	break; 
 		case CLICK:	
 			int x,y;
 			SDL_GetMouseState(&x,&y);
@@ -187,7 +189,8 @@ void Juego::agregarObjetos(){
 			//}
 			worm = escenario->crearGusano(*it);
 			if (worm){
-				GusanoDibujable* gusano = vista->crearGusanoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * escalaAncho, (*it).alto * escalaAlto, rutaGusano, rutaGusanoDEF);
+				//GusanoDibujable* gusano = vista->crearGusanoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * escalaAncho, (*it).alto * escalaAlto, rutaGusano, rutaGusanoDEF);
+				GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * 5, (*it).alto * 5, spriteWorm, 1, 10, 60, 600);
 				worm->agregarObservador(gusano);
 			} 
 			break;

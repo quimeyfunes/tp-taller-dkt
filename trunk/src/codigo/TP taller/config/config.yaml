@@ -8,7 +8,7 @@ escenario:
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:
         - tipo: rect
-          x: 200
+          x: 300
           y: 300
           ancho: 15
           alto: 20

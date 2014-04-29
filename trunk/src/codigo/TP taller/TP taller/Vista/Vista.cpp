@@ -57,6 +57,18 @@ Sprite* Vista::crearSprite(int x, int y, int anchoFrame, int altoFrame, string p
 	return sprite;
 }
 
+GusanoSprite* Vista::crearGusanoSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex){
+
+	SDL_Rect recFrame;
+	recFrame.x = x;
+	recFrame.y = y;
+	recFrame.w = anchoFrame;
+	recFrame.h = altoFrame;
+	GusanoSprite* sprite = new GusanoSprite(this->renderer, recFrame, path, col, fil, anchoTex, altoTex);
+	this->agregarDibujable(sprite);	
+	return sprite;
+}
+
 DibujableTextura* Vista::crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF) {
 	SDL_Rect rect;
 	rect.x = x;
