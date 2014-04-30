@@ -146,7 +146,7 @@ list<Dibujable*>* JuegoCliente::crearLista(string vistaSerializada){
 				bool cambIzq = gusano->hayCambioImgIzq();
 				bool cambDer = gusano->hayCambioImgDer();
 
-				gusano = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWorm, 1, 10, 60, 600);
+				gusano = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600);
 				gusano->setFrame(frame);
 				gusano->setCambiarImgIzq(cambIzq);
 				gusano->setCambiarImgDer(cambDer);

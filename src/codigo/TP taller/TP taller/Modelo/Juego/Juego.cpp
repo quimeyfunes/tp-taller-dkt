@@ -190,7 +190,7 @@ void Juego::agregarObjetos(){
 			worm = escenario->crearGusano(*it);
 			if (worm){
 				//GusanoDibujable* gusano = vista->crearGusanoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * escalaAncho, (*it).alto * escalaAlto, rutaGusano, rutaGusanoDEF);
-				GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * 5, (*it).alto * 5, spriteWorm, 1, 10, 60, 600);
+				GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * 5, (*it).alto * 5, spriteWormIzq, 1, 10, 60, 600);
 				worm->agregarObservador(gusano);
 			} 
 			break;
