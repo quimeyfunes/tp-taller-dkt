@@ -1,8 +1,5 @@
 #include "escenario.h"
 
-//float Escenario::relacionAncho = 0;
-//float Escenario::relacionAlto = 0;
-
 Escenario::Escenario(){
 }
 
@@ -280,16 +277,15 @@ void Escenario::derecha(bool derecha){
 void Escenario::saltar(){
 	if ((this->figuraActiva != NULL) && (this->puedeMoverseArriba) && (this->puedeSaltar)) {
 		b2Body* cuerpo = this->figuraActiva->getBody();
-		cuerpo->SetLinearVelocity(b2Vec2(cuerpo->GetLinearVelocity().x,-50));
+		cuerpo->SetLinearVelocity(b2Vec2(cuerpo->GetLinearVelocity().x,-25));
 		//cuerpo->ApplyLinearImpulse(b2Vec2(0,-100),this->figuraActiva->getPosicion(),true);
-		this->puedeSaltar = false;
 	}
 }
 
 void Escenario::moverIzquierda(){
 	if ((this->figuraActiva != NULL) && (this->puedeMoverseIzquierda)) {
 		b2Body* cuerpo = this->figuraActiva->getBody();
-		cuerpo->SetLinearVelocity(b2Vec2(-10,cuerpo->GetLinearVelocity().y));
+		cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
 		this->figuraActiva->setMovimientoIzq(true);
 		this->figuraActiva->setMovimientoDer(false);
 	}
@@ -298,7 +294,7 @@ void Escenario::moverIzquierda(){
 void Escenario::moverDerecha(){
 	if ((this->figuraActiva != NULL) && (this->puedeMoverseDerecha)) {
 		b2Body* cuerpo = this->figuraActiva->getBody();
-		cuerpo->SetLinearVelocity(b2Vec2(10,cuerpo->GetLinearVelocity().y));
+		cuerpo->SetLinearVelocity(b2Vec2(5,cuerpo->GetLinearVelocity().y));
 		this->figuraActiva->setMovimientoDer(true);
 		this->figuraActiva->setMovimientoIzq(false);
 	}
