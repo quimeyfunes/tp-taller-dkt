@@ -9,7 +9,7 @@ class Paquete{
 private:
 	int tipo;
 	int tamanio;
-	string mensaje;
+	char* mensaje;
 
 public:
 	Paquete();
@@ -18,8 +18,8 @@ public:
 	int getTipo();
 	void setTipo(int tipo);
 
-	string getMensaje();
-	void setMensaje(string msg);
+	char* getMensaje();
+	void setMensaje(char* msg);
 
 	int getTamanio();
 	void setTamanio(int num);
