@@ -10,7 +10,8 @@
 	#define texturaFondo "imagenes/fondo.png"
 	#define texturaAgua "imagenes/texturas/agua.png"
 	#define spriteOlas "imagenes/texturas/olas.png"
-	#define spriteWorm "imagenes/texturas/wormFrent.png"
+	#define spriteWormIzq "imagenes/texturas/wormFrentIzq.png"
+	#define spriteWormDer "imagenes/texturas/wormFrentDer.png"
 	#define rutaNube1 "imagenes/texturas/nube1.png"
 	#define rutaNube2 "imagenes/texturas/nube2.png"
 	#define rutaIcono "imagenes/texturas/icono.ico"
@@ -26,6 +27,11 @@
 	const int maxColumnasInvalidasMascara = 10;
 
 	const int alturaCartel = 20;
+
+	//Para gusanos
+	const int timeGusanoQuieto = 100;
+	const int timeGusanoMovil = 20;
+
 
 	//Relacion Pixel por Unidad
 	const float relacionPPU = 2;

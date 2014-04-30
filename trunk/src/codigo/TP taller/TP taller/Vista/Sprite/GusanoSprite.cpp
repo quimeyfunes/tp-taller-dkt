@@ -8,7 +8,7 @@ GusanoSprite::GusanoSprite(void)
 GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex): DibujableTextura(){
 
 	this->numCuadros = col*fil;
-	this->velocidadRefresco = 60;
+	this->velocidadRefresco = timeGusanoQuieto;
 	this->contador = 0;
 
 	int tamanioCuadroX = anchoTex / col;
@@ -35,6 +35,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	this->contIzq = 0;
 	this->contDer = 0;
 	this->contFrent = 0;
+	this->estado = IZQ;
 }
 
 GusanoSprite::~GusanoSprite(void)
@@ -52,8 +53,10 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->contDer = 0;
 		this->setCambiarImgDer(false);
 		this->setCambiarImgIzq(false);
+		this->velocidadRefresco = timeGusanoQuieto;
 		this->actualizarFrame();
 	} else {
+		this->velocidadRefresco = timeGusanoMovil;
 		if ((fig->seMueveALaDer())){
 				this->contIzq = 0;
 				this->contFrent = 0;
@@ -61,6 +64,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 				this->setCambiarImgDer(true);
 				this->setCambiarImgIzq(false);
 				this->actualizarFrame();
+				this->estado = DER;
 		} else {
 			//Se mueve a la izquierda
 			this->contDer = 0;
@@ -69,6 +73,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 			this->setCambiarImgDer(false);
 			this->setCambiarImgIzq(true);
 			this->actualizarFrame();
+			this->estado = IZQ;
 		 }
 	}
 
@@ -76,14 +81,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 	rect.x = (fig->getPosicion().x * relacionPPU) - rect.w /2;
 	rect.y = (fig->getPosicion().y * relacionPPU) - rect.h /2;
 	this->setRect(rect);
-	
-	/*this->contador++;
-	if(this->contador >= this->velocidadRefresco){
-		this->frame++;
-		this->contador = 0;
-	}
 
-	if(this->frame >= this->numCuadros) this->frame = 0;*/
 
 	/*SDL_Rect rectCartel = this->cartel->getRect();
 	rectCartel.x = (fig->getPosicion().x * relacionPPU) - rect.w / 2;
@@ -98,7 +96,11 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 	SDL_Rect rect = this->rect;
 
 	if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent == 1) ){
-		this->setImagen(renderer, spriteWorm);
+		this->setFrame(0);
+		if (this->estado == IZQ)
+			this->setImagen(renderer, spriteWormIzq);
+		else
+			this->setImagen(renderer, spriteWormDer);
 	}
 	if ( (this->hayCambioImgDer()) && (this->contDer == 1 ) ){
 		this->setImagen(renderer, rutaGusanoDer);

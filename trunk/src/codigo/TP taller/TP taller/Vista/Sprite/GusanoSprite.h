@@ -11,6 +11,11 @@
 #include "../../Modelo/Figuras/Figura.h"
 #include <string>
 
+typedef enum{
+	IZQ,
+	DER,
+}ESTADO_ANTERIOR;
+
 class GusanoSprite: public DibujableTextura, public Observador{
 private:
 	SDL_Rect* recCuadro;
@@ -23,6 +28,7 @@ private:
 	int contIzq;
 	int contDer;
 	int contFrent;
+	ESTADO_ANTERIOR estado;
 
 public:
 	GusanoSprite(void);
