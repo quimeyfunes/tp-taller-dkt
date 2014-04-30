@@ -21,6 +21,7 @@ private:
    char network_data[MAX_PACKET_SIZE];
    int buscarCliente(string nombre);
    void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);
+   void enviarPaquete(SOCKET sock, int tipoPaquete, char* mensaje);
    bool clienteEnEspera;
    int MAX_CLIENTES;
    // The ServerNetwork object 
