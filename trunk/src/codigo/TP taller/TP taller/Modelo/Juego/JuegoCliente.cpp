@@ -58,8 +58,8 @@ void JuegoCliente::leerEvento(){
 	for(int i=0; i< this->servidor->red->sessions.size(); i++)
 		Servicio::enviarMensaje(this->servidor->red->sessions.at(i), paquete_data, sizeof(Paquete));*/
 	////////////////////////////////
-
-		switch(this->vista->getAccion()){
+		int accion = this->vista->getAccion();
+		switch(accion){
 
 		case SALIR:			salir();						break;
 		case JUGAR:			reiniciar();					break;
@@ -75,6 +75,21 @@ void JuegoCliente::leerEvento(){
 			SDL_GetMouseState(&x,&y);
 			this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
 			break;
+		}
+
+		if(accion == CLICK || accion == IZQUIERDA || accion == DERECHA || accion == ARRIBA){
+			//Para estos eventos tengo que notificar al servidor
+			string mensaje = StringUtil::int2string(accion);
+			if(accion == CLICK){
+				//Si hubo click tengo que decir las posiciones
+				mensaje += separadorCamposEntidades;
+				int x,y;
+				SDL_GetMouseState(&x,&y);
+				mensaje += StringUtil::int2string(x);
+				mensaje += separadorCamposEntidades;
+				mensaje += StringUtil::int2string(y);
+				this->cliente->enviarEvento(mensaje);
+			}
 		}
 	}
 }
