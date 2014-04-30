@@ -1,6 +1,7 @@
 #include "Servidor.h"
 #include <iostream>
 #include <time.h>
+#include <fstream>
 
 unsigned int Servidor::cliente_id; 
 
@@ -32,6 +33,22 @@ void Servidor::actualizar()
 void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
 
 	int largoMensaje = mensaje.size()+1;
+	int paquete_tamano = sizeof(int) + sizeof(int) + largoMensaje;
+    char* paquete_data = new char[paquete_tamano];
+
+    Paquete* paquete = new Paquete();
+    paquete->setTipo(tipoPaquete);
+	paquete->setMensaje(mensaje);
+	paquete->setTamanio(largoMensaje);
+    paquete->serializar(paquete_data);
+	Servicio::enviarMensaje(sock, paquete_data, paquete_tamano);
+	delete paquete;
+	delete paquete_data;
+}
+
+void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, char* mensaje){
+
+	int largoMensaje = strlen(mensaje)+1;
 	int paquete_tamano = sizeof(int) + sizeof(int) + largoMensaje;
     char* paquete_data = new char[paquete_tamano];
 
@@ -98,7 +115,26 @@ void Servidor::recibirDeClientes()
 							this->clientes[cliente_id].username = paquete->getMensaje();
 							this->clientes[cliente_id].time = time(NULL);
 							this->clientes[cliente_id].socket = red->sessions.at(0);
-							enviarPaquete(clientes[cliente_id].socket, paqueteInicial, "Bienvenido, "+clientes[cliente_id].username+".");
+							//ENVIO UNA IMAGENNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+							char *newfilename;
+							unsigned long iFileSize = 0;
+							long size;     //file size
+							//mascara1.png tiene q estar en la altura de
+							ifstream infile("mascara1.png", ios::in|ios::binary);
+							infile.seekg (0, ios::end);
+							size = infile.tellg();
+							cout << size << endl;
+							infile.seekg (0, ios::beg);
+							newfilename = new char[size];  
+							infile.read (newfilename, size);
+							infile.close();
+
+							Paquete *paquete = new Paquete();
+							paquete->setMensajeChar(newfilename);
+							cout << paquete->getMensajeChar() << endl;
+							enviarPaquete(clientes[cliente_id].socket, paqueteInicial, paquete->getMensajeChar());
+							//----------------------------------------------------------------------------------------------------------------------------
+							//enviarPaquete(clientes[cliente_id].socket, paqueteInicial, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
 							cliente_id++;
 

@@ -44,7 +44,7 @@ void Paquete::setMensaje(string msg){
 	this->mensaje = (char*)StringUtil::stringToChar(msg);
 }
 
-void Paquete::setMensaje(char* msg){
+void Paquete::setMensajeChar(char* msg){
 	this->mensaje = msg;
 }
 

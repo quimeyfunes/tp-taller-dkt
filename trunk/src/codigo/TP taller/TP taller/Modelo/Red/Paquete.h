@@ -21,7 +21,7 @@ public:
 	char* getMensajeChar();
 	string getMensaje();
 	void setMensaje(string msg);
-	void setMensaje(char* msg);
+	void setMensajeChar(char* msg);
 
 	int getTamanio();
 	void setTamanio(int num);
