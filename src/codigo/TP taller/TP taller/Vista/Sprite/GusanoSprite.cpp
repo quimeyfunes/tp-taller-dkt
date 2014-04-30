@@ -150,3 +150,45 @@ void GusanoSprite::actualizarFrame(){
 
 	if(this->frame >= this->numCuadros) this->frame = 0;
 }
+
+
+string GusanoSprite::serializar(){
+	string serializado = "";
+	serializado = StringUtil::int2string(serializadoGusanoSprite);
+	serializado += separadorCampoTipoEntidades;    
+	serializado += StringUtil::float2string(this->frame);
+	serializado += separadorCamposEntidades;    
+	serializado += StringUtil::int2string(this->rect.x);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->rect.y);
+    serializado += separadorCamposEntidades;
+    serializado += StringUtil::int2string(this->rect.w);
+	serializado += separadorCamposEntidades;
+    serializado += StringUtil::int2string(this->rect.h);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->contDer);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->contIzq);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->cambiarImgDer);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->cambiarImgIzq);
+	return serializado;
+}
+
+void GusanoSprite::deserealizar(string aDeserealizar){
+	vector<string> des = StringUtil::split(aDeserealizar,separadorCampoTipoEntidades);
+	//des.at(0) tiene el tipo, des.at(0) tiene el resto de los atributos
+	vector<string> atributos = StringUtil::split(des.at(1),separadorCamposEntidades);
+	this->frame = StringUtil::str2float(atributos.at(0).c_str());
+    SDL_Rect rectAux;
+	rectAux.x = StringUtil::str2int(atributos.at(1));
+	rectAux.y = StringUtil::str2int(atributos.at(2));
+	rectAux.w = StringUtil::str2int(atributos.at(3));
+	rectAux.h = StringUtil::str2int(atributos.at(4));
+	this->setRect(rectAux);
+	this->contDer = StringUtil::str2int(atributos.at(5));
+	this->contIzq = StringUtil::str2int(atributos.at(6));
+	this->cambiarImgDer = StringUtil::str2int(atributos.at(7));
+	this->cambiarImgIzq = StringUtil::str2int(atributos.at(8));
+}

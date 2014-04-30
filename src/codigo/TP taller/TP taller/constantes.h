@@ -119,5 +119,6 @@
 	#define serializadoGusanoDibujable 3
 	#define serializadoPoligonoDibujable 4
 	#define serializadoRectanguloDibujable 5
+	#define serializadoGusanoSprite 6
 
 #endif
