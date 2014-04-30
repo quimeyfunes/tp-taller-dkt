@@ -29,8 +29,8 @@ public:
 	GusanoSprite(SDL_Renderer* renderer, SDL_Rect recFrame, string path, int col, int fil, int anchoTex, int altoTex);
 	void actualizar(Observable* observable);
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
-	//virtual string serializar();
-	//virtual void deserealizar(string aDeserealizar);
+	virtual string serializar();
+	virtual void deserealizar(string aDeserealizar);
 	void setCambiarImgDer(bool cambio);
 	bool hayCambioImgDer();
 	void setCambiarImgIzq(bool cambio);

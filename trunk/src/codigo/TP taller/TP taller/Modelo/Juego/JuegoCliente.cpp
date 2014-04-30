@@ -139,6 +139,14 @@ list<Dibujable*>* JuegoCliente::crearLista(string vistaSerializada){
 				lista->push_back(gusano);
 				break;
 			}
+			case serializadoGusanoSprite: {
+				GusanoSprite* gusano = new GusanoSprite();
+				gusano->deserealizar(entidadSerializada);
+
+				gusano = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWorm, 1, 10, 60, 600);
+				lista->push_back(gusano);
+				break;
+			}
 			case serializadoCirculoDibujable:{
 				CirculoDibujable* circulo = new CirculoDibujable();
 				circulo->deserealizar(entidadSerializada);
