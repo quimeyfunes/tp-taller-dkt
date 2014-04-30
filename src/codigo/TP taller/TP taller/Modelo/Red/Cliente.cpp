@@ -29,6 +29,11 @@ void Cliente::enviarEstado(){
 	enviarPaquete(red->socketCliente, paqueteEstado, this->username);
 }
 
+void Cliente::enviarEvento(string eventoSerializado){
+
+	enviarPaquete(red->socketCliente, paqueteEvento, eventoSerializado);
+}
+
 void Cliente::recibirDeServidor()
 {
     Paquete* paquete = new Paquete();

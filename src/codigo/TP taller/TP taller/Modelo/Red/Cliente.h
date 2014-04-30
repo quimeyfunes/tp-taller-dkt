@@ -11,6 +11,7 @@ public:
     ClienteRed* red; 
 	void recibirDeServidor();
 	void enviarEstado();
+	void enviarEvento(string eventoSerializado);
 	void actualizar();
 	string vistaSerializada;
 
