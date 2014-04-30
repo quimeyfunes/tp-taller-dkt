@@ -10,7 +10,7 @@ void Paquete::serializar(char * data){
 	offset += sizeof(this->tipo);
 	memcpy(data + offset, &this->tamanio, sizeof(this->tamanio));
 	offset += sizeof(this->tamanio);
-	strcpy(data+offset, this->mensaje.c_str());
+	strcpy(data+offset, this->mensaje);
 }
 
 void Paquete::deserializar(char * data){
@@ -20,8 +20,7 @@ void Paquete::deserializar(char * data){
 	offset += sizeof(this->tipo);
 	memcpy(&this->tamanio, data + offset, sizeof(this->tamanio));
 	offset += sizeof(this->tamanio);
-	string msg(data+offset);
-	this->mensaje=msg;
+	this->mensaje=data+offset;
 }
 
 int Paquete::getPesoPaquete(){
@@ -36,11 +35,11 @@ void Paquete::setTipo(int tipo){
 	this->tipo = tipo;
 }
 
-string Paquete::getMensaje(){
+char* Paquete::getMensaje(){
 	return this->mensaje;
 }
 
-void Paquete::setMensaje(string msg){
+void Paquete::setMensaje(char* msg){
 	this->mensaje = msg;
 }
 
