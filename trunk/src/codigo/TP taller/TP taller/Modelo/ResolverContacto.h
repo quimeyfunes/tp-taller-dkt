@@ -5,12 +5,12 @@
 
 
 class ResolverContacto : public b2ContactListener
-  {
-  private:
-	  Escenario* escenario;
-	  void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
-  
-  public:
-	  ResolverContacto();
-	  void setEscenario(Escenario* escenario);
-  };
+{
+private:
+	Escenario* escenario;
+	void BeginContact(b2Contact* contact);
+	void EndContact(b2Contact* contact);	
+public:
+	ResolverContacto();
+	void setEscenario(Escenario* escenario);
+};

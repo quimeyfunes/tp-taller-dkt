@@ -55,7 +55,7 @@ void Juego::ejecutar(){
 		string dibujablesSerializados = this->crearLista(tamanio);
 		this->servidor->enviarTodosLosClientes(paqueteVista,dibujablesSerializados);
 		vista->Dibujar();
-		SDL_Delay(1);
+		SDL_Delay(3);
 	}
 }
 
