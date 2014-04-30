@@ -142,8 +142,14 @@ list<Dibujable*>* JuegoCliente::crearLista(string vistaSerializada){
 			case serializadoGusanoSprite: {
 				GusanoSprite* gusano = new GusanoSprite();
 				gusano->deserealizar(entidadSerializada);
+				int frame = gusano->getFrame();
+				bool cambIzq = gusano->hayCambioImgIzq();
+				bool cambDer = gusano->hayCambioImgDer();
 
 				gusano = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWorm, 1, 10, 60, 600);
+				gusano->setFrame(frame);
+				gusano->setCambiarImgIzq(cambIzq);
+				gusano->setCambiarImgDer(cambDer);
 				lista->push_back(gusano);
 				break;
 			}

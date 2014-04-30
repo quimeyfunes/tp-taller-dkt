@@ -37,6 +37,8 @@ public:
 	void setNumCuadros(int numCuadros);
 	void actualizarFrame();
 	int getNumCuadros();
+	int getFrame();
+	void setFrame(int frame);
 	bool hayCambioImgIzq();
 	~GusanoSprite(void);
 };

@@ -151,6 +151,13 @@ void GusanoSprite::actualizarFrame(){
 	if(this->frame >= this->numCuadros) this->frame = 0;
 }
 
+int GusanoSprite::getFrame(){
+	return this->frame;
+}
+
+void GusanoSprite::setFrame(int frame){
+	this->frame = frame;
+}
 
 string GusanoSprite::serializar(){
 	string serializado = "";
