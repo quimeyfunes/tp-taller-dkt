@@ -10,10 +10,17 @@
 #include "../../Parser/yaml/ParserYaml.h"
 #include "../../Observador/Observador.h"
 #include "../../Modelo/Figuras/Figura.h"
+#include "SDL/SDL_ttf.h"
 #include <string>
-
+#include "../../constantes.h"
 
 class CartelDibujable: public DibujableTextura{
+private:
+	TTF_Font* font;
+	string texto;
+	SDL_Surface* surf;
+	SDL_Color textColor;
+
 public:
 	CartelDibujable(void);
 	CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF);

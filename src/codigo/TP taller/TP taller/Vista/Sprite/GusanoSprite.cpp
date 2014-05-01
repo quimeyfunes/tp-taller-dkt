@@ -36,11 +36,18 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	this->contDer = 0;
 	this->contFrent = 0;
 	this->estado = IZQ;
+	
+	SDL_Rect rectCart = rect;
+	rectCart.w = rect.w;
+	rectCart.h = rect.h / 4;
+
+	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF);
 }
 
 GusanoSprite::~GusanoSprite(void)
 {
 	delete []this->recCuadro;
+	delete this->cartel;
 }
 
 void GusanoSprite::actualizar(Observable* observable) {
@@ -82,13 +89,10 @@ void GusanoSprite::actualizar(Observable* observable) {
 	rect.y = (fig->getPosicion().y * relacionPPU) - rect.h /2;
 	this->setRect(rect);
 
-
-	/*SDL_Rect rectCartel = this->cartel->getRect();
+	SDL_Rect rectCartel = this->cartel->getRect();
 	rectCartel.x = (fig->getPosicion().x * relacionPPU) - rect.w / 2;
 	rectCartel.y = ((fig->getPosicion().y * relacionPPU) - rect.h / 2) - alturaCartel;
-	this->cartel->setRect(rectCartel);*/
-
-
+	this->cartel->setRect(rectCartel);
 }
 
 void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
@@ -200,4 +204,8 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->contIzq = StringUtil::str2int(atributos.at(6));
 	this->cambiarImgDer = StringUtil::str2int(atributos.at(7));
 	this->cambiarImgIzq = StringUtil::str2int(atributos.at(8));
+}
+
+CartelDibujable* GusanoSprite::getCartel(){
+	return this->cartel;
 }

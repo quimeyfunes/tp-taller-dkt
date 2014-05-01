@@ -3,6 +3,7 @@
 
 Vista::Vista(EscenarioParseado* e){
 	SDL_Init( SDL_INIT_EVERYTHING );
+	TTF_Init();
 	this->anchoPx = e->anchoPx;
 	this->altoPx = e->altoPx;
 	this->anchoPxTot = e->anchoU * relacionPPU;
@@ -64,8 +65,12 @@ GusanoSprite* Vista::crearGusanoSprite(int x, int y, int anchoFrame, int altoFra
 	recFrame.y = y;
 	recFrame.w = anchoFrame;
 	recFrame.h = altoFrame;
+
 	GusanoSprite* sprite = new GusanoSprite(this->renderer, recFrame, path, col, fil, anchoTex, altoTex);
+	CartelDibujable* dib2 = sprite->getCartel();
+
 	this->agregarDibujable(sprite);	
+	this->agregarDibujable(dib2);
 	return sprite;
 }
 

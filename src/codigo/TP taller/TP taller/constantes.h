@@ -21,12 +21,13 @@
 	#define rutaGusanoDEF "imagenes/texturas/wormDefault.png"
 	#define rutaCartel "imagenes/texturas/cartel.png"
 	#define rutaCartelDEF "imagenes/texturas/cartelDefault.png"
+	#define rutaFuente "fuentes/acme.ttf"
 
 	const int timeStepOlas = 30;
 	const int timeStepNubes = 25;
 	const int maxColumnasInvalidasMascara = 10;
 
-	const int alturaCartel = 20;
+	const int alturaCartel = 8;
 
 	//Para gusanos
 	const int timeGusanoQuieto = 100;

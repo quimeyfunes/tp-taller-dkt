@@ -10,6 +10,7 @@
 #include "../../Observador/Observador.h"
 #include "../../Modelo/Figuras/Figura.h"
 #include <string>
+#include "../Dibujables/CartelDibujable.h"
 
 typedef enum{
 	IZQ,
@@ -29,6 +30,7 @@ private:
 	int contDer;
 	int contFrent;
 	ESTADO_ANTERIOR estado;
+	CartelDibujable* cartel;
 
 public:
 	GusanoSprite(void);
@@ -47,6 +49,7 @@ public:
 	void setFrame(int frame);
 	bool hayCambioImgIzq();
 	~GusanoSprite(void);
+	CartelDibujable* getCartel();
 };
 
 #endif
