@@ -37,35 +37,48 @@ void Cliente::enviarEvento(string eventoSerializado){
 
 void Cliente::recibirDeServidor()
 {
-    Paquete* paquete = new Paquete();
-   
+		Paquete* paquete = new Paquete();
         // get data from server
         int data_length = red->recibirData(network_data);
-		int tipoPaquete;
-		memcpy(&tipoPaquete, network_data, sizeof(tipoPaquete));
+
 		
+		int tipoPaquete;
+
         if (data_length <= 0) 
         {
             //no data recieved
 			//ver q hacerrrrrrrrrrrrr
         }
-
+		
         int i = 0;
 		while (i < data_length) 
         {
+
+			paquete->deserializar(&(network_data[i]));
+			tipoPaquete = paquete->getTipo();
 			if(tipoPaquete != 1){
-				paquete->deserializar(&(network_data[i]));
 				i += paquete->getPesoPaquete();
+			}
+			else{
+				i+= paquete->getTamanio();
 			}
 			
 			ofstream arch;
+			int pesoTerreno = paquete->getTamanio() - (2*sizeof(int));
+			char* terreno = new char[pesoTerreno];
+
 			switch (tipoPaquete) {
 
                 case paqueteInicial:
+					cout<< data_length << endl;
+					cout<< "el peso del terreno es: "<< pesoTerreno << endl;
+					cout<< "paquete inicial" << endl;
 					//recibo [ TIPO | ALTOPX | ANCHOPX | NIVELAGUA | TERRENO ]
-					arch.open("imagen.png", std::ofstream::binary);
+					arch.open("terreno.png", std::ofstream::binary);
 					arch.seekp(0, ios::beg);
-					arch.write(network_data+sizeof(tipoPaquete),4358);
+			
+					memcpy(terreno, network_data+(2*sizeof(int)), pesoTerreno);
+					arch.write(terreno,pesoTerreno);
 					arch.close();
 					this->activo=true;
 					break;
@@ -76,8 +89,8 @@ void Cliente::recibirDeServidor()
 					break;
 
 				case paqueteVista:
-				//	printf("El cliente recibio un paquete vista del servidor.\n");
-					this->vistaSerializada = paquete->getMensaje();
+				 	//printf("El cliente recibio un paquete vista del servidor.\n");
+					//this->vistaSerializada = paquete->getMensaje();
 					break;
 
 				case paqueteFinal:
