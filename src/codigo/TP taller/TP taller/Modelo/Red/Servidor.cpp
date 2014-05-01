@@ -128,13 +128,22 @@ void Servidor::recibirDeClientes()
 							infile.read (terreno, size);
 							infile.close();
 
-							//envio [ TIPO | ALTOPX | ANCHOPX | NIVELAGUA | TERRENO ]
+							//envio [ TIPO | PESO | ALTOPX | ANCHOPX | NIVELAGUA | TERRENO ]
 							int tipoPaquete = 1;
-							char *data = new char[sizeof(int)+size];
-							memcpy(data, &tipoPaquete, sizeof(tipoPaquete));
-							memcpy(data+sizeof(tipoPaquete), terreno, size);
+							int offset = 0;
+							int peso = size + (2*sizeof(int));
+							char *data = new char[peso];
 
-							Servicio::enviarMensaje(clientes[cliente_id].socket, data, sizeof(tipoPaquete)+size);
+							memcpy(data, &tipoPaquete, sizeof(tipoPaquete)); //TIPO
+							offset = sizeof(tipoPaquete);
+							
+							memcpy(data+offset, &peso, sizeof(peso)); //PESO
+							offset += sizeof(peso);
+							
+							memcpy(data+offset, terreno, size);//terreno
+							
+
+							Servicio::enviarMensaje(clientes[cliente_id].socket, data, peso);
 							//----------------------------------------------------------------------------------------------------------------------------
 							//enviarPaquete(clientes[cliente_id].socket, paqueteInicial, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
