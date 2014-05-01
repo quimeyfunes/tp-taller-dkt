@@ -2,7 +2,6 @@
 #define __PAQUETE_H__
 
 #include <string>
-#include "../StringUtil.h"
 using namespace std;
 
 class Paquete{
@@ -10,7 +9,7 @@ class Paquete{
 private:
 	int tipo;
 	int tamanio;
-	char* mensaje;
+	string mensaje;
 
 public:
 	Paquete();
@@ -18,10 +17,9 @@ public:
     void deserializar(char * data);
 	int getTipo();
 	void setTipo(int tipo);
-	char* getMensajeChar();
+
 	string getMensaje();
 	void setMensaje(string msg);
-	void setMensajeChar(char* msg);
 
 	int getTamanio();
 	void setTamanio(int num);
