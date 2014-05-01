@@ -116,23 +116,25 @@ void Servidor::recibirDeClientes()
 							this->clientes[cliente_id].time = time(NULL);
 							this->clientes[cliente_id].socket = red->sessions.at(0);
 							//ENVIO UNA IMAGENNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-							char *newfilename;
+							char *terreno;
 							unsigned long iFileSize = 0;
-							long size;     //file size
-							//mascara1.png tiene q estar en la altura de
+							long size;
 							ifstream infile("mascara1.png", ios::in|ios::binary);
 							infile.seekg (0, ios::end);
 							size = infile.tellg();
 							cout << size << endl;
 							infile.seekg (0, ios::beg);
-							newfilename = new char[size];  
-							infile.read (newfilename, size);
+							terreno = new char[size];  
+							infile.read (terreno, size);
 							infile.close();
 
-							Paquete *paquete = new Paquete();
-							paquete->setMensajeChar(newfilename);
-							cout << paquete->getMensajeChar() << endl;
-							enviarPaquete(clientes[cliente_id].socket, paqueteInicial, paquete->getMensajeChar());
+							//envio [ TIPO | ALTOPX | ANCHOPX | NIVELAGUA | TERRENO ]
+							int tipoPaquete = 1;
+							char *data = new char[sizeof(int)+size];
+							memcpy(data, &tipoPaquete, sizeof(tipoPaquete));
+							memcpy(data+sizeof(tipoPaquete), terreno, size);
+
+							Servicio::enviarMensaje(clientes[cliente_id].socket, data, sizeof(tipoPaquete)+size);
 							//----------------------------------------------------------------------------------------------------------------------------
 							//enviarPaquete(clientes[cliente_id].socket, paqueteInicial, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;

@@ -1,5 +1,6 @@
 #include "Cliente.h" 
 #include <iostream>
+#include <fstream>
 
 Cliente::Cliente(string nombre, string ip){
     red = new ClienteRed(ip);
@@ -40,6 +41,8 @@ void Cliente::recibirDeServidor()
    
         // get data from server
         int data_length = red->recibirData(network_data);
+		int tipoPaquete;
+		memcpy(&tipoPaquete, network_data, sizeof(tipoPaquete));
 		
         if (data_length <= 0) 
         {
@@ -50,14 +53,20 @@ void Cliente::recibirDeServidor()
         int i = 0;
 		while (i < data_length) 
         {
-            paquete->deserializar(&(network_data[i]));
-			i += paquete->getPesoPaquete();
-
-			switch (paquete->getTipo()) {
+			if(tipoPaquete != 1){
+				paquete->deserializar(&(network_data[i]));
+				i += paquete->getPesoPaquete();
+			}
+			
+			ofstream arch;
+			switch (tipoPaquete) {
 
                 case paqueteInicial:
-					// si recibi hola, activarme y empezar a mandar paquetes
-					cout<<paquete->getMensaje();
+					//recibo [ TIPO | ALTOPX | ANCHOPX | NIVELAGUA | TERRENO ]
+					arch.open("imagen.png", std::ofstream::binary);
+					arch.seekp(0, ios::beg);
+					arch.write(network_data+sizeof(tipoPaquete),4358);
+					arch.close();
 					this->activo=true;
 					break;
 
