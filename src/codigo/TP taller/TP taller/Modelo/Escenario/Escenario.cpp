@@ -7,8 +7,6 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->altoU = altoU;
 	this->anchoU = anchoU;
 	this->nivelAgua = nivelAgua;
-	//this->relacionAncho = relacionAncho;
-	//this->relacionAlto = relacionAlto;
 	this->listaFiguras = new list<Figura*>();
 	
 	b2Vec2* gravity = new b2Vec2(gravedadX, gravedadY);
@@ -275,7 +273,7 @@ void Escenario::derecha(bool derecha){
 }
 
 void Escenario::saltar(){
-	if ((this->figuraActiva != NULL) && (this->puedeMoverseArriba) && (this->puedeSaltar)) {
+	if ((this->figuraActiva != NULL) && ((Gusano*)this->figuraActiva)->puedeSaltar() && (this->puedeMoverseArriba)) {
 		b2Body* cuerpo = this->figuraActiva->getBody();
 		cuerpo->SetLinearVelocity(b2Vec2(cuerpo->GetLinearVelocity().x,-25));
 		//cuerpo->ApplyLinearImpulse(b2Vec2(0,-100),this->figuraActiva->getPosicion(),true);

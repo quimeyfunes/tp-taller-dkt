@@ -10,11 +10,16 @@
 
 class Gusano: public Figura
 {
+private:
+	int numContactos;
 public:
 	Gusano();
 	Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa);
 	~Gusano(void);
 	bool meClickeo(float x,float y);
+	void agregarContacto();
+	void sacarContacto();
+	bool puedeSaltar();
 };
 
 #endif

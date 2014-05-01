@@ -15,18 +15,14 @@ void ResolverContacto::BeginContact(b2Contact* contact) {
 	if ( fixtureUserData ) {
 		//Solo el gusano tiene userData por ahora
 		Gusano* gusano = (Gusano*) fixtureUserData;
-		if (this->escenario->getFiguraActiva() == gusano) {
-			this->escenario->setPuedeSaltar(true);
-		}
+		gusano->agregarContacto();
 	}
 	  
 	fixtureUserData = contact->GetFixtureB()->GetUserData();
       
 	if ( fixtureUserData ) {
 		Gusano* gusano = (Gusano*) fixtureUserData;
-		if (this->escenario->getFiguraActiva() == gusano) {
-			this->escenario->setPuedeSaltar(true);
-		}
+		gusano->agregarContacto();
 	}
 }
 
@@ -41,21 +37,14 @@ void ResolverContacto::EndContact(b2Contact* contact) {
 	if ( fixtureUserData ) {
 		//Solo el gusano tiene userData por ahora
 		Gusano* gusano = (Gusano*) fixtureUserData;
-		if (this->escenario->getFiguraActiva() == gusano) {
-			this->escenario->setPuedeSaltar(false);
-		}
+		gusano->sacarContacto();
 	}
 	  
 	fixtureUserData = contact->GetFixtureB()->GetUserData();
       
 	if ( fixtureUserData ) {
 		Gusano* gusano = (Gusano*) fixtureUserData;
-		if (this->escenario->getFiguraActiva() == gusano) {
-			this->escenario->setPuedeSaltar(false);
-		}
+		gusano->sacarContacto();
 	}
 }
 
-void ResolverContacto::setEscenario(Escenario* escenario) {
-	this->escenario = escenario;
-}
