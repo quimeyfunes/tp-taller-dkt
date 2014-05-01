@@ -22,12 +22,13 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	fixtureDef.restitution = restitucion;
 	fixtureDef.friction = friccion;
 	this->getBody()->CreateFixture(&fixtureDef);
-	rectanguloShape.SetAsBox(ancho/2,1,b2Vec2(0,alto/2),0);
+	rectanguloShape.SetAsBox(ancho/2,2,b2Vec2(0,alto/2),0);
 	b2FixtureDef fixtureDefSensor;
 	fixtureDefSensor.isSensor = true;
 	fixtureDefSensor.shape = &rectanguloShape;
 	fixtureDefSensor.userData = this;
 	this->getBody()->CreateFixture(&fixtureDefSensor);
+	this->numContactos = 0;
 
 }
 
@@ -41,5 +42,17 @@ bool Gusano::meClickeo(float x,float y) {
 		  if (f->GetShape()->TestPoint(this->getBody()->GetTransform(),b2Vec2(x,y))) 
 			  return true;
 	}
+	return false;
+}
+
+void Gusano::agregarContacto(){
+	this->numContactos++;
+}
+void Gusano::sacarContacto(){
+	this->numContactos--;
+}
+
+bool Gusano::puedeSaltar(){
+	if (this->numContactos > 0) return true;
 	return false;
 }
