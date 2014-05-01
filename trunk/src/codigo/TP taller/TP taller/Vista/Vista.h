@@ -11,6 +11,7 @@
 #include "Sprite\GusanoSprite.h"
 #include "Sprite/ScrollingSprite.h"
 #include "../Parser/yaml/ParserYaml.h"
+#include "SDL/SDL_ttf.h"
 #include <list>
 
 using namespace std;
