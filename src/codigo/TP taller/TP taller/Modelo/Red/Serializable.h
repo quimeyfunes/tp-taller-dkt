@@ -4,6 +4,7 @@
 
 #include <string>
 #include "../StringUtil.h"
+#include "../../constantes.h"
 
 using namespace std;
 

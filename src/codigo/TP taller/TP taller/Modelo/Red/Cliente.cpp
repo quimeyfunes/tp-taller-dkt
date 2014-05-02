@@ -89,8 +89,8 @@ void Cliente::recibirDeServidor()
 					break;
 
 				case paqueteVista:
-				 	//printf("El cliente recibio un paquete vista del servidor.\n");
-					//this->vistaSerializada = paquete->getMensaje();
+				 	printf("El cliente recibio un paquete vista del servidor.\n");
+					this->vistaSerializada = paquete->getMensaje();
 					break;
 
 				case paqueteFinal:
