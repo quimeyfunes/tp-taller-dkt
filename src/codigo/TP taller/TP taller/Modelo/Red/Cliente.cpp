@@ -5,6 +5,7 @@
 Cliente::Cliente(string nombre, string ip){
     red = new ClienteRed(ip);
 	this->username=nombre;
+	this->escenario = new EscenarioParseado();
 	this->activo = false;
 	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
 }
@@ -35,8 +36,14 @@ void Cliente::enviarEvento(string eventoSerializado){
 	enviarPaquete(red->socketCliente, paqueteEvento, eventoSerializado);
 }
 
+EscenarioParseado* Cliente::getEscenarioActual(){
+	return this->escenario;
+}
+
 void Cliente::recibirDeServidor()
 {
+		char* terreno;
+		int pesoTerreno;		
 		Paquete* paquete = new Paquete();
         // get data from server
         int data_length = red->recibirData(network_data);
@@ -64,23 +71,34 @@ void Cliente::recibirDeServidor()
 			}
 			
 			ofstream arch;
-			int pesoTerreno = paquete->getTamanio() - (2*sizeof(int));
-			char* terreno = new char[pesoTerreno];
-
 			switch (tipoPaquete) {
 
                 case paqueteInicial:
 					cout<< data_length << endl;
+
+					pesoTerreno = paquete->getTamanio() - (2*sizeof(int));
+					terreno = new char[pesoTerreno];
+
 					cout<< "el peso del terreno es: "<< pesoTerreno << endl;
 					cout<< "paquete inicial" << endl;
 					//recibo [ TIPO | ALTOPX | ANCHOPX | NIVELAGUA | TERRENO ]
-					arch.open("terreno.png", std::ofstream::binary);
+
+
+					
+
+					arch.open(texturaTerreno, std::ofstream::binary);
 					arch.seekp(0, ios::beg);
-			
 					memcpy(terreno, network_data+(2*sizeof(int)), pesoTerreno);
 					arch.write(terreno,pesoTerreno);
 					arch.close();
+					
+					//this->escenario->altoPx = ALTOPX;
+					//this->escenario->anchoPx = ANCHOPX;
+					//this->escenario->nivelAgua = NIVELAGUA;
+					//TAMBIEN TIENE Q RECIBIR ALTOU Y ANCHOU PARA Q NO JODA
+					this->escenario->imagenTierra = texturaTerreno;
 					this->activo=true;
+					delete terreno;
 					break;
 
                 case paqueteEvento:
@@ -105,6 +123,7 @@ void Cliente::recibirDeServidor()
             }
         }
 		delete paquete;
+		
     }
 
 

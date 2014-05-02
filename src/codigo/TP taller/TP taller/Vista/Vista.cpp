@@ -142,8 +142,7 @@ void Vista::setListaDibujables(list<Dibujable*>* dibujables){
 
 void Vista::Dibujar(){
 	SDL_RenderClear(this->renderer);
-	list<Dibujable*>* dibu = this->listaDibujables;
-	for (list<Dibujable*>::iterator it = dibu->begin(); it != dibu->end(); it++) {
+	for (list<Dibujable*>::iterator it = this->listaDibujables->begin(); it != this->listaDibujables->end(); it++) {
 		(*it)->dibujar(this->renderer, this->corrimientoX, this->corrimientoY, this->escalaZoom, this->anchoPx, this->altoPx);
 	}
 	SDL_RenderPresent(this->renderer);
