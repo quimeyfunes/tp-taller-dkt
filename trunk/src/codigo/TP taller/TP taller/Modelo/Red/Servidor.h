@@ -1,5 +1,6 @@
 #include "ServidorRed.h"
 #include "../Figuras/Figura.h"
+#include "../../Parser/yaml/ParserYaml.h"
 
 class Servidor
 {
@@ -8,7 +9,7 @@ public:
 
     Servidor(void);
     ~Servidor(void);
-
+	EscenarioParseado* escenario;
     void actualizar();
 	void recibirDeClientes();
 	void enviarAeClientes(char* mensaje);

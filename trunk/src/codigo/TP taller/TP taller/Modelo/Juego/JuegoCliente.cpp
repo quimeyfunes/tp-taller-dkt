@@ -5,23 +5,26 @@ Cliente* JuegoCliente::cliente = NULL;
 JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	
 	cliente = new Cliente(nombreCliente, ip);
-	//EscenarioParseado* e = cliente->getEscenarioActual();
 
-	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
+
 	
-	this->vista = new Vista(e);
+	//EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
+	while(this->cliente->escenario == NULL){
+		this->cliente->recibirDeServidor();	//para recibir el escenarioParseado
+	}
+	EscenarioParseado* e = cliente->getEscenarioActual();
 
 	//TIENE Q TENERLO EL CLIENTE?? //////////
-	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU);
-	this->terreno = new Terreno(this->escenario->getWorld());
-	this->terreno->generarTerreno(e->imagenTierra);
-	this->escenario->setTerreno(this->terreno);
+	//this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU);
+	//this->terreno = new Terreno(this->escenario->getWorld());
+	//this->terreno->generarTerreno(e->imagenTierra);
+	//this->escenario->setTerreno(this->terreno);
 	/////////////////////////////////////////
 
-
+	this->vista = new Vista(e);
 	agregarTexturas(e);
 	agregarAgua(e);
 	this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
@@ -38,7 +41,7 @@ void JuegoCliente::ejecutar(){
 		this->leerEvento();
 		this->cliente->actualizar();
 		string vistaSerializada = this->cliente->vistaSerializada;
-		//this->crearLista(vistaSerializada, lista);
+		this->crearLista(vistaSerializada, lista);
 
 		if(simulando){
 			switch(estadoActual){
@@ -121,7 +124,12 @@ void JuegoCliente::alternarPausa(){
 void JuegoCliente::esperar(){}
 
 void JuegoCliente::agregarTexturas(EscenarioParseado* e){
-	Juego::agregarTexturas(e);
+
+	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, texturaFondo, "");
+	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenCielo, texturaCieloDEF);
+	vista->crearScrollingSprite(0, 10,  e->anchoPx/ 5, e->altoPx /10, rutaNube1);
+	vista->crearScrollingSprite( e->anchoU*relacionPPU/2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
+	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenTierra, "");
 }
 
 void JuegoCliente::agregarAgua(EscenarioParseado* e){

@@ -22,8 +22,6 @@ Juego::Juego(string texto){
 	agregarTexturas(e);
 	agregarObjetos();
 	agregarAgua(e);
-	
-
 }
 
 
@@ -55,7 +53,7 @@ void Juego::ejecutar(){
 		dibujablesSerializados = this->crearLista(tamanio);
 		this->servidor->enviarTodosLosClientes(paqueteVista,dibujablesSerializados);
 		vista->Dibujar();
-		SDL_Delay(3);
+		SDL_Delay(1);
 	}
 }
 

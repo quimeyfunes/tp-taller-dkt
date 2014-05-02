@@ -19,6 +19,8 @@ Servidor::Servidor(void){
 	}
     // set up the server network to listen 
     red = new ServidorRed(); 
+
+	this->escenario = ParserYaml::getParser()->getEscenario();
 }
 
 void Servidor::actualizar() 
@@ -128,21 +130,28 @@ void Servidor::recibirDeClientes()
 							infile.read (terreno, size);
 							infile.close();
 
-							//envio [ TIPO | PESO | ALTOPX | ANCHOPX | NIVELAGUA | TERRENO ]
+							//envio [ TIPO | PESO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | TERRENO ]
 							int tipoPaquete = 1;
 							int offset = 0;
-							int peso = size + (2*sizeof(int));
+							int peso = size + (3*sizeof(int)) + (4*sizeof(double));
 							char *data = new char[peso];
-
+							cout<<peso<<endl;
 							memcpy(data, &tipoPaquete, sizeof(tipoPaquete)); //TIPO
 							offset = sizeof(tipoPaquete);
-							
 							memcpy(data+offset, &peso, sizeof(peso)); //PESO
 							offset += sizeof(peso);
-							
+							memcpy(data+offset, &escenario->altoPx, sizeof(escenario->altoPx));	//altopx
+							offset += sizeof(escenario->altoPx);
+							memcpy(data+offset, &escenario->anchoPx, sizeof(escenario->anchoPx)); //anchopx
+							offset += sizeof(escenario->anchoPx);
+							memcpy(data+offset, &escenario->altoU, sizeof(escenario->altoU));	//altoU
+							offset += sizeof(escenario->altoU);
+							memcpy(data+offset, &escenario->anchoU, sizeof(escenario->anchoU));	//anchoU
+							offset += sizeof(escenario->anchoU);
+							memcpy(data+offset, &escenario->nivelAgua, sizeof(escenario->nivelAgua)); //nivelAgua
+							offset += sizeof(escenario->nivelAgua);
 							memcpy(data+offset, terreno, size);//terreno
 							
-
 							Servicio::enviarMensaje(clientes[cliente_id].socket, data, peso);
 							//----------------------------------------------------------------------------------------------------------------------------
 							//enviarPaquete(clientes[cliente_id].socket, paqueteInicial, "Bienvenido, "+clientes[cliente_id].username+".");

@@ -5,7 +5,7 @@
 Cliente::Cliente(string nombre, string ip){
     red = new ClienteRed(ip);
 	this->username=nombre;
-	this->escenario = new EscenarioParseado();
+	this->escenario = NULL;
 	this->activo = false;
 	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
 }
@@ -43,7 +43,8 @@ EscenarioParseado* Cliente::getEscenarioActual(){
 void Cliente::recibirDeServidor()
 {
 		char* terreno;
-		int pesoTerreno;		
+		int pesoTerreno;	
+		int offset =2*sizeof(int);
 		Paquete* paquete = new Paquete();
         // get data from server
         int data_length = red->recibirData(network_data);
@@ -74,28 +75,32 @@ void Cliente::recibirDeServidor()
 			switch (tipoPaquete) {
 
                 case paqueteInicial:
-					cout<< data_length << endl;
-
-					pesoTerreno = paquete->getTamanio() - (2*sizeof(int));
+					//cout<< data_length << endl;
+					this->escenario = new EscenarioParseado();
+					pesoTerreno = paquete->getTamanio() - (3*sizeof(int)) - (4*sizeof(double));
 					terreno = new char[pesoTerreno];
 
-					cout<< "el peso del terreno es: "<< pesoTerreno << endl;
-					cout<< "paquete inicial" << endl;
-					//recibo [ TIPO | ALTOPX | ANCHOPX | NIVELAGUA | TERRENO ]
-
-
+					//cout<< "el peso del terreno es: "<< pesoTerreno << endl;
+					//cout<< "paquete inicial" << endl;
+					//recibo [ TIPO | PESO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | TERRENO ]
 					
+					memcpy(&this->escenario->altoPx,	network_data + offset , sizeof(double));	//ALTOPX
+					offset += sizeof(double);
+					memcpy(&this->escenario->anchoPx,	network_data + offset, sizeof(double));   //ANCHOPX
+					offset += sizeof(double);
+					memcpy(&this->escenario->altoU,		network_data + offset, sizeof(double));   //ALTOU
+					offset += sizeof(double);
+					memcpy(&this->escenario->anchoU,	network_data + offset, sizeof(double));	//ANCHOU
+					offset += sizeof(double);
+					memcpy(&this->escenario->nivelAgua, network_data + offset, sizeof(int)); //nivel agua
+					offset += sizeof(int);
 
 					arch.open(texturaTerreno, std::ofstream::binary);
 					arch.seekp(0, ios::beg);
-					memcpy(terreno, network_data+(2*sizeof(int)), pesoTerreno);
+					memcpy(terreno, network_data+offset, pesoTerreno);
 					arch.write(terreno,pesoTerreno);
 					arch.close();
-					
-					//this->escenario->altoPx = ALTOPX;
-					//this->escenario->anchoPx = ANCHOPX;
-					//this->escenario->nivelAgua = NIVELAGUA;
-					//TAMBIEN TIENE Q RECIBIR ALTOU Y ANCHOU PARA Q NO JODA
+
 					this->escenario->imagenTierra = texturaTerreno;
 					this->activo=true;
 					delete terreno;
