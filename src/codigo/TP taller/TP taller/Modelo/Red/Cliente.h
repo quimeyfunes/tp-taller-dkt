@@ -16,10 +16,10 @@ public:
 	void actualizar();
 	EscenarioParseado* getEscenarioActual();
 	string vistaSerializada;
-
+	EscenarioParseado* escenario;
 private:
 
-	EscenarioParseado* escenario;
+	
 	bool activo;
 	char network_data[MAX_PACKET_SIZE];
 	void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);
