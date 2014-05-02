@@ -79,41 +79,61 @@ string Juego::crearLista(int &tamanio){
 }
 
 void Juego::leerEvento(){
+	 if (this->vista->leerEvento(evento)){
 
-	if (this->vista->leerEvento(evento)){
+                switch(this->vista->getAccion()){
 
+                case SALIR:                     salir();                                                break;
+                case JUGAR:                     reiniciar();                                    break;
+                case PAUSAR:            alternarPausa();                                break;
+                case ARRIBA:            this->escenario->arriba(true);          break;
+                case IZQUIERDA:         this->escenario->izquierda(true);       break;
+                case DERECHA:           this->escenario->derecha(true);         break; 
+                case SOLTARARRIBA:              this->escenario->arriba(false);         break;
+                case SOLTARIZQUIERDA:   {this->escenario->izquierda(false);
+                                                                 this->escenario->reiniciarTeclas();}   break;
+                case SOLTARDERECHA:             {this->escenario->derecha(false);
+                                                                 this->escenario->reiniciarTeclas();}   break; 
+                case CLICK:     
+                        int x,y;
+                        SDL_GetMouseState(&x,&y);
+                        this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
+                        break;
+                }
+       }
 		
-	//le envio un evento al servidor
-    /*char paquete_data[sizeof(Paquete)];
-    Paquete paquete;
-    paquete.setTipo(2);
-    paquete.serializar(paquete_data);
-	Servicio::enviarMensaje(cliente1->red->socketCliente, paquete_data, sizeof(Paquete));
-	Servicio::enviarMensaje(cliente2->red->socketCliente, paquete_data, sizeof(Paquete));
-	for(int i=0; i< this->servidor->red->sessions.size(); i++)
-		Servicio::enviarMensaje(this->servidor->red->sessions.at(i), paquete_data, sizeof(Paquete));*/
-	////////////////////////////////
+	
+	
+	//Lector de eventos de los clientes. Lo anterior lo dejo para que siga funcionando mover en el servidor
+	for(int i=0; i< this->servidor->MAX_CLIENTES; i++){
+		if(this->servidor->clientes[i].activo){
+			//Si el cliente esta activo chequeo eventos
+			string ultimoEvento = this->servidor->clientes[i].ultimoEventoSerializado;
+			if(ultimoEvento != ""){
+				Evento* evento = new Evento();
+				evento->deserealizar(ultimoEvento);
+				switch(evento->accion){
 
-		switch(this->vista->getAccion()){
+					case SALIR:			salir();						break;
+					/*case JUGAR:			reiniciar();					break;
+					case PAUSAR:		alternarPausa();				break;*/
+					case ARRIBA:		this->escenario->arriba(true);		break;
+					case IZQUIERDA:		this->escenario->izquierda(true);	break;
+					case DERECHA:		this->escenario->derecha(true);		break; 
+					case SOLTARARRIBA:		this->escenario->arriba(false);		break;
+					case SOLTARIZQUIERDA:	{this->escenario->izquierda(false);
+											 this->escenario->reiniciarTeclas();}	break;
+					case SOLTARDERECHA:		{this->escenario->derecha(false);
+											 this->escenario->reiniciarTeclas();}	break; 
+					case CLICK:	
+						this->escenario->click((evento->x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (evento->y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
+						break;
+				}
 
-		case SALIR:			salir();						break;
-		case JUGAR:			reiniciar();					break;
-		case PAUSAR:		alternarPausa();				break;
-		case ARRIBA:		this->escenario->arriba(true);		break;
-		case IZQUIERDA:		this->escenario->izquierda(true);	break;
-		case DERECHA:		this->escenario->derecha(true);		break; 
-		case SOLTARARRIBA:		this->escenario->arriba(false);		break;
-		case SOLTARIZQUIERDA:	{this->escenario->izquierda(false);
-								 this->escenario->reiniciarTeclas();}	break;
-		case SOLTARDERECHA:		{this->escenario->derecha(false);
-								 this->escenario->reiniciarTeclas();}	break; 
-		case CLICK:	
-			int x,y;
-			SDL_GetMouseState(&x,&y);
-			this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
-			break;
+			}
 		}
 	}
+
 }
 
 void Juego::jugar(){

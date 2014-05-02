@@ -159,6 +159,7 @@ void Servidor::recibirDeClientes()
                 case paqueteEvento:
 
 					printf("El servidor recibio un paquete evento del cliente %i.\n", i);
+					clientes[i].ultimoEventoSerializado = paquete->getMensaje();
                     break;
 
 				case paqueteEstado:

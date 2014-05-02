@@ -15,6 +15,7 @@
 #include <vector>
 #include "../StringUtil.h"
 #include "../ResolverContacto.h"
+#include "../Red/Evento.h"
 
 
 using namespace std;

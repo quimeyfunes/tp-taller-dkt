@@ -77,19 +77,16 @@ void JuegoCliente::leerEvento(){
 			break;
 		}
 
-		if(accion == CLICK || accion == IZQUIERDA || accion == DERECHA || accion == ARRIBA){
+		if(accion == CLICK || accion == IZQUIERDA || accion == DERECHA || accion == ARRIBA || accion == SOLTARARRIBA || accion == SOLTARIZQUIERDA || accion == SOLTARDERECHA){
 			//Para estos eventos tengo que notificar al servidor
-			string mensaje = StringUtil::int2string(accion);
-			if(accion == CLICK){
-				//Si hubo click tengo que decir las posiciones
-				mensaje += separadorCamposEntidades;
-				int x,y;
-				SDL_GetMouseState(&x,&y);
-				mensaje += StringUtil::int2string(x);
-				mensaje += separadorCamposEntidades;
-				mensaje += StringUtil::int2string(y);
-				this->cliente->enviarEvento(mensaje);
-			}
+			Evento* e = new Evento();
+			int x,y;
+			SDL_GetMouseState(&x,&y);
+
+			e->accion = accion;
+			e->x = x;
+			e->y = y;
+			this->cliente->enviarEvento(e->serializar());
 		}
 	}
 }
