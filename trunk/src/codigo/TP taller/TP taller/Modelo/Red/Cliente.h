@@ -1,4 +1,5 @@
 #include "ClienteRed.h"
+#include "../../Parser/yaml/ParserYaml.h"
 
 class Cliente
 {
@@ -13,9 +14,12 @@ public:
 	void enviarEstado();
 	void enviarEvento(string eventoSerializado);
 	void actualizar();
+	EscenarioParseado* getEscenarioActual();
 	string vistaSerializada;
 
 private:
+
+	EscenarioParseado* escenario;
 	bool activo;
 	char network_data[MAX_PACKET_SIZE];
 	void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);

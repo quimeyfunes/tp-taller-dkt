@@ -3,33 +3,42 @@
 Cliente* JuegoCliente::cliente = NULL;
 
 JuegoCliente::JuegoCliente(string nombreCliente, string ip){
+	
+	cliente = new Cliente(nombreCliente, ip);
+	//EscenarioParseado* e = cliente->getEscenarioActual();
+
+	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
-	ParserYaml* parser = ParserYaml::getParser();
-	EscenarioParseado* e = parser->getEscenario();
+	
 	this->vista = new Vista(e);
+
+	//TIENE Q TENERLO EL CLIENTE?? //////////
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
 	this->escenario->setTerreno(this->terreno);
+	/////////////////////////////////////////
+
+
 	agregarTexturas(e);
 	agregarAgua(e);
 	this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
 	copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
-	cliente = new Cliente(nombreCliente, ip);
+	
 }
 
 void JuegoCliente::ejecutar(){
 	Logger::getLogger()->guardarEstado();
-
+	list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 	//game loop
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
 		this->leerEvento();
 		this->cliente->actualizar();
 		string vistaSerializada = this->cliente->vistaSerializada;
-		this->crearLista(vistaSerializada);
+		//this->crearLista(vistaSerializada, lista);
 
 		if(simulando){
 			switch(estadoActual){
@@ -40,6 +49,7 @@ void JuegoCliente::ejecutar(){
 		}
 		vista->Dibujar();
 		SDL_Delay(1);
+
 	}
 }
 
@@ -87,6 +97,7 @@ void JuegoCliente::leerEvento(){
 			e->x = x;
 			e->y = y;
 			this->cliente->enviarEvento(e->serializar());
+			delete e;
 		}
 	}
 }
@@ -117,8 +128,9 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 	Juego::agregarAgua(e);
 }
 
-list<Dibujable*>* JuegoCliente::crearLista(string vistaSerializada){
-	list<Dibujable*>* lista = new list<Dibujable*>(this->dibujablesBase->size());
+//le paso la lista como parametro para no estar haciendo new cada vez que entro 
+/*list<Dibujable*>* */void JuegoCliente::crearLista(string vistaSerializada, list<Dibujable*>* lista){
+	
 	copy(this->dibujablesBase->begin(),this->dibujablesBase->end(),lista->begin());
 	//Saco el agua
 	lista->pop_back();
@@ -179,7 +191,7 @@ list<Dibujable*>* JuegoCliente::crearLista(string vistaSerializada){
 	//Agrego a lo ultimo el agua
 	lista->push_back(this->dibujablesBase->back());
 
-	return lista;
+	//return lista;
 }
 
 JuegoCliente::~JuegoCliente(){

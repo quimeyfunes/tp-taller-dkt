@@ -116,15 +116,15 @@ void Servidor::recibirDeClientes()
 							this->clientes[cliente_id].time = time(NULL);
 							this->clientes[cliente_id].socket = red->sessions.at(0);
 							//ENVIO UNA IMAGENNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-							char *terreno;
+						
 							unsigned long iFileSize = 0;
 							long size;
-							ifstream infile("mascara1.png", ios::in|ios::binary);
+							ifstream infile(texturaTerreno, ios::in|ios::binary);
 							infile.seekg (0, ios::end);
 							size = infile.tellg();
-							cout << size << endl;
+						//	cout << size << endl;
 							infile.seekg (0, ios::beg);
-							terreno = new char[size];  
+							char *terreno = new char[size];  
 							infile.read (terreno, size);
 							infile.close();
 
@@ -148,6 +148,8 @@ void Servidor::recibirDeClientes()
 							//enviarPaquete(clientes[cliente_id].socket, paqueteInicial, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
 							cliente_id++;
+							delete terreno;
+							delete data;
 
 						}else{
 																	//si no hay lugar, lo saco

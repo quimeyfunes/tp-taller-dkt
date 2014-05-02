@@ -32,7 +32,7 @@ private:
 	void agregarTexturas(EscenarioParseado* e);
 	void agregarAgua(EscenarioParseado* e);
 	void leerEvento();
-	list<Dibujable*>* crearLista(string vistaSerializada);
+	/*list<Dibujable*>* */void crearLista(string vistaSerializada, list<Dibujable*>* lista);
 public:
 	JuegoCliente();
 	JuegoCliente(string nombreCliente, string ip);

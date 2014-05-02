@@ -38,11 +38,11 @@
 	const float relacionPPU = 2;
 
 	//Escenario
-	const unsigned anchoPxDEF=800;
+	const unsigned anchoPxDEF=1200;
 	const unsigned altoPxDEF=600;
 	const unsigned anchoUDEF=400;
 	const unsigned altoUDEF=300;
-	const unsigned nivelAguaDEF=200;
+	const unsigned nivelAguaDEF=100;
 
 	const unsigned altoUMIN=100;
 	const unsigned anchoUMIN=100;

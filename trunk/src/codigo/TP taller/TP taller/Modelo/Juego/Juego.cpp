@@ -31,6 +31,8 @@ void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 
 	 servidor = new Servidor();
+	 int tamanio;
+	 string dibujablesSerializados="";
 	//Creo el trhead con el loop del servidor: en el loop se van a escuchar los clientes y a recibir los mensajes
 	 _beginthread( Juego::servidorLoop, 0, (void*)12);
 	 //_beginthread(Juego::clienteLoop,0, (void*)12);
@@ -49,9 +51,8 @@ void Juego::ejecutar(){
 		}
 		escenario->notificar();
 
-		//Le envio a todos los clientes los dibujales actualizados
-		int tamanio;
-		string dibujablesSerializados = this->crearLista(tamanio);
+		////Le envio a todos los clientes los dibujales actualizados
+		dibujablesSerializados = this->crearLista(tamanio);
 		this->servidor->enviarTodosLosClientes(paqueteVista,dibujablesSerializados);
 		vista->Dibujar();
 		SDL_Delay(3);
@@ -129,6 +130,8 @@ void Juego::leerEvento(){
 						this->escenario->click((evento->x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (evento->y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
 						break;
 				}
+
+				delete evento;
 
 			}
 		}
@@ -241,6 +244,7 @@ void Juego::servidorLoop(void * arg)
 
 Juego::~Juego(){
 
+	//delete this->servidor;
 	delete this->escenario;
 	delete this->terreno;
 	delete this->evento;
