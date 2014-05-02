@@ -3,7 +3,6 @@
 
 Vista::Vista(EscenarioParseado* e){
 	SDL_Init( SDL_INIT_EVERYTHING );
-	TTF_Init();
 	this->anchoPx = e->anchoPx;
 	this->altoPx = e->altoPx;
 	this->anchoPxTot = e->anchoU * relacionPPU;
