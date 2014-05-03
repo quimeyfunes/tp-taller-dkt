@@ -20,6 +20,8 @@ public:
 	void agregarContacto();
 	void sacarContacto();
 	bool puedeSaltar();
+	void simularAgua(int nivelAgua);
+	void reiniciar();
 };
 
 #endif

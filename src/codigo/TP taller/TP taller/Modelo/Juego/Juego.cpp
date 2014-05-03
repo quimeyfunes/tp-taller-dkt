@@ -53,7 +53,7 @@ void Juego::ejecutar(){
 		dibujablesSerializados = this->crearLista(tamanio);
 		this->servidor->enviarTodosLosClientes(paqueteVista,dibujablesSerializados);
 		vista->Dibujar();
-		SDL_Delay(1);
+		SDL_Delay(3);
 	}
 }
 
@@ -170,10 +170,12 @@ void Juego::agregarTexturas(EscenarioParseado* e){
 
 void Juego::agregarAgua(EscenarioParseado* e){
 	//vista->crearDibujableTextura(0, e->nivelAgua*this->escenario->getRelacionAlto(), terreno->getLector()->getAnchoMatriz(), terreno->getLector()->getAltoMatriz() - e->nivelAgua*this->escenario->getRelacionAlto(), texturaAgua, texturaAguaDEF);
-	vista->crearDibujableTextura(0, e->nivelAgua*relacionPPU, e->anchoU*relacionPPU, (e->altoU - e->nivelAgua) *relacionPPU, texturaAgua, texturaAguaDEF);
+	DibujableTextura* agua = vista->crearDibujableTextura(0, e->nivelAgua*relacionPPU, e->anchoU*relacionPPU, (e->altoU - e->nivelAgua) *relacionPPU, texturaAgua, texturaAguaDEF);
+	agua->setTransparencia(230);
 	for(int i=0;i<4;i++){
 		//vista->crearSprite( (i* terreno->getLector()->getAnchoMatriz())/4, e->nivelAgua* this->escenario->getRelacionAlto() - 15,  terreno->getLector()->getAnchoMatriz()/4, 15, spriteOlas, 2, 6, 256, 144);
-		vista->crearSprite( (i* e->anchoU*relacionPPU)/4, e->nivelAgua*relacionPPU - 15,  e->anchoU*relacionPPU/4, 15, spriteOlas, 2, 6, 256, 144);
+		Sprite* sprite = vista->crearSprite( (i* e->anchoU*relacionPPU)/4, e->nivelAgua*relacionPPU - 15,  e->anchoU*relacionPPU/4, 15, spriteOlas, 2, 6, 256, 144);
+		sprite->setTransparencia(230);
 	}
 }
 
@@ -210,7 +212,7 @@ void Juego::agregarObjetos(){
 			worm = escenario->crearGusano(*it);
 			if (worm){
 				//GusanoDibujable* gusano = vista->crearGusanoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * escalaAncho, (*it).alto * escalaAlto, rutaGusano, rutaGusanoDEF);
-				GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * 5, (*it).alto * 5, spriteWormIzq, 1, 10, 60, 600);
+				GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600);
 				worm->agregarObservador(gusano);
 			} 
 			break;

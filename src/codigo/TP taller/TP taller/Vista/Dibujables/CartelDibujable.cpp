@@ -10,13 +10,15 @@ CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string p
 {
 	TTF_Init();
 	this->texto = "Rasta";
-	this->font = TTF_OpenFont(rutaFuente , 36);
+	this->font = TTF_OpenFont(rutaFuente , 25);
 	this->textColor.b = 0;
 	this->textColor.g = 0;
 	this->textColor.r = 0;
 	this->surf =  TTF_RenderText_Solid(this->font, this->texto.c_str() , this->textColor);
 	this->imagen = SDL_CreateTextureFromSurface( renderer, this->surf );
 	SDL_FreeSurface(this->surf);
+
+	this->rect.w = this->texto.length() * 7;
 
 }
 

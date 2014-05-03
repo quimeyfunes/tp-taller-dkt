@@ -104,8 +104,8 @@
 	const float restitucion = 0.3f;
 	const int velocidadAgua = 8;
 	const float desaceleracionAgua = 0.973;
-	const float anguloMinimoSalto  = -157.5 * DEGTORAD;
-	const float anguloMaximoSalto  = -22.5 * DEGTORAD;
+	const int anchoGusano = 15;
+	const int altoGusano = 20;
 	//Tipos de paquete
 	const unsigned paqueteInicial=1;
 	const unsigned paqueteEvento=2;
