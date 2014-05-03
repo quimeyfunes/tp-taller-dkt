@@ -88,4 +88,18 @@ bool Figura::meClickeo(float x,float y) {
 	return false;
 }
 
+void Figura::simularAgua(int nivelAgua){
+	if (this->getPosicion().y > nivelAgua){
+		b2Vec2 velocidad = this->getBody()->GetLinearVelocity();
+		float velocidadY = velocidad.y;
+		if (velocidadY > velocidadAgua) {
+			if (velocidadY * desaceleracionAgua < velocidadAgua)  {
+				velocidadY = velocidadAgua;
+			} else {
+				velocidadY = velocidadY * desaceleracionAgua;
+			}
+		}
+		this->getBody()->SetLinearVelocity(b2Vec2(velocidad.x * desaceleracionAgua,velocidadY));
+	}
+}
 

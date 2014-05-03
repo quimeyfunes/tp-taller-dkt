@@ -90,7 +90,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 	this->setRect(rect);
 
 	SDL_Rect rectCartel = this->cartel->getRect();
-	rectCartel.x = (fig->getPosicion().x * relacionPPU) - rect.w / 2;
+	rectCartel.x = (fig->getPosicion().x * relacionPPU) - rectCartel.w / 2;
 	rectCartel.y = ((fig->getPosicion().y * relacionPPU) - rect.h / 2) - alturaCartel;
 	this->cartel->setRect(rectCartel);
 }

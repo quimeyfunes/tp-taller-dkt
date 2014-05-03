@@ -28,7 +28,7 @@ public:
 	void setPosicion(float x, float y, float angulo);
 	b2Body* getBody();
 	b2Vec2 getPosicion();
-	void reiniciar();
+	virtual void reiniciar();
 	void quieto();
 	bool seMueveALaDer();
 	void setMovimientoDer(bool movDer);
@@ -38,6 +38,7 @@ public:
 	void setTipo(int tipo);
 	int getTipo();
 	virtual bool meClickeo(float x, float y);
+	virtual void simularAgua(int nivelAgua);
 	~Figura();
 };
 
