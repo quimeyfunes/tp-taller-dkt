@@ -5,7 +5,7 @@
 Cliente::Cliente(string nombre, string ip){
     red = new ClienteRed(ip);
 	this->username=nombre;
-	this->escenario = NULL;
+	this->escenario = new EscenarioParseado();
 	this->activo = false;
 	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
 }
@@ -40,96 +40,95 @@ EscenarioParseado* Cliente::getEscenarioActual(){
 	return this->escenario;
 }
 
-void Cliente::recibirDeServidor()
-{
-		char* terreno;
-		int pesoTerreno;	
-		int offset =2*sizeof(int);
-		Paquete* paquete = new Paquete();
-        // get data from server
-        int data_length = red->recibirData(network_data);
+bool Cliente::recibirDeServidor(){
+	
+	int offset;
+	Paquete* paquete = new Paquete();
+    // get data from server
+    int data_length = red->recibirData(network_data);
 
 		
-		int tipoPaquete;
+	int tipoPaquete;
 
-        if (data_length <= 0) 
-        {
-            //no data recieved
-			//ver q hacerrrrrrrrrrrrr
-        }
-		
-        int i = 0;
-		while (i < data_length) 
-        {
-
-			paquete->deserializar(&(network_data[i]));
-			tipoPaquete = paquete->getTipo();
-			if(tipoPaquete != 1){
-				i += paquete->getPesoPaquete();
-			}
-			else{
-				i+= paquete->getTamanio();
-			}
-			
-			ofstream arch;
-			switch (tipoPaquete) {
-
-                case paqueteInicial:
-					//cout<< data_length << endl;
-					this->escenario = new EscenarioParseado();
-					pesoTerreno = paquete->getTamanio() - (3*sizeof(int)) - (4*sizeof(double));
-					terreno = new char[pesoTerreno];
-
-					//cout<< "el peso del terreno es: "<< pesoTerreno << endl;
-					//cout<< "paquete inicial" << endl;
-					//recibo [ TIPO | PESO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | TERRENO ]
-					
-					memcpy(&this->escenario->altoPx,	network_data + offset , sizeof(double));	//ALTOPX
-					offset += sizeof(double);
-					memcpy(&this->escenario->anchoPx,	network_data + offset, sizeof(double));   //ANCHOPX
-					offset += sizeof(double);
-					memcpy(&this->escenario->altoU,		network_data + offset, sizeof(double));   //ALTOU
-					offset += sizeof(double);
-					memcpy(&this->escenario->anchoU,	network_data + offset, sizeof(double));	//ANCHOU
-					offset += sizeof(double);
-					memcpy(&this->escenario->nivelAgua, network_data + offset, sizeof(int)); //nivel agua
-					offset += sizeof(int);
-
-					arch.open(texturaTerreno, std::ofstream::binary);
-					arch.seekp(0, ios::beg);
-					memcpy(terreno, network_data+offset, pesoTerreno);
-					arch.write(terreno,pesoTerreno);
-					arch.close();
-
-					this->escenario->imagenTierra = texturaTerreno;
-					this->activo=true;
-					delete terreno;
-					break;
-
-                case paqueteEvento:
-
-					printf("El cliente recibio un paquete evento del servidor.\n");
-					break;
-
-				case paqueteVista:
-				 	printf("El cliente recibio un paquete vista del servidor.\n");
-					this->vistaSerializada = paquete->getMensaje();
-					break;
-
-				case paqueteFinal:
-					cout<<paquete->getMensaje();
-					this->activo=false;
-					break;
-                default:
-
-                    printf("Error en el tipo de paquete.Tipo es %d\n",paquete->getTipo());
-
-                    break;
-            }
-        }
-		delete paquete;
-		
+    if (data_length <= 0) 
+    {
+        //no data recieved
+		//ver q hacerrrrrrrrrrrrr
     }
+		
+    int i = 0;
+	while (i < data_length) 
+    {
+		//obtengo el tipo del paquete
+		//si tipo = 1 es un arreglo de ints del Escenario
+		memcpy(&tipoPaquete, &network_data[i], sizeof(int));
+
+		if(tipoPaquete != paqueteInicial){
+			paquete->deserializar(&(network_data[i]));
+			i += paquete->getPesoPaquete();	//devuelve sizeof(tipoPaquete) + sizeof(tamanioMensaje) + strlen(mensaje)
+		}
+		else{
+			i+= (2*sizeof(int)) + (4*sizeof(double));	//2 ints: TIPO, NIVELAGUA		
+		}												//4 doubles: ALTOPX, ANCHOPX, ALTOU, ANCHOU	
+			
+
+		switch (tipoPaquete) {
+
+            case paqueteInicial:
+
+				//recibo [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA ]
+
+				offset = sizeof(tipoPaquete);
+				memcpy(&escenario->altoPx, network_data+offset, sizeof(escenario->altoPx));	//altopx
+				offset += sizeof(escenario->altoPx);
+				memcpy(&escenario->anchoPx, network_data+offset, sizeof(escenario->anchoPx)); //anchopx
+				offset += sizeof(escenario->anchoPx);
+				memcpy(&escenario->altoU, network_data+offset, sizeof(escenario->altoU));	//altoU
+				offset += sizeof(escenario->altoU);
+				memcpy(&escenario->anchoU, network_data+offset, sizeof(escenario->anchoU));	//anchoU
+				offset += sizeof(escenario->anchoU);
+				memcpy(&escenario->nivelAgua, network_data+offset, sizeof(escenario->nivelAgua)); //nivelAgua
+				offset += sizeof(escenario->nivelAgua);
+
+				//FALTA ENVIAR LOS PNGS (VA A SER MEJOR EN OTRO CASE, UN CICLO POR IMAGEN)
+				this->escenario->imagenTierra = texturaTerreno;
+				this->escenario->imagenCielo = texturaCielo;
+
+				break;
+
+			case paqueteDescargaLista:
+
+				cout<<paquete->getMensaje();
+				this->activo = true;
+				delete paquete;
+				return false;
+				break;
+
+            case paqueteEvento:
+
+				printf("El cliente recibio un paquete evento del servidor.\n");
+				break;
+
+			case paqueteVista:
+				//printf("El cliente recibio un paquete vista del servidor.\n");
+				this->vistaSerializada = paquete->getMensaje();
+				break;
+
+			case paqueteFinal:
+				cout<<paquete->getMensaje();
+				this->activo=false;
+				break;
+            default:
+
+                //printf("Error en el tipo de paquete.Tipo es %d\n",paquete->getTipo());
+
+                break;
+        }
+    }
+	delete paquete;
+		
+return true;
+}
 
 
 void Cliente::actualizar() 

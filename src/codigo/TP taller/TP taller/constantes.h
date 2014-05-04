@@ -3,6 +3,7 @@
 	#define archivoLog "logErrores.txt"
 	#define propiedadesPNG "config/propiedadesPNG.png"
 	#define mascaraTerrenoDEF "imagenes/mascaras/mascaraDefault.png"
+	#define texturaCielo "imagenes/texturas/cielo.png"
 	#define texturaCieloDEF "imagenes/texturas/cieloDefault.png"
 	#define texturaAguaDEF "imagenes/texturas/aguaDefault.png"
 	#define texturaTerreno "imagenes/texturas/terrenoActual.png"
@@ -112,6 +113,8 @@
 	const unsigned paqueteEstado=4;
 	const unsigned paqueteVista=5;
 	const unsigned paqueteFinal=6;
+	const unsigned paqueteDescargaLista=7;
+	const unsigned paqueteEscenario=8;
 	#define MAX_PACKET_SIZE 1000000
 
 	//Serializacion

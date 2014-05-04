@@ -7,7 +7,7 @@ Vista::Vista(EscenarioParseado* e){
 	this->altoPx = e->altoPx;
 	this->anchoPxTot = e->anchoU * relacionPPU;
 	this->altoPxTot = e->altoU * relacionPPU;
-	this->window = SDL_CreateWindow("Worms!", 25, 25, anchoPx, altoPx,  SDL_WINDOW_SHOWN);
+	this->window = SDL_CreateWindow("Worms!", 25, 25, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN);
 	this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	this->listaDibujables = new list<Dibujable*>;
 

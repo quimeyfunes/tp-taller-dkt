@@ -10,16 +10,15 @@ public:
     ~Cliente(void);
 	string username;
     ClienteRed* red; 
-	void recibirDeServidor();
+	bool recibirDeServidor();
 	void enviarEstado();
 	void enviarEvento(string eventoSerializado);
 	void actualizar();
 	EscenarioParseado* getEscenarioActual();
 	string vistaSerializada;
-	EscenarioParseado* escenario;
 private:
 
-	
+	EscenarioParseado* escenario;
 	bool activo;
 	char network_data[MAX_PACKET_SIZE];
 	void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);

@@ -10,20 +10,9 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
 
-	
-	//EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
-	while(this->cliente->escenario == NULL){
-		this->cliente->recibirDeServidor();	//para recibir el escenarioParseado
-	}
-	EscenarioParseado* e = cliente->getEscenarioActual();
+	while(this->cliente->recibirDeServidor());	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
 
-	//TIENE Q TENERLO EL CLIENTE?? //////////
-	//this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU);
-	//this->terreno = new Terreno(this->escenario->getWorld());
-	//this->terreno->generarTerreno(e->imagenTierra);
-	//this->escenario->setTerreno(this->terreno);
-	/////////////////////////////////////////
-
+	this->e = cliente->getEscenarioActual();
 	this->vista = new Vista(e);
 	agregarTexturas(e);
 	agregarAgua(e);
