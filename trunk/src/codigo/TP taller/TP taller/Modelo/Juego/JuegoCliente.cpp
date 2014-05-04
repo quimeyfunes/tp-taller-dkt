@@ -147,7 +147,6 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 		index++;
 	}
 	
-
 	list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 
 
@@ -171,16 +170,16 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 			}
 			case serializadoGusanoSprite: {
 				GusanoSprite* gusano = new GusanoSprite();
-				gusano->deserealizar(entidadSerializada);
-				int frame = gusano->getFrame();
+				//gusano->deserealizar(entidadSerializada);
+				/*int frame = gusano->getFrame();
 				bool cambIzq = gusano->hayCambioImgIzq();
-				bool cambDer = gusano->hayCambioImgDer();
+				bool cambDer = gusano->hayCambioImgDer();*/
 
-				GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600);
+				/*GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600);
 				gusano2->setFrame(frame);
 				gusano2->setCambiarImgIzq(cambIzq);
 				gusano2->setCambiarImgDer(cambDer);
-				lista->push_back(gusano2);
+				lista->push_back(gusano2);*/
 				delete gusano;
 				break;
 			}
@@ -210,16 +209,9 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 
 	}
 
-	//list<Dibujable*> *listaAnterior = this->vista->getListaDibujables();
-
-	//list<Dibujable*>::iterator j = listaAnterior->begin();
-	//while (j != listaAnterior->end())
-	//{
-	//	Dibujable* dibujableAnterior = listaAnterior->front();
-	//	listaAnterior->erase(j++);
-	//	delete dibujableAnterior;
-	//}
-
+	list<Dibujable*> *listaAnterior = this->vista->getListaDibujables();
+	//borro la lista anterior(no los elementos)
+	delete listaAnterior;
 	this->vista->setListaDibujables(lista);
 
 	//Agrego a lo ultimo el agua

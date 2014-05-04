@@ -1,6 +1,18 @@
 #include "Modelo/Juego/JuegoCliente.h"
 #include <process.h>
 #include <winsock2.h>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#ifdef _DEBUG   
+	#ifndef DBG_NEW      
+		#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )      
+		#define new DBG_NEW   
+	#endif
+#endif  // _DEBUG
+
+
 
 char* obtenerIPMaquina(){
 	WSADATA wsaData;
@@ -13,7 +25,7 @@ char* obtenerIPMaquina(){
 }
 
 int main(int argc, char* argv[]){
-
+	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	ParserYaml::setConfigPath("config/config.yaml");
 	try{
 		printf("Ingrese 1 para ser cliente, 2 para ser servidor.\n");
