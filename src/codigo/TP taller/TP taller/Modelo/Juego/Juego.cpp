@@ -65,13 +65,13 @@ string Juego::crearLista(int &tamanio){
 	tamanio=0;
 	bool first = true;
 	for (list<Dibujable*>::iterator it = vista->getListaDibujables()->begin(); it != vista->getListaDibujables()->end(); it++) {
-		if(!first){
-			lista += separadorEntidades;
-			first = false;
-		}
 		serializado = (*it)->serializar();
 		if(serializado != ""){
+			if(!first){
+				lista += separadorEntidades;
+			}
 			lista += serializado;
+			first = false;
 		}
 	}
 
@@ -152,7 +152,7 @@ void Juego::leerEvento(){
 				}
 
 				delete evento;
-
+				this->servidor->clientes[i].ultimoEventoSerializado = "";
 			}
 		}
 	}
