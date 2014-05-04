@@ -1,18 +1,8 @@
 #include "Modelo/Juego/JuegoCliente.h"
 #include <process.h>
 #include <winsock2.h>
-#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-
-#ifdef _DEBUG   
-	#ifndef DBG_NEW      
-		#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )      
-		#define new DBG_NEW   
-	#endif
-#endif  // _DEBUG
-
-
 
 char* obtenerIPMaquina(){
 	WSADATA wsaData;
@@ -21,7 +11,7 @@ char* obtenerIPMaquina(){
 	in_addr* address = (in_addr*)host->h_addr;
 	char* ip = new char[20];
 	ip = inet_ntoa(*address);
-	return ip;
+return ip;
 }
 
 int main(int argc, char* argv[]){

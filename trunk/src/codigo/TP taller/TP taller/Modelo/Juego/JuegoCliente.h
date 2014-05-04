@@ -22,6 +22,8 @@ private:
 	/*Vista* vista;
 	Escenario* escenario;
 	SDL_Event* evento;*/
+
+	EscenarioParseado* e;
 	static Cliente* cliente;
 	list<Dibujable*>* dibujablesBase;
 	void reiniciar();

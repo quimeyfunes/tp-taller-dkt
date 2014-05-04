@@ -117,29 +117,27 @@ void Servidor::recibirDeClientes()
 							this->clientes[cliente_id].username = paquete->getMensaje();
 							this->clientes[cliente_id].time = time(NULL);
 							this->clientes[cliente_id].socket = red->sessions.at(0);
-							//ENVIO UNA IMAGENNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+							
 						
-							unsigned long iFileSize = 0;
-							long size;
-							ifstream infile(texturaTerreno, ios::in|ios::binary);
-							infile.seekg (0, ios::end);
-							size = infile.tellg();
-						//	cout << size << endl;
-							infile.seekg (0, ios::beg);
-							char *terreno = new char[size];  
-							infile.read (terreno, size);
-							infile.close();
+						//	unsigned long iFileSize = 0;
+						//	long size;
+						//	ifstream infile(texturaTerreno, ios::in|ios::binary);
+						//	infile.seekg (0, ios::end);
+						//	size = infile.tellg();
+						////	cout << size << endl;
+						//	infile.seekg (0, ios::beg);
+						//	char *terreno = new char[size];  
+						//	infile.read (terreno, size);
+						//	infile.close();
 
-							//envio [ TIPO | PESO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | TERRENO ]
+							//envio [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA ]
 							int tipoPaquete = 1;
-							int offset = 0;
-							int peso = size + (3*sizeof(int)) + (4*sizeof(double));
+							int peso = ((2*sizeof(int)) + (4*sizeof(double)));
 							char *data = new char[peso];
-							cout<<peso<<endl;
-							memcpy(data, &tipoPaquete, sizeof(tipoPaquete)); //TIPO
+							//cout<<peso<<endl;
+							int offset = 0;
+							memcpy(data+offset, &tipoPaquete, sizeof(tipoPaquete)); //TIPO
 							offset = sizeof(tipoPaquete);
-							memcpy(data+offset, &peso, sizeof(peso)); //PESO
-							offset += sizeof(peso);
 							memcpy(data+offset, &escenario->altoPx, sizeof(escenario->altoPx));	//altopx
 							offset += sizeof(escenario->altoPx);
 							memcpy(data+offset, &escenario->anchoPx, sizeof(escenario->anchoPx)); //anchopx
@@ -150,14 +148,13 @@ void Servidor::recibirDeClientes()
 							offset += sizeof(escenario->anchoU);
 							memcpy(data+offset, &escenario->nivelAgua, sizeof(escenario->nivelAgua)); //nivelAgua
 							offset += sizeof(escenario->nivelAgua);
-							memcpy(data+offset, terreno, size);//terreno
 							
 							Servicio::enviarMensaje(clientes[cliente_id].socket, data, peso);
 							//----------------------------------------------------------------------------------------------------------------------------
-							//enviarPaquete(clientes[cliente_id].socket, paqueteInicial, "Bienvenido, "+clientes[cliente_id].username+".");
+							enviarPaquete(clientes[cliente_id].socket, paqueteDescargaLista, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
 							cliente_id++;
-							delete terreno;
+							//delete terreno;
 							delete data;
 
 						}else{
