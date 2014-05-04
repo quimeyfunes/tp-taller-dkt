@@ -89,11 +89,14 @@ bool Cliente::recibirDeServidor(){
 				offset += sizeof(escenario->anchoU);
 				memcpy(&escenario->nivelAgua, network_data+offset, sizeof(escenario->nivelAgua)); //nivelAgua
 				offset += sizeof(escenario->nivelAgua);
+				
+				break;
 
-				//FALTA ENVIAR LOS PNGS (VA A SER MEJOR EN OTRO CASE, UN CICLO POR IMAGEN)
+			case paqueteImagenes:
+				//recibo imagenTierra e Imagen Cielo
+
 				this->escenario->imagenTierra = texturaTerreno;
 				this->escenario->imagenCielo = texturaCielo;
-
 				break;
 
 			case paqueteDescargaLista:
