@@ -13,7 +13,9 @@ DibujableTextura::DibujableTextura(SDL_Renderer* renderer, SDL_Rect rect, string
 };
 
 DibujableTextura::~DibujableTextura() {
-	SDL_DestroyTexture(this->imagen);
+	if(this->imagen != NULL){
+		SDL_DestroyTexture(this->imagen);
+	}
 }
 
 SDL_Texture* DibujableTextura::getImagen(){

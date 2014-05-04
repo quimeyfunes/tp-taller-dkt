@@ -3,6 +3,9 @@
 
 GusanoSprite::GusanoSprite(void)
 {
+	this->recCuadro = NULL;
+	this->cartel = NULL;
+	this->imagen = NULL;
 }
 
 GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex): DibujableTextura(){

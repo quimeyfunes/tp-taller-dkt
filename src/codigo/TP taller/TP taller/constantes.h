@@ -1,6 +1,5 @@
 #ifndef CONSTANTES_H_
 #define CONSTANTES_H_
-
 	#define archivoLog "logErrores.txt"
 	#define propiedadesPNG "config/propiedadesPNG.png"
 	#define mascaraTerrenoDEF "imagenes/mascaras/mascaraDefault.png"
