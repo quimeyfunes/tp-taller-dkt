@@ -53,18 +53,7 @@ void JuegoCliente::leerEvento(){
 
 		case SALIR:			salir();						break;
 		case JUGAR:			reiniciar();					break;
-		case PAUSAR:		alternarPausa();				break;
-		case ARRIBA:		this->escenario->arriba(true);		break;
-		case IZQUIERDA:		this->escenario->izquierda(true);	break;
-		case DERECHA:		this->escenario->derecha(true);		break; 
-		case SOLTARARRIBA:		this->escenario->arriba(false);		break;
-		case SOLTARIZQUIERDA:	this->escenario->izquierda(false);	break;
-		case SOLTARDERECHA:		this->escenario->derecha(false);	break; 
-		case CLICK:	
-			int x,y;
-			SDL_GetMouseState(&x,&y);
-			this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
-			break;
+		//case PAUSAR:		alternarPausa();				break;
 		}
 
 		if(accion == CLICK || accion == IZQUIERDA || accion == DERECHA || accion == ARRIBA || accion == SOLTARARRIBA || accion == SOLTARIZQUIERDA || accion == SOLTARDERECHA){
