@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
 			string nombre;
 			cin.ignore();
 			getline(cin, nombre);
-			printf("Ingrese la dirección IP del servidor: ");
+			printf("Ingrese la direccion IP del servidor: ");
 			string ip;
 			cin>>ip;
 			JuegoCliente* juego = new JuegoCliente(nombre, ip);
@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
 			system("cls");
 			printf("Soy Servidor!\n");
 			char* ip = obtenerIPMaquina();
-			printf("Mi dirección IP es: %s\n", ip);
+			printf("Mi direccion IP es: %s\n", ip);
 			Juego* juego = new Juego("a");
 			juego->ejecutar();
 			delete juego;
