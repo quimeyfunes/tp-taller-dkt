@@ -34,14 +34,14 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 
 void JuegoCliente::ejecutar(){
 	Logger::getLogger()->guardarEstado();
-	list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
+	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 	//game loop
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
 		this->leerEvento();
 		this->cliente->actualizar();
 		string vistaSerializada = this->cliente->vistaSerializada;
-		this->crearLista(vistaSerializada, lista);
+		this->crearLista(vistaSerializada);
 
 		if(simulando){
 			switch(estadoActual){
@@ -137,8 +137,20 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 }
 
 //le paso la lista como parametro para no estar haciendo new cada vez que entro 
-/*list<Dibujable*>* */void JuegoCliente::crearLista(string vistaSerializada, list<Dibujable*>* lista){
+/*list<Dibujable*>* */void JuegoCliente::crearLista(string vistaSerializada){
+	//elimino elementos de la vista que son figuras
+	int index = 0;
+	for (list<Dibujable*>::iterator it = this->vista->getListaDibujables()->begin(); it != this->vista->getListaDibujables()->end(); it++) {
+		if(index > this->dibujablesBase->size() - 2 && index < this->vista->getListaDibujables()->size() - 1){
+			delete (*it);
+		}
+		index++;
+	}
 	
+
+	list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
+
+
 	copy(this->dibujablesBase->begin(),this->dibujablesBase->end(),lista->begin());
 	//Saco el agua
 	lista->pop_back();
@@ -194,8 +206,20 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 			}
 		}
 
-		this->vista->setListaDibujables(lista);
 	}
+
+	//list<Dibujable*> *listaAnterior = this->vista->getListaDibujables();
+
+	//list<Dibujable*>::iterator j = listaAnterior->begin();
+	//while (j != listaAnterior->end())
+	//{
+	//	Dibujable* dibujableAnterior = listaAnterior->front();
+	//	listaAnterior->erase(j++);
+	//	delete dibujableAnterior;
+	//}
+
+	this->vista->setListaDibujables(lista);
+
 	//Agrego a lo ultimo el agua
 	lista->push_back(this->dibujablesBase->back());
 

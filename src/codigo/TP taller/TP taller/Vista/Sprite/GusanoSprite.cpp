@@ -48,6 +48,7 @@ GusanoSprite::~GusanoSprite(void)
 {
 	delete []this->recCuadro;
 	delete this->cartel;
+	SDL_DestroyTexture(this->imagen);
 }
 
 void GusanoSprite::actualizar(Observable* observable) {

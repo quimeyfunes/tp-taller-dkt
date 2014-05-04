@@ -15,7 +15,7 @@ class Dibujable: public Serializable
 {
 public:
 	Dibujable();
-	~Dibujable();
+	virtual ~Dibujable();
 	virtual void setColor(int* rgb);
 	virtual void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	virtual string serializar();
