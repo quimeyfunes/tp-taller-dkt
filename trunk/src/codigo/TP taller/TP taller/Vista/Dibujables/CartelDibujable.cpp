@@ -42,4 +42,5 @@ CartelDibujable::~CartelDibujable(void)
 	TTF_CloseFont( this->font );
 	this->font = NULL;
 	TTF_Quit();
+	SDL_DestroyTexture(this->imagen);
 }
