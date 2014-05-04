@@ -59,18 +59,6 @@ void JuegoCliente::ejecutar(){
 void JuegoCliente::leerEvento(){
 
 	if (this->vista->leerEvento(evento)){
-
-		
-	//le envio un evento al servidor
-    /*char paquete_data[sizeof(Paquete)];
-    Paquete paquete;
-    paquete.setTipo(2);
-    paquete.serializar(paquete_data);
-	Servicio::enviarMensaje(cliente1->red->socketCliente, paquete_data, sizeof(Paquete));
-	Servicio::enviarMensaje(cliente2->red->socketCliente, paquete_data, sizeof(Paquete));
-	for(int i=0; i< this->servidor->red->sessions.size(); i++)
-		Servicio::enviarMensaje(this->servidor->red->sessions.at(i), paquete_data, sizeof(Paquete));*/
-	////////////////////////////////
 		int accion = this->vista->getAccion();
 		switch(accion){
 
@@ -142,7 +130,7 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 	int index = 0;
 	for (list<Dibujable*>::iterator it = this->vista->getListaDibujables()->begin(); it != this->vista->getListaDibujables()->end(); it++) {
 		if(index > this->dibujablesBase->size() - 2 && index < this->vista->getListaDibujables()->size() - 1){
-			delete (*it);
+			delete *it;
 		}
 		index++;
 	}
@@ -170,16 +158,17 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 			}
 			case serializadoGusanoSprite: {
 				GusanoSprite* gusano = new GusanoSprite();
-				//gusano->deserealizar(entidadSerializada);
-				/*int frame = gusano->getFrame();
+				gusano->deserealizar(entidadSerializada);
+				int frame = gusano->getFrame();
 				bool cambIzq = gusano->hayCambioImgIzq();
-				bool cambDer = gusano->hayCambioImgDer();*/
+				bool cambDer = gusano->hayCambioImgDer();
 
-				/*GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600);
+				GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600);
 				gusano2->setFrame(frame);
 				gusano2->setCambiarImgIzq(cambIzq);
 				gusano2->setCambiarImgDer(cambDer);
-				lista->push_back(gusano2);*/
+				lista->push_back(gusano2);
+				lista->push_back(gusano2->getCartel());
 				delete gusano;
 				break;
 			}

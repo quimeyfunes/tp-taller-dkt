@@ -8,7 +8,6 @@ CartelDibujable::CartelDibujable(void)
 CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF)
 	: DibujableTextura(renderer, rect, pathImagen, pathDEF)
 {
-	TTF_Init();
 	this->texto = "Rasta";
 	this->font = TTF_OpenFont(rutaFuente , 25);
 	this->textColor.b = 0;
@@ -39,8 +38,13 @@ void CartelDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corri
 
 CartelDibujable::~CartelDibujable(void)
 {
-	TTF_CloseFont( this->font );
-	this->font = NULL;
-	TTF_Quit();
-	SDL_DestroyTexture(this->imagen);
+	if(this->font != NULL){
+		TTF_CloseFont( this->font );
+		this->font = NULL;
+	}
+	
+	if(this->imagen != NULL){
+		SDL_DestroyTexture(this->imagen);
+		this->imagen = NULL;
+	}
 }

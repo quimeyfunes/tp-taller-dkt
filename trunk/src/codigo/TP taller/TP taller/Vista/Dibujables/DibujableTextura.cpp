@@ -15,6 +15,7 @@ DibujableTextura::DibujableTextura(SDL_Renderer* renderer, SDL_Rect rect, string
 DibujableTextura::~DibujableTextura() {
 	if(this->imagen != NULL){
 		SDL_DestroyTexture(this->imagen);
+		this->imagen = NULL;
 	}
 }
 
