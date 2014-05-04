@@ -92,6 +92,7 @@ void Juego::chequearNuevosJugadores(){
 						worm->agregarObservador(gusano);
 						this->servidor->clientes[i].figuras.push_back(worm);
 					} 
+					this->escenario->inicializarCliente(i);
 				}
 			}
 		}

@@ -17,6 +17,30 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->puedeMoverseDerecha = false;
 	this->puedeMoverseIzquierda = false;
 	this->puedeSaltar = false;
+
+	/*this->puedeMoverseArribaClientes = make_vector<bool>();
+	this->puedeMoverseDerechaClientes = boleanos;
+	this->puedeMoverseIzquierdaClientes = boleanos;
+	this->puedeSaltarClientes = boleanos;*/
+	for(int i=0; i < 4; i++){
+		this->figurasActivas.push_back(NULL);
+		this->puedeMoverseArribaClientes.push_back(false);
+		this->puedeMoverseDerechaClientes.push_back(false);
+		this->puedeMoverseIzquierdaClientes.push_back(false);
+		this->puedeSaltarClientes.push_back(false);
+		/*this->puedeMoverseArribaClientes[i] = false;
+		this->puedeMoverseDerechaClientes[i] = false;
+		this->puedeMoverseIzquierdaClientes[i] = false;
+		this->puedeSaltarClientes[i] = false;*/
+	}
+}
+
+void Escenario::inicializarCliente(int cliente){
+	/*this->figurasActivas[cliente] = NULL;
+	this->puedeMoverseArribaClientes[cliente] = false;
+	this->puedeMoverseDerechaClientes[cliente] = false;
+	this->puedeMoverseIzquierdaClientes[cliente] = false;
+	this->puedeSaltarClientes[cliente] = false;*/
 }
 
 int Escenario::getAltoU(){
@@ -50,6 +74,10 @@ void Escenario::notificar() {
 	this->saltar();
 	this->moverDerecha();
 	this->moverIzquierda();
+
+	this->saltarClientes();
+	this->moverDerechaClientes();
+	this->moverIzquierdaClientes();
 }
 
 Gusano* Escenario::crearGusano(ObjetoParseado objeto){
@@ -307,6 +335,16 @@ void Escenario::saltar(){
 	}
 }
 
+void Escenario::saltarClientes(){
+	//Hay que cambiar 4 por cantidad maxima de clientes
+	for(int i=0; i < 4; i++){
+		if ((this->figurasActivas[i] != NULL) && ((Gusano*)this->figurasActivas[i])->puedeSaltar() && (this->puedeMoverseArribaClientes[i])) {
+			b2Body* cuerpo = this->figurasActivas[i]->getBody();
+			cuerpo->SetLinearVelocity(b2Vec2(cuerpo->GetLinearVelocity().x,-25));
+		}
+	}
+}
+
 void Escenario::moverIzquierda(){
 	if ((this->figuraActiva != NULL) && (this->puedeMoverseIzquierda)) {
 		b2Body* cuerpo = this->figuraActiva->getBody();
@@ -315,6 +353,19 @@ void Escenario::moverIzquierda(){
 		this->figuraActiva->setMovimientoDer(false);
 	}
 }
+
+void Escenario::moverIzquierdaClientes(){
+	//Hay que cambiar 4 por cantidad maxima de clientes
+	for(int i=0; i < 4; i++){
+		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseIzquierdaClientes[i])) {
+			b2Body* cuerpo = this->figurasActivas[i]->getBody();
+			cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
+			this->figurasActivas[i]->setMovimientoIzq(true);
+			this->figurasActivas[i]->setMovimientoDer(false);
+		}
+	}
+}
+
 
 void Escenario::moverDerecha(){
 	if ((this->figuraActiva != NULL) && (this->puedeMoverseDerecha)) {
@@ -325,10 +376,23 @@ void Escenario::moverDerecha(){
 	}
 }
 
+void Escenario::moverDerechaClientes(){
+	//Hay que cambiar 4 por cantidad maxima de clientes
+	for(int i=0; i < 4; i++){
+		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseDerechaClientes[i])) {
+			b2Body* cuerpo = this->figurasActivas[i]->getBody();
+			cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
+			this->figurasActivas[i]->setMovimientoDer(true);
+			this->figurasActivas[i]->setMovimientoIzq(false);
+		}
+	}
+}
+
+
 Figura* Escenario::getFiguraActiva(){
 	return this->figuraActiva;
 }
 
-Figura** Escenario::getFigurasActivas(){
+vector<Figura*> Escenario::getFigurasActivas(){
 	return this->figurasActivas;
 }
