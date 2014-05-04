@@ -30,17 +30,17 @@ private:
 	Terreno* terreno;
 	//Es la del servidor
 	Figura* figuraActiva;
-	Figura** figurasActivas;
+	vector<Figura*> figurasActivas;
 	bool puedeMoverseArriba; //Esta es true si se apreta arriba
 	bool puedeSaltar;		//Esta es true si esta tocando algo por abajo
 	bool puedeMoverseIzquierda;
 	bool puedeMoverseDerecha;
 
 	//Para clientes
-	bool* puedeMoverseArribaClientes;
-	bool* puedeSaltarClientes;
-	bool* puedeMoverseIzquierdaClientes;
-	bool* puedeMoverseDerechaClientes;
+	vector<bool> puedeMoverseArribaClientes;
+	vector<bool> puedeSaltarClientes;
+	vector<bool> puedeMoverseIzquierdaClientes;
+	vector<bool> puedeMoverseDerechaClientes;
 
 	std::stringstream getMensajeSuperposicionObjeto(int linea);
 	std::stringstream getMensajeSuperposicionTerreno(int linea);
@@ -79,9 +79,13 @@ public:
 	void saltar();
 	void moverIzquierda();
 	void moverDerecha();
-	Figura** getFigurasActivas();
+	void saltarClientes();
+	void moverIzquierdaClientes();
+	void moverDerechaClientes();
+	vector<Figura*> getFigurasActivas();
 	//Es la del servidor
 	Figura* getFiguraActiva();
+	void inicializarCliente(int cliente);
 };
 
 
