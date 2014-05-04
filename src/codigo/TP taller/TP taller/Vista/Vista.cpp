@@ -16,7 +16,7 @@ Vista::Vista(EscenarioParseado* e){
 	SDL_SetWindowIcon(this->window, IMG_Load(rutaIcono));
 	this->accion = JUGAR;
 	this->setZoom(escalaZoomDefault);
-	
+	TTF_Init();
 }
 
 Vista::Vista() {
@@ -28,6 +28,7 @@ Vista::~Vista() {
 	delete this->renderer;
 	delete this->listaDibujables;
 	SDL_Quit();
+	TTF_Quit();
 }
 
 SDL_Renderer* Vista::getRenderer() {

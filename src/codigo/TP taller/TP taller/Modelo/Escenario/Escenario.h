@@ -28,11 +28,19 @@ private:
 	static float relacionAlto;
 	list<Figura*>* listaFiguras;
 	Terreno* terreno;
+	//Es la del servidor
 	Figura* figuraActiva;
+	Figura** figurasActivas;
 	bool puedeMoverseArriba; //Esta es true si se apreta arriba
 	bool puedeSaltar;		//Esta es true si esta tocando algo por abajo
 	bool puedeMoverseIzquierda;
 	bool puedeMoverseDerecha;
+
+	//Para clientes
+	bool* puedeMoverseArribaClientes;
+	bool* puedeSaltarClientes;
+	bool* puedeMoverseIzquierdaClientes;
+	bool* puedeMoverseDerechaClientes;
 
 	std::stringstream getMensajeSuperposicionObjeto(int linea);
 	std::stringstream getMensajeSuperposicionTerreno(int linea);
@@ -48,6 +56,7 @@ public:
 	Circulo* crearCirculo(ObjetoParseado objeto);
  	Rectangulo* crearRectangulo(ObjetoParseado objeto);
 	Gusano* crearGusano(ObjetoParseado objeto);
+	Gusano* crearGusanoParaJugador();
 	void agregarFigura(Figura* figura);
 	void notificar();
 	void simularAgua();
@@ -58,13 +67,20 @@ public:
 	Terreno* getTerreno();
 	void setTerreno(Terreno* terreno);
 	void click(float x, float y);
+	void clickCliente(int cliente, list<Figura*> figurasCliente, float x, float y);
 	void arriba(bool arriba);
+	void arribaCliente(int cliente, bool arriba);
 	void setPuedeSaltar(bool puedeSaltar);
+	void setPuedeSaltarCliente(int cliente,bool puedeSaltar);
 	void izquierda(bool izquierda);
+	void izquierdaCliente(int cliente,bool izquierda);
 	void derecha(bool derecha);	
+	void derechaCliente(int cliente, bool derecha);	
 	void saltar();
 	void moverIzquierda();
 	void moverDerecha();
+	Figura** getFigurasActivas();
+	//Es la del servidor
 	Figura* getFiguraActiva();
 };
 

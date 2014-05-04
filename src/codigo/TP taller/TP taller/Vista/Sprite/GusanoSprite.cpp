@@ -43,7 +43,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	SDL_Rect rectCart = rect;
 	rectCart.w = rect.w;
 	rectCart.h = rect.h / 4;
-
+	//this->cartel = NULL;
 	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF);
 }
 
@@ -53,11 +53,12 @@ GusanoSprite::~GusanoSprite(void)
 		delete []this->recCuadro;
 	}
 
-	if(this->cartel != NULL){
+	/*if(this->cartel != NULL){
 		delete this->cartel;
-	}
+	}*/
 	if(this->imagen != NULL){
 		SDL_DestroyTexture(this->imagen);
+		this->imagen = NULL;
 	}
 }
 

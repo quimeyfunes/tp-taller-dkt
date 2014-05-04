@@ -76,6 +76,18 @@ Gusano* Escenario::crearGusano(ObjetoParseado objeto){
 	}
 }
 
+Gusano* Escenario::crearGusanoParaJugador(){
+	//La posiciones tiene que ser sobre el terreno, aleatoria
+	Gusano* gusano = new Gusano(25,100,0,this->world,false,15,20,10);
+	if (this->haySuperposicion(gusano) || this->haySuperposicionConTerreno(gusano)){
+		//Si hay superposicion creo en otra posicion;
+	}
+	else {
+		this->agregarFigura(gusano);
+		return gusano;
+	}
+}
+
 Poligono* Escenario::crearPoligono(ObjetoParseado objeto){
 	Poligono* poligono = new Poligono(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.escala,objeto.masa,objeto.tipo);
 	if (this->haySuperposicion(poligono)){
@@ -244,20 +256,47 @@ void Escenario::click(float x, float y){
 	}
 }
 
+void Escenario::clickCliente(int cliente,list<Figura*> figurasCliente,float x, float y){
+	//Recorro solo las figuras del cliente
+	for (std::list<Figura*>::const_iterator it = figurasCliente.begin(); it != figurasCliente.end(); it++) {
+		if ((*it)->meClickeo(x,y)) {
+			this->figurasActivas[cliente] = (*it);
+			return;
+		}
+	}
+}
+
+
 void Escenario::arriba(bool arriba){
 	this->puedeMoverseArriba = arriba;
+}
+
+void Escenario::arribaCliente(int cliente ,bool arriba){
+	this->puedeMoverseArribaClientes[cliente] = arriba;
 }
 
 void Escenario::setPuedeSaltar(bool puedeSaltar) {
 	this->puedeSaltar = puedeSaltar;
 }
 
+void Escenario::setPuedeSaltarCliente(int cliente,bool puedeSaltar) {
+	this->puedeSaltarClientes[cliente] = puedeSaltar;
+}
+
 void Escenario::izquierda(bool izquierda){
 	this->puedeMoverseIzquierda = izquierda;
 }
 
+void Escenario::izquierdaCliente(int cliente,bool izquierda){
+	this->puedeMoverseIzquierdaClientes[cliente] = izquierda;
+}
+
 void Escenario::derecha(bool derecha){
 	this->puedeMoverseDerecha = derecha;
+}
+
+void Escenario::derechaCliente(int cliente,bool derecha){
+	this->puedeMoverseDerechaClientes[cliente] = derecha;
 }
 
 void Escenario::saltar(){
@@ -288,4 +327,8 @@ void Escenario::moverDerecha(){
 
 Figura* Escenario::getFiguraActiva(){
 	return this->figuraActiva;
+}
+
+Figura** Escenario::getFigurasActivas(){
+	return this->figurasActivas;
 }

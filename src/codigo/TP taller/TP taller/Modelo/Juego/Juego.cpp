@@ -38,6 +38,7 @@ void Juego::ejecutar(){
 	//game loop
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
+		this->chequearNuevosJugadores();
 		this->leerEvento();
 
 		if(simulando){
@@ -75,6 +76,26 @@ string Juego::crearLista(int &tamanio){
 	}
 
 	return lista;
+}
+
+void Juego::chequearNuevosJugadores(){
+	for(int i=0; i< this->servidor->MAX_CLIENTES; i++){
+		if(this->servidor->clientes[i].activo){
+			if(this->servidor->clientes[i].figuras.size() == 0){
+				//Si el cliente esta activo y no tiene figuras es porque acaba de conectarse. Le asigno gusanos
+				for(int j=0; j< gusanosPorPersonaje; j++){
+					float escalaAncho = relacionPPU;
+					float escalaAlto = relacionPPU;
+					Gusano* worm = escenario->crearGusanoParaJugador();
+					if (worm){
+						GusanoSprite* gusano = vista->crearGusanoSprite( worm->getPosicion().x * escalaAncho, worm->getPosicion().y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600);
+						worm->agregarObservador(gusano);
+						this->servidor->clientes[i].figuras.push_back(worm);
+					} 
+				}
+			}
+		}
+	}
 }
 
 void Juego::leerEvento(){
@@ -116,16 +137,16 @@ void Juego::leerEvento(){
 					case SALIR:			salir();						break;
 					/*case JUGAR:			reiniciar();					break;
 					case PAUSAR:		alternarPausa();				break;*/
-					case ARRIBA:		this->escenario->arriba(true);		break;
-					case IZQUIERDA:		this->escenario->izquierda(true);	break;
-					case DERECHA:		this->escenario->derecha(true);		break; 
-					case SOLTARARRIBA:		this->escenario->arriba(false);		break;
-					case SOLTARIZQUIERDA:	{this->escenario->izquierda(false);
+					case ARRIBA:		this->escenario->arribaCliente(i,true);		break;
+					case IZQUIERDA:		this->escenario->izquierdaCliente(i,true);	break;
+					case DERECHA:		this->escenario->derechaCliente(i,true);		break; 
+					case SOLTARARRIBA:		this->escenario->arribaCliente(i,false);		break;
+					case SOLTARIZQUIERDA:	{this->escenario->izquierdaCliente(i,false);
 											 this->escenario->reiniciarTeclas();}	break;
-					case SOLTARDERECHA:		{this->escenario->derecha(false);
+					case SOLTARDERECHA:		{this->escenario->derechaCliente(i,false);
 											 this->escenario->reiniciarTeclas();}	break; 
 					case CLICK:	
-						this->escenario->click((evento->x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (evento->y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
+						this->escenario->clickCliente(i,this->servidor->clientes[i].figuras,(evento->x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (evento->y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
 						break;
 				}
 
