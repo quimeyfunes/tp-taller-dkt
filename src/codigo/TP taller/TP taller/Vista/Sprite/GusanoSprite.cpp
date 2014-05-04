@@ -46,9 +46,16 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 
 GusanoSprite::~GusanoSprite(void)
 {
-	delete []this->recCuadro;
-	delete this->cartel;
-	SDL_DestroyTexture(this->imagen);
+	if(this->recCuadro != NULL){
+		delete []this->recCuadro;
+	}
+
+	if(this->cartel != NULL){
+		delete this->cartel;
+	}
+	if(this->imagen != NULL){
+		SDL_DestroyTexture(this->imagen);
+	}
 }
 
 void GusanoSprite::actualizar(Observable* observable) {
@@ -205,6 +212,9 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->contIzq = StringUtil::str2int(atributos.at(6));
 	this->cambiarImgDer = StringUtil::str2int(atributos.at(7));
 	this->cambiarImgIzq = StringUtil::str2int(atributos.at(8));
+	this->recCuadro = NULL;
+	this->cartel = NULL;
+	this->imagen = NULL;
 }
 
 CartelDibujable* GusanoSprite::getCartel(){

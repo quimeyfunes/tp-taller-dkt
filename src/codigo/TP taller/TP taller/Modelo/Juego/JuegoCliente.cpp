@@ -164,8 +164,9 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 				GusanoDibujable* gusano = new GusanoDibujable();
 				gusano->deserealizar(entidadSerializada);
 
-				gusano = new GusanoDibujable(this->vista->renderer, gusano->getRect(), rutaGusano, rutaGusanoDEF);
-				lista->push_back(gusano);
+				GusanoDibujable* gusano2 = new GusanoDibujable(this->vista->renderer, gusano->getRect(), rutaGusano, rutaGusanoDEF);
+				lista->push_back(gusano2);
+				//delete gusano;
 				break;
 			}
 			case serializadoGusanoSprite: {
@@ -175,11 +176,12 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 				bool cambIzq = gusano->hayCambioImgIzq();
 				bool cambDer = gusano->hayCambioImgDer();
 
-				gusano = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600);
-				gusano->setFrame(frame);
-				gusano->setCambiarImgIzq(cambIzq);
-				gusano->setCambiarImgDer(cambDer);
-				lista->push_back(gusano);
+				GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600);
+				gusano2->setFrame(frame);
+				gusano2->setCambiarImgIzq(cambIzq);
+				gusano2->setCambiarImgDer(cambDer);
+				lista->push_back(gusano2);
+				delete gusano;
 				break;
 			}
 			case serializadoCirculoDibujable:{
