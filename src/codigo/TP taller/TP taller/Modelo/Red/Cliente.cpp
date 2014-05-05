@@ -124,6 +124,7 @@ bool Cliente::recibirDeServidor(){
 				i+= (2*sizeof(int))+tamanioImagen;
 				break;
 
+
 			case paqueteDescargaLista:
 
 				cout<<paquete->getMensaje();
