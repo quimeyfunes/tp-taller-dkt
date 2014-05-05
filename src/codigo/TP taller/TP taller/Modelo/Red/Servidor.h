@@ -13,6 +13,7 @@ public:
     void actualizar();
 	void recibirDeClientes();
 	void enviarAeClientes(char* mensaje);
+	void enviarImagen(string direccion, int tipoPaquete);
 	void enviarTodosLosClientes(int tipoPaquete, string mensaje);
 	ServidorRed* red;
 

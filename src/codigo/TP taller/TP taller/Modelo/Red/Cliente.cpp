@@ -69,11 +69,7 @@ bool Cliente::recibirDeServidor(){
 				 i+= (2*sizeof(int)) + (4*sizeof(double));
 				 break;
 
-			case paqueteTerreno:
-				//aumenta el i despues.
-				break;
-
-			case paqueteCielo:
+			case paqueteTextura:
 				//aumenta el i despues.
 				break;
 
@@ -114,7 +110,7 @@ bool Cliente::recibirDeServidor(){
 				
 				break;
 
-			case paqueteTerreno:
+			case paqueteTextura:
 				//recibo imagenTierra e Imagen Cielo
 				memcpy(&tamanioImagen, &network_data[i]+sizeof(int), sizeof(int));
 				offset = 2*sizeof(int); // TIPO_PAQUETE+TAMANIO
@@ -125,19 +121,6 @@ bool Cliente::recibirDeServidor(){
 				archTerreno.close();
 				this->escenario->imagenTierra = texturaTerreno;
 				//this->escenario->imagenCielo = texturaCielo;
-				i+= (2*sizeof(int))+tamanioImagen;
-				break;
-
-			case paqueteCielo:
-				//recibo Imagen Cielo
-				memcpy(&tamanioImagen, &network_data[i]+sizeof(int), sizeof(int));
-				offset = 2*sizeof(int); // TIPO_PAQUETE+TAMANIO
-				archTerreno.open(texturaCielo, std::ofstream::binary);
-				archTerreno.seekp(0, ios::beg);
-				cout<<tamanioImagen<<endl;
-				archTerreno.write(&network_data[i]+offset, tamanioImagen);
-				archTerreno.close();
-				this->escenario->imagenCielo = texturaCielo;
 				i+= (2*sizeof(int))+tamanioImagen;
 				break;
 
