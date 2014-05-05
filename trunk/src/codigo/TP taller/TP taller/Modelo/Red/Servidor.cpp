@@ -251,3 +251,30 @@ void Servidor::recibirDeClientes()
 
 	delete paquete;
 }
+
+void Servidor::enviarImagen(string direccion, int tipoPaquete){
+
+	char *newfilename;
+	unsigned int size;     //file size
+	ifstream infile(direccion, ios::in|ios::binary);
+	infile.seekg (0, ios::end);
+	size = infile.tellg();
+	infile.seekg (0, ios::beg);
+	cout << size << endl;
+	newfilename = new char[size];  
+	infile.read (newfilename, size);
+	infile.close();
+	int tamanioPaqueteImagen = ( 2*sizeof(int) ) + size;
+	char *dataImagen = new char[tamanioPaqueteImagen];
+
+	int offset = 0;
+	memcpy(dataImagen+offset, &tipoPaquete, sizeof(int)); //TIPO
+	offset += sizeof(int);
+	memcpy(dataImagen+offset, &size, sizeof(size));	//TAMANIO DE LA IMAGEN
+	offset += sizeof(size);
+	memcpy(dataImagen+offset, newfilename, size); //IMAGEN
+
+	Servicio::enviarMensaje(clientes[cliente_id].socket, dataImagen, tamanioPaqueteImagen);
+	delete dataImagen;
+
+}

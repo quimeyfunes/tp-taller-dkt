@@ -115,8 +115,7 @@
 	const unsigned paqueteFinal=6;
 	const unsigned paqueteDescargaLista=7;
 	const unsigned paqueteEscenario=8;
-	const unsigned paqueteTerreno=9;
-	const unsigned paqueteCielo=10;
+	const unsigned paqueteTextura=9;
 
 	#define MAX_PACKET_SIZE 1000000
 
