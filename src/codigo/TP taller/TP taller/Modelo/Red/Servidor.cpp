@@ -152,28 +152,58 @@ void Servidor::recibirDeClientes()
 
 							//AHORA ENVIO LAS IMAGENES DEL TERRENO Y EL CIELITO LINDO:
 							char *newfilename;
-							unsigned long iFileSize = 0;
 							unsigned int size;     //file size
 							//mascara1.png tiene q estar en la altura de
 							ifstream infile(texturaTerreno, ios::in|ios::binary);
 							infile.seekg (0, ios::end);
 							size = infile.tellg();
 							infile.seekg (0, ios::beg);
+							cout << size << endl;
 							newfilename = new char[size];  
 							infile.read (newfilename, size);
 							infile.close();
-							int tamanioPaqueteImagen = 2*sizeof(int)+size;
-							char *Paqueteimagen = new char[tamanioPaqueteImagen];
+							int tamanioPaqueteImagen = ( 2*sizeof(int) ) + size;
+							char *dataImagen = new char[tamanioPaqueteImagen];
 
 							offset = 0;
-							memcpy(data+offset, &paqueteImagen, sizeof(int)); //TIPO
-							offset = sizeof(int);
-							memcpy(data+offset, &size, sizeof(size));	//TAMANIO DE LA IMAGEN
+							memcpy(dataImagen+offset, &paqueteTerreno, sizeof(int)); //TIPO
+							offset += sizeof(int);
+							memcpy(dataImagen+offset, &size, sizeof(size));	//TAMANIO DE LA IMAGEN
 							offset += sizeof(size);
-							memcpy(data+offset, newfilename, size); //TERRENO
+							memcpy(dataImagen+offset, newfilename, size); //TERRENO
 
-							Servicio::enviarMensaje(clientes[cliente_id].socket, Paqueteimagen, tamanioPaqueteImagen);
-							
+
+							Servicio::enviarMensaje(clientes[cliente_id].socket, dataImagen, tamanioPaqueteImagen);
+							delete dataImagen;
+
+							//AHORA EL CIELOO------------------------------------------
+							char *cielo;
+							unsigned int sizeCielo;     //file size
+							//mascara1.png tiene q estar en la altura de
+							ifstream archCielo(texturaCielo, ios::in|ios::binary);
+							archCielo.seekg (0, ios::end);
+							sizeCielo = archCielo.tellg();
+							archCielo.seekg (0, ios::beg);
+							cout << sizeCielo << endl;
+							cielo = new char[size];  
+							archCielo.read (newfilename, size);
+							archCielo.close();
+							int tamanioPaqueteImagenCielo = ( 2*sizeof(int) ) + sizeCielo;
+							char *dataImagenCielo = new char[tamanioPaqueteImagen];
+
+							offset = 0;
+							memcpy(dataImagenCielo+offset, &paqueteCielo, sizeof(int)); //TIPO
+							offset += sizeof(int);
+							memcpy(dataImagenCielo+offset, &size, sizeof(sizeCielo));	//TAMANIO DE LA IMAGEN
+							offset += sizeof(sizeCielo);
+							memcpy(dataImagenCielo+offset, cielo, sizeCielo); //CIELO
+
+
+							Servicio::enviarMensaje(clientes[cliente_id].socket, dataImagenCielo, tamanioPaqueteImagenCielo);
+							delete dataImagen;
+							//TERMINO EL CIELO---------------------------------------------------------------------------------
+
+
 							//----------------------------------------------------------------------------------------------------------------------------
 							enviarPaquete(clientes[cliente_id].socket, paqueteDescargaLista, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
