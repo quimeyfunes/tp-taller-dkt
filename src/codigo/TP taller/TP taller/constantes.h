@@ -115,7 +115,7 @@
 	const unsigned paqueteFinal=6;
 	const unsigned paqueteDescargaLista=7;
 	const unsigned paqueteEscenario=8;
-	const unsigned paqueteImagenes=9;
+	const unsigned paqueteImagen=9;
 	#define MAX_PACKET_SIZE 1000000
 
 	//Serializacion

@@ -150,6 +150,31 @@ void Servidor::recibirDeClientes()
 							offset += sizeof(escenario->nivelAgua);
 							
 							Servicio::enviarMensaje(clientes[cliente_id].socket, data, peso);
+
+							//AHORA ENVIO LAS IMAGENES DEL TERRENO Y EL CIELITO LINDO:
+							char *newfilename;
+							unsigned long iFileSize = 0;
+							unsigned int size;     //file size
+							//mascara1.png tiene q estar en la altura de
+							ifstream infile(texturaTerreno, ios::in|ios::binary);
+							infile.seekg (0, ios::end);
+							size = infile.tellg();
+							infile.seekg (0, ios::beg);
+							newfilename = new char[size];  
+							infile.read (newfilename, size);
+							infile.close();
+							int tamanioPaqueteImagen = 2*sizeof(int)+size;
+							char *Paqueteimagen = new char[tamanioPaqueteImagen];
+
+							offset = 0;
+							memcpy(data+offset, &paqueteImagen, sizeof(int)); //TIPO
+							offset = sizeof(int);
+							memcpy(data+offset, &size, sizeof(size));	//TAMANIO DE LA IMAGEN
+							offset += sizeof(size);
+							memcpy(data+offset, newfilename, size); //TERRENO
+
+							Servicio::enviarMensaje(clientes[cliente_id].socket, Paqueteimagen, tamanioPaqueteImagen);
+							
 							//----------------------------------------------------------------------------------------------------------------------------
 							enviarPaquete(clientes[cliente_id].socket, paqueteDescargaLista, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;

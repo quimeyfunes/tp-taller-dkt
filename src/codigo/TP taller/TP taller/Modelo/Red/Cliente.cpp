@@ -46,7 +46,7 @@ bool Cliente::recibirDeServidor(){
 	Paquete* paquete = new Paquete();
     // get data from server
     int data_length = red->recibirData(network_data);
-
+	fstream archTerreno;
 		
 	int tipoPaquete;
 
@@ -92,11 +92,15 @@ bool Cliente::recibirDeServidor(){
 				
 				break;
 
-			case paqueteImagenes:
+			case paqueteImagen:
 				//recibo imagenTierra e Imagen Cielo
-
+				offset = 2*sizeof(int); // TIPO_PAQUETE+TAMANIO
+				archTerreno.open(texturaTerreno, std::ofstream::binary);
+				archTerreno.seekp(0, ios::beg);
+				archTerreno.write(network_data+offset, paquete->getTamanio());
+				archTerreno.close();
 				this->escenario->imagenTierra = texturaTerreno;
-				this->escenario->imagenCielo = texturaCielo;
+				//this->escenario->imagenCielo = texturaCielo;
 				break;
 
 			case paqueteDescargaLista:
