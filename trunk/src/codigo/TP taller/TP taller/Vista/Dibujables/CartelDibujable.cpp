@@ -5,10 +5,10 @@ CartelDibujable::CartelDibujable(void)
 {
 }
 
-CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF)
+CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF, string nombre)
 	: DibujableTextura(renderer, rect, pathImagen, pathDEF)
 {
-	this->texto = "Rasta";
+	this->texto = nombre;
 	this->font = TTF_OpenFont(rutaFuente , 25);
 	this->textColor.b = 0;
 	this->textColor.g = 0;

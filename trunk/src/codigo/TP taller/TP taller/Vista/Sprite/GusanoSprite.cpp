@@ -8,7 +8,7 @@ GusanoSprite::GusanoSprite(void)
 	this->imagen = NULL;
 }
 
-GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex): DibujableTextura(){
+GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex, string nombre): DibujableTextura(){
 
 	this->numCuadros = col*fil;
 	this->velocidadRefresco = timeGusanoQuieto;
@@ -38,13 +38,14 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	this->contIzq = 0;
 	this->contDer = 0;
 	this->contFrent = 0;
+	this->contMuerte = 0;
 	this->estado = IZQ;
 	
 	SDL_Rect rectCart = rect;
 	rectCart.w = rect.w;
 	rectCart.h = rect.h / 4;
 	//this->cartel = NULL;
-	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF);
+	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF, nombre);
 }
 
 GusanoSprite::~GusanoSprite(void)
@@ -98,15 +99,15 @@ void GusanoSprite::actualizar(Observable* observable) {
 					this->estado = IZQ;
 				}
 			}
-		} else {
-			this->velocidadRefresco = timeGrave;
-			this->contIzq = 0;
-			this->contDer = 0;
-			this->contFrent = 0;
-			this->contMuerte++;
-			this->actualizarFrame();
-			this->estado = MUERTO;	
-		}
+	} else {
+		this->velocidadRefresco = timeGrave;
+		this->contIzq = 0;
+		this->contDer = 0;
+		this->contFrent = 0;
+		this->contMuerte++;
+		this->actualizarFrame();
+		this->estado = MUERTO;	
+	}
 
 	SDL_Rect rect = this->rect;
 	rect.x = (fig->getPosicion().x * relacionPPU) - rect.w /2;

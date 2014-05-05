@@ -141,7 +141,7 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 				bool cambIzq = gusano->hayCambioImgIzq();
 				bool cambDer = gusano->hayCambioImgDer();
 
-				GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600);
+				GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, this->cliente->getUserName());
 				gusano2->setFrame(frame);
 				gusano2->setCambiarImgIzq(cambIzq);
 				gusano2->setCambiarImgDer(cambDer);

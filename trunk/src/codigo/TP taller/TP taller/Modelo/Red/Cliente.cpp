@@ -165,3 +165,7 @@ void Cliente::actualizar()
 		recibirDeServidor();
 		if(activo)enviarEstado();
 }
+
+string Cliente::getUserName(){
+	return this->username;
+}

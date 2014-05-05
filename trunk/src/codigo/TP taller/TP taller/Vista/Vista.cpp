@@ -65,8 +65,8 @@ GusanoSprite* Vista::crearGusanoSprite(int x, int y, int anchoFrame, int altoFra
 	recFrame.y = y;
 	recFrame.w = anchoFrame;
 	recFrame.h = altoFrame;
-
-	GusanoSprite* sprite = new GusanoSprite(this->renderer, recFrame, path, col, fil, anchoTex, altoTex);
+	//Hardcodeo el nombre, nose si se va a seguir usando igual esto
+	GusanoSprite* sprite = new GusanoSprite(this->renderer, recFrame, path, col, fil, anchoTex, altoTex, "Rasta");
 	CartelDibujable* dib2 = sprite->getCartel();
 
 	this->agregarDibujable(sprite);	

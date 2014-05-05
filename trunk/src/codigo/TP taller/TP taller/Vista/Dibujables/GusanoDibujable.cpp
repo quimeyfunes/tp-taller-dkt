@@ -14,7 +14,7 @@ GusanoDibujable::GusanoDibujable(SDL_Renderer* renderer, SDL_Rect rect,string pa
 	rectCart.w = rect.w;
 	rectCart.h = rect.h / 4;
 
-	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF);
+	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF,"rasta" );
 	
 }
 
