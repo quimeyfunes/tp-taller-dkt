@@ -20,6 +20,7 @@ private:
 	int tipo;
 	bool movimientoDer;
 	bool movimientoIzq;
+	bool muerto;
 
 public:
 
@@ -39,6 +40,8 @@ public:
 	int getTipo();
 	virtual bool meClickeo(float x, float y);
 	virtual void simularAgua(int nivelAgua);
+	bool estaMuerto();
+	void setMuerto(bool estado);
 	~Figura();
 };
 

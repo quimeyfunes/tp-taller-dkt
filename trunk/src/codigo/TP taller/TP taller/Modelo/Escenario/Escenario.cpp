@@ -63,6 +63,7 @@ void Escenario::notificar() {
 	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		(*it)->notificar();
 	}
+
 	this->saltar();
 	this->moverDerecha();
 	this->moverIzquierda();

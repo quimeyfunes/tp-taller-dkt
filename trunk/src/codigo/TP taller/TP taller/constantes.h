@@ -22,6 +22,7 @@
 	#define rutaCartel "imagenes/texturas/cartel.png"
 	#define rutaCartelDEF "imagenes/texturas/cartelDefault.png"
 	#define rutaFuente "fuentes/acme.ttf"
+	#define rutaGrave "imagenes/texturas/grave.png"
 
 	const int timeStepOlas = 30;
 	const int timeStepNubes = 25;
@@ -32,6 +33,7 @@
 	//Para gusanos
 	const int timeGusanoQuieto = 100;
 	const int timeGusanoMovil = 20;
+	const int timeGrave = 40;
 	const int gusanosPorPersonaje = 1;
 
 	//Relacion Pixel por Unidad

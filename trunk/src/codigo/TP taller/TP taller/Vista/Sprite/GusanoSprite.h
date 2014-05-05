@@ -24,7 +24,8 @@
 typedef enum{
 	IZQ,
 	DER,
-}ESTADO_ANTERIOR;
+	MUERTO,
+}ESTADO;
 
 class GusanoSprite: public DibujableTextura, public Observador{
 private:
@@ -38,7 +39,8 @@ private:
 	int contIzq;
 	int contDer;
 	int contFrent;
-	ESTADO_ANTERIOR estado;
+	int contMuerte;
+	ESTADO estado;
 	CartelDibujable* cartel;
 
 public:

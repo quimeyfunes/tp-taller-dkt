@@ -65,36 +65,48 @@ GusanoSprite::~GusanoSprite(void)
 void GusanoSprite::actualizar(Observable* observable) {
 
 	Figura* fig = (Figura*)observable;
-	//No se mueve
-	if ( !(fig->seMueveALaDer() ) && !(fig->seMueveALaIzq()) ) {
-		this->contFrent++;
-		this->contIzq = 0;
-		this->contDer = 0;
-		this->setCambiarImgDer(false);
-		this->setCambiarImgIzq(false);
-		this->velocidadRefresco = timeGusanoQuieto;
-		this->actualizarFrame();
-	} else {
-		this->velocidadRefresco = timeGusanoMovil;
-		if ((fig->seMueveALaDer())){
-				this->contIzq = 0;
-				this->contFrent = 0;
-				this->contDer++;
-				this->setCambiarImgDer(true);
-				this->setCambiarImgIzq(false);
-				this->actualizarFrame();
-				this->estado = DER;
+	
+	if (!(fig->estaMuerto())){
+		this->contMuerte = 0;
+		//No se mueve
+		if ( !(fig->seMueveALaDer() ) && !(fig->seMueveALaIzq()) ) {
+			this->contFrent++;
+			this->contIzq = 0;
+			this->contDer = 0;
+			this->setCambiarImgDer(false);
+			this->setCambiarImgIzq(false);
+			this->velocidadRefresco = timeGusanoQuieto;
+			this->actualizarFrame();
 		} else {
-			//Se mueve a la izquierda
+			this->velocidadRefresco = timeGusanoMovil;
+				if ((fig->seMueveALaDer())){
+					this->contIzq = 0;
+					this->contFrent = 0;
+					this->contDer++;
+					this->setCambiarImgDer(true);
+					this->setCambiarImgIzq(false);
+					this->actualizarFrame();
+					this->estado = DER;
+				} else {
+					//Se mueve a la izquierda
+					this->contDer = 0;
+					this->contFrent = 0;
+					this->contIzq++;
+					this->setCambiarImgDer(false);
+					this->setCambiarImgIzq(true);
+					this->actualizarFrame();
+					this->estado = IZQ;
+				}
+			}
+		} else {
+			this->velocidadRefresco = timeGrave;
+			this->contIzq = 0;
 			this->contDer = 0;
 			this->contFrent = 0;
-			this->contIzq++;
-			this->setCambiarImgDer(false);
-			this->setCambiarImgIzq(true);
+			this->contMuerte++;
 			this->actualizarFrame();
-			this->estado = IZQ;
-		 }
-	}
+			this->estado = MUERTO;	
+		}
 
 	SDL_Rect rect = this->rect;
 	rect.x = (fig->getPosicion().x * relacionPPU) - rect.w /2;
@@ -111,20 +123,32 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 
 	SDL_Rect rect = this->rect;
 
-	if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent == 1) ){
-		this->setFrame(0);
-		if (this->estado == IZQ)
-			this->setImagen(renderer, spriteWormIzq);
-		else
-			this->setImagen(renderer, spriteWormDer);
+	if ((this->estado == MUERTO) && (this->contMuerte == 1)){
+		this->setImagen(renderer, rutaGrave);
+	} else {
+		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent == 1) ){
+			this->setFrame(0);
+				if (this->estado == IZQ)
+					this->setImagen(renderer, spriteWormIzq);
+				else
+					this->setImagen(renderer, spriteWormDer);
+		}
+		if ( (this->hayCambioImgDer()) && (this->contDer == 1 ) ){
+			if (this->estado == MUERTO){
+				this->setImagen(renderer, rutaGrave);
+			} else {
+				this->setImagen(renderer, rutaGusanoDer);
+			}
+		}
+		if ( (this->hayCambioImgIzq())  && (this->contIzq == 1) ){
+			if (this->estado == MUERTO){
+				this->setImagen(renderer, rutaGrave);
+			} else {
+				this->setImagen(renderer, rutaGusanoIzq);
+			}
+		}
 	}
-	if ( (this->hayCambioImgDer()) && (this->contDer == 1 ) ){
-		this->setImagen(renderer, rutaGusanoDer);
-	}
-	if ( (this->hayCambioImgIzq())  && (this->contIzq == 1) ){
-		this->setImagen(renderer, rutaGusanoIzq);
-	}
-
+	
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
 		rect = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
 		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame], &rect);

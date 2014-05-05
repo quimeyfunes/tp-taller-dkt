@@ -11,8 +11,6 @@ GusanoDibujable::GusanoDibujable(SDL_Renderer* renderer, SDL_Rect rect,string pa
 	this->contFrent = 0;
 
 	SDL_Rect rectCart = rect;
-	//rectCart.x = rect.x - rect.w / 2;
-	//rectCart.y = rect.y - 40;
 	rectCart.w = rect.w;
 	rectCart.h = rect.h / 4;
 
@@ -72,7 +70,6 @@ void GusanoDibujable::actualizar(Observable* observable) {
 void GusanoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
 	
 	SDL_Rect rect = this->rect;
-	//cout<<"X"<<rect.x + rect.w/2<<"  Y:  "<<rect.y + rect.h/2<<endl;
 	rect.x -= corrimientoX;
 	rect.y -= corrimientoY;
 
