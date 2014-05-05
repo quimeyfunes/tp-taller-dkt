@@ -117,6 +117,7 @@
 	const unsigned paqueteEscenario=8;
 	const unsigned paqueteTerreno=9;
 	const unsigned paqueteCielo=10;
+
 	#define MAX_PACKET_SIZE 1000000
 
 	//Serializacion
