@@ -25,7 +25,7 @@ Figura::Figura(float x, float y, short int rotacion, b2World* world, bool estati
 	this->body = world->CreateBody(&myBodyDef);
 	this->movimientoDer = false;
 	this->movimientoIzq = false;
-
+	this->muerto = false;
 }
 
 void Figura::quieto(){
@@ -103,3 +103,10 @@ void Figura::simularAgua(int nivelAgua){
 	}
 }
 
+bool Figura::estaMuerto(){
+	return this->muerto;
+}
+
+void Figura::setMuerto(bool estado){
+	this->muerto = estado;
+}
