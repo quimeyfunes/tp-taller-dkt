@@ -117,8 +117,7 @@ void Servidor::recibirDeClientes()
 							this->clientes[cliente_id].username = paquete->getMensaje();
 							this->clientes[cliente_id].time = time(NULL);
 							this->clientes[cliente_id].socket = red->sessions.at(0);
-							
-						
+					
 						//	unsigned long iFileSize = 0;
 						//	long size;
 						//	ifstream infile(texturaTerreno, ios::in|ios::binary);
@@ -205,12 +204,13 @@ void Servidor::recibirDeClientes()
                     printf("Error en el tipo de paquete.\n");
                     break;
             }
+
         }
     }
 
 	for(int i=0; i< MAX_CLIENTES; i++){
 		if(clientes[i].activo){
-			if(time(NULL) - clientes[i].time > 1){	//1 segundo de espera
+			if(time(NULL) - clientes[i].time > 2){	//2 segundos de espera
 				clientes[i].activo=false;
 				clientes[i].socket = INVALID_SOCKET;
 				cout<<clientes[i].username<<" se ha desconectado."<<endl;
