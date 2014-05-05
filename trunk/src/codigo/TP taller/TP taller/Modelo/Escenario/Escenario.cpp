@@ -18,20 +18,12 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->puedeMoverseIzquierda = false;
 	this->puedeSaltar = false;
 
-	/*this->puedeMoverseArribaClientes = make_vector<bool>();
-	this->puedeMoverseDerechaClientes = boleanos;
-	this->puedeMoverseIzquierdaClientes = boleanos;
-	this->puedeSaltarClientes = boleanos;*/
 	for(int i=0; i < 4; i++){
 		this->figurasActivas.push_back(NULL);
 		this->puedeMoverseArribaClientes.push_back(false);
 		this->puedeMoverseDerechaClientes.push_back(false);
 		this->puedeMoverseIzquierdaClientes.push_back(false);
 		this->puedeSaltarClientes.push_back(false);
-		/*this->puedeMoverseArribaClientes[i] = false;
-		this->puedeMoverseDerechaClientes[i] = false;
-		this->puedeMoverseIzquierdaClientes[i] = false;
-		this->puedeSaltarClientes[i] = false;*/
 	}
 }
 
@@ -106,9 +98,14 @@ Gusano* Escenario::crearGusano(ObjetoParseado objeto){
 
 Gusano* Escenario::crearGusanoParaJugador(){
 	//La posiciones tiene que ser sobre el terreno, aleatoria
-	Gusano* gusano = new Gusano(25,100,0,this->world,false,15,20,10);
+	int verticesCount = terreno->getBody()->GetFixtureList()->GetShape()->GetChildCount();
+	int index = rand()%verticesCount;
+	b2Vec2 vec = ((b2ChainShape*)terreno->getBody()->GetFixtureList()->GetShape())->m_vertices[index];
+	Gusano* gusano = new Gusano(vec.x,vec.y,0,this->world,false,15,20,10);
 	if (this->haySuperposicion(gusano) || this->haySuperposicionConTerreno(gusano)){
 		//Si hay superposicion creo en otra posicion;
+		delete gusano;
+		return this->crearGusanoParaJugador();
 	}
 	else {
 		this->agregarFigura(gusano);
@@ -288,6 +285,7 @@ void Escenario::clickCliente(int cliente,list<Figura*> figurasCliente,float x, f
 	//Recorro solo las figuras del cliente
 	for (std::list<Figura*>::const_iterator it = figurasCliente.begin(); it != figurasCliente.end(); it++) {
 		if ((*it)->meClickeo(x,y)) {
+			printf("cliente %d clickeo uno de sus gusanos.\n",cliente);
 			this->figurasActivas[cliente] = (*it);
 			return;
 		}
