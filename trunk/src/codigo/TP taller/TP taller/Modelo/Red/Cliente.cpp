@@ -46,9 +46,10 @@ bool Cliente::recibirDeServidor(){
 	Paquete* paquete = new Paquete();
     // get data from server
     int data_length = red->recibirData(network_data);
-	fstream archTerreno;
+	ofstream archTerreno;
 		
 	int tipoPaquete;
+	int tamanioImagen;
 
     if (data_length <= 0) 
     {
@@ -62,15 +63,36 @@ bool Cliente::recibirDeServidor(){
 		//obtengo el tipo del paquete
 		//si tipo = 1 es un arreglo de ints del Escenario
 		memcpy(&tipoPaquete, &network_data[i], sizeof(int));
+		switch (tipoPaquete) {
 
-		if(tipoPaquete != paqueteInicial){
+			case paqueteInicial:
+				 i+= (2*sizeof(int)) + (4*sizeof(double));
+				 break;
+
+			case paqueteTerreno:
+				//aumenta el i despues.
+				break;
+
+			case paqueteCielo:
+				//aumenta el i despues.
+				break;
+
+			default:
+				paquete->deserializar(&(network_data[i]));
+				i += paquete->getPesoPaquete();	//devuelve sizeof(tipoPaquete) + sizeof(tamanioMensaje) + strlen(mensaje)
+				break;
+		}
+
+		/*
+		if(tipoPaquete != paqueteInicial && tipoPaquete != paqueteImagen ){
 			paquete->deserializar(&(network_data[i]));
 			i += paquete->getPesoPaquete();	//devuelve sizeof(tipoPaquete) + sizeof(tamanioMensaje) + strlen(mensaje)
 		}
 		else{
-			i+= (2*sizeof(int)) + (4*sizeof(double));	//2 ints: TIPO, NIVELAGUA		
-		}												//4 doubles: ALTOPX, ANCHOPX, ALTOU, ANCHOU	
+			if(tipoPaquete == paqueteInicial) i+= (2*sizeof(int)) + (4*sizeof(double));	//2 ints: TIPO, NIVELAGUA; 4 doubles: ALTOPX, ANCHOPX, ALTOU, ANCHOU	
+		}
 			
+		*/
 
 		switch (tipoPaquete) {
 
@@ -92,15 +114,31 @@ bool Cliente::recibirDeServidor(){
 				
 				break;
 
-			case paqueteImagen:
+			case paqueteTerreno:
 				//recibo imagenTierra e Imagen Cielo
+				memcpy(&tamanioImagen, &network_data[i]+sizeof(int), sizeof(int));
 				offset = 2*sizeof(int); // TIPO_PAQUETE+TAMANIO
 				archTerreno.open(texturaTerreno, std::ofstream::binary);
 				archTerreno.seekp(0, ios::beg);
-				archTerreno.write(network_data+offset, paquete->getTamanio());
+				cout<<tamanioImagen<<endl;
+				archTerreno.write(&network_data[i]+offset, tamanioImagen);
 				archTerreno.close();
 				this->escenario->imagenTierra = texturaTerreno;
 				//this->escenario->imagenCielo = texturaCielo;
+				i+= (2*sizeof(int))+tamanioImagen;
+				break;
+
+			case paqueteCielo:
+				//recibo Imagen Cielo
+				memcpy(&tamanioImagen, &network_data[i]+sizeof(int), sizeof(int));
+				offset = 2*sizeof(int); // TIPO_PAQUETE+TAMANIO
+				archTerreno.open(texturaCielo, std::ofstream::binary);
+				archTerreno.seekp(0, ios::beg);
+				cout<<tamanioImagen<<endl;
+				archTerreno.write(&network_data[i]+offset, tamanioImagen);
+				archTerreno.close();
+				this->escenario->imagenCielo = texturaCielo;
+				i+= (2*sizeof(int))+tamanioImagen;
 				break;
 
 			case paqueteDescargaLista:
