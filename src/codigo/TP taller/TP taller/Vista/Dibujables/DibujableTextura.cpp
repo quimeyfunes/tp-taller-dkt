@@ -85,7 +85,7 @@ void DibujableTextura::deserealizar(string aDeserealizar){
 }
 
 void DibujableTextura::setImagen(SDL_Renderer* renderer, string path){
-
+	SDL_DestroyTexture(this->imagen);
 	this->imagen = IMG_LoadTexture(renderer, path.c_str());
 	if(!imagen){
 		Logger::getLogger()->escribir("No se encontró la textura " + path + ". Se usará la textura por defecto.");
