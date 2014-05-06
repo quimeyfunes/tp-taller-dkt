@@ -49,7 +49,9 @@ bool Cliente::recibirDeServidor(){
 	ofstream archTerreno;
 		
 	int tipoPaquete;
-	int tamanioImagen;
+	unsigned int tamanioImagen;
+	char* dir = new char[200];
+	
 
     if (data_length <= 0) 
     {
@@ -70,7 +72,7 @@ bool Cliente::recibirDeServidor(){
 				 break;
 
 			case paqueteTextura:
-				//aumenta el i despues.
+				Sleep(30);//aumenta el i despues.
 				break;
 
 			default:
@@ -111,22 +113,26 @@ bool Cliente::recibirDeServidor(){
 				break;
 
 			case paqueteTextura:
-				//recibo imagenTierra e Imagen Cielo
+				//RECIBE TODAS LAS TEXTURAS
 				memcpy(&tamanioImagen, &network_data[i]+sizeof(int), sizeof(int));
 				offset = 2*sizeof(int); // TIPO_PAQUETE+TAMANIO
-				archTerreno.open(texturaTerreno, std::ofstream::binary);
+
+				strcpy(dir,&network_data[i]+offset);
+				offset += strlen(dir)+1;
+				
+				archTerreno.open(dir, std::ofstream::binary);
 				archTerreno.seekp(0, ios::beg);
-				cout<<tamanioImagen<<endl;
 				archTerreno.write(&network_data[i]+offset, tamanioImagen);
 				archTerreno.close();
-				this->escenario->imagenTierra = texturaTerreno;
-				//this->escenario->imagenCielo = texturaCielo;
-				i+= (2*sizeof(int))+tamanioImagen;
+				
+				i+= offset+tamanioImagen;
 				break;
 
 
 			case paqueteDescargaLista:
-
+				//ya termino de recibir las texturas
+				this->escenario->imagenTierra = texturaTerreno;
+				this->escenario->imagenCielo = texturaCielo;
 				cout<<paquete->getMensaje();
 				this->activo = true;
 				delete paquete;
