@@ -167,6 +167,7 @@ void Servidor::recibirDeClientes()
 							cliente_id++;
 							//delete terreno;
 							delete data;
+							delete buscador;
 
 						}else{
 																	//si no hay lugar, lo saco
