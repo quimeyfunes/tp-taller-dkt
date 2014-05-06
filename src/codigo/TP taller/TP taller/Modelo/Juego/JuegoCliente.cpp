@@ -11,7 +11,7 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	this->evento = new SDL_Event();
 
 	while(this->cliente->recibirDeServidor());	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
-
+	
 	this->e = cliente->getEscenarioActual();
 	this->vista = new Vista(e);
 	agregarTexturas(e);
