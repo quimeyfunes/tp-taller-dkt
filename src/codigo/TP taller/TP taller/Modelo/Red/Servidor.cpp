@@ -2,6 +2,7 @@
 #include <iostream>
 #include <time.h>
 #include <fstream>
+#include "../BuscadorArchivos.h"
 
 unsigned int Servidor::cliente_id; 
 
@@ -151,8 +152,15 @@ void Servidor::recibirDeClientes()
 							Servicio::enviarMensaje(clientes[cliente_id].socket, data, peso);
 
 							//AHORA ENVIO LAS TEXTURAS:
-							enviarImagen(texturaTerreno,paqueteTextura);
+							//enviarImagen(texturaTerreno,paqueteTextura);
 
+							BuscadorArchivos *buscador = new BuscadorArchivos("imagenes/texturas/","*.png");
+							vector<archivo*>* imagenes = buscador->buscarTodos();
+							for(int i=0;i<imagenes->size(); i++){
+								enviarImagen(( imagenes->at(i)->rutaCompleta ), paqueteTextura );
+								Sleep(20);
+							}
+							Sleep(500);
 							//----------------------------------------------------------------------------------------------------------------------------
 							enviarPaquete(clientes[cliente_id].socket, paqueteDescargaLista, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
@@ -209,21 +217,22 @@ void Servidor::enviarImagen(string direccion, int tipoPaquete){
 	infile.seekg (0, ios::end);
 	size = infile.tellg();
 	infile.seekg (0, ios::beg);
-	cout << size << endl;
 	newfilename = new char[size];  
 	infile.read (newfilename, size);
 	infile.close();
-	int tamanioPaqueteImagen = ( 2*sizeof(int) ) + size;
+	//el Tamanio del paquete es: TIPO_PAQUETE + TAMANIO_IMAGEN + DIRECCION + IMAGEN 
+	int tamanioPaqueteImagen = ( 2*sizeof(int) ) + strlen(direccion.c_str())+1 + size;
 	char *dataImagen = new char[tamanioPaqueteImagen];
 
 	int offset = 0;
 	memcpy(dataImagen+offset, &tipoPaquete, sizeof(int)); //TIPO
 	offset += sizeof(int);
-	memcpy(dataImagen+offset, &size, sizeof(size));	//TAMANIO DE LA IMAGEN
-	offset += sizeof(size);
+	memcpy(dataImagen+offset, &size, sizeof(int));	//TAMANIO DE LA IMAGEN
+	offset += sizeof(int);
+	strcpy(dataImagen+offset, direccion.c_str());	//DIRECCION DE LA IMAGEN
+	offset += strlen(direccion.c_str())+1;
 	memcpy(dataImagen+offset, newfilename, size); //IMAGEN
 
 	Servicio::enviarMensaje(clientes[cliente_id].socket, dataImagen, tamanioPaqueteImagen);
 	delete dataImagen;
-
 }
