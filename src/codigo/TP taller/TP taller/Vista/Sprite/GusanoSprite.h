@@ -42,6 +42,7 @@ private:
 	int contMuerte;
 	ESTADO estado;
 	CartelDibujable* cartel;
+	string nombre;
 
 public:
 	GusanoSprite(void);
@@ -61,6 +62,7 @@ public:
 	bool hayCambioImgIzq();
 	~GusanoSprite(void);
 	CartelDibujable* getCartel();
+	string getNombre();
 };
 
 #endif
