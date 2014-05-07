@@ -58,8 +58,8 @@ bool Gusano::puedeSaltar(){
 }
 
 void Gusano::simularAgua(int nivelAgua){
-	if (this->getPosicion().y + altoGusano/2 > nivelAgua){
-		this->getBody()->SetType(b2_staticBody);
+	if (this->getPosicion().y - altoGusano/2 > nivelAgua){
+		//this->getBody()->SetType(b2_staticBody);
 		this->setMuerto(true);
 	}
 }
