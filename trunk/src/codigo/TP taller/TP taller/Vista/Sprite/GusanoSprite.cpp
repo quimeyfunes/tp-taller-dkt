@@ -46,6 +46,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	rectCart.h = rect.h / 4;
 	//this->cartel = NULL;
 	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF, this->nombre);
+	this->mostrarCartel =false;
 }
 
 GusanoSprite::~GusanoSprite(void)
@@ -65,7 +66,7 @@ GusanoSprite::~GusanoSprite(void)
 
 void GusanoSprite::actualizar(Observable* observable) {
 
-	Figura* fig = (Figura*)observable;
+	Gusano* fig = (Gusano*)observable;
 	
 	if (!(fig->estaMuerto())){
 		this->contMuerte = 0;
@@ -118,6 +119,12 @@ void GusanoSprite::actualizar(Observable* observable) {
 	rectCartel.x = (fig->getPosicion().x * relacionPPU) - rectCartel.w / 2;
 	rectCartel.y = ((fig->getPosicion().y * relacionPPU) - rect.h / 2) - alturaCartel;
 	this->cartel->setRect(rectCartel);
+
+	if (fig->getMeClickearon()) {
+		this->mostrarCartel = true;
+	} else {
+		this->mostrarCartel = false;
+	}
 }
 
 void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
@@ -157,6 +164,10 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 		rect.x -=corrimientoX;
 		rect.y -=corrimientoY;
 		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame], &rect);
+	}
+
+	if (this->mostrarCartel) {
+		this->cartel->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
 	}
 
 	

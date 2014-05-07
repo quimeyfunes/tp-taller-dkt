@@ -22,6 +22,7 @@ private:
 	int contDer;
 	int contFrent;
 	CartelDibujable* cartel;
+	bool mostrarCartel;
 public:
 	GusanoDibujable();
 	GusanoDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF);
