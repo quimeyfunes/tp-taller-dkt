@@ -60,9 +60,19 @@ bool Gusano::puedeSaltar(){
 }
 
 void Gusano::simularAgua(int nivelAgua){
-	if (this->getPosicion().y - altoGusano/2 > nivelAgua){
-		//this->getBody()->SetType(b2_staticBody);
+	if (this->getPosicion().y > nivelAgua){
+		b2Vec2 velocidad = this->getBody()->GetLinearVelocity();
+		float velocidadY = velocidad.y;
+		if (velocidadY > velocidadAgua) {
+			if (velocidadY * desaceleracionAgua < velocidadAgua)  {
+				velocidadY = velocidadAgua;
+			} else {
+				velocidadY = velocidadY * desaceleracionAgua;
+			}
+		}
+		this->getBody()->SetLinearVelocity(b2Vec2(velocidad.x * desaceleracionAgua,velocidadY));
 		this->setMuerto(true);
+		//this->getBody()->SetType(b2_staticBody);
 	}
 }
 
