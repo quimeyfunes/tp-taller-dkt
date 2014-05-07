@@ -148,7 +148,7 @@ void Juego::leerEvento(){
 					case SOLTARDERECHA:		{this->escenario->derechaCliente(i,false);
 											 this->escenario->reiniciarTeclas();}	break; 
 					case CLICK:	
-						this->escenario->clickCliente(i,this->servidor->clientes[i].figuras,(evento->x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (evento->y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
+						this->escenario->clickCliente(i,this->servidor->clientes[i].figuras, evento->x, evento->y);
 						break;
 				}
 
