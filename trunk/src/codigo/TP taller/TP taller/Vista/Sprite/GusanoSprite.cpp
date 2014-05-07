@@ -40,12 +40,12 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	this->contFrent = 0;
 	this->contMuerte = 0;
 	this->estado = IZQ;
-	
+	this->nombre = nombre;
 	SDL_Rect rectCart = rect;
 	rectCart.w = rect.w;
 	rectCart.h = rect.h / 4;
 	//this->cartel = NULL;
-	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF, nombre);
+	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF, this->nombre);
 }
 
 GusanoSprite::~GusanoSprite(void)
@@ -223,6 +223,12 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::int2string(this->cambiarImgDer);
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->cambiarImgIzq);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->contFrent);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->contMuerte);
+	serializado += separadorCamposEntidades;
+	serializado += this->nombre;
 	return serializado;
 }
 
@@ -241,6 +247,9 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->contIzq = StringUtil::str2int(atributos.at(6));
 	this->cambiarImgDer = StringUtil::str2int(atributos.at(7));
 	this->cambiarImgIzq = StringUtil::str2int(atributos.at(8));
+	this->contFrent = StringUtil::str2int(atributos.at(9));
+	this->contMuerte = StringUtil::str2int(atributos.at(10));
+	this->nombre = atributos.at(11);
 	this->recCuadro = NULL;
 	this->cartel = NULL;
 	this->imagen = NULL;
@@ -248,4 +257,8 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 
 CartelDibujable* GusanoSprite::getCartel(){
 	return this->cartel;
+}
+
+string GusanoSprite::getNombre(){
+	return this->nombre;
 }

@@ -88,7 +88,8 @@ void Juego::chequearNuevosJugadores(){
 					float escalaAlto = relacionPPU;
 					Gusano* worm = escenario->crearGusanoParaJugador();
 					if (worm){
-						GusanoSprite* gusano = vista->crearGusanoSprite( worm->getPosicion().x * escalaAncho, worm->getPosicion().y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600);
+						string nombreGusano = this->servidor->clientes[i].username + " "+StringUtil::int2string(j);
+						GusanoSprite* gusano = vista->crearGusanoSprite( worm->getPosicion().x * escalaAncho, worm->getPosicion().y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600,nombreGusano);
 						worm->agregarObservador(gusano);
 						this->servidor->clientes[i].figuras.push_back(worm);
 					} 
@@ -234,7 +235,7 @@ void Juego::agregarObjetos(){
 			worm = escenario->crearGusano(*it);
 			if (worm){
 				//GusanoDibujable* gusano = vista->crearGusanoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * escalaAncho, (*it).alto * escalaAlto, rutaGusano, rutaGusanoDEF);
-				GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600);
+				GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600,"Rasta");
 				worm->agregarObservador(gusano);
 			} 
 			break;
