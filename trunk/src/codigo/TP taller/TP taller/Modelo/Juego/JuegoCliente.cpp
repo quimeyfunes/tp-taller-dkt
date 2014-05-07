@@ -63,8 +63,9 @@ void JuegoCliente::leerEvento(){
 			SDL_GetMouseState(&x,&y);
 
 			e->accion = accion;
-			e->x = x;
-			e->y = y;
+			 
+			e->x = (x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom());
+			e->y = (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom());
 			this->cliente->enviarEvento(e->serializar());
 			delete e;
 		}
