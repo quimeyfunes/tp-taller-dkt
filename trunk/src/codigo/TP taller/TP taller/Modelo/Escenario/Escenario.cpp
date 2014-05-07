@@ -272,7 +272,7 @@ std::stringstream Escenario::getMensajeSuperposicionTerreno(int linea){
 
 void Escenario::click(float x, float y){
 	for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
-		if ((*it)->meClickeo(x,y)) {
+		if ((*it)->meClickeo(x,y) && !(*it)->estaMuerto()) {
 			if (this->gusanoActivo != NULL) {
 				this->gusanoActivo->setMeClickearon(false);
 			}

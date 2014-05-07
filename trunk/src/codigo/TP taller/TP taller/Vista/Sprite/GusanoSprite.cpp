@@ -166,7 +166,7 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame], &rect);
 	}
 
-	if (this->mostrarCartel) {
+	if (this->mostrarCartel && this->estado != MUERTO) {
 		this->cartel->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
 	}
 
