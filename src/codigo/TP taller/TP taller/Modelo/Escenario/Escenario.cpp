@@ -12,11 +12,10 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	b2Vec2* gravity = new b2Vec2(gravedadX, gravedadY);
 	this->world = new b2World(*gravity);
 
-	this->figuraActiva = NULL;
+	this->gusanoActivo = NULL;
 	this->puedeMoverseArriba = false;
 	this->puedeMoverseDerecha = false;
 	this->puedeMoverseIzquierda = false;
-	this->puedeSaltar = false;
 
 	for(int i=0; i < 4; i++){
 		this->figurasActivas.push_back(NULL);
@@ -64,9 +63,7 @@ void Escenario::notificar() {
 		(*it)->notificar();
 	}
 
-	this->saltar();
-	this->moverDerecha();
-	this->moverIzquierda();
+	this->moverse();
 
 	this->saltarClientes();
 	this->moverDerechaClientes();
@@ -276,7 +273,11 @@ std::stringstream Escenario::getMensajeSuperposicionTerreno(int linea){
 void Escenario::click(float x, float y){
 	for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		if ((*it)->meClickeo(x,y)) {
-			this->figuraActiva = (*it);
+			if (this->gusanoActivo != NULL) {
+				this->gusanoActivo->setMeClickearon(false);
+			}
+			this->gusanoActivo = (Gusano*)(*it);
+			this->gusanoActivo->setMeClickearon(true);
 			return;
 		}
 	}
@@ -293,17 +294,12 @@ void Escenario::clickCliente(int cliente,list<Figura*> figurasCliente,float x, f
 	}
 }
 
-
 void Escenario::arriba(bool arriba){
 	this->puedeMoverseArriba = arriba;
 }
 
 void Escenario::arribaCliente(int cliente ,bool arriba){
 	this->puedeMoverseArribaClientes[cliente] = arriba;
-}
-
-void Escenario::setPuedeSaltar(bool puedeSaltar) {
-	this->puedeSaltar = puedeSaltar;
 }
 
 void Escenario::setPuedeSaltarCliente(int cliente,bool puedeSaltar) {
@@ -326,10 +322,18 @@ void Escenario::derechaCliente(int cliente,bool derecha){
 	this->puedeMoverseDerechaClientes[cliente] = derecha;
 }
 
+void Escenario::moverse(){
+	if ((this->gusanoActivo != NULL) && !(this->gusanoActivo->estaMuerto())) {
+		this->saltar();
+		this->moverDerecha();
+		this->moverIzquierda();
+	}
+}
+
 void Escenario::saltar(){
-	if ((this->figuraActiva != NULL) && ((Gusano*)this->figuraActiva)->puedeSaltar() && (this->puedeMoverseArriba) && !(((Gusano*)this->figuraActiva)->estaMuerto())) {
-		b2Body* cuerpo = this->figuraActiva->getBody();
-		cuerpo->SetLinearVelocity(b2Vec2(cuerpo->GetLinearVelocity().x,-25));
+	if (this->gusanoActivo->puedeSaltar() && (this->puedeMoverseArriba)) {
+		b2Body* cuerpo = this->gusanoActivo->getBody();
+		cuerpo->SetLinearVelocity(b2Vec2(0,-25));
 		//cuerpo->ApplyLinearImpulse(b2Vec2(0,-100),this->figuraActiva->getPosicion(),true);
 	}
 }
@@ -345,11 +349,11 @@ void Escenario::saltarClientes(){
 }
 
 void Escenario::moverIzquierda(){
-	if ((this->figuraActiva != NULL) && (this->puedeMoverseIzquierda) && !(((Gusano*)this->figuraActiva)->estaMuerto())) {
-		b2Body* cuerpo = this->figuraActiva->getBody();
+	if (this->puedeMoverseIzquierda) {
+		b2Body* cuerpo = this->gusanoActivo->getBody();
 		cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
-		this->figuraActiva->setMovimientoIzq(true);
-		this->figuraActiva->setMovimientoDer(false);
+		this->gusanoActivo->setMovimientoIzq(true);
+		this->gusanoActivo->setMovimientoDer(false);
 	}
 }
 
@@ -365,13 +369,12 @@ void Escenario::moverIzquierdaClientes(){
 	}
 }
 
-
 void Escenario::moverDerecha(){
-	if ((this->figuraActiva != NULL) && (this->puedeMoverseDerecha) && !(((Gusano*)this->figuraActiva)->estaMuerto())) {
-		b2Body* cuerpo = this->figuraActiva->getBody();
+	if (this->puedeMoverseDerecha) {
+		b2Body* cuerpo = this->gusanoActivo->getBody();
 		cuerpo->SetLinearVelocity(b2Vec2(5,cuerpo->GetLinearVelocity().y));
-		this->figuraActiva->setMovimientoDer(true);
-		this->figuraActiva->setMovimientoIzq(false);
+		this->gusanoActivo->setMovimientoDer(true);
+		this->gusanoActivo->setMovimientoIzq(false);
 	}
 }
 
@@ -387,9 +390,8 @@ void Escenario::moverDerechaClientes(){
 	}
 }
 
-
 Figura* Escenario::getFiguraActiva(){
-	return this->figuraActiva;
+	return this->gusanoActivo;
 }
 
 vector<Figura*> Escenario::getFigurasActivas(){

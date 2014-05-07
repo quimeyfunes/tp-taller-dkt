@@ -66,11 +66,9 @@ GusanoSprite* Vista::crearGusanoSprite(int x, int y, int anchoFrame, int altoFra
 	recFrame.w = anchoFrame;
 	recFrame.h = altoFrame;
 	//Hardcodeo el nombre, nose si se va a seguir usando igual esto
-	GusanoSprite* sprite = new GusanoSprite(this->renderer, recFrame, path, col, fil, anchoTex, altoTex, nombre);
-	CartelDibujable* dib2 = sprite->getCartel();
-	this->agregarDibujable(sprite);	
-	this->agregarDibujable(dib2);
-	return sprite;
+	GusanoSprite* gusano = new GusanoSprite(this->renderer, recFrame, path, col, fil, anchoTex, altoTex, nombre);
+	this->agregarDibujable(gusano);	
+	return gusano;
 }
 
 DibujableTextura* Vista::crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF) {

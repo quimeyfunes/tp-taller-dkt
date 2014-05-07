@@ -42,6 +42,7 @@ private:
 	int contMuerte;
 	ESTADO estado;
 	CartelDibujable* cartel;
+	bool mostrarCartel;
 	string nombre;
 
 public:
