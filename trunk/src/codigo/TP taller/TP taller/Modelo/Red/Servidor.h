@@ -1,5 +1,5 @@
 #include "ServidorRed.h"
-#include "../Figuras/Figura.h"
+#include "../Figuras/Gusano.h"
 #include "../../Parser/yaml/ParserYaml.h"
 
 class Servidor
@@ -22,13 +22,12 @@ public:
 	   int time;
 	   SOCKET socket;
 	   bool activo;
-	   list<Figura*> figuras;
+	   list<Gusano*> figuras;
 	   string ultimoEventoSerializado;
 	   //Sesion* sesion;
    }cliente;
 
 	cliente* clientes;
-	int MAX_CLIENTES;
 private:
 
    // IDs for the clients connecting for table in ServerNetwork 

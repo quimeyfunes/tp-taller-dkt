@@ -33,16 +33,9 @@ private:
 	int frame;
 	int numCuadros;
 	int velocidadRefresco;
-	int contador;
 	bool cambiarImgDer;
 	bool cambiarImgIzq;
-	int contIzq;
-	int contDer;
-	int contFrent;
-	int contMuerte;
-	ESTADO estado;
 	CartelDibujable* cartel;
-	bool mostrarCartel;
 	string nombre;
 
 public:
@@ -64,6 +57,13 @@ public:
 	~GusanoSprite(void);
 	CartelDibujable* getCartel();
 	string getNombre();
+	int contador;
+	int contIzq;
+	int contDer;
+	int contFrent;
+	int contMuerte;
+	ESTADO estado;
+	bool mostrarCartel;
 };
 
 #endif

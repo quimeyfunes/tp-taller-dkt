@@ -17,7 +17,7 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->puedeMoverseDerecha = false;
 	this->puedeMoverseIzquierda = false;
 
-	for(int i=0; i < 4; i++){
+	for(int i=0; i < MAXIMOS_CLIENTES; i++){
 		this->figurasActivas.push_back(NULL);
 		this->puedeMoverseArribaClientes.push_back(false);
 		this->puedeMoverseDerechaClientes.push_back(false);
@@ -64,10 +64,7 @@ void Escenario::notificar() {
 	}
 
 	this->moverse();
-
-	this->saltarClientes();
-	this->moverDerechaClientes();
-	this->moverIzquierdaClientes();
+	this->moverseClientes();
 }
 
 Gusano* Escenario::crearGusano(ObjetoParseado objeto){
@@ -283,12 +280,17 @@ void Escenario::click(float x, float y){
 	}
 }
 
-void Escenario::clickCliente(int cliente,list<Figura*> figurasCliente,float x, float y){
+void Escenario::clickCliente(int cliente,list<Gusano*> figurasCliente,float x, float y){
 	//Recorro solo las figuras del cliente
-	for (std::list<Figura*>::const_iterator it = figurasCliente.begin(); it != figurasCliente.end(); it++) {
-		if ((*it)->meClickeo(x,y)) {
+	for (std::list<Gusano*>::const_iterator it = figurasCliente.begin(); it != figurasCliente.end(); it++) {
+		if ((*it)->meClickeo(x,y) && !(*it)->estaMuerto()) {
 			printf("cliente %d clickeo uno de sus gusanos.\n",cliente);
 			this->figurasActivas[cliente] = (*it);
+			if (this->figurasActivas[cliente] != NULL) {
+				this->figurasActivas[cliente]->setMeClickearon(false);
+			}
+			this->figurasActivas[cliente] = (Gusano*)(*it);
+			this->figurasActivas[cliente]->setMeClickearon(true);
 			return;
 		}
 	}
@@ -330,6 +332,17 @@ void Escenario::moverse(){
 	}
 }
 
+
+void Escenario::moverseClientes(){
+	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+		if ((this->figurasActivas[i] != NULL) && !(this->figurasActivas[i]->estaMuerto())) {
+			this->saltarClientes();
+			this->moverDerechaClientes();
+			this->moverIzquierdaClientes();
+		}
+	}
+}
+
 void Escenario::saltar(){
 	if (this->gusanoActivo->puedeSaltar() && (this->puedeMoverseArriba)) {
 		b2Body* cuerpo = this->gusanoActivo->getBody();
@@ -339,8 +352,7 @@ void Escenario::saltar(){
 }
 
 void Escenario::saltarClientes(){
-	//Hay que cambiar 4 por cantidad maxima de clientes
-	for(int i=0; i < 4; i++){
+	for(int i=0; i < MAXIMOS_CLIENTES; i++){
 		if ((this->figurasActivas[i] != NULL) && ((Gusano*)this->figurasActivas[i])->puedeSaltar() && (this->puedeMoverseArribaClientes[i])) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(cuerpo->GetLinearVelocity().x,-25));
@@ -358,8 +370,7 @@ void Escenario::moverIzquierda(){
 }
 
 void Escenario::moverIzquierdaClientes(){
-	//Hay que cambiar 4 por cantidad maxima de clientes
-	for(int i=0; i < 4; i++){
+	for(int i=0; i < MAXIMOS_CLIENTES; i++){
 		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseIzquierdaClientes[i])) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
@@ -379,8 +390,7 @@ void Escenario::moverDerecha(){
 }
 
 void Escenario::moverDerechaClientes(){
-	//Hay que cambiar 4 por cantidad maxima de clientes
-	for(int i=0; i < 4; i++){
+	for(int i=0; i < MAXIMOS_CLIENTES; i++){
 		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseDerechaClientes[i])) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
@@ -394,6 +404,6 @@ Figura* Escenario::getFiguraActiva(){
 	return this->gusanoActivo;
 }
 
-vector<Figura*> Escenario::getFigurasActivas(){
+vector<Gusano*> Escenario::getFigurasActivas(){
 	return this->figurasActivas;
 }
