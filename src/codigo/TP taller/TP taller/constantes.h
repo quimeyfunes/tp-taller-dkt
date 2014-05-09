@@ -120,6 +120,7 @@
 	const unsigned paqueteTextura=9;
 
 	#define MAX_PACKET_SIZE 1000000
+	#define MAXIMOS_CLIENTES 4
 
 	//Serializacion
 	const char separadorCamposEntidades = '#';

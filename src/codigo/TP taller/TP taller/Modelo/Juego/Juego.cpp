@@ -79,7 +79,7 @@ string Juego::crearLista(int &tamanio){
 }
 
 void Juego::chequearNuevosJugadores(){
-	for(int i=0; i< this->servidor->MAX_CLIENTES; i++){
+	for(int i=0; i< MAXIMOS_CLIENTES; i++){
 		if(this->servidor->clientes[i].activo){
 			if(this->servidor->clientes[i].figuras.size() == 0){
 				//Si el cliente esta activo y no tiene figuras es porque acaba de conectarse. Le asigno gusanos
@@ -127,7 +127,7 @@ void Juego::leerEvento(){
 	
 	
 	//Lector de eventos de los clientes. Lo anterior lo dejo para que siga funcionando mover en el servidor
-	for(int i=0; i< this->servidor->MAX_CLIENTES; i++){
+	for(int i=0; i< MAXIMOS_CLIENTES; i++){
 		if(this->servidor->clientes[i].activo){
 			//Si el cliente esta activo chequeo eventos
 			string ultimoEvento = this->servidor->clientes[i].ultimoEventoSerializado;

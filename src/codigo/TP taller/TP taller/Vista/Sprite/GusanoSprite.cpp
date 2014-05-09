@@ -240,6 +240,13 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::int2string(this->contMuerte);
 	serializado += separadorCamposEntidades;
 	serializado += this->nombre;
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->contador);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->estado);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->mostrarCartel);
+	
 	return serializado;
 }
 
@@ -261,6 +268,9 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->contFrent = StringUtil::str2int(atributos.at(9));
 	this->contMuerte = StringUtil::str2int(atributos.at(10));
 	this->nombre = atributos.at(11);
+	this->contador = StringUtil::str2int(atributos.at(12));
+	this->estado = (ESTADO)StringUtil::str2int(atributos.at(13));
+	this->mostrarCartel = StringUtil::str2int(atributos.at(14));
 	this->recCuadro = NULL;
 	this->cartel = NULL;
 	this->imagen = NULL;

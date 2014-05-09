@@ -139,15 +139,21 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 				GusanoSprite* gusano = new GusanoSprite();
 				gusano->deserealizar(entidadSerializada);
 				int frame = gusano->getFrame();
-				bool cambIzq = gusano->hayCambioImgIzq();
-				bool cambDer = gusano->hayCambioImgDer();
 
 				GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, gusano->getNombre());
 				gusano2->setFrame(frame);
-				gusano2->setCambiarImgIzq(cambIzq);
-				gusano2->setCambiarImgDer(cambDer);
+				gusano2->setCambiarImgIzq(gusano->hayCambioImgIzq());
+				gusano2->setCambiarImgDer(gusano->hayCambioImgDer());
+				gusano2->contDer = gusano->contDer;
+				gusano2->contIzq = gusano->contIzq;
+				gusano2->contFrent = gusano->contFrent;
+				gusano2->contMuerte = gusano->contMuerte;
+				gusano2->contador = gusano->contador;
+				gusano2->estado = gusano->estado;
+				gusano2->mostrarCartel = gusano->mostrarCartel;
+
 				lista->push_back(gusano2);
-				lista->push_back(gusano2->getCartel());
+				//lista->push_back(gusano2->getCartel());
 				delete gusano;
 				break;
 			}

@@ -9,10 +9,9 @@ unsigned int Servidor::cliente_id;
 Servidor::Servidor(void){
     // id's to assign clients for our table
     cliente_id = 0;
-	MAX_CLIENTES = 4;
 	clienteEnEspera = false;
-	this->clientes = new cliente[MAX_CLIENTES +1];
-	for(int i=0; i<MAX_CLIENTES +1; i++){
+	this->clientes = new cliente[MAXIMOS_CLIENTES +1];
+	for(int i=0; i<MAXIMOS_CLIENTES +1; i++){
 		this->clientes[i].activo=false;
 		this->clientes[i].time=0;
 		this->clientes[i].username= "";
@@ -27,7 +26,7 @@ Servidor::Servidor(void){
 void Servidor::actualizar() 
 {
 	if(red->aceptarNuevoCliente()){
-		this->clientes[MAX_CLIENTES].socket = red->sessions.at(0); //es el cliente en espera
+		this->clientes[MAXIMOS_CLIENTES].socket = red->sessions.at(0); //es el cliente en espera
 	}
 
 	recibirDeClientes();
@@ -66,14 +65,14 @@ void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, char* mensaje){
 }
 
 void Servidor::enviarTodosLosClientes(int tipoPaquete, string mensaje){
-	for(int i=0; i < MAX_CLIENTES +1; i++){
+	for(int i=0; i < MAXIMOS_CLIENTES +1; i++){
 		enviarPaquete(clientes[i].socket, tipoPaquete, mensaje);
 	}
 }
 
 int Servidor::buscarCliente(string nombre){
 
-	for(int i=0; i< MAX_CLIENTES; i++){
+	for(int i=0; i< MAXIMOS_CLIENTES; i++){
 		if(clientes[i].username == nombre) return i;
 	}
 	return -1;
@@ -86,7 +85,7 @@ void Servidor::recibirDeClientes()
     //std::map<unsigned int, SOCKET>::iterator iter;
 
     //for(iter = red->sessions.begin(); iter != red->sessions.end(); iter++)
-	for(int i=0; i < MAX_CLIENTES +1; i++)
+	for(int i=0; i < MAXIMOS_CLIENTES +1; i++)
     {
         // get data for that client
         int data_length = 0;
@@ -112,7 +111,7 @@ void Servidor::recibirDeClientes()
 							enviarPaquete(clientes[i].socket, paqueteFinal, "Ya existe otro usuario con su nombre.");
 						}
 					}else{											//si no existe username, tengo que ver si hay lugar para uno nuevo
-						if(cliente_id < MAX_CLIENTES){				//si hay lugar 
+						if(cliente_id < MAXIMOS_CLIENTES){				//si hay lugar 
 							
 							this->clientes[cliente_id].activo=true;			//le asigno un espacio y doy la bienvenida
 							this->clientes[cliente_id].username = paquete->getMensaje();
@@ -196,7 +195,7 @@ void Servidor::recibirDeClientes()
         }
     }
 
-	for(int i=0; i< MAX_CLIENTES; i++){
+	for(int i=0; i< MAXIMOS_CLIENTES; i++){
 		if(clientes[i].activo){
 			if(time(NULL) - clientes[i].time > 2){	//2 segundos de espera
 				clientes[i].activo=false;

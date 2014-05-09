@@ -30,7 +30,7 @@ private:
 	Terreno* terreno;
 	//Es la del servidor
 	Gusano* gusanoActivo;
-	vector<Figura*> figurasActivas;
+	vector<Gusano*> figurasActivas;
 	bool puedeMoverseArriba; 
 	bool puedeMoverseIzquierda;
 	bool puedeMoverseDerecha;
@@ -66,7 +66,7 @@ public:
 	Terreno* getTerreno();
 	void setTerreno(Terreno* terreno);
 	void click(float x, float y);
-	void clickCliente(int cliente, list<Figura*> figurasCliente, float x, float y);
+	void clickCliente(int cliente, list<Gusano*> figurasCliente, float x, float y);
 	void arriba(bool arriba);
 	void arribaCliente(int cliente, bool arriba);
 	void setPuedeSaltarCliente(int cliente,bool puedeSaltar);
@@ -75,13 +75,14 @@ public:
 	void derecha(bool derecha);	
 	void derechaCliente(int cliente, bool derecha);	
 	void moverse();
+	void moverseClientes();
 	void saltar();
 	void moverIzquierda();
 	void moverDerecha();
 	void saltarClientes();
 	void moverIzquierdaClientes();
 	void moverDerechaClientes();
-	vector<Figura*> getFigurasActivas();
+	vector<Gusano*> getFigurasActivas();
 	//Es la del servidor
 	Figura* getFiguraActiva();
 	void inicializarCliente(int cliente);
