@@ -393,7 +393,7 @@ void Escenario::moverDerechaClientes(){
 	for(int i=0; i < MAXIMOS_CLIENTES; i++){
 		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseDerechaClientes[i])) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
-			cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
+			cuerpo->SetLinearVelocity(b2Vec2(5,cuerpo->GetLinearVelocity().y));
 			this->figurasActivas[i]->setMovimientoDer(true);
 			this->figurasActivas[i]->setMovimientoIzq(false);
 		}
