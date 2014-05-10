@@ -55,9 +55,9 @@ GusanoSprite::~GusanoSprite(void)
 		delete []this->recCuadro;
 	}
 
-	/*if(this->cartel != NULL){
+	if(this->cartel != NULL){
 		delete this->cartel;
-	}*/
+	}
 	if(this->imagen != NULL){
 		SDL_DestroyTexture(this->imagen);
 		this->imagen = NULL;
