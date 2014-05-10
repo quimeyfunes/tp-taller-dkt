@@ -14,6 +14,7 @@ CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string p
 	this->textColor.g = 0;
 	this->textColor.r = 0;
 	this->surf =  TTF_RenderText_Solid(this->font, this->texto.c_str() , this->textColor);
+	SDL_DestroyTexture(this->imagen);
 	this->imagen = SDL_CreateTextureFromSurface( renderer, this->surf );
 	SDL_FreeSurface(this->surf);
 
@@ -42,7 +43,7 @@ CartelDibujable::~CartelDibujable(void)
 		TTF_CloseFont( this->font );
 		this->font = NULL;
 	}
-	
+
 	if(this->imagen != NULL){
 		SDL_DestroyTexture(this->imagen);
 		this->imagen = NULL;
