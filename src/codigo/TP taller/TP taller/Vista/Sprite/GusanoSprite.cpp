@@ -128,27 +128,26 @@ void GusanoSprite::actualizar(Observable* observable) {
 }
 
 void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
-
 	SDL_Rect rect = this->rect;
 
-	if ((this->estado == MUERTO) && (this->contMuerte == 1)){
+	if ((this->estado == MUERTO) && (this->contMuerte >= 1)){
 		this->setImagen(renderer, rutaGrave);
 	} else {
-		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent == 1) ){
+		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent >= 1) ){
 			this->setFrame(0);
-				if (this->estado == IZQ)
-					this->setImagen(renderer, spriteWormIzq);
-				else
-					this->setImagen(renderer, spriteWormDer);
+				if (this->estado == IZQ){
+					this->setImagen(renderer, spriteWormIzq);}
+				else{
+					this->setImagen(renderer, spriteWormDer);}
 		}
-		if ( (this->hayCambioImgDer()) && (this->contDer == 1 ) ){
+		if ( (this->hayCambioImgDer()) && (this->contDer >= 1 ) ){
 			if (this->estado == MUERTO){
 				this->setImagen(renderer, rutaGrave);
 			} else {
 				this->setImagen(renderer, rutaGusanoDer);
 			}
 		}
-		if ( (this->hayCambioImgIzq())  && (this->contIzq == 1) ){
+		if ( (this->hayCambioImgIzq())  && (this->contIzq >= 1) ){
 			if (this->estado == MUERTO){
 				this->setImagen(renderer, rutaGrave);
 			} else {
@@ -243,9 +242,22 @@ string GusanoSprite::serializar(){
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->contador);
 	serializado += separadorCamposEntidades;
-	serializado += StringUtil::int2string(this->estado);
+	
+	int estadoNumero = 1;
+	if(this->estado == DER){
+		estadoNumero = 2;
+	}
+	else if( this->estado == MUERTO){
+		estadoNumero = 3;
+	}
+	serializado += StringUtil::int2string(estadoNumero);
+
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->mostrarCartel);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->velocidadRefresco);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->numCuadros);
 	
 	return serializado;
 }
@@ -263,14 +275,40 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->setRect(rectAux);
 	this->contDer = StringUtil::str2int(atributos.at(5));
 	this->contIzq = StringUtil::str2int(atributos.at(6));
-	this->cambiarImgDer = StringUtil::str2int(atributos.at(7));
-	this->cambiarImgIzq = StringUtil::str2int(atributos.at(8));
+
+	bool camb = false;
+	int cambNumero = StringUtil::str2int(atributos.at(7));
+	if(cambNumero > 0){
+		camb = true;
+	}
+	this->cambiarImgDer = camb;
+	
+	camb = false;
+	cambNumero = StringUtil::str2int(atributos.at(8));
+	if(cambNumero > 0){
+		camb = true;
+	}
+	this->cambiarImgIzq = camb;
+
 	this->contFrent = StringUtil::str2int(atributos.at(9));
 	this->contMuerte = StringUtil::str2int(atributos.at(10));
 	this->nombre = atributos.at(11);
 	this->contador = StringUtil::str2int(atributos.at(12));
-	this->estado = (ESTADO)StringUtil::str2int(atributos.at(13));
+
+	int estadoNumero = StringUtil::str2int(atributos.at(13));
+	if(estadoNumero == 1){
+		this->estado = IZQ;
+	}
+	else if(estadoNumero == 2){
+		this->estado = DER;
+	}
+	else if(estadoNumero == 3){
+		this->estado = MUERTO;
+	}	
+
 	this->mostrarCartel = StringUtil::str2int(atributos.at(14));
+	this->velocidadRefresco = StringUtil::str2int(atributos.at(15));
+	this->numCuadros = StringUtil::str2int(atributos.at(16));
 	this->recCuadro = NULL;
 	this->cartel = NULL;
 	this->imagen = NULL;

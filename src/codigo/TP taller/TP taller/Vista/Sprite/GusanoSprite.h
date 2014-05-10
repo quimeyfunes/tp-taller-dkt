@@ -31,8 +31,6 @@ class GusanoSprite: public DibujableTextura, public Observador{
 private:
 	SDL_Rect* recCuadro;
 	int frame;
-	int numCuadros;
-	int velocidadRefresco;
 	bool cambiarImgDer;
 	bool cambiarImgIzq;
 	CartelDibujable* cartel;
@@ -64,6 +62,8 @@ public:
 	int contMuerte;
 	ESTADO estado;
 	bool mostrarCartel;
+	int velocidadRefresco;
+	int numCuadros;
 };
 
 #endif

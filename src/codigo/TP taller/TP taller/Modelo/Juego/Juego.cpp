@@ -20,7 +20,7 @@ Juego::Juego(string texto){
 	ResolverContacto* resolverContacto = new ResolverContacto();
 	this->mundo->SetContactListener(resolverContacto);
 	agregarTexturas(e);
-	agregarObjetos();
+	//agregarObjetos();
 	agregarAgua(e);
 }
 
