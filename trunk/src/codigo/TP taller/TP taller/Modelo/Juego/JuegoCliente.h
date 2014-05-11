@@ -23,7 +23,7 @@ private:
 	Escenario* escenario;
 	SDL_Event* evento;*/
 
-	EscenarioParseado* e;
+	EscenarioParseado* esc;
 	static Cliente* cliente;
 	list<Dibujable*>* dibujablesBase;
 	void reiniciar();

@@ -12,10 +12,10 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 
 	while(this->cliente->recibirDeServidor());	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
 	
-	this->e = cliente->getEscenarioActual();
-	this->vista = new Vista(e);
-	agregarTexturas(e);
-	agregarAgua(e);
+	this->esc = cliente->getEscenarioActual();
+	this->vista = new Vista(esc);
+	agregarTexturas(esc);
+	agregarAgua(esc);
 	this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
 	copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
 	
@@ -199,7 +199,7 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 
 JuegoCliente::~JuegoCliente(){
 
-	//delete this->escenario;
+	delete this->esc;
 	//delete this->evento;
-	//delete Logger::getLogger();
+	delete Logger::getLogger();
 }
