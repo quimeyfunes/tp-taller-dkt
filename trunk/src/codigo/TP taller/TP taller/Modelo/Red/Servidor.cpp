@@ -125,7 +125,7 @@ void Servidor::enviarImagenes(SOCKET sock){
 
 	//envio el .ICO
 	BuscadorArchivos* buscadorICO = new BuscadorArchivos("imagenes/texturas/", "*.ICO");
-	vector<archivo*>* icono = buscador->buscarTodos();
+	vector<archivo*>* icono = buscadorICO->buscarTodos();
 	for(int i=0;i < icono->size(); i++){
 		enviarImagen(( icono->at(i)->rutaCompleta ), paqueteTextura );
 	}
