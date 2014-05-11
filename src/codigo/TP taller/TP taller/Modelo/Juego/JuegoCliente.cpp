@@ -29,8 +29,7 @@ void JuegoCliente::ejecutar(){
 		
 		this->leerEvento();
 		this->cliente->actualizar();
-		string vistaSerializada = this->cliente->vistaSerializada;
-		this->crearLista(vistaSerializada);
+		this->crearLista(this->cliente->vistaSerializada);
 
 		if(simulando){
 			switch(estadoActual){
@@ -40,8 +39,7 @@ void JuegoCliente::ejecutar(){
 			}
 		}
 		vista->Dibujar();
-		SDL_Delay(2);
-
+		SDL_Delay(6);
 	}
 }
 
@@ -139,7 +137,6 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 				GusanoSprite* gusano = new GusanoSprite();
 				gusano->deserealizar(entidadSerializada);
 				int frame = gusano->getFrame();
-				printf("frame es : %d\n",frame);
 				GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, gusano->getNombre());
 				gusano2->setFrame(frame);
 				gusano2->setCambiarImgIzq(gusano->hayCambioImgIzq());
@@ -149,7 +146,6 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 				gusano2->contFrent = gusano->contFrent;
 				gusano2->contMuerte = gusano->contMuerte;
 				gusano2->contador = gusano->contador;
-				printf("contador es : %d\n",gusano->contador);
 				gusano2->estado = gusano->estado;
 				gusano2->mostrarCartel = gusano->mostrarCartel;
 				gusano2->velocidadRefresco = gusano->velocidadRefresco;

@@ -24,8 +24,8 @@
 	#define rutaFuente "fuentes/acme.ttf"
 	#define rutaGrave "imagenes/texturas/grave.png"
 
-	const int timeStepOlas = 30;
-	const int timeStepNubes = 25;
+	const int timeStepOlas = 8;
+	const int timeStepNubes = 10;
 	const int maxColumnasInvalidasMascara = 10;
 
 	const int alturaCartel = 8;
