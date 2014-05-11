@@ -30,6 +30,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	this->getBody()->CreateFixture(&fixtureDefSensor);
 	this->numContactos = 0;
 	this->meClickearon = false;
+	this->congelado = false;
 }
 
 Gusano::~Gusano(void)
@@ -88,4 +89,12 @@ bool Gusano::getMeClickearon() {
 
 void Gusano::setMeClickearon(bool meClickearon){
 	this->meClickearon = meClickearon;
+}
+
+bool Gusano::getCongelado() {
+	return this->congelado;
+}
+
+void Gusano::setCongelado(bool congelado){
+	this->congelado = congelado;
 }

@@ -8,6 +8,7 @@
 #include "../../Parser/yaml/ParserYaml.h"
 #include <string>
 #include "../../Modelo/Red/Serializable.h"
+#include "../../Parser/ParserDeHexARgb.h"
 
 using namespace std;
 
