@@ -40,7 +40,7 @@ void JuegoCliente::ejecutar(){
 			}
 		}
 		vista->Dibujar();
-		SDL_Delay(1);
+		SDL_Delay(2);
 
 	}
 }
