@@ -103,8 +103,8 @@ void Juego::leerEvento(){
                 switch(this->vista->getAccion()){
 
                 case SALIR:                     salir();                                                break;
-                //case JUGAR:                     reiniciar();                                    break;
-                //case PAUSAR:            alternarPausa();                                break;
+                case JUGAR:                     reiniciar();                                    break;
+                case PAUSAR:            alternarPausa();                                break;
                 case ARRIBA:            this->escenario->arriba(true);          break;
                 case IZQUIERDA:         this->escenario->izquierda(true);       break;
                 case DERECHA:           this->escenario->derecha(true);         break; 
@@ -134,8 +134,8 @@ void Juego::leerEvento(){
 				switch(evento->accion){
 
 					case SALIR:			salir();						break;
-					/*case JUGAR:			reiniciar();					break;
-					case PAUSAR:		alternarPausa();				break;*/
+					case JUGAR:			reiniciar();					break;
+					case PAUSAR:		alternarPausa();				break;
 					case ARRIBA:		this->escenario->arribaCliente(i,true);		break;
 					case IZQUIERDA:		this->escenario->izquierdaCliente(i,true);	break;
 					case DERECHA:		this->escenario->derechaCliente(i,true);		break; 
@@ -264,11 +264,8 @@ void Juego::servidorLoop(void * arg)
 
 Juego::~Juego(){
 
-	//delete this->servidor;
-	delete this->escenario;
-	delete this->terreno;
-	delete this->evento;
-	delete Logger::getLogger();
+	//delete this->evento;
+	//delete Logger::getLogger();
 }
 
 
