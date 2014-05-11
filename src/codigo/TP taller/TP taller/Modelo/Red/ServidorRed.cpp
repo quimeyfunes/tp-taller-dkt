@@ -50,8 +50,8 @@ ServidorRed::ServidorRed(void)
         exit(1);
     }
 
-    // Set the mode of the socket to be nonblocking
-    u_long iMode = 1;
+    // socket bloqueante
+    u_long iMode = 0;
     iResult = ioctlsocket(this->socketEscuchador, FIONBIO, &iMode);
 
     if (iResult == SOCKET_ERROR) {

@@ -72,7 +72,7 @@ bool Cliente::recibirDeServidor(){
 				 break;
 
 			case paqueteTextura:
-				Sleep(30);//aumenta el i despues.
+				//aumenta el i despues.
 				break;
 
 			default:

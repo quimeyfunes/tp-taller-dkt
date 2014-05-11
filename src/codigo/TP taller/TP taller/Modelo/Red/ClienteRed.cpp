@@ -82,8 +82,8 @@ ClienteRed::ClienteRed(string ip) {
         exit(1);
     }
 
-	// Set the mode of the socket to be nonblocking
-    u_long iMode = 1;
+	// socket bloqueante
+    u_long iMode = 0; 
 
     iResult = ioctlsocket(this->socketCliente, FIONBIO, &iMode);
     if (iResult == SOCKET_ERROR)
