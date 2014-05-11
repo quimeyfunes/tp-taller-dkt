@@ -50,7 +50,7 @@ void Juego::ejecutar(){
 		}
 		escenario->notificar();
 		dibujablesSerializados = this->crearLista(tamanio);
-	//	vista->Dibujar();
+		vista->Dibujar();
 		SDL_Delay(3);
 	}
 }
