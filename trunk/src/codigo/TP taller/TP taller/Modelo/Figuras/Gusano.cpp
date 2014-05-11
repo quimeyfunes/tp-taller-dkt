@@ -56,7 +56,7 @@ void Gusano::sacarContacto(){
 }
 
 bool Gusano::puedeSaltar(){
-	if (this->numContactos > 0) return true;
+	if (this->numContactos - 6 > 0) return true;
 	return false;
 }
 
