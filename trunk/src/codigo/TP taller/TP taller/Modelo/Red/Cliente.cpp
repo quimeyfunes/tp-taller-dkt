@@ -141,7 +141,7 @@ bool Cliente::recibirDeServidor(){
 
             case paqueteEvento:
 
-				printf("El cliente recibio un paquete evento del servidor.\n");
+				//printf("El cliente recibio un paquete evento del servidor.\n");
 				break;
 
 			case paqueteVista:
