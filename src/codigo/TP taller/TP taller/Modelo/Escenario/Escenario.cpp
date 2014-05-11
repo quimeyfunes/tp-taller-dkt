@@ -284,7 +284,7 @@ void Escenario::clickCliente(int cliente,list<Gusano*> figurasCliente,float x, f
 	//Recorro solo las figuras del cliente
 	for (std::list<Gusano*>::const_iterator it = figurasCliente.begin(); it != figurasCliente.end(); it++) {
 		if ((*it)->meClickeo(x,y) && !(*it)->estaMuerto()) {
-			printf("cliente %d clickeo uno de sus gusanos.\n",cliente);
+			//printf("cliente %d clickeo uno de sus gusanos.\n",cliente);
 			this->figurasActivas[cliente] = (*it);
 			if (this->figurasActivas[cliente] != NULL) {
 				this->figurasActivas[cliente]->setMeClickearon(false);

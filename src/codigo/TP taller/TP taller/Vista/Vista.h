@@ -34,7 +34,7 @@ class Vista
 
 private:
 
-	SDL_Window* window;
+	
 	
 	list<Dibujable*>* listaDibujables;
 	int anchoPx;
@@ -47,6 +47,7 @@ private:
 	float escalaZoom;
 
 public:
+	SDL_Window* window;
 	SDL_Renderer* renderer;
 	Vista(EscenarioParseado* e);
 	Vista();
