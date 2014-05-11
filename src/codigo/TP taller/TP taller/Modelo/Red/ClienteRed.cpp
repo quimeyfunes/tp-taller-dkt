@@ -18,6 +18,7 @@ ClienteRed::ClienteRed(string ip) {
 
     if (iResult != 0) {
         printf("WSAStartup fallo con error: %d\n", iResult);
+		system("PAUSE");
         exit(1);
     }
 
@@ -38,8 +39,9 @@ ClienteRed::ClienteRed(string ip) {
 
     if( iResult != 0 ) 
     {
-        printf("getaddrinfo fallo con error: %d\n", iResult);
+        printf("No se pudo establecer una conexion a esa direccion IP...\n", iResult);
         WSACleanup();
+		system("PAUSE");
         exit(1);
     }
 
@@ -53,6 +55,7 @@ ClienteRed::ClienteRed(string ip) {
         if (this->socketCliente == INVALID_SOCKET) {
             printf("socket fallo con error: %ld\n", WSAGetLastError());
             WSACleanup();
+			system("PAUSE");
             exit(1);
         }
 
@@ -63,7 +66,8 @@ ClienteRed::ClienteRed(string ip) {
         {
             closesocket(this->socketCliente);
             this->socketCliente = INVALID_SOCKET;
-            printf ("El servidor esta caido. No se pudo conectar.");
+            printf ("El servidor esta caido. No se pudo conectar\n.");
+			system("PAUSE");
         }
     }
 
