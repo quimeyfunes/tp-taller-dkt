@@ -157,12 +157,11 @@ void Servidor::recibirDeClientes()
 							vector<archivo*>* imagenes = buscador->buscarTodos();
 							for(int i=0;i<imagenes->size(); i++){
 								enviarImagen(( imagenes->at(i)->rutaCompleta ), paqueteTextura );
-								Sleep(20);
 							}
-							Sleep(500);
 							//----------------------------------------------------------------------------------------------------------------------------
 							enviarPaquete(clientes[cliente_id].socket, paqueteDescargaLista, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
+							clientes[MAXIMOS_CLIENTES].socket=INVALID_SOCKET;
 							cliente_id++;
 							//delete terreno;
 							delete data;
