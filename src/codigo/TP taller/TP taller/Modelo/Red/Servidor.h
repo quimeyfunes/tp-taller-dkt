@@ -2,6 +2,16 @@
 #include "../Figuras/Gusano.h"
 #include "../../Parser/yaml/ParserYaml.h"
 
+typedef struct structCliente{
+	string username;
+	int time;
+	SOCKET socket;
+	bool activo;
+	list<Gusano*> figuras;
+	string ultimoEventoSerializado;
+	//Sesion* sesion;
+}cliente;
+
 class Servidor
 {
 
@@ -10,24 +20,15 @@ public:
     Servidor(void);
     ~Servidor(void);
 	EscenarioParseado* escenario;
-    void actualizar();
+    void actualizar(string dibujablesSerializados);
 	void recibirDeClientes();
 	void enviarAeClientes(char* mensaje);
 	void enviarImagen(string direccion, int tipoPaquete);
 	void enviarTodosLosClientes(int tipoPaquete, string mensaje);
-	ServidorRed* red;
+	static ServidorRed* red;
+	static void aceptarClientes(void* arg);
 
-	typedef struct structCliente{
-	   string username;
-	   int time;
-	   SOCKET socket;
-	   bool activo;
-	   list<Gusano*> figuras;
-	   string ultimoEventoSerializado;
-	   //Sesion* sesion;
-   }cliente;
-
-	cliente* clientes;
+	static cliente* clientes;
 private:
 
    // IDs for the clients connecting for table in ServerNetwork 

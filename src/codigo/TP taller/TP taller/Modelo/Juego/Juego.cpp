@@ -1,12 +1,13 @@
 #include "Juego.h"
 
 Servidor* Juego::servidor = NULL;
+string Juego::dibujablesSerializados;
 
 Juego::Juego(){
 }
 
 Juego::Juego(string texto){
-	this->simulando = false;
+	this->simulando = true;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
 	ParserYaml* parser = ParserYaml::getParser();
@@ -30,7 +31,6 @@ void Juego::ejecutar(){
 
 	 servidor = new Servidor();
 	 int tamanio;
-	 string dibujablesSerializados="";
 	//Creo el trhead con el loop del servidor: en el loop se van a escuchar los clientes y a recibir los mensajes
 	 _beginthread( Juego::servidorLoop, 0, (void*)12);
 	 //_beginthread(Juego::clienteLoop,0, (void*)12);
@@ -49,10 +49,7 @@ void Juego::ejecutar(){
 			}
 		}
 		escenario->notificar();
-
-		////Le envio a todos los clientes los dibujales actualizados
 		dibujablesSerializados = this->crearLista(tamanio);
-		this->servidor->enviarTodosLosClientes(paqueteVista,dibujablesSerializados);
 		vista->Dibujar();
 		SDL_Delay(3);
 	}
@@ -106,8 +103,8 @@ void Juego::leerEvento(){
                 switch(this->vista->getAccion()){
 
                 case SALIR:                     salir();                                                break;
-                case JUGAR:                     reiniciar();                                    break;
-                case PAUSAR:            alternarPausa();                                break;
+                //case JUGAR:                     reiniciar();                                    break;
+                //case PAUSAR:            alternarPausa();                                break;
                 case ARRIBA:            this->escenario->arriba(true);          break;
                 case IZQUIERDA:         this->escenario->izquierda(true);       break;
                 case DERECHA:           this->escenario->derecha(true);         break; 
@@ -258,7 +255,7 @@ void Juego::servidorLoop(void * arg)
     while(true) 
     {
 		//En servidor actualizar se reciben clientes y se escuchan mensajes
-        servidor->actualizar();
+		servidor->actualizar(dibujablesSerializados);
 		//If nuevo cliente -> tengo que agregar un nuevo juegador si no se supero el limite de jugadores
 
 		//If mensaje -> proceso el mensaje: si un jugador apreta boton, tengo que reflejarlo en el juego
