@@ -21,6 +21,7 @@ ServidorRed::ServidorRed(void)
     iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0) {
         printf("WSAStartup fallo con error: %d\n", iResult);
+		system("PAUSE");
         exit(1);
     }
 
@@ -37,6 +38,7 @@ ServidorRed::ServidorRed(void)
     if ( iResult != 0 ) {
         printf("getaddrinfo fallo con error: %d\n", iResult);
         WSACleanup();
+		system("PAUSE");
         exit(1);
     }
 
@@ -46,6 +48,7 @@ ServidorRed::ServidorRed(void)
     if (this->socketEscuchador == INVALID_SOCKET) {
         printf("socket fallo con error: %ld\n", WSAGetLastError());
         freeaddrinfo(result);
+		system("PAUSE");
         WSACleanup();
         exit(1);
     }
@@ -58,6 +61,7 @@ ServidorRed::ServidorRed(void)
         printf("ioctlsocket fallo con error: %d\n", WSAGetLastError());
         closesocket(this->socketEscuchador);
         WSACleanup();
+		system("PAUSE");
         exit(1);
     }
 
@@ -69,6 +73,7 @@ ServidorRed::ServidorRed(void)
         freeaddrinfo(result);
         closesocket(this->socketEscuchador);
         WSACleanup();
+		system("PAUSE");
         exit(1);
     }
 
@@ -82,6 +87,7 @@ ServidorRed::ServidorRed(void)
         printf("listen fallo con error: %d\n", WSAGetLastError());
         closesocket(this->socketEscuchador);
         WSACleanup();
+		system("PAUSE");
         exit(1);
     }
 }
