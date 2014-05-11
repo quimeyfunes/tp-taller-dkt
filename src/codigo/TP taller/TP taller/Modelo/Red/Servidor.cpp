@@ -90,6 +90,50 @@ int Servidor::buscarCliente(string nombre){
 	return -1;
 }
 
+void Servidor::enviarEscenario(SOCKET sock){
+
+		//envio [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA ]
+	int tipoPaquete = 1;
+	int peso = ((2*sizeof(int)) + (4*sizeof(double)));
+	char *data = new char[peso];
+	//cout<<peso<<endl;
+	int offset = 0;
+	memcpy(data+offset, &tipoPaquete, sizeof(tipoPaquete)); //TIPO
+	offset = sizeof(tipoPaquete);
+	memcpy(data+offset, &escenario->altoPx, sizeof(escenario->altoPx));	//altopx
+	offset += sizeof(escenario->altoPx);
+	memcpy(data+offset, &escenario->anchoPx, sizeof(escenario->anchoPx)); //anchopx
+	offset += sizeof(escenario->anchoPx);
+	memcpy(data+offset, &escenario->altoU, sizeof(escenario->altoU));	//altoU
+	offset += sizeof(escenario->altoU);
+	memcpy(data+offset, &escenario->anchoU, sizeof(escenario->anchoU));	//anchoU
+	offset += sizeof(escenario->anchoU);
+	memcpy(data+offset, &escenario->nivelAgua, sizeof(escenario->nivelAgua)); //nivelAgua
+	offset += sizeof(escenario->nivelAgua);
+							
+	Servicio::enviarMensaje(sock, data, peso);
+	delete data;
+}
+
+void Servidor::enviarImagenes(SOCKET sock){
+	
+	BuscadorArchivos *buscador = new BuscadorArchivos("imagenes/texturas/","*.png");
+	vector<archivo*>* imagenes = buscador->buscarTodos();
+	for(int i=0;i<imagenes->size(); i++){
+		enviarImagen(( imagenes->at(i)->rutaCompleta ), paqueteTextura );
+	}
+
+	//envio el .ICO
+	BuscadorArchivos* buscadorICO = new BuscadorArchivos("imagenes/texturas/", "*.ICO");
+	vector<archivo*>* icono = buscador->buscarTodos();
+	for(int i=0;i<imagenes->size(); i++){
+		enviarImagen(( imagenes->at(i)->rutaCompleta ), paqueteTextura );
+	}
+
+	delete buscador;
+	delete buscadorICO;
+}
+
 void Servidor::recibirDeClientes()
 {
     Paquete* paquete = new Paquete();
@@ -117,11 +161,17 @@ void Servidor::recibirDeClientes()
 							clientes[id].activo=true;					//descongelo y doy bienvenida
 							clientes[id].time=time(NULL);
 							clientes[id].socket = red->sessions.at(0);
-							enviarPaquete(clientes[id].socket, paqueteInicial, "Bienvenido de nuevo, "+clientes[id].username+ ".");
+							
+							//le vuelvo a enviar todas las cosas, por si se reconecta en otra pc
+							enviarEscenario(clientes[id].socket);
+							enviarImagenes(clientes[id].socket);
+							enviarPaquete(clientes[id].socket, paqueteDescargaLista, "Bienvenido de nuevo, "+clientes[id].username+ ".");
 							cout<<clientes[id].username<<" se ha reconectado."<<endl;
+
 							for (std::list<Gusano*>::const_iterator it = clientes[id].figuras.begin(); it != clientes[id].figuras.end(); it++) {
-								(*it)->setCongelado(true);
+								(*it)->setCongelado(false);
 							}
+
 						}else{										//si no esta congelado, es xq ya existe un usuario con ese nombre
 							enviarPaquete(clientes[i].socket, paqueteFinal, "Ya existe otro usuario con su nombre.");
 						}
@@ -132,55 +182,13 @@ void Servidor::recibirDeClientes()
 							this->clientes[cliente_id].username = paquete->getMensaje();
 							this->clientes[cliente_id].time = time(NULL);
 							this->clientes[cliente_id].socket = red->sessions.at(0);
-					
-						//	unsigned long iFileSize = 0;
-						//	long size;
-						//	ifstream infile(texturaTerreno, ios::in|ios::binary);
-						//	infile.seekg (0, ios::end);
-						//	size = infile.tellg();
-						////	cout << size << endl;
-						//	infile.seekg (0, ios::beg);
-						//	char *terreno = new char[size];  
-						//	infile.read (terreno, size);
-						//	infile.close();
 
-							//envio [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA ]
-							int tipoPaquete = 1;
-							int peso = ((2*sizeof(int)) + (4*sizeof(double)));
-							char *data = new char[peso];
-							//cout<<peso<<endl;
-							int offset = 0;
-							memcpy(data+offset, &tipoPaquete, sizeof(tipoPaquete)); //TIPO
-							offset = sizeof(tipoPaquete);
-							memcpy(data+offset, &escenario->altoPx, sizeof(escenario->altoPx));	//altopx
-							offset += sizeof(escenario->altoPx);
-							memcpy(data+offset, &escenario->anchoPx, sizeof(escenario->anchoPx)); //anchopx
-							offset += sizeof(escenario->anchoPx);
-							memcpy(data+offset, &escenario->altoU, sizeof(escenario->altoU));	//altoU
-							offset += sizeof(escenario->altoU);
-							memcpy(data+offset, &escenario->anchoU, sizeof(escenario->anchoU));	//anchoU
-							offset += sizeof(escenario->anchoU);
-							memcpy(data+offset, &escenario->nivelAgua, sizeof(escenario->nivelAgua)); //nivelAgua
-							offset += sizeof(escenario->nivelAgua);
-							
-							Servicio::enviarMensaje(clientes[cliente_id].socket, data, peso);
-
-							//AHORA ENVIO LAS TEXTURAS:
-							//enviarImagen(texturaTerreno,paqueteTextura);
-
-							BuscadorArchivos *buscador = new BuscadorArchivos("imagenes/texturas/","*.png");
-							vector<archivo*>* imagenes = buscador->buscarTodos();
-							for(int i=0;i<imagenes->size(); i++){
-								enviarImagen(( imagenes->at(i)->rutaCompleta ), paqueteTextura );
-							}
-							//----------------------------------------------------------------------------------------------------------------------------
+							enviarEscenario(clientes[cliente_id].socket);
+							enviarImagenes(clientes[cliente_id].socket);
 							enviarPaquete(clientes[cliente_id].socket, paqueteDescargaLista, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
-							clientes[MAXIMOS_CLIENTES].socket=INVALID_SOCKET;
+						
 							cliente_id++;
-							//delete terreno;
-							delete data;
-							delete buscador;
 
 						}else{
 																	//si no hay lugar, lo saco
@@ -192,7 +200,7 @@ void Servidor::recibirDeClientes()
 
                 case paqueteEvento:
 
-					printf("El servidor recibio un paquete evento del cliente %i.\n", i);
+					//printf("El servidor recibio un paquete evento del cliente %i.\n", i);
 					clientes[i].ultimoEventoSerializado = paquete->getMensaje();
                     break;
 
@@ -203,7 +211,7 @@ void Servidor::recibirDeClientes()
 
                 default:
 
-                    printf("Error en el tipo de paquete.\n");
+                    //printf("Error en el tipo de paquete.\n");
                     break;
             }
 
@@ -254,4 +262,5 @@ void Servidor::enviarImagen(string direccion, int tipoPaquete){
 
 	Servicio::enviarMensaje(clientes[cliente_id].socket, dataImagen, tamanioPaqueteImagen);
 	delete dataImagen;
+	delete newfilename;
 }
