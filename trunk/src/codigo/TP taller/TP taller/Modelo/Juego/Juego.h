@@ -35,7 +35,7 @@ private:
 
 
 	void agregarObjetos();
-	
+	static string dibujablesSerializados;
 	static void servidorLoop(void * arg);
 	static void clienteLoop(void * arg);
 public:

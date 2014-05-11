@@ -2,9 +2,12 @@
 #include <iostream>
 #include <time.h>
 #include <fstream>
+#include <process.h>
 #include "../BuscadorArchivos.h"
 
 unsigned int Servidor::cliente_id; 
+ServidorRed* Servidor::red;
+cliente* Servidor::clientes;
 
 Servidor::Servidor(void){
     // id's to assign clients for our table
@@ -19,17 +22,26 @@ Servidor::Servidor(void){
 	}
     // set up the server network to listen 
     red = new ServidorRed(); 
-
 	this->escenario = ParserYaml::getParser()->getEscenario();
+
+	//creo un thread q se dedique a escuchar a los clientes entrantes
+	_beginthread(Servidor::aceptarClientes, 0, (void*)12);
 }
 
-void Servidor::actualizar() 
-{
-	if(red->aceptarNuevoCliente()){
-		this->clientes[MAXIMOS_CLIENTES].socket = red->sessions.at(0); //es el cliente en espera
-	}
+void Servidor::aceptarClientes(void* arg){
 
+	while(true){
+		if(red->aceptarNuevoCliente()){
+			clientes[MAXIMOS_CLIENTES].socket = red->sessions.at(0); //es el cliente en espera
+		}
+		Sleep(500);
+	}
+}
+
+void Servidor::actualizar(string dibujablesSerializados) 
+{
 	recibirDeClientes();
+	enviarTodosLosClientes(paqueteVista,dibujablesSerializados);
 }
 
 void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
@@ -65,8 +77,8 @@ void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, char* mensaje){
 }
 
 void Servidor::enviarTodosLosClientes(int tipoPaquete, string mensaje){
-	for(int i=0; i < MAXIMOS_CLIENTES +1; i++){
-		enviarPaquete(clientes[i].socket, tipoPaquete, mensaje);
+	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+		if(clientes[i].socket != INVALID_SOCKET) enviarPaquete(clientes[i].socket, tipoPaquete, mensaje);
 	}
 }
 
@@ -172,6 +184,7 @@ void Servidor::recibirDeClientes()
 							enviarPaquete(clientes[i].socket, paqueteFinal, "Ya se ha alcanzado la cantidad maxima de clientes.");
 						}
 					}
+					clientes[MAXIMOS_CLIENTES].socket = INVALID_SOCKET;
                     break;
 
                 case paqueteEvento:
