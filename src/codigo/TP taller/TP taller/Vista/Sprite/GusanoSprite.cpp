@@ -138,7 +138,7 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 		this->setImagen(renderer, rutaGrave);
 	} else {
 		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent >= 1) ){
-			this->setFrame(0);
+				//this->setFrame(0);
 				if (this->estado == IZQ){
 					this->setImagen(renderer, spriteWormIzq);}
 				else{
@@ -198,13 +198,11 @@ void GusanoSprite::setNumCuadros(int numCuad){
 }
 
 void GusanoSprite::actualizarFrame(){
-
 	this->contador++;
 	if(this->contador >= this->velocidadRefresco){
 			this->frame++;
 			this->contador = 0;
 	}
-
 	if(this->frame >= this->numCuadros) this->frame = 0;
 }
 
