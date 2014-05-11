@@ -125,6 +125,10 @@ void GusanoSprite::actualizar(Observable* observable) {
 	} else {
 		this->mostrarCartel = false;
 	}
+
+	if(fig->getCongelado()){
+		this->setColor(ParserDeHexARgb::parsearDeHexARgb("000000"));
+	}
 }
 
 void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){

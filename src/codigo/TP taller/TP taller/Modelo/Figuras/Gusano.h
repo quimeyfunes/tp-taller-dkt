@@ -13,6 +13,7 @@ class Gusano: public Figura
 private:
 	int numContactos;
 	bool meClickearon;
+	bool congelado;
 public:
 	Gusano();
 	Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa);
@@ -25,6 +26,9 @@ public:
 	void reiniciar();
 	bool getMeClickearon();
 	void setMeClickearon(bool meClickearon);
+	bool getCongelado();
+	void setCongelado(bool congelado);
+	
 };
 
 #endif

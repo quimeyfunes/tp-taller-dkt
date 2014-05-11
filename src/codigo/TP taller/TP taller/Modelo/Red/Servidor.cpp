@@ -119,6 +119,9 @@ void Servidor::recibirDeClientes()
 							clientes[id].socket = red->sessions.at(0);
 							enviarPaquete(clientes[id].socket, paqueteInicial, "Bienvenido de nuevo, "+clientes[id].username+ ".");
 							cout<<clientes[id].username<<" se ha reconectado."<<endl;
+							for (std::list<Gusano*>::const_iterator it = clientes[id].figuras.begin(); it != clientes[id].figuras.end(); it++) {
+								(*it)->setCongelado(true);
+							}
 						}else{										//si no esta congelado, es xq ya existe un usuario con ese nombre
 							enviarPaquete(clientes[i].socket, paqueteFinal, "Ya existe otro usuario con su nombre.");
 						}
@@ -213,6 +216,10 @@ void Servidor::recibirDeClientes()
 				clientes[i].activo=false;
 				clientes[i].socket = INVALID_SOCKET;
 				cout<<clientes[i].username<<" se ha desconectado."<<endl;
+				
+				for (std::list<Gusano*>::const_iterator it = clientes[i].figuras.begin(); it != clientes[i].figuras.end(); it++) {
+					(*it)->setCongelado(true);
+				}
 			}
 		}
 	}
