@@ -17,8 +17,8 @@ class Servidor
 
 public:
 
-    Servidor(void);
-    ~Servidor(void);
+    Servidor();
+    ~Servidor();
 	EscenarioParseado* escenario;
     void actualizar(string dibujablesSerializados);
 	void recibirDeClientes();

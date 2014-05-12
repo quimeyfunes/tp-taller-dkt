@@ -28,13 +28,18 @@ Servidor::Servidor(void){
 	_beginthread(Servidor::aceptarClientes, 0, (void*)12);
 }
 
+Servidor::~Servidor(){
+	_endthread();
+	delete this->clientes;
+
+};
+
 void Servidor::aceptarClientes(void* arg){
 
 	while(true){
 		if(red->aceptarNuevoCliente()){
 			clientes[MAXIMOS_CLIENTES].socket = red->sessions.at(0); //es el cliente en espera
 		}
-		Sleep(500);
 	}
 }
 
@@ -113,6 +118,7 @@ void Servidor::enviarEscenario(int num_cliente){
 	memcpy(data+offset, &num_cliente, sizeof(num_cliente));			//ID_CLIENTE
 							
 	if(clientes[num_cliente].socket != INVALID_SOCKET) Servicio::enviarMensaje(clientes[num_cliente].socket, data, peso);
+	Sleep(10);
 	delete data;
 }
 
@@ -122,6 +128,7 @@ void Servidor::enviarImagenes(SOCKET sock){
 	vector<archivo*>* imagenes = buscador->buscarTodos();
 	for(int i=0;i<imagenes->size(); i++){
 		enviarImagen(( imagenes->at(i)->rutaCompleta ), paqueteTextura );
+		Sleep(20);
 	}
 
 	//envio el .ICO

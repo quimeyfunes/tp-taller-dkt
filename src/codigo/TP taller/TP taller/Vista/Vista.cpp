@@ -195,7 +195,6 @@ bool Vista::leerEvento(SDL_Event* evento) {
 
 		if (evento->type == SDL_MOUSEWHEEL){
 			this->zoom(evento,x,y);
-			cout<<this->escalaZoom<<endl;
 		}
 	}
 	this->validarCorrimiento();
