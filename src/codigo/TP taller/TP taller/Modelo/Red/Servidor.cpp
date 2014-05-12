@@ -136,6 +136,7 @@ void Servidor::enviarImagenes(SOCKET sock){
 	vector<archivo*>* icono = buscadorICO->buscarTodos();
 	for(int i=0;i < icono->size(); i++){
 		enviarImagen(( icono->at(i)->rutaCompleta ), paqueteTextura );
+		Sleep(20);
 	}
 
 	delete buscador;
