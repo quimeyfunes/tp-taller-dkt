@@ -268,7 +268,7 @@ std::stringstream Escenario::getMensajeSuperposicionTerreno(int linea){
 }
 
 void Escenario::click(float x, float y){
-	for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+	/*for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		if ((*it)->meClickeo(x,y) && !(*it)->estaMuerto()) {
 			if (this->gusanoActivo != NULL) {
 				this->gusanoActivo->setMeClickearon(false);
@@ -277,21 +277,30 @@ void Escenario::click(float x, float y){
 			this->gusanoActivo->setMeClickearon(true);
 			return;
 		}
-	}
+	}*/
 }
 
-void Escenario::clickCliente(int cliente,list<Gusano*> figurasCliente,float x, float y){
-	//Recorro solo las figuras del cliente
+void Escenario::clickCliente(int cliente, list<Gusano*> figurasCliente, list<Gusano*> figurasOtrosCliente,float x, float y){
+	//Recorro solo las figuras del cliente para saber si tengo que seleccionar una figura como activa
 	for (std::list<Gusano*>::const_iterator it = figurasCliente.begin(); it != figurasCliente.end(); it++) {
 		if ((*it)->meClickeo(x,y) && !(*it)->estaMuerto()) {
 			//printf("cliente %d clickeo uno de sus gusanos.\n",cliente);
 			this->figurasActivas[cliente] = (*it);
 			if (this->figurasActivas[cliente] != NULL) {
-				this->figurasActivas[cliente]->setMeClickearon(false);
+				this->figurasActivas[cliente]->setMeClickearon(false,cliente);
 			}
 			this->figurasActivas[cliente] = (Gusano*)(*it);
-			this->figurasActivas[cliente]->setMeClickearon(true);
-			return;
+			this->figurasActivas[cliente]->setMeClickearon(true,cliente);
+		}
+	}
+
+	//Recorro el resto de las figuras
+	for (std::list<Gusano*>::const_iterator it = figurasOtrosCliente.begin(); it != figurasOtrosCliente.end(); it++) {
+		if ((*it)->meClickeo(x,y) && !(*it)->estaMuerto()) {
+			(*it)->setMeClickearon(true,cliente);
+			this->figurasActivas[cliente]->setMeClickearon(false,cliente);
+		}else{
+			(*it)->setMeClickearon(false,cliente);
 		}
 	}
 }

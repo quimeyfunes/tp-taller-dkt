@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Box2D/Box2D.h"
 #include "../../Observador/Observable.h"
 #include "../../constantes.h"
@@ -12,7 +13,7 @@ class Gusano: public Figura
 {
 private:
 	int numContactos;
-	bool meClickearon;
+	vector<bool> meClickearon;
 	bool congelado;
 public:
 	Gusano();
@@ -24,8 +25,8 @@ public:
 	bool puedeSaltar();
 	void simularAgua(int nivelAgua);
 	void reiniciar();
-	bool getMeClickearon();
-	void setMeClickearon(bool meClickearon);
+	bool getMeClickearon(int cliente);
+	void setMeClickearon(bool meClickearon, int cliente);
 	bool getCongelado();
 	void setCongelado(bool congelado);
 	

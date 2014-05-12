@@ -66,7 +66,7 @@ public:
 	Terreno* getTerreno();
 	void setTerreno(Terreno* terreno);
 	void click(float x, float y);
-	void clickCliente(int cliente, list<Gusano*> figurasCliente, float x, float y);
+	void clickCliente(int cliente, list<Gusano*> figurasCliente, list<Gusano*> figurasOtrosCliente,float x, float y);
 	void arriba(bool arriba);
 	void arribaCliente(int cliente, bool arriba);
 	void setPuedeSaltarCliente(int cliente,bool puedeSaltar);

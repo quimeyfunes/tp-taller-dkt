@@ -176,3 +176,7 @@ void Cliente::actualizar()
 string Cliente::getUserName(){
 	return this->username;
 }
+
+int Cliente::getId(){
+	return this->cliente_id;
+}

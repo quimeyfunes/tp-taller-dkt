@@ -61,9 +61,10 @@ public:
 	int contFrent;
 	int contMuerte;
 	ESTADO estado;
-	bool mostrarCartel;
+	vector<bool> mostrarCartel;
 	int velocidadRefresco;
 	int numCuadros;
+	int cliente;
 };
 
 #endif

@@ -146,7 +146,13 @@ void Juego::leerEvento(){
 					case SOLTARDERECHA:		{this->escenario->derechaCliente(i,false);
 											 this->escenario->reiniciarTeclas();}	break; 
 					case CLICK:	
-						this->escenario->clickCliente(i,this->servidor->clientes[i].figuras, evento->x, evento->y);
+						list<Gusano*> figurasOtrosClientes;
+						for(int j=0; j< MAXIMOS_CLIENTES; j++){
+							if(i != j){
+								figurasOtrosClientes.insert(figurasOtrosClientes.end(), this->servidor->clientes[j].figuras.begin(), this->servidor->clientes[j].figuras.end());
+							}
+						}
+						this->escenario->clickCliente(i,this->servidor->clientes[i].figuras,figurasOtrosClientes, evento->x, evento->y);
 						break;
 				}
 

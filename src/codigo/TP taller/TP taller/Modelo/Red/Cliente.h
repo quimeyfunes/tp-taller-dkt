@@ -17,6 +17,7 @@ public:
 	EscenarioParseado* getEscenarioActual();
 	string vistaSerializada;
 	string getUserName();
+	int getId();
 private:
 
 	int cliente_id;
