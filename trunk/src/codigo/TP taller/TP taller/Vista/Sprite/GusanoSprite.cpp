@@ -46,7 +46,12 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	rectCart.h = rect.h / 4;
 	//this->cartel = NULL;
 	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF, this->nombre);
-	this->mostrarCartel =false;
+	
+	//this->mostrarCartel = false;
+	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+		this->mostrarCartel.push_back(false);
+	}
+	this->cliente = 0;
 }
 
 GusanoSprite::~GusanoSprite(void)
@@ -120,11 +125,15 @@ void GusanoSprite::actualizar(Observable* observable) {
 	rectCartel.y = ((fig->getPosicion().y * relacionPPU) - rect.h / 2) - alturaCartel;
 	this->cartel->setRect(rectCartel);
 
-	if (fig->getMeClickearon()) {
+	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+		this->mostrarCartel[i] = fig->getMeClickearon(i);
+	}
+
+	/*if (fig->getMeClickearon()) {
 		this->mostrarCartel = true;
 	} else {
 		this->mostrarCartel = false;
-	}
+	}*/
 
 	if(fig->getCongelado()){
 		this->setColor(ParserDeHexARgb::parsearDeHexARgb("000000"));
@@ -169,7 +178,7 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame], &rect);
 	}
 
-	if (this->mostrarCartel && this->estado != MUERTO) {
+	if (this->mostrarCartel[this->cliente] && this->estado != MUERTO) {
 		this->cartel->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
 	}
 
@@ -255,7 +264,20 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::int2string(estadoNumero);
 
 	serializado += separadorCamposEntidades;
-	serializado += StringUtil::int2string(this->mostrarCartel);
+	//serializado += StringUtil::int2string(this->mostrarCartel);
+	std::stringstream ss;
+	for(size_t j = 0; j < this->mostrarCartel.size(); ++j)
+	{
+		if(j != 0){
+			ss << separadorCamposArreglo;
+		}
+		ss << StringUtil::int2string(this->mostrarCartel[j]);
+	}
+	std::string vectorSerializado = ss.str();
+	serializado += vectorSerializado;
+	
+
+
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->velocidadRefresco);
 	serializado += separadorCamposEntidades;
@@ -308,7 +330,13 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 		this->estado = MUERTO;
 	}	
 
-	this->mostrarCartel = StringUtil::str2int(atributos.at(14));
+	//this->mostrarCartel = StringUtil::str2int(atributos.at(14));
+	vector<string> mostrarCartelArreglo = StringUtil::split(atributos.at(14),separadorCamposArreglo);
+	for (int i = 0; i < mostrarCartelArreglo.size(); i++) {
+		this->mostrarCartel.push_back(StringUtil::str2int(mostrarCartelArreglo.at(i)));
+	}
+
+
 	this->velocidadRefresco = StringUtil::str2int(atributos.at(15));
 	this->numCuadros = StringUtil::str2int(atributos.at(16));
 	this->recCuadro = NULL;

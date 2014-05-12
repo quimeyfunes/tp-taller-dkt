@@ -150,7 +150,7 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 				gusano2->mostrarCartel = gusano->mostrarCartel;
 				gusano2->velocidadRefresco = gusano->velocidadRefresco;
 				gusano2->numCuadros = gusano->numCuadros;
-
+				gusano2->cliente = this->cliente->getId();
 				lista->push_back(gusano2);
 				//lista->push_back(gusano2->getCartel());
 				delete gusano;

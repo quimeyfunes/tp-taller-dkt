@@ -29,7 +29,12 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	fixtureDefSensor.userData = this;
 	this->getBody()->CreateFixture(&fixtureDefSensor);
 	this->numContactos = 0;
-	this->meClickearon = false;
+
+	//this->meClickearon = false;
+	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+		this->meClickearon.push_back(false);
+	}
+	
 	this->congelado = false;
 }
 
@@ -83,12 +88,12 @@ void Gusano::reiniciar(){
 	this->setMuerto(false);
 }
 
-bool Gusano::getMeClickearon() {
-	return this->meClickearon;
+bool Gusano::getMeClickearon(int cliente) {
+	return this->meClickearon[cliente];
 }
 
-void Gusano::setMeClickearon(bool meClickearon){
-	this->meClickearon = meClickearon;
+void Gusano::setMeClickearon(bool meClickearon, int cliente){
+	this->meClickearon[cliente] = meClickearon;
 }
 
 bool Gusano::getCongelado() {
