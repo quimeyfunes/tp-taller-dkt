@@ -7,9 +7,12 @@ Cliente::Cliente(string nombre, string ip){
 	this->username=nombre;
 	this->escenario = new EscenarioParseado();
 	this->activo = false;
-	this->cliente_id = 0;
 	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
 }
+
+ Cliente::~Cliente(){
+	delete this->escenario;
+ };
 
 void Cliente::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
 
@@ -120,12 +123,11 @@ bool Cliente::recibirDeServidor(){
 
 				strcpy(dir,&network_data[i]+offset);
 				offset += strlen(dir)+1;
-				
+
 				archTerreno.open(dir, std::ofstream::binary);
 				archTerreno.seekp(0, ios::beg);
 				archTerreno.write(&network_data[i]+offset, tamanioImagen);
 				archTerreno.close();
-				
 				i+= offset+tamanioImagen;
 				break;
 

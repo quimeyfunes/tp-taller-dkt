@@ -1,9 +1,9 @@
 escenario:
-    altopx: 800
-    anchopx: 1000
-    altoun: 400
-    anchoun: 1000
-    nivel_agua: 100
+    altopx: 600
+    anchopx: 800
+    altoun: 300
+    anchoun: 400
+    nivel_agua: 80
     imagen_tierra: imagenes/mascaras/mascara1.png
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:

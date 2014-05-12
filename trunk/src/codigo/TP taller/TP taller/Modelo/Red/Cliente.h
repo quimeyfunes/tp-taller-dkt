@@ -6,8 +6,9 @@ class Cliente
 
 public:
 
+	
     Cliente(string nombre, string ip);
-    ~Cliente(void);
+    ~Cliente();
 	string username;
     ClienteRed* red; 
 	bool recibirDeServidor();
