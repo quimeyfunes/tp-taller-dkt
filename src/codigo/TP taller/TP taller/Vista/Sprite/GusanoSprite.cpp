@@ -135,9 +135,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->mostrarCartel = false;
 	}*/
 
-	if(fig->getCongelado()){
-		this->setColor(ParserDeHexARgb::parsearDeHexARgb("000000"));
-	}
+	this->congelado = fig->getCongelado();
 }
 
 void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
@@ -149,9 +147,19 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent >= 1) ){
 				//this->setFrame(0);
 				if (this->estado == IZQ){
-					this->setImagen(renderer, spriteWormIzq);}
-				else{
-					this->setImagen(renderer, spriteWormDer);}
+					if(!this->congelado){
+						this->setImagen(renderer, spriteWormIzq);
+					}else{
+						this->setImagen(renderer, rutaWormGrisIzq);
+					}
+				}
+				else{	
+					if(!this->congelado){
+						this->setImagen(renderer, spriteWormDer);
+					}else{
+						this->setImagen(renderer, rutaWormGrisDer);
+					}
+				}
 		}
 		if ( (this->hayCambioImgDer()) && (this->contDer >= 1 ) ){
 			if (this->estado == MUERTO){
@@ -282,6 +290,8 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::int2string(this->velocidadRefresco);
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->numCuadros);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->congelado);
 	
 	return serializado;
 }
@@ -339,6 +349,8 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 
 	this->velocidadRefresco = StringUtil::str2int(atributos.at(15));
 	this->numCuadros = StringUtil::str2int(atributos.at(16));
+	this->congelado = StringUtil::str2int(atributos.at(17));
+
 	this->recCuadro = NULL;
 	this->cartel = NULL;
 	this->imagen = NULL;
