@@ -90,11 +90,11 @@ int Servidor::buscarCliente(string nombre){
 	return -1;
 }
 
-void Servidor::enviarEscenario(SOCKET sock){
+void Servidor::enviarEscenario(int num_cliente){
 
-		//envio [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA ]
+		//envio [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE ]
 	int tipoPaquete = 1;
-	int peso = ((2*sizeof(int)) + (4*sizeof(double)));
+	int peso = ((3*sizeof(int)) + (4*sizeof(double)));
 	char *data = new char[peso];
 	//cout<<peso<<endl;
 	int offset = 0;
@@ -110,8 +110,9 @@ void Servidor::enviarEscenario(SOCKET sock){
 	offset += sizeof(escenario->anchoU);
 	memcpy(data+offset, &escenario->nivelAgua, sizeof(escenario->nivelAgua)); //nivelAgua
 	offset += sizeof(escenario->nivelAgua);
+	memcpy(data+offset, &num_cliente, sizeof(num_cliente));			//ID_CLIENTE
 							
-	Servicio::enviarMensaje(sock, data, peso);
+	if(clientes[num_cliente].socket != INVALID_SOCKET) Servicio::enviarMensaje(clientes[num_cliente].socket, data, peso);
 	delete data;
 }
 
@@ -163,8 +164,9 @@ void Servidor::recibirDeClientes()
 							clientes[id].socket = red->sessions.at(0);
 							
 							//le vuelvo a enviar todas las cosas, por si se reconecta en otra pc
-							enviarEscenario(clientes[id].socket);
+							enviarEscenario(id);
 							enviarImagenes(clientes[id].socket);
+
 							enviarPaquete(clientes[id].socket, paqueteDescargaLista, "Bienvenido de nuevo, "+clientes[id].username+ ".");
 							cout<<clientes[id].username<<" se ha reconectado."<<endl;
 
@@ -183,7 +185,7 @@ void Servidor::recibirDeClientes()
 							this->clientes[cliente_id].time = time(NULL);
 							this->clientes[cliente_id].socket = red->sessions.at(0);
 
-							enviarEscenario(clientes[cliente_id].socket);
+							enviarEscenario(cliente_id);
 							enviarImagenes(clientes[cliente_id].socket);
 							enviarPaquete(clientes[cliente_id].socket, paqueteDescargaLista, "Bienvenido, "+clientes[cliente_id].username+".");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
