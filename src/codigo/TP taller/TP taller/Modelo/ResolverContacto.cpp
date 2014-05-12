@@ -5,9 +5,6 @@ ResolverContacto::ResolverContacto() {
 }
 
 void ResolverContacto::BeginContact(b2Contact* contact) {
-	
-	b2Fixture* fixtureA = contact->GetFixtureA();
-	b2Fixture* fixtureB = contact->GetFixtureB();
 	  
 	// Para ver si gusano toca algo por abajo y volver a saltar
 	void* fixtureUserData = contact->GetFixtureA()->GetUserData();
@@ -27,10 +24,7 @@ void ResolverContacto::BeginContact(b2Contact* contact) {
 }
 
 void ResolverContacto::EndContact(b2Contact* contact) {
-	
-	b2Fixture* fixtureA = contact->GetFixtureA();
-	b2Fixture* fixtureB = contact->GetFixtureB();
-	  
+
 	// Para ver si gusano toca algo por abajo y volver a saltar
 	void* fixtureUserData = contact->GetFixtureA()->GetUserData();
 	  
