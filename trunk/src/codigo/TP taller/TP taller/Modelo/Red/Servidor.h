@@ -27,7 +27,7 @@ public:
 	void enviarTodosLosClientes(int tipoPaquete, string mensaje);
 	static ServidorRed* red;
 	static void aceptarClientes(void* arg);
-	void enviarEscenario(SOCKET sock);
+	void enviarEscenario(int num_cliente);
 	void enviarImagenes(SOCKET sock);
 	static cliente* clientes;
 private:

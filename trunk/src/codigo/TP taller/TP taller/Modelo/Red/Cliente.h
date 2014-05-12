@@ -19,6 +19,7 @@ public:
 	string getUserName();
 private:
 
+	int cliente_id;
 	EscenarioParseado* escenario;
 	bool activo;
 	char network_data[MAX_PACKET_SIZE];

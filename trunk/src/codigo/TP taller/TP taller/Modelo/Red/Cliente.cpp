@@ -7,6 +7,7 @@ Cliente::Cliente(string nombre, string ip){
 	this->username=nombre;
 	this->escenario = new EscenarioParseado();
 	this->activo = false;
+	this->cliente_id = 0;
 	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
 }
 
@@ -68,7 +69,7 @@ bool Cliente::recibirDeServidor(){
 		switch (tipoPaquete) {
 
 			case paqueteInicial:
-				 i+= (2*sizeof(int)) + (4*sizeof(double));
+				 i+= (3*sizeof(int)) + (4*sizeof(double));
 				 break;
 
 			case paqueteTextura:
@@ -96,7 +97,7 @@ bool Cliente::recibirDeServidor(){
 
             case paqueteInicial:
 
-				//recibo [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA ]
+				//recibo [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE ]
 
 				offset = sizeof(tipoPaquete);
 				memcpy(&escenario->altoPx, network_data+offset, sizeof(escenario->altoPx));	//altopx
@@ -109,7 +110,7 @@ bool Cliente::recibirDeServidor(){
 				offset += sizeof(escenario->anchoU);
 				memcpy(&escenario->nivelAgua, network_data+offset, sizeof(escenario->nivelAgua)); //nivelAgua
 				offset += sizeof(escenario->nivelAgua);
-				
+				memcpy(&cliente_id, network_data+offset, sizeof(cliente_id));	//cliente_id
 				break;
 
 			case paqueteTextura:
