@@ -23,8 +23,8 @@
 	#define rutaCartelDEF "imagenes/texturas/cartelDefault.png"
 	#define rutaFuente "fuentes/acme.ttf"
 	#define rutaGrave "imagenes/texturas/grave.png"
-	#define rutaWormGrisIzq "imagenes/texturas/wormGrisFrentIzq.png";
-	#define rutaWormGrisDer "imagenes/texturas/wormGrisFrentDer.png";
+	#define rutaWormGrisIzq "imagenes/texturas/wormGrisFrentIzq.png"
+	#define rutaWormGrisDer "imagenes/texturas/wormGrisFrentDer.png"
 	
 	const int timeStepOlas = 8;
 	const int timeStepNubes = 10;

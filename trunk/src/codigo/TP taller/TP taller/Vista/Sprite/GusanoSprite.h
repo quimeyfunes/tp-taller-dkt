@@ -65,6 +65,7 @@ public:
 	int velocidadRefresco;
 	int numCuadros;
 	int cliente;
+	int congelado;
 };
 
 #endif
