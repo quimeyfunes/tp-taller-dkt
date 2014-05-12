@@ -96,7 +96,7 @@ Gusano* Escenario::crearGusanoParaJugador(){
 	int verticesCount = terreno->getBody()->GetFixtureList()->GetShape()->GetChildCount();
 	int index = rand()%verticesCount;
 	b2Vec2 vec = ((b2ChainShape*)terreno->getBody()->GetFixtureList()->GetShape())->m_vertices[index];
-	Gusano* gusano = new Gusano(vec.x,vec.y - 20,0,this->world,false,15,20,10);
+	Gusano* gusano = new Gusano(vec.x,vec.y - altoGusano,0,this->world,false,anchoGusano,altoGusano,10);
 	if (this->haySuperposicion(gusano) || this->haySuperposicionConTerreno(gusano) ||  vec.y + 10 > this->nivelAgua){
 		//Si hay superposicion o esta al nivel del agua creo en otra posicion;
 		delete gusano;

@@ -109,7 +109,7 @@
 	const int velocidadAgua = 8;
 	const float desaceleracionAgua = 0.973;
 	const int anchoGusano = 15;
-	const int altoGusano = 20;
+	const int altoGusano = 18;
 	//Tipos de paquete
 	const unsigned paqueteInicial=1;
 	const unsigned paqueteEvento=2;

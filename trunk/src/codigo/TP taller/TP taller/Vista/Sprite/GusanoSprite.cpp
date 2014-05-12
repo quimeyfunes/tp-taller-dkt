@@ -145,7 +145,6 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 		this->setImagen(renderer, rutaGrave);
 	} else {
 		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent >= 1) ){
-				//this->setFrame(0);
 				if (this->estado == IZQ){
 					if(!this->congelado){
 						this->setImagen(renderer, spriteWormIzq);
