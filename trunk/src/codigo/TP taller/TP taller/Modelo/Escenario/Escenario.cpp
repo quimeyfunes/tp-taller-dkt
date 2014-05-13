@@ -310,7 +310,9 @@ void Escenario::clickCliente(int cliente, list<Gusano*> figurasCliente, list<Gus
 	for (std::list<Gusano*>::const_iterator it = figurasOtrosCliente.begin(); it != figurasOtrosCliente.end(); it++) {
 		if ((*it)->meClickeo(x,y) && !(*it)->estaMuerto()) {
 			(*it)->setMeClickearon(true,cliente);
-			this->figurasActivas[cliente]->setMeClickearon(false,cliente);
+			if (this->figurasActivas[cliente])
+				this->figurasActivas[cliente]->setMeClickearon(false,cliente);
+			this->figurasActivas[cliente] = NULL;
 		}else{
 			(*it)->setMeClickearon(false,cliente);
 		}
