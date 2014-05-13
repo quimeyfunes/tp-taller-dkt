@@ -19,6 +19,7 @@ CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string p
 	SDL_FreeSurface(this->surf);
 
 	this->rect.w = this->texto.length() * 7;
+	this->rect.x -= this->rect.w/2;
 
 }
 
