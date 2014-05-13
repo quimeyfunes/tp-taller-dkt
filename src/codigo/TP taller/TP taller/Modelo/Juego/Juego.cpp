@@ -22,7 +22,7 @@ Juego::Juego(string texto){
 	ResolverContacto* resolverContacto = new ResolverContacto();
 	this->mundo->SetContactListener(resolverContacto);
 	agregarTexturas(e);
-	//agregarObjetos();
+	agregarObjetos();
 	agregarAgua(e);
 }
 
@@ -226,22 +226,22 @@ void Juego::agregarObjetos(){
 				break;
 			}
 		case 2:
-			//{
-			//	Rectangulo* rec = escenario->crearRectangulo(*it);
-			//	if(rec){
-			//		cout<<(*it).ancho<<endl;
-			//		RectanguloDibujable* rectangulo = vista->crearRectanguloDibujable((*it).ancho * escalaAncho, (*it).alto * escalaAlto);
-			//		rectangulo->setColor(ParserDeHexARgb::parsearDeHexARgb((*it).color));
-			//		rec->agregarObservador(rectangulo);
-			//	}
-			//	break;
-			//}
-			worm = escenario->crearGusano(*it);
+			{
+				Rectangulo* rec = escenario->crearRectangulo(*it);
+				if(rec){
+					//cout<<(*it).ancho<<endl;
+					RectanguloDibujable* rectangulo = vista->crearRectanguloDibujable((*it).ancho * escalaAncho, (*it).alto * escalaAlto);
+					rectangulo->setColor(ParserDeHexARgb::parsearDeHexARgb((*it).color));
+					rec->agregarObservador(rectangulo);
+				}
+				break;
+			}
+			/*worm = escenario->crearGusano(*it);
 			if (worm){
 				//GusanoDibujable* gusano = vista->crearGusanoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * escalaAncho, (*it).alto * escalaAlto, rutaGusano, rutaGusanoDEF);
 				GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600,"Rasta");
 				worm->agregarObservador(gusano);
-			} 
+			} */
 			break;
 		default:
 			{
