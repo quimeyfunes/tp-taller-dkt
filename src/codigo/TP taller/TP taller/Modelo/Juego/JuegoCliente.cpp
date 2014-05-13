@@ -113,7 +113,7 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 	//elimino elementos de la vista que son figuras
 	int index = 0;
 	for (list<Dibujable*>::iterator it = this->vista->getListaDibujables()->begin(); it != this->vista->getListaDibujables()->end(); it++) {
-		if(index > this->dibujablesBase->size() - 2 && index < this->vista->getListaDibujables()->size() - 1){
+		if(index > this->dibujablesBase->size() - 6 && index < this->vista->getListaDibujables()->size() - 5){
 			delete *it;
 		}
 		index++;
@@ -124,8 +124,11 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 
 	copy(this->dibujablesBase->begin(),this->dibujablesBase->end(),lista->begin());
 	//Saco el agua
-	lista->pop_back();
-
+	
+	for (index = 0; index < 5;index ++) {
+		lista->pop_back();
+	}
+	
 	vector<string> entidadesSerializadas = StringUtil::split(vistaSerializada,separadorEntidades);
 	for (int i = 0; i < entidadesSerializadas.size(); i++) {
 		string entidadSerializada = entidadesSerializadas.at(i);
@@ -194,9 +197,16 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 	//borro la lista anterior(no los elementos)
 	delete listaAnterior;
 	this->vista->setListaDibujables(lista);
-
+	index = 0;
+	for (list<Dibujable*>::iterator it = this->dibujablesBase->begin(); it != this->dibujablesBase->end(); it++) {
+		if (index > this->dibujablesBase->size() - 6) {
+			Dibujable* dib = *it;
+			lista->push_back(dib);
+		}
+		index++;
+	}
 	//Agrego a lo ultimo el agua
-	lista->push_back(this->dibujablesBase->back());
+	//lista->push_back(this->dibujablesBase->back());
 
 	//return lista;
 }
