@@ -9,7 +9,7 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
-
+	this->cartelInfo = NULL;
 	while(this->cliente->recibirDeServidor());	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
 	
 	this->esc = cliente->getEscenarioActual();
@@ -30,6 +30,11 @@ void JuegoCliente::ejecutar(){
 		this->leerEvento();
 		this->cliente->actualizar();
 		this->crearLista(this->cliente->vistaSerializada);
+
+		if(this->cliente->nuevoMensaje){
+			this->cartelInfo->setInfo(this->cliente->mensajeInfo);
+			this->cliente->nuevoMensaje = false;
+		}
 
 		if(simulando){
 			switch(estadoActual){
@@ -95,6 +100,8 @@ void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 	vista->crearScrollingSprite(0, 10,  e->anchoPx/ 5, e->altoPx /10, rutaNube1);
 	vista->crearScrollingSprite( e->anchoU*relacionPPU/2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
 	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenTierra, "");
+	this->cartelInfo = vista->crearCartelInfo(10, 10, 0, 20);
+	this->cartelInfo->setColor(255,0,255,100);
 }
 
 void JuegoCliente::agregarAgua(EscenarioParseado* e){

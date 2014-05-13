@@ -8,6 +8,8 @@ Cliente::Cliente(string nombre, string ip){
 	this->escenario = new EscenarioParseado();
 	this->activo = false;
 	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
+	this->mensajeInfo = "";
+	this->nuevoMensaje = false;
 }
 
  Cliente::~Cliente(){
@@ -46,6 +48,7 @@ EscenarioParseado* Cliente::getEscenarioActual(){
 
 bool Cliente::recibirDeServidor(){
 	
+	bool retorno=true;
 	int offset;
 	Paquete* paquete = new Paquete();
     // get data from server
@@ -136,10 +139,14 @@ bool Cliente::recibirDeServidor(){
 				//ya termino de recibir las texturas
 				this->escenario->imagenTierra = texturaTerreno;
 				this->escenario->imagenCielo = texturaCielo;
-				cout<<paquete->getMensaje();
 				this->activo = true;
-				delete paquete;
-				return false;
+				retorno=false;
+				break;
+
+			case paqueteMensajeInfo:
+
+				this->mensajeInfo = paquete->getMensaje();
+				this->nuevoMensaje = true;
 				break;
 
             case paqueteEvento:
@@ -165,7 +172,7 @@ bool Cliente::recibirDeServidor(){
     }
 	delete paquete;
 		
-return true;
+return retorno;
 }
 
 

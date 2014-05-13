@@ -90,6 +90,9 @@
 	const unsigned hexagonoTipo=6;
 	const unsigned gusanoTipo = 7;
 
+	//el tiempo q tarda en desaparecer el cartel de info 
+	const int TIEMPO_CARTEL_INFO = 5;
+
 	const float porcentajeScroll = 0.075;
 	const float velocidadScroll = 1/600.0;
 
@@ -120,6 +123,7 @@
 	const unsigned paqueteDescargaLista=7;
 	const unsigned paqueteEscenario=8;
 	const unsigned paqueteTextura=9;
+	const unsigned paqueteMensajeInfo=10;
 
 	#define MAX_PACKET_SIZE 1000000
 	#define MAXIMOS_CLIENTES 4

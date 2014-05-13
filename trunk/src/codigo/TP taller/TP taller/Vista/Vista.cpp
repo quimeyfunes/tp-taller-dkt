@@ -71,6 +71,18 @@ GusanoSprite* Vista::crearGusanoSprite(int x, int y, int anchoFrame, int altoFra
 	return gusano;
 }
 
+CartelInfo* Vista::crearCartelInfo(int x, int y, int ancho, int alto){
+	SDL_Rect rec;
+	rec.x=x;
+	rec.y=y;
+	rec.h=alto;
+	rec.w=ancho;
+
+	CartelInfo* cartelInfo = new CartelInfo(this->renderer, rec);
+	this->agregarDibujable(cartelInfo);
+	return cartelInfo;
+}
+
 DibujableTextura* Vista::crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF) {
 	SDL_Rect rect;
 	rect.x = x;
