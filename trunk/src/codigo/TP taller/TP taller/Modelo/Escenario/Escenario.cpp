@@ -94,18 +94,24 @@ Gusano* Escenario::crearGusano(ObjetoParseado objeto){
 Gusano* Escenario::crearGusanoParaJugador(){
 	//La posiciones tiene que ser sobre el terreno, aleatoria
 	int verticesCount = terreno->getBody()->GetFixtureList()->GetShape()->GetChildCount();
-	int index = rand()%verticesCount;
-	b2Vec2 vec = ((b2ChainShape*)terreno->getBody()->GetFixtureList()->GetShape())->m_vertices[index];
-	Gusano* gusano = new Gusano(vec.x,vec.y - altoGusano,0,this->world,false,anchoGusano,altoGusano,10);
-	if (this->haySuperposicion(gusano) || this->haySuperposicionConTerreno(gusano) ||  vec.y + 10 > this->nivelAgua){
-		//Si hay superposicion o esta al nivel del agua creo en otra posicion;
-		delete gusano;
-		return this->crearGusanoParaJugador();
-	}
-	else {
-		this->agregarFigura(gusano);
-		return gusano;
-	}
+	b2ChainShape* chain = (b2ChainShape*)terreno->getBody()->GetFixtureList()->GetShape();
+	do {
+		int index = rand()%verticesCount;
+		b2Vec2 vec = chain->m_vertices[index];
+		int x = vec.x;
+		int y = vec.y - altoGusano;
+	
+		Gusano* gusano = new Gusano(x,y,0,this->world,false,anchoGusano,altoGusano,10);
+		if (this->haySuperposicion(gusano) || this->haySuperposicionConTerreno(gusano) ||  vec.y + altoGusano > this->nivelAgua){
+			//Si hay superposicion o esta al nivel del agua creo en otra posicion;
+			this->world->DestroyBody(gusano->getBody());
+			delete gusano;
+		}
+		else {
+			this->agregarFigura(gusano);
+			return gusano;
+		}
+	} while (true);
 }
 
 Poligono* Escenario::crearPoligono(ObjetoParseado objeto){
@@ -196,11 +202,15 @@ void Escenario::reiniciarTeclas(){
 
 bool Escenario::haySuperposicion(Figura* figura){
 	bool chocan = false;
-	for (std::list<Figura*>::const_iterator iterator = this->listaFiguras->begin(); iterator != this->listaFiguras->end(); ++iterator) {
-		Figura* figuraActual = *iterator;
-		chocan = b2TestOverlap(figura->getBody()->GetFixtureList()->GetShape(),0,figuraActual->getBody()->GetFixtureList()->GetShape(),0,figura->getBody()->GetTransform(),figuraActual->getBody()->GetTransform());
-		if(chocan){
-			break;
+	for (b2Fixture* fixture = figura->getBody()->GetFixtureList(); fixture; fixture = fixture->GetNext()) {
+		for (std::list<Figura*>::const_iterator iterator = this->listaFiguras->begin(); iterator != this->listaFiguras->end(); ++iterator) {
+			Figura* figuraActual = *iterator;
+			for (b2Fixture* fixtureActual = figuraActual->getBody()->GetFixtureList(); fixtureActual; fixtureActual = fixtureActual->GetNext()) {
+				chocan = b2TestOverlap(fixture->GetShape(),0,fixtureActual->GetShape(),0,figura->getBody()->GetTransform(),figuraActual->getBody()->GetTransform());
+				if(chocan){
+					break;
+				}
+			}
 		}
 	}
 
@@ -211,10 +221,12 @@ bool Escenario::haySuperposicionConTerreno(Figura* figura){
 	//Primero chequeo si la figura se superpone con la cadena
 	Terreno* terreno = this->getTerreno();
 	b2ChainShape* shapeTerreno = (b2ChainShape*) terreno->getBody()->GetFixtureList()->GetShape();
-	for (int i = 0; i < shapeTerreno->GetChildCount();i++) {
-		bool chocan = b2TestOverlap(figura->getBody()->GetFixtureList()->GetShape(),0,shapeTerreno,i,figura->getBody()->GetTransform(),terreno->getBody()->GetTransform());
-		if(chocan){
-			return true;
+	for (b2Fixture* fixture = figura->getBody()->GetFixtureList(); fixture; fixture = fixture->GetNext()) {
+		for (int i = 0; i < shapeTerreno->GetChildCount();i++) {
+			bool chocan = b2TestOverlap(fixture->GetShape(),0,shapeTerreno,i,figura->getBody()->GetTransform(),terreno->getBody()->GetTransform());
+			if(chocan){
+				return true;
+			}
 		}
 	}
 	//Si no choca con los bordes del terreno tengo que chequear con la matriz
@@ -364,7 +376,7 @@ void Escenario::saltarClientes(){
 	for(int i=0; i < MAXIMOS_CLIENTES; i++){
 		if ((this->figurasActivas[i] != NULL) && ((Gusano*)this->figurasActivas[i])->puedeSaltar() && (this->puedeMoverseArribaClientes[i])) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
-			cuerpo->SetLinearVelocity(b2Vec2(cuerpo->GetLinearVelocity().x,-25));
+			cuerpo->SetLinearVelocity(b2Vec2(0,-25));
 		}
 	}
 }
