@@ -5,8 +5,6 @@ class Cliente
 {
 
 public:
-
-	
     Cliente(string nombre, string ip);
     ~Cliente();
 	string username;
@@ -19,6 +17,12 @@ public:
 	string vistaSerializada;
 	string getUserName();
 	int getId();
+
+	//cambiar esto por una lista de mensajes (talvez)
+	string mensajeInfo;
+	bool nuevoMensaje;
+	//
+
 private:
 
 	int cliente_id;

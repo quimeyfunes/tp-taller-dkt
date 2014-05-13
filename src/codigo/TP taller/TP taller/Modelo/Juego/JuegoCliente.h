@@ -10,6 +10,7 @@
 #include <vector>
 #include "../Red/Cliente.h"
 #include "../StringUtil.h"
+#include "../../Vista/Dibujables/CartelInfo.h"
 
 
 using namespace std;
@@ -24,6 +25,7 @@ private:
 	SDL_Event* evento;*/
 
 	EscenarioParseado* esc;
+	CartelInfo* cartelInfo;
 	static Cliente* cliente;
 	list<Dibujable*>* dibujablesBase;
 	void reiniciar();

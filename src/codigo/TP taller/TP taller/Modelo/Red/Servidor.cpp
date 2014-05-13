@@ -174,9 +174,18 @@ void Servidor::recibirDeClientes()
 							//le vuelvo a enviar todas las cosas, por si se reconecta en otra pc
 							enviarEscenario(id);
 							enviarImagenes(clientes[id].socket);
-
-							enviarPaquete(clientes[id].socket, paqueteDescargaLista, "Bienvenido de nuevo, "+clientes[id].username+ ".");
+							enviarPaquete(clientes[id].socket, paqueteDescargaLista, "");
 							cout<<clientes[id].username<<" se ha reconectado."<<endl;
+
+							//hago que el bienvenido le aparezca en la vista al cliente
+							enviarPaquete(clientes[id].socket, paqueteMensajeInfo, "Bienvenido de nuevo, "+clientes[id].username + ".");
+
+							//hago que el resto sepa que se reconectó el cliente
+							for(int cont=0; cont < MAXIMOS_CLIENTES; cont++){
+								if(clientes[cont].username != clientes[id].username){
+									enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[id].username +" se ha reconectado.");
+								}
+							}
 
 							for (std::list<Gusano*>::const_iterator it = clientes[id].figuras.begin(); it != clientes[id].figuras.end(); it++) {
 								(*it)->setCongelado(false);
@@ -195,8 +204,18 @@ void Servidor::recibirDeClientes()
 
 							enviarEscenario(cliente_id);
 							enviarImagenes(clientes[cliente_id].socket);
-							enviarPaquete(clientes[cliente_id].socket, paqueteDescargaLista, "Bienvenido, "+clientes[cliente_id].username+".");
+							enviarPaquete(clientes[cliente_id].socket, paqueteDescargaLista, "");
 							cout<<clientes[cliente_id].username<<" se ha conectado."<<endl;
+
+							//hago que el bienvenido le aparezca en la vista al cliente
+							enviarPaquete(clientes[cliente_id].socket, paqueteMensajeInfo, "Bienvenido, "+clientes[cliente_id].username + ".");
+
+							//hago que el resto sepa que se conectó el cliente
+							for(int cont=0; cont < MAXIMOS_CLIENTES; cont++){
+								if(clientes[cont].username != clientes[cliente_id].username){
+									enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[cliente_id].username +" se ha conectado.");
+								}
+							}
 						
 							cliente_id++;
 
@@ -234,7 +253,14 @@ void Servidor::recibirDeClientes()
 				clientes[i].activo=false;
 				clientes[i].socket = INVALID_SOCKET;
 				cout<<clientes[i].username<<" se ha desconectado."<<endl;
-				
+
+				//hago que el resto sepa que se desconectó el cliente
+				for(int cont=0; cont < MAXIMOS_CLIENTES; cont++){
+					if(clientes[cont].activo){
+						enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[i].username +" se ha desconectado.");
+					}
+				}
+
 				for (std::list<Gusano*>::const_iterator it = clientes[i].figuras.begin(); it != clientes[i].figuras.end(); it++) {
 					(*it)->setCongelado(true);
 				}

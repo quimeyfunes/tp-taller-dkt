@@ -15,7 +15,7 @@
 #include "../../constantes.h"
 
 class CartelDibujable: public DibujableTextura{
-private:
+protected:
 	TTF_Font* font;
 	string texto;
 	SDL_Surface* surf;
