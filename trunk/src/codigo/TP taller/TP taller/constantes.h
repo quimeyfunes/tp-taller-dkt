@@ -36,7 +36,7 @@
 	const int timeGusanoQuieto = 100;
 	const int timeGusanoMovil = 20;
 	const int timeGrave = 40;
-	const int gusanosPorPersonaje = 1;
+	const int gusanosPorPersonaje = 3;
 
 	//Relacion Pixel por Unidad
 	const float relacionPPU = 2;
