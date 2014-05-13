@@ -45,7 +45,7 @@ Gusano::~Gusano(void)
 bool Gusano::meClickeo(float x,float y) {
 	for (b2Fixture* f = this->getBody()->GetFixtureList(); f; f = f->GetNext())
 	{
-		  if (f->GetShape()->TestPoint(this->getBody()->GetTransform(),b2Vec2(x,y))) {
+		if ((f->GetShape()->TestPoint(this->getBody()->GetTransform(),b2Vec2(x,y))) && !(this->estaMuerto())) {
 			  return true;
 		  }
 	}
@@ -61,7 +61,7 @@ void Gusano::sacarContacto(){
 }
 
 bool Gusano::puedeSaltar(){
-	if (this->numContactos > 0) return true;
+	if ((this->numContactos > 0) && !(this->estaMuerto())) return true;
 	return false;
 }
 

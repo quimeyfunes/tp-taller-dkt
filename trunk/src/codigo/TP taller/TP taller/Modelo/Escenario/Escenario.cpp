@@ -358,7 +358,7 @@ void Escenario::moverse(){
 
 void Escenario::moverseClientes(){
 	for(int i=0; i < MAXIMOS_CLIENTES; i++){
-		if ((this->figurasActivas[i] != NULL) && !(this->figurasActivas[i]->estaMuerto())) {
+		if ((this->figurasActivas[i] != NULL) && !(this->figurasActivas[i]->estaMuerto()) && !(this->figurasActivas[i]->estaMuerto())) {
 			this->saltarClientes();
 			this->moverDerechaClientes();
 			this->moverIzquierdaClientes();
@@ -367,7 +367,7 @@ void Escenario::moverseClientes(){
 }
 
 void Escenario::saltar(){
-	if (this->gusanoActivo->puedeSaltar() && (this->puedeMoverseArriba)) {
+	if (this->gusanoActivo->puedeSaltar() && (this->puedeMoverseArriba) && !(this->gusanoActivo->estaMuerto())) {
 		b2Body* cuerpo = this->gusanoActivo->getBody();
 		cuerpo->SetLinearVelocity(b2Vec2(0,-25));
 		//cuerpo->ApplyLinearImpulse(b2Vec2(0,-100),this->figuraActiva->getPosicion(),true);
@@ -376,7 +376,7 @@ void Escenario::saltar(){
 
 void Escenario::saltarClientes(){
 	for(int i=0; i < MAXIMOS_CLIENTES; i++){
-		if ((this->figurasActivas[i] != NULL) && ((Gusano*)this->figurasActivas[i])->puedeSaltar() && (this->puedeMoverseArribaClientes[i])) {
+		if ((this->figurasActivas[i] != NULL) && ((Gusano*)this->figurasActivas[i])->puedeSaltar() && (this->puedeMoverseArribaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(0,-25));
 		}
@@ -384,7 +384,7 @@ void Escenario::saltarClientes(){
 }
 
 void Escenario::moverIzquierda(){
-	if (this->puedeMoverseIzquierda) {
+	if (this->puedeMoverseIzquierda && !(this->gusanoActivo->estaMuerto())) {
 		b2Body* cuerpo = this->gusanoActivo->getBody();
 		cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
 		this->gusanoActivo->setMovimientoIzq(true);
@@ -394,7 +394,7 @@ void Escenario::moverIzquierda(){
 
 void Escenario::moverIzquierdaClientes(){
 	for(int i=0; i < MAXIMOS_CLIENTES; i++){
-		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseIzquierdaClientes[i])) {
+		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseIzquierdaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
 			this->figurasActivas[i]->setMovimientoIzq(true);
@@ -404,7 +404,7 @@ void Escenario::moverIzquierdaClientes(){
 }
 
 void Escenario::moverDerecha(){
-	if (this->puedeMoverseDerecha) {
+	if (this->puedeMoverseDerecha && !(this->gusanoActivo->estaMuerto())) {
 		b2Body* cuerpo = this->gusanoActivo->getBody();
 		cuerpo->SetLinearVelocity(b2Vec2(5,cuerpo->GetLinearVelocity().y));
 		this->gusanoActivo->setMovimientoDer(true);
@@ -414,7 +414,7 @@ void Escenario::moverDerecha(){
 
 void Escenario::moverDerechaClientes(){
 	for(int i=0; i < MAXIMOS_CLIENTES; i++){
-		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseDerechaClientes[i])) {
+		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseDerechaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(5,cuerpo->GetLinearVelocity().y));
 			this->figurasActivas[i]->setMovimientoDer(true);
