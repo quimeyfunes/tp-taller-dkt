@@ -142,6 +142,7 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 	SDL_Rect rect = this->rect;
 
 	if ((this->estado == MUERTO) && (this->contMuerte >= 1)){
+		this->setFrame(0);
 		this->setImagen(renderer, rutaGrave);
 	} else {
 		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent >= 1) ){
