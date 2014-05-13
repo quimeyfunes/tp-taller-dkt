@@ -69,6 +69,11 @@ string RectanguloDibujable::serializar(){
 		serializado += separadorCamposArreglo;
 	}
 	serializado += StringUtil::int2string(this->posicionesY[n-1]);
+
+	for (int i = 0; i < 3; i++) {
+		serializado += separadorCamposEntidades;
+		serializado += StringUtil::int2string(this->color[i]);
+	}
 	return serializado;
 }
 
@@ -92,4 +97,8 @@ void RectanguloDibujable::deserealizar(string aDeserealizar){
 	for (int i = 0; i < this->n; i++) {
 		this->posicionesY[i] = StringUtil::str2int(posicionesY.at(i));
 	}
+
+	this->color[0] = StringUtil::str2int(atributos.at(5));
+	this->color[1] = StringUtil::str2int(atributos.at(6));
+	this->color[2] = StringUtil::str2int(atributos.at(7));
 }
