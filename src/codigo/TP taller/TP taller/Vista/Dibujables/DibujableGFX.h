@@ -12,7 +12,7 @@ using namespace std;
 
 class DibujableGFX: public Observador, public Dibujable
 {
-	int color[3];
+	
 public:
 	DibujableGFX();
 	~DibujableGFX();
@@ -21,6 +21,7 @@ public:
 	void setColor(int* rgb);
 	virtual string serializar();
 	virtual void deserealizar(string aDeserealizar);
+	int color[3];
 };
 
 #endif

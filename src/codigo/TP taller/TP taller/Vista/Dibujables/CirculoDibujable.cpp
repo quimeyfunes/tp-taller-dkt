@@ -37,7 +37,11 @@ string CirculoDibujable::serializar(){
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->posicion.x);
     serializado += separadorCamposEntidades;
-    serializado += StringUtil::int2string(this->posicion.y);;
+    serializado += StringUtil::int2string(this->posicion.y);
+	for (int i = 0; i < 3; i++) {
+		serializado += separadorCamposEntidades;
+		serializado += StringUtil::int2string(this->color[i]);
+	}
 	return serializado;
 }
 void CirculoDibujable::deserealizar(string aDeserealizar){
@@ -48,4 +52,7 @@ void CirculoDibujable::deserealizar(string aDeserealizar){
     this->radioVertical = StringUtil::str2int(atributos.at(1));
 	this->posicion.x = StringUtil::str2int(atributos.at(2));
 	this->posicion.y = StringUtil::str2int(atributos.at(3));
+	this->color[0] = StringUtil::str2int(atributos.at(4));
+	this->color[1] = StringUtil::str2int(atributos.at(5));
+	this->color[2] = StringUtil::str2int(atributos.at(6));
 }
