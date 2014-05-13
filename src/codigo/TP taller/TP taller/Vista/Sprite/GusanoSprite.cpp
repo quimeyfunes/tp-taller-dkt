@@ -41,9 +41,9 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	this->contMuerte = 0;
 	this->estado = IZQ;
 	this->nombre = nombre;
-	SDL_Rect rectCart = rect;
-	rectCart.w = rect.w;
+	SDL_Rect rectCart = this->rect;
 	rectCart.h = rect.h / 4;
+	rectCart.x = this->rect.x + this->rect.w/2;
 	//this->cartel = NULL;
 	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF, this->nombre);
 	
