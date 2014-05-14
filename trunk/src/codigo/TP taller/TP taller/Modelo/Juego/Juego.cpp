@@ -14,7 +14,7 @@ Juego::Juego(string texto){
 	EscenarioParseado* e = parser->getEscenario();
 	this->vista = new Vista(e);
 	SDL_HideWindow(this->vista->window);
-	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU);
+	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU,e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
 	this->escenario->setTerreno(this->terreno);
@@ -30,7 +30,7 @@ Juego::Juego(string texto){
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 
-	 servidor = new Servidor();
+	servidor = new Servidor(this->escenario->getMaximosClientes());
 	 int tamanio;
 	//Creo el trhead con el loop del servidor: en el loop se van a escuchar los clientes y a recibir los mensajes
 	 _beginthread( Juego::servidorLoop, 0, (void*)12);
@@ -77,7 +77,7 @@ string Juego::crearLista(int &tamanio){
 }
 
 void Juego::chequearNuevosJugadores(){
-	for(int i=0; i< MAXIMOS_CLIENTES; i++){
+	for(int i=0; i< this->escenario->getMaximosClientes(); i++){
 		if(this->servidor->clientes[i].activo){
 			if(this->servidor->clientes[i].figuras.size() == 0){
 				//Si el cliente esta activo y no tiene figuras es porque acaba de conectarse. Le asigno gusanos
@@ -87,7 +87,7 @@ void Juego::chequearNuevosJugadores(){
 					Gusano* worm = escenario->crearGusanoParaJugador();
 					if (worm){
 						string nombreGusano = this->servidor->clientes[i].username + " "+StringUtil::int2string(j);
-						GusanoSprite* gusano = vista->crearGusanoSprite( worm->getPosicion().x * escalaAncho, worm->getPosicion().y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600,nombreGusano);
+						GusanoSprite* gusano = vista->crearGusanoSprite( worm->getPosicion().x * escalaAncho, worm->getPosicion().y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600,nombreGusano,this->escenario->getMaximosClientes());
 						worm->agregarObservador(gusano);
 						this->servidor->clientes[i].figuras.push_back(worm);
 					} 
@@ -125,7 +125,7 @@ void Juego::leerEvento(){
 	
 	
 	//Lector de eventos de los clientes. Lo anterior lo dejo para que siga funcionando mover en el servidor
-	for(int i=0; i< MAXIMOS_CLIENTES; i++){
+	for(int i=0; i< this->escenario->getMaximosClientes(); i++){
 		if(this->servidor->clientes[i].activo){
 			//Si el cliente esta activo chequeo eventos
 			string ultimoEvento = this->servidor->clientes[i].ultimoEventoSerializado;
@@ -147,7 +147,7 @@ void Juego::leerEvento(){
 											 this->escenario->reiniciarTeclas();}	break; 
 					case CLICK:	
 						list<Gusano*> figurasOtrosClientes;
-						for(int j=0; j< MAXIMOS_CLIENTES; j++){
+						for(int j=0; j< this->escenario->getMaximosClientes(); j++){
 							if(i != j){
 								figurasOtrosClientes.insert(figurasOtrosClientes.end(), this->servidor->clientes[j].figuras.begin(), this->servidor->clientes[j].figuras.end());
 							}

@@ -24,6 +24,7 @@ private:
 	int altoU;
     int anchoU;
     int nivelAgua;
+	int maximosClientes;
 	static float relacionAncho;
 	static float relacionAlto;
 	list<Figura*>* listaFiguras;
@@ -45,10 +46,11 @@ private:
 	std::stringstream getMensajeSuperposicionTerreno(int linea);
 public:
 	Escenario();
-	Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, float relacionAlto);
+	Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, float relacionAlto,int maximosClientes);
     int getAltoU();
     int getAnchoU();
     int getNivelAgua();
+	int getMaximosClientes();
 	list<Figura*>* getFiguras();
 	b2World* getWorld();
 	Poligono* crearPoligono(ObjetoParseado objeto);

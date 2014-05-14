@@ -58,7 +58,7 @@ Sprite* Vista::crearSprite(int x, int y, int anchoFrame, int altoFrame, string p
 	return sprite;
 }
 
-GusanoSprite* Vista::crearGusanoSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex,string nombre){
+GusanoSprite* Vista::crearGusanoSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex,string nombre,int maximosClientes){
 
 	SDL_Rect recFrame;
 	recFrame.x = x;
@@ -66,7 +66,7 @@ GusanoSprite* Vista::crearGusanoSprite(int x, int y, int anchoFrame, int altoFra
 	recFrame.w = anchoFrame;
 	recFrame.h = altoFrame;
 	//Hardcodeo el nombre, nose si se va a seguir usando igual esto
-	GusanoSprite* gusano = new GusanoSprite(this->renderer, recFrame, path, col, fil, anchoTex, altoTex, nombre);
+	GusanoSprite* gusano = new GusanoSprite(this->renderer, recFrame, path, col, fil, anchoTex, altoTex, nombre,maximosClientes);
 	this->agregarDibujable(gusano);	
 	return gusano;
 }

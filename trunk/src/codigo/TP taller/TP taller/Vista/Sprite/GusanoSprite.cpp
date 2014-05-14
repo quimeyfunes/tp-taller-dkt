@@ -8,7 +8,7 @@ GusanoSprite::GusanoSprite(void)
 	this->imagen = NULL;
 }
 
-GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex, string nombre): DibujableTextura(){
+GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex, string nombre,int maximosCLientes): DibujableTextura(){
 
 	this->numCuadros = col*fil;
 	this->velocidadRefresco = timeGusanoQuieto;
@@ -44,11 +44,13 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	SDL_Rect rectCart = this->rect;
 	rectCart.h = rect.h / 4;
 	rectCart.x = this->rect.x + this->rect.w/2;
+	this->maximosCLientes = maximosCLientes;
+	
 	//this->cartel = NULL;
 	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF, this->nombre);
 	
 	//this->mostrarCartel = false;
-	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+	for(int i=0; i < this->maximosCLientes; i++){
 		this->mostrarCartel.push_back(false);
 	}
 	this->cliente = 0;
@@ -125,7 +127,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 	rectCartel.y = ((fig->getPosicion().y * relacionPPU) - rect.h / 2) - alturaCartel;
 	this->cartel->setRect(rectCartel);
 
-	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+	for(int i=0; i < this->maximosCLientes; i++){
 		this->mostrarCartel[i] = fig->getMeClickearon(i);
 	}
 
@@ -337,6 +339,7 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 		this->estado = DER;
 	}
 	else if(estadoNumero == 3){
+
 		this->estado = MUERTO;
 	}	
 

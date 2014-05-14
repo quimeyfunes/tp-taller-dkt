@@ -61,7 +61,7 @@ public:
 	PoligonoDibujable* crearPoligonoDibujable(short int n, float escalaAncho, float escalaAlto);
 	RectanguloDibujable* crearRectanguloDibujable(float ancho, float alto);
 	GusanoDibujable* crearGusanoDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef);
-	GusanoSprite* crearGusanoSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex,string nombre);
+	GusanoSprite* crearGusanoSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex,string nombre,int maximosClientes);
 	CartelInfo* crearCartelInfo(int x, int y, int ancho, int alto);
 
 	void agregarDibujable(Dibujable* dibujable);

@@ -93,6 +93,7 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 		esc->nivelAgua = esc->altoU - this->getValorFloat(*nodoEscenario,"nivel_agua",nivelAguaDEF);
 		esc->imagenTierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",mascaraTerrenoDEF);
 		esc->imagenCielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",texturaCieloDEF);
+		esc->maximosClientes = this->getValorEscalar(*nodoEscenario,"maximosclientes",MAXIMOS_CLIENTES);
 		//this->validarSecuencia(*nodoEscenario,"objetos");
 
 		return esc;

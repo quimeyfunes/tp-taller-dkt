@@ -7,7 +7,7 @@ Gusano::Gusano()
 }
 
 
-Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa)
+Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa, int maximosCLientes)
 	: Figura(x , y , rotacion, world, estatico, true)
 {
 	
@@ -29,9 +29,10 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	fixtureDefSensor.userData = this;
 	this->getBody()->CreateFixture(&fixtureDefSensor);
 	this->numContactos = 0;
+	this->maximosCLientes = maximosCLientes;
 
 	//this->meClickearon = false;
-	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+	for(int i=0; i < this->maximosCLientes; i++){
 		this->meClickearon.push_back(false);
 	}
 	
