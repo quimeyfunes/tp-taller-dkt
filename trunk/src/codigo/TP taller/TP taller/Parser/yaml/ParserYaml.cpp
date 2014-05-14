@@ -86,10 +86,10 @@ EscenarioParseado* ParserYaml::parsearEscenario(){
 		esc->anchoPx = validarMayorA(esc->anchoPx, anchoPXMIN, "anchopx");
 		esc->altoU = (double)(this->getValorFloat(*nodoEscenario,"altoun",altoUDEF));
 		esc->altoU = validarMayorA(esc->altoU, altoUMIN, "altoun");
-		esc->altoU = validarMenorA(esc->altoU, esc->altoPx, "altoun");
+		//esc->altoU = validarMenorA(esc->altoU, esc->altoPx, "altoun");
 		esc->anchoU = (double)(this->getValorFloat(*nodoEscenario,"anchoun",anchoUDEF));
 		esc->anchoU = validarMayorA(esc->anchoU, anchoUMIN, "anchoun");
-		esc->anchoU = validarMenorA(esc->anchoU, esc->anchoPx, "anchoun");
+		//esc->anchoU = validarMenorA(esc->anchoU, esc->anchoPx, "anchoun");
 		esc->nivelAgua = esc->altoU - this->getValorFloat(*nodoEscenario,"nivel_agua",nivelAguaDEF);
 		esc->imagenTierra = this->getValorCadena(*nodoEscenario,"imagen_tierra",mascaraTerrenoDEF);
 		esc->imagenCielo = this->getValorCadena(*nodoEscenario,"imagen_cielo",texturaCieloDEF);
