@@ -23,8 +23,11 @@ public:
 	bool nuevoMensaje;
 	//
 
+	int timeServidor;
+
 private:
 
+	int TIEMPO_MAX_ESPERA;
 	int cliente_id;
 	EscenarioParseado* escenario;
 	bool activo;

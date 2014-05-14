@@ -1,4 +1,4 @@
-#include "Juego.h"
+	#include "Juego.h"
 
 Servidor* Juego::servidor = NULL;
 string Juego::dibujablesSerializados;
@@ -14,7 +14,7 @@ Juego::Juego(string texto){
 	EscenarioParseado* e = parser->getEscenario();
 	this->vista = new Vista(e);
 	SDL_HideWindow(this->vista->window);
-	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU,e->maximosClientes);
+	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
 	this->escenario->setTerreno(this->terreno);
@@ -30,7 +30,7 @@ Juego::Juego(string texto){
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 
-	servidor = new Servidor(this->escenario->getMaximosClientes());
+	servidor = new Servidor();
 	 int tamanio;
 	//Creo el trhead con el loop del servidor: en el loop se van a escuchar los clientes y a recibir los mensajes
 	 _beginthread( Juego::servidorLoop, 0, (void*)12);
@@ -51,7 +51,7 @@ void Juego::ejecutar(){
 		}
 		escenario->notificar();
 		dibujablesSerializados = this->crearLista(tamanio);
-		SDL_Delay(6);
+		SDL_Delay(3);
 
 	}
 }

@@ -44,7 +44,7 @@ void JuegoCliente::ejecutar(){
 			}
 		}
 		vista->Dibujar();
-		SDL_Delay(6);
+		SDL_Delay(3);
 	}
 }
 
@@ -147,7 +147,7 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 				GusanoSprite* gusano = new GusanoSprite();
 				gusano->deserealizar(entidadSerializada);
 				int frame = gusano->getFrame();
-				GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, gusano->getNombre(),this->escenario->getMaximosClientes());
+				GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, gusano->getNombre(),this->esc->maximosClientes);
 				gusano2->setFrame(frame);
 				gusano2->setCambiarImgIzq(gusano->hayCambioImgIzq());
 				gusano2->setCambiarImgDer(gusano->hayCambioImgDer());

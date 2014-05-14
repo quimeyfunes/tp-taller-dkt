@@ -3,6 +3,9 @@
 #include <fstream>
 
 Cliente::Cliente(string nombre, string ip){
+
+	TIEMPO_MAX_ESPERA = 2;
+
     red = new ClienteRed(ip);
 	this->username=nombre;
 	this->escenario = new EscenarioParseado();
@@ -10,6 +13,7 @@ Cliente::Cliente(string nombre, string ip){
 	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
 	this->mensajeInfo = "";
 	this->nuevoMensaje = false;
+	this->timeServidor = time(NULL);
 }
 
  Cliente::~Cliente(){
@@ -75,7 +79,7 @@ bool Cliente::recibirDeServidor(){
 		switch (tipoPaquete) {
 
 			case paqueteInicial:
-				 i+= (3*sizeof(int)) + (4*sizeof(double));
+				 i+= (4*sizeof(int)) + (4*sizeof(double));
 				 break;
 
 			case paqueteTextura:
@@ -103,7 +107,7 @@ bool Cliente::recibirDeServidor(){
 
             case paqueteInicial:
 
-				//recibo [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE ]
+				//recibo [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE | MAX_CLIENTES]
 
 				offset = sizeof(tipoPaquete);
 				memcpy(&escenario->altoPx, network_data+offset, sizeof(escenario->altoPx));	//altopx
@@ -117,6 +121,8 @@ bool Cliente::recibirDeServidor(){
 				memcpy(&escenario->nivelAgua, network_data+offset, sizeof(escenario->nivelAgua)); //nivelAgua
 				offset += sizeof(escenario->nivelAgua);
 				memcpy(&cliente_id, network_data+offset, sizeof(cliente_id));	//cliente_id
+				offset += sizeof(cliente_id);
+				memcpy(&escenario->maximosClientes, network_data+offset, sizeof(escenario->maximosClientes)); //MAX_clientes
 				break;
 
 			case paqueteTextura:
@@ -169,8 +175,17 @@ bool Cliente::recibirDeServidor(){
 
                 break;
         }
+
+		//si estoy aca es xq el servidor me envio un paquete, actualizo el timeServidor
+		this->timeServidor = time(NULL);
     }
 	delete paquete;
+
+	//verifico q el servidor no esté caido
+	if(time(NULL) - this->timeServidor > TIEMPO_MAX_ESPERA){
+		this->mensajeInfo = "El servidor se encuentra caido.";
+		this->nuevoMensaje = true;
+	}
 		
 return retorno;
 }

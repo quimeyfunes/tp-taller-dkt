@@ -104,11 +104,11 @@
 	//Constantes fisicas
 	const int gravedadX = 0;
 	const float gravedadY = 9.8f;
-	const float stepTiempo = 2/60.0;
+	const float stepTiempo = 1/50.0; //cuanto mas alto el stepTiempo, mas rapido funciona el mundo
 	const int iteracionesVelocidad = 6;
 	const int iteracionesPosicion = 2;
-	const float friccion = 0.4f;
-	const float restitucion = 0.3f;
+	const float friccion = 0.6f;
+	const float restitucion = 0;
 	const int velocidadAgua = 8;
 	const float desaceleracionAgua = 0.973;
 	const int anchoGusano = 15;
