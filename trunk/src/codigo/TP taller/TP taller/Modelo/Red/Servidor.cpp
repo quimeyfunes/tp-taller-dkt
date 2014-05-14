@@ -9,14 +9,14 @@ unsigned int Servidor::cliente_id;
 ServidorRed* Servidor::red;
 cliente* Servidor::clientes;
 
-Servidor::Servidor(int maximosClientes){
+Servidor::Servidor(){
     // id's to assign clients for our table
     cliente_id = 0;
 	clienteEnEspera = false;
-	this->maximosClientes = maximosClientes;
+	this->escenario = ParserYaml::getParser()->getEscenario();
 
-	this->clientes = new cliente[this->maximosClientes +1];
-	for(int i=0; i<this->maximosClientes +1; i++){
+	this->clientes = new cliente[this->escenario->maximosClientes +1];
+	for(int i=0; i<this->escenario->maximosClientes +1; i++){
 		this->clientes[i].activo=false;
 		this->clientes[i].time=0;
 		this->clientes[i].username= "";
@@ -24,10 +24,9 @@ Servidor::Servidor(int maximosClientes){
 	}
     // set up the server network to listen 
     red = new ServidorRed(); 
-	this->escenario = ParserYaml::getParser()->getEscenario();
-
+	
 	//creo un thread q se dedique a escuchar a los clientes entrantes
-	_beginthread(Servidor::aceptarClientes, 0, (void*)this->maximosClientes);
+	_beginthread(Servidor::aceptarClientes, 0, (void*)this->escenario->maximosClientes);
 }
 
 Servidor::~Servidor(){
@@ -84,14 +83,14 @@ void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, char* mensaje){
 }
 
 void Servidor::enviarTodosLosClientes(int tipoPaquete, string mensaje){
-	for(int i=0; i < this->maximosClientes; i++){
+	for(int i=0; i < this->escenario->maximosClientes; i++){
 		if(clientes[i].socket != INVALID_SOCKET) enviarPaquete(clientes[i].socket, tipoPaquete, mensaje);
 	}
 }
 
 int Servidor::buscarCliente(string nombre){
 
-	for(int i=0; i< this->maximosClientes; i++){
+	for(int i=0; i< this->escenario->maximosClientes; i++){
 		if(clientes[i].username == nombre) return i;
 	}
 	return -1;
@@ -99,9 +98,9 @@ int Servidor::buscarCliente(string nombre){
 
 void Servidor::enviarEscenario(int num_cliente){
 
-		//envio [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE ]
+		//envio [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE | MAX_CLIENTES ]
 	int tipoPaquete = 1;
-	int peso = ((3*sizeof(int)) + (4*sizeof(double)));
+	int peso = ((4*sizeof(int)) + (4*sizeof(double)));
 	char *data = new char[peso];
 	//cout<<peso<<endl;
 	int offset = 0;
@@ -118,6 +117,8 @@ void Servidor::enviarEscenario(int num_cliente){
 	memcpy(data+offset, &escenario->nivelAgua, sizeof(escenario->nivelAgua)); //nivelAgua
 	offset += sizeof(escenario->nivelAgua);
 	memcpy(data+offset, &num_cliente, sizeof(num_cliente));			//ID_CLIENTE
+	offset += sizeof(num_cliente);
+	memcpy(data+offset, &escenario->maximosClientes, sizeof(escenario->maximosClientes)); //MAXIMOS_CLIENTES
 							
 	if(clientes[num_cliente].socket != INVALID_SOCKET) Servicio::enviarMensaje(clientes[num_cliente].socket, data, peso);
 	Sleep(10);
@@ -130,7 +131,7 @@ void Servidor::enviarImagenes(SOCKET sock){
 	vector<archivo*>* imagenes = buscador->buscarTodos();
 	for(int i=0;i<imagenes->size(); i++){
 		enviarImagen(( imagenes->at(i)->rutaCompleta ), paqueteTextura );
-		Sleep(20);
+		Sleep(40);
 	}
 
 	//envio el .ICO
@@ -138,7 +139,7 @@ void Servidor::enviarImagenes(SOCKET sock){
 	vector<archivo*>* icono = buscadorICO->buscarTodos();
 	for(int i=0;i < icono->size(); i++){
 		enviarImagen(( icono->at(i)->rutaCompleta ), paqueteTextura );
-		Sleep(20);
+		Sleep(40);
 	}
 
 	delete buscador;
@@ -152,7 +153,7 @@ void Servidor::recibirDeClientes()
     //std::map<unsigned int, SOCKET>::iterator iter;
 
     //for(iter = red->sessions.begin(); iter != red->sessions.end(); iter++)
-	for(int i=0; i < this->maximosClientes +1; i++)
+	for(int i=0; i < this->escenario->maximosClientes +1; i++)
     {
         // get data for that client
         int data_length = 0;
@@ -183,7 +184,7 @@ void Servidor::recibirDeClientes()
 							enviarPaquete(clientes[id].socket, paqueteMensajeInfo, "Bienvenido de nuevo, "+clientes[id].username + ".");
 
 							//hago que el resto sepa que se reconectó el cliente
-							for(int cont=0; cont < this->maximosClientes; cont++){
+							for(int cont=0; cont < this->escenario->maximosClientes; cont++){
 								if(clientes[cont].username != clientes[id].username){
 									enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[id].username +" se ha reconectado.");
 								}
@@ -197,7 +198,7 @@ void Servidor::recibirDeClientes()
 							enviarPaquete(clientes[i].socket, paqueteFinal, "Ya existe otro usuario con su nombre.");
 						}
 					}else{											//si no existe username, tengo que ver si hay lugar para uno nuevo
-						if(cliente_id < this->maximosClientes){				//si hay lugar 
+						if(cliente_id < this->escenario->maximosClientes){				//si hay lugar 
 							
 							this->clientes[cliente_id].activo=true;			//le asigno un espacio y doy la bienvenida
 							this->clientes[cliente_id].username = paquete->getMensaje();
@@ -213,7 +214,7 @@ void Servidor::recibirDeClientes()
 							enviarPaquete(clientes[cliente_id].socket, paqueteMensajeInfo, "Bienvenido, "+clientes[cliente_id].username + ".");
 
 							//hago que el resto sepa que se conectó el cliente
-							for(int cont=0; cont < this->maximosClientes; cont++){
+							for(int cont=0; cont < this->escenario->maximosClientes; cont++){
 								if(clientes[cont].username != clientes[cliente_id].username){
 									enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[cliente_id].username +" se ha conectado.");
 								}
@@ -226,7 +227,7 @@ void Servidor::recibirDeClientes()
 							enviarPaquete(clientes[i].socket, paqueteFinal, "Ya se ha alcanzado la cantidad maxima de clientes.");
 						}
 					}
-					clientes[this->maximosClientes].socket = INVALID_SOCKET;
+					clientes[this->escenario->maximosClientes].socket = INVALID_SOCKET;
                     break;
 
                 case paqueteEvento:
@@ -249,7 +250,7 @@ void Servidor::recibirDeClientes()
         }
     }
 
-	for(int i=0; i< this->maximosClientes; i++){
+	for(int i=0; i< this->escenario->maximosClientes; i++){
 		if(clientes[i].activo){
 			if(time(NULL) - clientes[i].time > 2){	//2 segundos de espera
 				clientes[i].activo=false;
@@ -257,7 +258,7 @@ void Servidor::recibirDeClientes()
 				cout<<clientes[i].username<<" se ha desconectado."<<endl;
 
 				//hago que el resto sepa que se desconectó el cliente
-				for(int cont=0; cont < this->maximosClientes; cont++){
+				for(int cont=0; cont < this->escenario->maximosClientes; cont++){
 					if(clientes[cont].activo){
 						enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[i].username +" se ha desconectado.");
 					}
