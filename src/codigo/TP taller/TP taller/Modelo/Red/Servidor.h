@@ -17,7 +17,7 @@ class Servidor
 
 public:
 
-    Servidor();
+    Servidor(int maximosClientes);
     ~Servidor();
 	EscenarioParseado* escenario;
     void actualizar(string dibujablesSerializados);
@@ -40,7 +40,7 @@ private:
    void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);
    void enviarPaquete(SOCKET sock, int tipoPaquete, char* mensaje);
    bool clienteEnEspera;
-   
+   int maximosClientes;
    // The ServerNetwork object 
 
    

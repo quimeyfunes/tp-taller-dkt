@@ -3,12 +3,13 @@
 Escenario::Escenario(){
 }
 
-Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, float relacionAlto){
+Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, float relacionAlto, int maximosClientes){
 	this->altoU = altoU;
 	this->anchoU = anchoU;
 	this->nivelAgua = nivelAgua;
 	this->listaFiguras = new list<Figura*>();
-	
+	this->maximosClientes = maximosClientes;
+
 	b2Vec2* gravity = new b2Vec2(gravedadX, gravedadY);
 	this->world = new b2World(*gravity);
 
@@ -17,7 +18,7 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->puedeMoverseDerecha = false;
 	this->puedeMoverseIzquierda = false;
 
-	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+	for(int i=0; i < this->maximosClientes; i++){
 		this->figurasActivas.push_back(NULL);
 		this->puedeMoverseArribaClientes.push_back(false);
 		this->puedeMoverseDerechaClientes.push_back(false);
@@ -46,6 +47,10 @@ int Escenario::getNivelAgua(){
 	return nivelAgua;
 }
 
+int Escenario::getMaximosClientes(){
+	return maximosClientes;
+}
+
 list<Figura*>* Escenario::getFiguras() {
 	return this->listaFiguras;
 }
@@ -68,7 +73,7 @@ void Escenario::notificar() {
 }
 
 Gusano* Escenario::crearGusano(ObjetoParseado objeto){
-	Gusano* gusano = new Gusano(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.ancho,objeto.alto,objeto.masa);
+	Gusano* gusano = new Gusano(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.ancho,objeto.alto,objeto.masa,this->maximosClientes);
 	if (this->haySuperposicion(gusano)){
 		//Remuevo figura del world
 		this->getWorld()->DestroyBody(gusano->getBody());
@@ -101,7 +106,7 @@ Gusano* Escenario::crearGusanoParaJugador(){
 		int x = vec.x;
 		int y = vec.y - altoGusano;
 	
-		Gusano* gusano = new Gusano(x,y,0,this->world,false,anchoGusano,altoGusano,10);
+		Gusano* gusano = new Gusano(x,y,0,this->world,false,anchoGusano,altoGusano,10,this->maximosClientes);
 		if (this->haySuperposicion(gusano) || this->haySuperposicionConTerreno(gusano) ||  vec.y + altoGusano > this->nivelAgua){
 			//Si hay superposicion o esta al nivel del agua creo en otra posicion;
 			this->world->DestroyBody(gusano->getBody());
@@ -357,7 +362,7 @@ void Escenario::moverse(){
 
 
 void Escenario::moverseClientes(){
-	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) && !(this->figurasActivas[i]->estaMuerto()) && !(this->figurasActivas[i]->estaMuerto())) {
 			this->saltarClientes();
 			this->moverDerechaClientes();
@@ -375,7 +380,7 @@ void Escenario::saltar(){
 }
 
 void Escenario::saltarClientes(){
-	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) && ((Gusano*)this->figurasActivas[i])->puedeSaltar() && (this->puedeMoverseArribaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(0,-25));
@@ -393,7 +398,7 @@ void Escenario::moverIzquierda(){
 }
 
 void Escenario::moverIzquierdaClientes(){
-	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseIzquierdaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
@@ -413,7 +418,7 @@ void Escenario::moverDerecha(){
 }
 
 void Escenario::moverDerechaClientes(){
-	for(int i=0; i < MAXIMOS_CLIENTES; i++){
+	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseDerechaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(5,cuerpo->GetLinearVelocity().y));

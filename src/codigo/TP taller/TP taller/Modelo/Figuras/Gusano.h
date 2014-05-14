@@ -15,9 +15,10 @@ private:
 	int numContactos;
 	vector<bool> meClickearon;
 	bool congelado;
+	int maximosCLientes;
 public:
 	Gusano();
-	Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa);
+	Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa,int maximosClientes);
 	~Gusano(void);
 	bool meClickeo(float x,float y);
 	void agregarContacto();
