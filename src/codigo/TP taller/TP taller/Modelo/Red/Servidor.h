@@ -6,6 +6,7 @@ typedef struct structCliente{
 	string username;
 	int time;
 	SOCKET socket;
+	bool enviandoData;
 	bool activo;
 	list<Gusano*> figuras;
 	string ultimoEventoSerializado;
@@ -19,26 +20,28 @@ public:
 
     Servidor();
     ~Servidor();
-	EscenarioParseado* escenario;
-    void actualizar(string dibujablesSerializados);
-	void recibirDeClientes();
+	static EscenarioParseado* escenario;
+    static void actualizar(void* clienteN);
+	static void recibirDeCliente(int* clienteN);
+	static void enviarCliente(int* clienteN, int tipoPaquete, string mensaje);
+	static string dibujablesSerializados;
+
 	void enviarAeClientes(char* mensaje);
-	void enviarImagen(string direccion, int tipoPaquete);
-	void enviarTodosLosClientes(int tipoPaquete, string mensaje);
+	static void enviarImagen(SOCKET sock, string direccion, int tipoPaquete);
 	static ServidorRed* red;
 	static void aceptarClientes(void* arg);
-	void enviarEscenario(int num_cliente);
-	void enviarImagenes(SOCKET sock);
+	static void enviarEscenario(int num_cliente);
+	static void enviarImagenes(SOCKET sock);
 	static cliente* clientes;
+	
+
 private:
 
    // IDs for the clients connecting for table in ServerNetwork 
     static unsigned int cliente_id;
-	// data buffer
-   char network_data[MAX_PACKET_SIZE];
-   int buscarCliente(string nombre);
-   void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);
-   void enviarPaquete(SOCKET sock, int tipoPaquete, char* mensaje);
+
+   static int buscarCliente(string nombre);
+   static void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);
    bool clienteEnEspera;
 
    // The ServerNetwork object 

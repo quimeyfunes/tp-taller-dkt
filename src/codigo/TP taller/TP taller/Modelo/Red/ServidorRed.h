@@ -27,8 +27,7 @@ public:
     // for error checking return values
     int iResult;
 
-    // table to keep track of each client's socket
-    std::map<unsigned int, SOCKET> sessions; 
+    SOCKET sockNuevo; 
 
 	// accept new connections
     bool aceptarNuevoCliente();

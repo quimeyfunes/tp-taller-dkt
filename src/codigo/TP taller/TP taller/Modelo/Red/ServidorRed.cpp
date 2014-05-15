@@ -3,7 +3,7 @@
 ServidorRed::ServidorRed(void)
 {
 	
-	sessions.insert( pair<unsigned int, SOCKET>(0, INVALID_SOCKET) );
+	this->sockNuevo = INVALID_SOCKET;
     // create WSADATA object
     WSADATA wsaData;
 
@@ -105,7 +105,7 @@ bool ServidorRed::aceptarNuevoCliente()
         setsockopt( this->socketClientes, IPPROTO_TCP, TCP_NODELAY, &value, sizeof( value ) );
 
         // insert new client into session id table
-		sessions.at(0) = this->socketClientes;
+		sockNuevo = this->socketClientes;
         return true;
     }
 
