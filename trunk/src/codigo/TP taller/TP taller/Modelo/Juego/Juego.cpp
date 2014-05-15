@@ -1,7 +1,6 @@
 	#include "Juego.h"
 
 Servidor* Juego::servidor = NULL;
-string Juego::dibujablesSerializados;
 
 Juego::Juego(){
 }
@@ -32,9 +31,6 @@ void Juego::ejecutar(){
 
 	servidor = new Servidor();
 	 int tamanio;
-	//Creo el trhead con el loop del servidor: en el loop se van a escuchar los clientes y a recibir los mensajes
-	 _beginthread( Juego::servidorLoop, 0, (void*)12);
-	 //_beginthread(Juego::clienteLoop,0, (void*)12);
 
 	//game loop
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
@@ -50,7 +46,7 @@ void Juego::ejecutar(){
 			}
 		}
 		escenario->notificar();
-		dibujablesSerializados = this->crearLista(tamanio);
+		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
 		SDL_Delay(3);
 
 	}
@@ -258,26 +254,8 @@ void Juego::agregarObjetos(){
 	}
 }
 
-void Juego::servidorLoop(void * arg) 
-{ 
-    while(true) 
-    {
-		//En servidor actualizar se reciben clientes y se escuchan mensajes
-		servidor->actualizar(dibujablesSerializados);
-		//If nuevo cliente -> tengo que agregar un nuevo juegador si no se supero el limite de jugadores
-
-		//If mensaje -> proceso el mensaje: si un jugador apreta boton, tengo que reflejarlo en el juego
-    }
-}
-
 Juego::~Juego(){
 
 	//delete this->evento;
 	//delete Logger::getLogger();
-}
-
-
-void Juego::clienteLoop(void * arg) 
-{ 
-
 }
