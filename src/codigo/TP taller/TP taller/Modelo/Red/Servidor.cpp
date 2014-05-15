@@ -182,7 +182,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 
 						//hago que el resto sepa que se reconectó el cliente
 						for(int cont=0; cont < escenario->maximosClientes; cont++){
-							if(clientes[cont].username != clientes[*clienteN].username){
+							if((clientes[cont].username != clientes[*clienteN].username)&&(clientes[cont].activo)){
 								if(clientes[cont].socket != INVALID_SOCKET) enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[*clienteN].username +" se ha reconectado.");
 							}
 						}
