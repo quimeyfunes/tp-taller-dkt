@@ -94,7 +94,7 @@
 	const int TIEMPO_CARTEL_INFO = 5;
 
 	const float porcentajeScroll = 0.075;
-	const float velocidadScroll = 1/600.0;
+	const float velocidadScroll = 1/20.0;
 
 	//Para Zoom
 	const int escalaZoomDefault = 1;

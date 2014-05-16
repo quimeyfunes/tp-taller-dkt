@@ -167,7 +167,6 @@ int Vista::getAltoPx() {
 
 bool Vista::leerEvento(SDL_Event* evento) {
 	int x,y;
-	//Para scroll
 	SDL_GetMouseState(&x,&y);
 	this->scroll(x,y);
 	if (SDL_PollEvent(evento) != 0) {
@@ -209,7 +208,7 @@ bool Vista::leerEvento(SDL_Event* evento) {
 			this->zoom(evento,x,y);
 		}
 	}
-	this->validarCorrimiento();
+	
 	return false;
 }
 
@@ -251,24 +250,25 @@ void Vista::setZoom(float escala){
 		return;
 	}
 	this->escalaZoom = escala;
-		
+	
 }
 
 void Vista::scroll(int x , int y) {
 	if ((x < (this->anchoPx * porcentajeScroll)) && ( x != 0)) {
-		this->corrimientoX -= this->anchoPx *velocidadScroll / x ;
+		this->corrimientoX -= this->anchoPx * velocidadScroll / x ;
 	} else {
-		if ((x > (this->anchoPx * (1 - porcentajeScroll))) && ( x != this->anchoPx)) {
+		if ((x > (this->anchoPx * (1 - porcentajeScroll))) && ( x < (this->anchoPx - 1))) {
 			this->corrimientoX += this->anchoPx * velocidadScroll / (this->anchoPx - x);
 		} 
 	}
 	if ((y < (this->altoPx * porcentajeScroll)) && ( y != 0)) {
 		this->corrimientoY -= this->altoPx * velocidadScroll / y ; 
 	} else {
-		if ((y > (this->altoPx * (1 - porcentajeScroll))) && ( y != this->altoPx)) {
+		if ((y > (this->altoPx * (1 - porcentajeScroll))) && ( y < (this->altoPx - 1))) {
 			this->corrimientoY += this->altoPx * velocidadScroll / (this->altoPx - y);
 		} 
 	}
+	this->validarCorrimiento();
 }
 
 void Vista::zoom(SDL_Event* evento,int x, int y) {
@@ -287,6 +287,7 @@ void Vista::zoom(SDL_Event* evento,int x, int y) {
 		this->corrimientoX = (this->corrimientoX * escalaZoom) - this->anchoPx / 2;
 		this->corrimientoY = (this->corrimientoY * escalaZoom)  - this->altoPx / 2;
 	}
+	this->validarCorrimiento();
 }
 
 void Vista::validarCorrimiento() {
