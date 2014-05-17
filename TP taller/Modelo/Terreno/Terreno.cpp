@@ -128,7 +128,10 @@ void Terreno::destruirTerreno(float x, float y, int radio){
 	
 	cout<<this->terreno.outer().size()<<endl;
 	if (output.size() != 0) {
-		this->body->DestroyFixture(this->body->GetFixtureList());	//Destruyo la fixture y el poligonoBoost
+		//for (b2Fixture* f = this->body->GetFixtureList(); f; f = f->GetNext()) {
+			//if ( f != NULL)
+				this->body->DestroyFixture(f);
+		}//Destruyo la fixture y el poligonoBoost
 		cout<<"(Y) "<<endl;
 		this->terreno.clear();
 		cout<<this->terreno.outer().size()<<endl;
@@ -148,7 +151,7 @@ void Terreno::destruirTerreno(float x, float y, int radio){
 		this->terreno.clear();*/
 	}
 	circulo.clear();
-	b2ChainShape chain;
+	
 	b2FixtureDef fixtureDef;
 	
 	fixtureDef.restitution = restitucion;
@@ -165,22 +168,28 @@ void Terreno::destruirTerreno(float x, float y, int radio){
 		for (int j = 0; j < vertices.size() - 1; j++) 
 		{ 
 			Punto punto = vertices[j];
-			float dist = bg::distance(punto,puntoAux);
-			if (bg::distance(punto,puntoAux) > (0.05 * 0.05)) {
+			//float dist = bg::distance(punto,puntoAux);
+			if (bg::distance(punto,puntoAux) > (0.5)) {
 				vecBorde[puntos].Set(punto.get<0>(),punto.get<1>());
 				puntoAux = punto;
 				puntos++;
 			}
 		}
-		chain.CreateChain(vecBorde,puntos);
-		fixtureDef.shape = &chain;
-		this->body->CreateFixture(&fixtureDef);
-		for (int i = 0 ; i < puntos - 1; i++) {
-			b2Vec2 vec = vecBorde[puntos - 1 - i];
-			bg::append(this->terreno,Punto (vec.x,vec.y));
-		}
 
+		if ((puntos > 1) && (vecBorde != NULL)) {
+			cout << "Puntos: " << puntos << "VecBorde: " << vecBorde << endl;
+			b2ChainShape chain;
+			chain.CreateChain(vecBorde,puntos);
+			fixtureDef.shape = &chain;
+			this->body->CreateFixture(&fixtureDef);
+
+			for (int i = 0 ; i < puntos - 1; i++) {
+				b2Vec2 vec = vecBorde[puntos - 1 - i];
+				bg::append(this->terreno,Punto (vec.x,vec.y));
+			}
+		}
 		delete vecBorde;
+
     }
 	
 }
