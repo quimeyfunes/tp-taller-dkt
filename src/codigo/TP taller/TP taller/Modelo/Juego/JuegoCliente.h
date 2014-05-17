@@ -20,14 +20,12 @@ class JuegoCliente: public Juego{
 private:
 	//list<DibujableSerializado> Juego::crearLista(int &tamanio);
 	//string Juego::crearLista(int &tamanio);
-	/*Vista* vista;
-	Escenario* escenario;
-	SDL_Event* evento;*/
-
-	EscenarioParseado* esc;
+	static Vista* vistaCliente;
+	static CRITICAL_SECTION criticalSection;
+	static EscenarioParseado* esc;
 	CartelInfo* cartelInfo;
 	static Cliente* cliente;
-	list<Dibujable*>* dibujablesBase;
+	static list<Dibujable*>* dibujablesBase;
 	void reiniciar();
 	void salir();
 	void jugar();
@@ -36,7 +34,8 @@ private:
 	void agregarTexturas(EscenarioParseado* e);
 	void agregarAgua(EscenarioParseado* e);
 	void leerEvento();
-	/*list<Dibujable*>* */void crearLista(string vistaSerializada);
+	static void creandoLista(void* arg);
+	static void crearLista(string vistaSerializada);
 public:
 	JuegoCliente();
 	JuegoCliente(string nombreCliente, string ip);
