@@ -130,8 +130,8 @@ void Terreno::destruirTerreno(float x, float y, int radio){
 	if (output.size() != 0) {
 		//for (b2Fixture* f = this->body->GetFixtureList(); f; f = f->GetNext()) {
 			//if ( f != NULL)
-				this->body->DestroyFixture(f);
-		}//Destruyo la fixture y el poligonoBoost
+				this->body->DestroyFixture(this->body->GetFixtureList());
+		//}//Destruyo la fixture y el poligonoBoost
 		cout<<"(Y) "<<endl;
 		this->terreno.clear();
 		cout<<this->terreno.outer().size()<<endl;
