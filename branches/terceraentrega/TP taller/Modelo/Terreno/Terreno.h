@@ -23,7 +23,7 @@ class Terreno
 {
 private:
 	b2Body* body;
-	PoligonoBoost terreno;
+	list<PoligonoBoost>* terreno;
 	LectorTerreno* lectorTerreno;
 public:
 	Terreno(b2World* world);

@@ -9,6 +9,7 @@ Terreno::Terreno(b2World* world){
 	bodyDef.position.Set(0,0);
 	bodyDef.angle = 0;
 	this->body = world->CreateBody(&bodyDef);
+	this->terreno = new list<PoligonoBoost>;
 }
 
 
@@ -76,17 +77,13 @@ void Terreno::generarTerreno(string nombreArchivo){
 	this->body->CreateFixture(&fixtureDef);
 
 	//Paso chain a poligono de boost
-	this->terreno.clear();
+	PoligonoBoost poligono;
 	for (int i = 0 ; i < posVec ; i++) {
 		b2Vec2 vec = vecBorde[i];
-		bg::append(this->terreno,Punto (vec.x,vec.y));
+		bg::append(poligono,Punto (vec.x,vec.y));
 	}
-	//Por si hubo aguas profundas en 1000 agrego un punto por abajo
-	/*bg::append(this->terreno,Punto(vecBorde[posVec-1].x,1001)); 
-	//Cierro poligono
-	bg::append(this->terreno,Punto (vecBorde[0].x,1001)); 
-	bg::append(this->terreno,Punto (vecBorde[0].x,vecBorde[0].y));*/
-	//cout<<this->terreno.outer().size()<<endl;
+	bg::correct(poligono);
+	this->terreno->push_back(poligono);
 	delete vecBorde;
 }
 
@@ -109,87 +106,71 @@ Terreno::~Terreno(void)
 }
 
 void Terreno::destruirTerreno(float x, float y, int radio){
-
-
-	int n = 200; //Aproximo lados = radio para circulo
+	//Destruyo fixtures 
+	b2Fixture* fProxima;
+	for (b2Fixture* f = this->body->GetFixtureList(); f; f = fProxima) {
+		fProxima = f->GetNext();
+		this->body->DestroyFixture(f);
+	}
+		
+	//Creo circulo. Aproximo lados = 200 para circulo 
+	int n = radio; 
 	PoligonoBoost circulo;
 	float angulo = (2 * b2_pi / n);
 	for (int i = 0; i < n; i++) {
 		bg::append(circulo,Punto (radio * cos(angulo*i) + x, radio * sin(angulo*i) + y)); 
 	}
-	bg::append(circulo,Punto (radio * cos(angulo) + x, radio * sin(angulo) + y)); 
-	list<PoligonoBoost> output;
+	//bg::append(circulo,Punto (radio * cos(angulo) + x, radio * sin(angulo) + y)); 
+	bg::correct(circulo);
 
-	try {
-		bg::difference(circulo,this->terreno,output);
-	} catch (exception &e) {
-		cout<<"FFF"<<endl;
-	}
+	int i = 0;
+	int tamanio = this->terreno->size();
+	for (list<PoligonoBoost>::iterator it = this->terreno->begin(); i < tamanio; it++) {
+		i++;
+		list<PoligonoBoost> output;
+		bg::difference((*it),circulo,output);
+
+		b2FixtureDef fixtureDef;
 	
-	cout<<this->terreno.outer().size()<<endl;
-	if (output.size() != 0) {
-		//for (b2Fixture* f = this->body->GetFixtureList(); f; f = f->GetNext()) {
-			//if ( f != NULL)
-				this->body->DestroyFixture(this->body->GetFixtureList());
-		//}//Destruyo la fixture y el poligonoBoost
-		cout<<"(Y) "<<endl;
-		this->terreno.clear();
-		cout<<this->terreno.outer().size()<<endl;
-	} else {
-		list<PoligonoBoost> output2;
-		try {
-			bg::difference(this->terreno,circulo,output2);
-		}catch (exception &e) {
-		}
-		cout<<"CantOutput: "<<output2.size()<<"  ";
-		BOOST_FOREACH(PoligonoBoost const& p, output2) {
-			//vector<Punto> const& vertices = p.inners();
-			cout<<p.outer().size()<<endl;
-		}
-		/*cout<<output.size()<<endl;
-		this->body->DestroyFixture(this->body->GetFixtureList());
-		this->terreno.clear();*/
-	}
-	circulo.clear();
-	
-	b2FixtureDef fixtureDef;
-	
-	fixtureDef.restitution = restitucion;
-	fixtureDef.friction = friccion;
-	
-	BOOST_FOREACH(PoligonoBoost const& p, output)
-    {
+		fixtureDef.restitution = restitucion;
+		fixtureDef.friction = friccion;
 		
-		vector<Punto> const& vertices = p.outer();
-		b2Vec2* vecBorde = new b2Vec2[vertices.size()];
-		//Paso puntos de poligono a vector para crear chain
-		Punto puntoAux(0,0);
-		int puntos = 0;
-		for (int j = 0; j < vertices.size() - 1; j++) 
-		{ 
-			Punto punto = vertices[j];
-			//float dist = bg::distance(punto,puntoAux);
-			if (bg::distance(punto,puntoAux) > (0.5)) {
-				vecBorde[puntos].Set(punto.get<0>(),punto.get<1>());
-				puntoAux = punto;
-				puntos++;
+		//Itero sobre output y creo una chain por cada poligono de output. 
+		BOOST_FOREACH(PoligonoBoost const& p, output)
+		{
+			PoligonoBoost poligono;
+			vector<Punto> const& vertices = p.outer();
+			b2Vec2* vecBorde = new b2Vec2[vertices.size()];
+			//Paso puntos de poligono a vector para crear chain
+			Punto puntoAux(0,0);
+			int puntos = 0;
+			for (int j = 0; j < vertices.size() - 1; j++) 
+			{ 
+				Punto punto = vertices[j];
+				if (bg::distance(punto,puntoAux) > 0.5) {
+					vecBorde[puntos].Set(punto.get<0>(),punto.get<1>());
+					puntoAux = punto;
+					puntos++;
+					bg::append(poligono,punto);
+				}
 			}
-		}
 
-		if ((puntos > 1) && (vecBorde != NULL)) {
-			cout << "Puntos: " << puntos << "VecBorde: " << vecBorde << endl;
-			b2ChainShape chain;
-			chain.CreateChain(vecBorde,puntos);
-			fixtureDef.shape = &chain;
-			this->body->CreateFixture(&fixtureDef);
+			if ((puntos > 1) && (vecBorde != NULL)) {
+				b2ChainShape chain;
+				chain.CreateChain(vecBorde,puntos);
+				fixtureDef.shape = &chain;
+				this->body->CreateFixture(&fixtureDef);
 
-			for (int i = 0 ; i < puntos - 1; i++) {
-				b2Vec2 vec = vecBorde[puntos - 1 - i];
-				bg::append(this->terreno,Punto (vec.x,vec.y));
+				bg::correct(poligono);
+				this->terreno->push_back(poligono);
 			}
+			delete vecBorde;
 		}
-		delete vecBorde;
-
-    }
+	}
 	
+	//Saco los primeros poligonos, que serian los viejos. 
+	i = 0;
+	for (int i = 0; i < tamanio; i++) {
+		this->terreno->pop_front();
+	}
 }
