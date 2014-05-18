@@ -25,6 +25,8 @@
 	#define rutaGrave "imagenes/texturas/grave.png"
 	#define rutaWormGrisIzq "imagenes/texturas/wormGrisFrentIzq.png"
 	#define rutaWormGrisDer "imagenes/texturas/wormGrisFrentDer.png"
+
+	#define rutaArchivoIP "config/IP.txt"
 	
 	const int timeStepOlas = 5;
 	const int timeStepNubes = 6;
