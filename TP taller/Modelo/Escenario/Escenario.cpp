@@ -295,7 +295,7 @@ bool Escenario::click(float x, float y){
 			return true;
 		}
 	}
-	this->terreno->destruirTerreno(x,y,40);
+	this->terreno->destruirTerreno(x,y,20);
 	return false;
 }
 
