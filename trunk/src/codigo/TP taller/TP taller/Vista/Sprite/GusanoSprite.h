@@ -5,7 +5,6 @@
 #include "SDL/SDL_image.h"
 #include "../Dibujables/DibujableTextura.h"
 #include "../../constantes.h"
-#include "../../Modelo/Escenario/Escenario.h"
 #include "../../Parser/yaml/ParserYaml.h"
 #include "../../Observador/Observador.h"
 #include "../../Modelo/Figuras/Figura.h"
