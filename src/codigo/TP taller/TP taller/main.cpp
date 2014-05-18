@@ -14,6 +14,18 @@ char* obtenerIPMaquina(){
 return ip;
 }
 
+string obtenerAnteriorIP(){
+	ifstream archivoIP;
+	archivoIP.open(rutaArchivoIP);
+	if(archivoIP){
+		string ip;
+		archivoIP>>ip;
+		return ip;
+	}
+
+	return "";
+}
+
 int main(int argc, char* argv[]){
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	ParserYaml::setConfigPath("config/config.yaml");
@@ -22,15 +34,34 @@ int main(int argc, char* argv[]){
 		std::string argumento;
 		std::cin >> argumento;
 		if(argumento == "1"){
-			
+			bool listo = false;
 			printf("Soy Cliente.\n");
 			printf("Ingrese su nombre de usuario: ");
 			string nombre;
 			cin.ignore();
 			getline(cin, nombre);
-			printf("Ingrese la direccion IP del servidor: ");
-			string ip;
-			cin>>ip;
+			string ip = obtenerAnteriorIP();
+			while(!listo){
+				if(ip == ""){
+					ofstream archivoIP;
+					archivoIP.open(rutaArchivoIP, ios::trunc);
+					printf("Ingrese la direccion IP del servidor: ");
+					cin>>ip;
+					archivoIP<<ip;
+					archivoIP.close();
+					listo=true;
+				}else{
+					cout<<"La direccion IP establecida es: "<<ip<<endl;
+					string respuesta="";
+					while(respuesta != "s" && respuesta != "n"){
+						printf("Correcto? (s/n) ");
+						cin>>respuesta;
+					}
+					if(respuesta == "s") listo= true;
+					else ip = "";
+				}
+			}
+
 			JuegoCliente* juego = new JuegoCliente(nombre, ip);
 			juego->ejecutar();
 			delete juego;
