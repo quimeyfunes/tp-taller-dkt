@@ -50,7 +50,7 @@ private:
 	/*verifica si en las columnas de la matriz hay un error TIERRA-CIELO-TIERRA*/
 	vector<int> chequearTCT(int &numErrores);
 	void loguearErroresMatriz(vector<int> columnasInvalidas);
-
+	int getHipotenusa(int x, int y, int i, int j);
 public:
 	
 	/*se le pasa por parametro el nombre del archivo, si no existe o no es formato PNG
@@ -60,6 +60,7 @@ public:
 	/*genera una imagen PNG de terreno aleatorio valido, con los parametros nombre, alto y ancho (en pixeles)*/
 	void generarTerrenoAleatorio(string nombreArchivo);
 
+	void destruirMatriz(int x, int y, int radio);
 	int getTamanoBorde();
 
 	pixel** getMatrizTerreno();

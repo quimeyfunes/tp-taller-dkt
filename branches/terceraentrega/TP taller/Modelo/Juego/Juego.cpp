@@ -115,7 +115,7 @@ void Juego::leerEvento(){
                         int x,y;
                         SDL_GetMouseState(&x,&y);
                         if (!(this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom())))) {
-							this->vista->destruir(x,y,40 * relacionPPU);
+							this->vista->destruir(x,y,40 * relacionPPU,this->terreno->getLector());
 						}
                         break;
                 }

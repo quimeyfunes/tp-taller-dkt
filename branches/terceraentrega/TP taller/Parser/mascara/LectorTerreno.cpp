@@ -9,7 +9,7 @@ LectorTerreno::LectorTerreno(string nombreArchivo){
 	//asigno valores de alto y ancho
 	this->anchoMatriz = (!imagen)? anchoPxDEF : imagen->w;
 	this->altoMatriz =  (!imagen)? altoPxDEF  : imagen->h;
-	
+
 	//reservo espacio para mi matriz
 	this->matrizTerreno = new pixel* [anchoMatriz];
 	for(int i = 0; i< anchoMatriz; i++){
@@ -184,6 +184,36 @@ void LectorTerreno::escalarMatrizAEscenario(){
 	this->altoMatriz = altoEscenario;
 	this->matrizTerreno = matrizEscalada;
 
+}
+
+void LectorTerreno::destruirMatriz(int x, int y, int radio){
+	int radioPX = radio;// * relacionPPU;
+	int minX = x - radioPX;
+	minX = minX<0 ? 0:minX;
+	int minY = y - radioPX;
+	minY = minY<0 ? 0:minY;
+	int maxX = x + radioPX;
+	maxX = maxX>anchoMatriz ? anchoMatriz:maxX;
+	int maxY = y + radioPX;
+	maxY = maxY>altoMatriz ? altoMatriz:maxY;
+
+	//cout<<"LectorTerreno::DestruirMatriz."<<endl;
+	//cout<<"minX: "<<minX<<endl;
+	//cout<<"maxX: "<<maxX<<endl;
+	//cout<<"minY: "<<minY<<endl;
+	//cout<<"maxY: "<<maxY<<endl;
+	for(int i=minX; i<maxX; i++){
+		for(int j=minY; j< maxY; j++){
+			if(getHipotenusa(x, y, i, j) < radio) this->matrizTerreno[i][j].A = 0x00;
+		}
+	}
+}
+
+int LectorTerreno::getHipotenusa(int x, int y, int i, int j){
+	int cat1 = (i-x);
+	int cat2 = (j-y);
+	int hip = sqrt((double)((cat1*cat1)+(cat2*cat2)));
+	return hip;
 }
 
 char* LectorTerreno::getRutaTexturaActualizada(){
