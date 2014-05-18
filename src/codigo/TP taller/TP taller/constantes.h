@@ -103,18 +103,6 @@
 	const int zoomMax = 8;
 	//const int zoomMin = 1;
 
-	//Constantes fisicas
-	const int gravedadX = 0;
-	const float gravedadY = 9.8f;
-	const float stepTiempo = 3/50.0; //cuanto mas alto el stepTiempo, mas rapido funciona el mundo
-	const int iteracionesVelocidad = 6;
-	const int iteracionesPosicion = 2;
-	const float friccion = 0.6f;
-	const float restitucion = 0;
-	const int velocidadAgua = 8;
-	const float desaceleracionAgua = 0.973;
-	const int anchoGusano = 15;
-	const int altoGusano = 18;
 	//Tipos de paquete
 	const unsigned paqueteInicial=1;
 	const unsigned paqueteEvento=2;

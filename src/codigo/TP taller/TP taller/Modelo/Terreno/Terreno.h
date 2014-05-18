@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Box2D/Box2D.h"
 #include "../../Parser/mascara/LectorTerreno.h"
+#include "../../constantesFisicas.h"
 #include <list>
 
 using namespace std;

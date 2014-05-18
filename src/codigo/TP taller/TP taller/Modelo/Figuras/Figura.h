@@ -6,7 +6,7 @@
 #include "Box2D/Box2D.h"
 #include "../../Observador/Observable.h"
 #include "../../constantes.h"
-
+#include "../../constantesFisicas.h"
 
 using namespace std;
 
