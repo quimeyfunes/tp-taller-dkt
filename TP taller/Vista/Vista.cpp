@@ -309,8 +309,6 @@ void Vista::validarCorrimiento() {
 
 void Vista::destruir(float x,float y,int radio, LectorTerreno* lector){
 	
-
-
 	lector->destruirMatriz(x, y, radio);
 	int i = 0;
 	//El terreno es 5to
@@ -321,27 +319,4 @@ void Vista::destruir(float x,float y,int radio, LectorTerreno* lector){
 		}
 		i++;
 	}
-	//SE PODRIA OPTIMIZAR ESTA CHAGAR
-	//quito los primeros base
-	/*list<Dibujable*>* dibujables = new list<Dibujable*>;
-	for(int i=0; i<4; i++){
-		dibujables->push_back(this->listaDibujables->front());
-		this->listaDibujables->pop_front();
-	}
-	Dibujable* terrenoViejo = this->listaDibujables->front();
-	this->listaDibujables->pop_front();
-	delete terrenoViejo;
-
-	SDL_Rect rect;
-	rect.x=0;
-	rect.y=0;
-	rect.h = this->altoPxTot;
-	rect.w = this->anchoPxTot;
-	//vuelvo a meter los base viejo, pero con terreno nuevo
-	this->listaDibujables->push_front(new DibujableTextura(this->renderer, rect, lector->getRutaTexturaActualizada(), ""));
-	for(int i=0; i<4; i++){
-		this->listaDibujables->push_front(dibujables->back());
-		dibujables->pop_back();
-	}
-	delete dibujables;*/
 }

@@ -88,6 +88,7 @@ public:
 	//Es la del servidor
 	Figura* getFiguraActiva();
 	void inicializarCliente(int cliente);
+	void explotar(float x, float y, int radio);
 };
 
 

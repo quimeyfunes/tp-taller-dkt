@@ -295,7 +295,8 @@ bool Escenario::click(float x, float y){
 			return true;
 		}
 	}
-	this->terreno->destruirTerreno(x,y,20);
+	this->terreno->destruirTerreno(x,y,30);
+	this->explotar(x,y,30);
 	return false;
 }
 
@@ -361,7 +362,6 @@ void Escenario::moverse(){
 		this->moverIzquierda();
 	}
 }
-
 
 void Escenario::moverseClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
@@ -436,4 +436,24 @@ Figura* Escenario::getFiguraActiva(){
 
 vector<Gusano*> Escenario::getFigurasActivas(){
 	return this->figurasActivas;
+}
+
+void Escenario::explotar(float x, float y, int radio) {
+	float potenciaPorUnidad = 3000; //Iria en constantesFisicas, q en esta version todavia no esta
+	float potenciaTotal = potenciaPorUnidad * radio;
+	b2Vec2 posicion,distanciaV,fuerza;
+	float distancia,fuerzaTotal,angulo;
+	for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+		posicion = (*it)->getPosicion();
+		distanciaV = b2Vec2(posicion.x - x, posicion.y - y );
+		distancia = distanciaV.Length();
+		if (distancia < radio ) {
+			fuerzaTotal = potenciaTotal / distancia;
+			angulo = atan2(distanciaV.y , distanciaV.x);
+			fuerza.x = fuerzaTotal * cos (angulo);
+			fuerza.y = fuerzaTotal * sin (angulo);
+			(*it)->getBody()->ApplyForceToCenter(fuerza,true);
+		}
+
+	}
 }

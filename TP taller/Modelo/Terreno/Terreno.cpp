@@ -138,7 +138,7 @@ void Terreno::destruirTerreno(float x, float y, int radio){
 		//Itero sobre output y creo una chain por cada poligono de output. 
 		BOOST_FOREACH(PoligonoBoost const& p, output)
 		{
-			PoligonoBoost poligono;
+			//PoligonoBoost poligono;
 			vector<Punto> const& vertices = p.outer();
 			b2Vec2* vecBorde = new b2Vec2[vertices.size()];
 			//Paso puntos de poligono a vector para crear chain
@@ -151,7 +151,7 @@ void Terreno::destruirTerreno(float x, float y, int radio){
 					vecBorde[puntos].Set(punto.get<0>(),punto.get<1>());
 					puntoAux = punto;
 					puntos++;
-					bg::append(poligono,punto);
+					//bg::append(poligono,punto);
 				}
 			}
 
@@ -161,8 +161,8 @@ void Terreno::destruirTerreno(float x, float y, int radio){
 				fixtureDef.shape = &chain;
 				this->body->CreateFixture(&fixtureDef);
 
-				bg::correct(poligono);
-				this->terreno->push_back(poligono);
+				//bg::correct(poligono);
+				this->terreno->push_back(p);
 			}
 			delete vecBorde;
 		}
