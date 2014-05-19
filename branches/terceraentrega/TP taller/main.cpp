@@ -17,7 +17,7 @@ return ip;
 int main(int argc, char* argv[]){
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	ParserYaml::setConfigPath("config/config.yaml");
-	try{
+	//try{
 		printf("Ingrese 1 para ser cliente, 2 para ser servidor.\n");
 		std::string argumento;
 		std::cin >> argumento;
@@ -44,9 +44,9 @@ int main(int argc, char* argv[]){
 			juego->ejecutar();
 			delete juego;
 		}
-	}catch(exception &e){
+	/*}catch(exception &e){
 		Logger::getLogger()->escribir(e.what());
 		Logger::getLogger()->guardarEstado();
-	}
+	}*/
 	return 0;    
 }
