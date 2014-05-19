@@ -152,7 +152,6 @@ int LectorTerreno::getTamanoBorde(){
 	return num;
 }
 
-
 void LectorTerreno::escalarMatrizAEscenario(){
 
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
@@ -197,14 +196,21 @@ void LectorTerreno::destruirMatriz(int x, int y, int radio){
 	int maxY = y + radioPX;
 	maxY = maxY>altoMatriz ? altoMatriz:maxY;
 
-	//cout<<"LectorTerreno::DestruirMatriz."<<endl;
-	//cout<<"minX: "<<minX<<endl;
-	//cout<<"maxX: "<<maxX<<endl;
-	//cout<<"minY: "<<minY<<endl;
-	//cout<<"maxY: "<<maxY<<endl;
-	for(int i=minX; i<maxX; i++){
+	/*for(int i=minX; i<maxX; i++){
 		for(int j=minY; j< maxY; j++){
 			if(getHipotenusa(x, y, i, j) < radio) this->matrizTerreno[i][j].A = 0x00;
+		}
+	}*/
+
+	//Itera solo sobre circulo
+	for (int i = minX; i < maxX; i++) {
+		//int jMin = y - radio * sin(acos((float)(i - x) / radio)) + 1;
+		int jMin = y - sqrt((float) radio * radio - (i - x) * (i - x)) + 1; //Sumo 1 px porq a veces queda terreno invisible  por redondear para abajo
+		int jMax = y + radio - (jMin - minY);
+		jMin = jMin<minY ? minY:jMin;
+		jMax = jMax>maxY ? maxY:jMax;
+		for (int j = jMin; j < jMax; j++) {
+			this->matrizTerreno[i][j].A = 0x00;
 		}
 	}
 }
