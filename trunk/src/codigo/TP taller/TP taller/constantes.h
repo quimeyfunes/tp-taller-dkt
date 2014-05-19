@@ -35,8 +35,8 @@
 	const int alturaCartel = 8;
 
 	//Para gusanos
-	const int timeGusanoQuieto = 100;
-	const int timeGusanoMovil = 20;
+	const int timeGusanoQuieto = 80;
+	const int timeGusanoMovil = 5;
 	const int timeGrave = 40;
 	const int gusanosPorPersonaje = 3;
 
