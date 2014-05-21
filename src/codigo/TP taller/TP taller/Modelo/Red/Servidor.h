@@ -13,6 +13,12 @@ typedef struct structCliente{
 	//Sesion* sesion;
 }cliente;
 
+typedef struct{
+	SOCKET emisor;
+	string msj;
+	int tiempoActivo;
+}mensajeStru;
+
 class Servidor
 {
 
@@ -20,6 +26,7 @@ public:
 
     Servidor();
     ~Servidor();
+	static mensajeStru mensaje;
 	static EscenarioParseado* escenario;
     static void actualizar(void* clienteN);
 	static void recibirDeCliente(int* clienteN);

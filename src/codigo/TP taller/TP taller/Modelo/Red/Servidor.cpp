@@ -10,13 +10,14 @@ string Servidor::dibujablesSerializados;
 ServidorRed* Servidor::red;
 cliente* Servidor::clientes;
 EscenarioParseado* Servidor::escenario;
+mensajeStru Servidor::mensaje;
 
 Servidor::Servidor(){
     // id's to assign clients for our table
-    cliente_id = 0;
+    cliente_id = -1;
 	clienteEnEspera = false;
 	this->escenario = ParserYaml::getParser()->getEscenario();
-
+	this->mensaje.tiempoActivo=0;
 	this->clientes = new cliente[this->escenario->maximosClientes +1];
 	for(int i=0; i<this->escenario->maximosClientes +1; i++){
 		this->clientes[i].activo=false;
@@ -33,7 +34,6 @@ Servidor::Servidor(){
 }
 
 Servidor::~Servidor(){
-	_endthread();
 	delete this->clientes;
 
 };
@@ -44,10 +44,10 @@ void Servidor::aceptarClientes(void* arg){
 		if(red->aceptarNuevoCliente()){
 
 			//seteo el socket en espera en el espacio N
-			clientes[cliente_id].socket = red->sockNuevo;
-			_beginthread(Servidor::actualizar, 0, (void*)cliente_id);
-
 			cliente_id++;
+			clientes[cliente_id].socket = red->sockNuevo;
+			clientes[cliente_id].activo = true;
+			_beginthread(Servidor::actualizar, 0, (void*)cliente_id);
 		}
 	}
 }
@@ -55,11 +55,21 @@ void Servidor::aceptarClientes(void* arg){
 void Servidor::actualizar(void* clienteN) 
 {
 	int id= (int)clienteN;
+	while(clientes[id].activo){
 
-	while(true){
+		//recibe los mensajes que mandan otros clientes sin chocar en los threads
+		if(time(NULL) - mensaje.tiempoActivo == 0){
+			if(mensaje.emisor != clientes[id].socket)
+				enviarPaquete(clientes[id].socket, paqueteMensajeInfo, mensaje.msj);
+		}else{
+			mensaje.tiempoActivo=0;
+		}
+
 		recibirDeCliente(&id);
 		enviarCliente(&id, paqueteVista, dibujablesSerializados);
 	}
+
+	_endthread();
 }
 
 void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
@@ -181,11 +191,14 @@ void Servidor::recibirDeCliente(int* clienteN)
 						enviarPaquete(clientes[*clienteN].socket, paqueteMensajeInfo, "Bienvenido de nuevo, "+clientes[*clienteN].username + ".");
 
 						//hago que el resto sepa que se reconectó el cliente
-						for(int cont=0; cont < escenario->maximosClientes; cont++){
-							if((clientes[cont].username != clientes[*clienteN].username)&&(clientes[cont].activo)){
-								if(clientes[cont].socket != INVALID_SOCKET) enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[*clienteN].username +" se ha reconectado.");
-							}
-						}
+						//for(int cont=0; cont < escenario->maximosClientes; cont++){
+						//	if((clientes[cont].username != clientes[*clienteN].username)&&(clientes[cont].activo)){
+						//		if(clientes[cont].socket != INVALID_SOCKET) enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[*clienteN].username +" se ha reconectado.");
+						//	}
+						//}
+						mensaje.emisor=clientes[*clienteN].socket;
+						mensaje.msj = clientes[*clienteN].username +" se ha reconectado.";
+						mensaje.tiempoActivo=time(NULL);
 
 						for (std::list<Gusano*>::const_iterator it = clientes[*clienteN].figuras.begin(); it != clientes[*clienteN].figuras.end(); it++) {
 							(*it)->setCongelado(false);
@@ -194,7 +207,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 					}else{										//si no esta congelado, es xq ya existe un usuario con ese nombre
 						enviarPaquete(clientes[*clienteN].socket, paqueteFinal, "Ya existe otro usuario con su nombre.");
 						cliente_id--;
-						_endthread();
+						clientes[*clienteN].activo=false;
 					}
 				}else{											//si no existe username, tengo que ver si hay lugar para uno nuevo
 					if(cliente_id <= escenario->maximosClientes){				//si hay lugar 
@@ -207,16 +220,20 @@ void Servidor::recibirDeCliente(int* clienteN)
 						enviarImagenes(clientes[*clienteN].socket);
 						enviarPaquete(clientes[*clienteN].socket, paqueteDescargaLista, "");
 						cout<<clientes[*clienteN].username<<" se ha conectado."<<endl;
+						mensaje.tiempoActivo=time(NULL);
 
 						//hago que el bienvenido le aparezca en la vista al cliente
 						enviarPaquete(clientes[*clienteN].socket, paqueteMensajeInfo, "Bienvenido, "+clientes[*clienteN].username + ".");
 
 						//hago que el resto sepa que se conectó el cliente
-						for(int cont=0; cont < escenario->maximosClientes; cont++){
-							if(clientes[cont].username != clientes[*clienteN].username){
-								if(clientes[cont].socket != INVALID_SOCKET) enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[*clienteN].username +" se ha conectado.");
-							}
-						}
+						//for(int cont=0; cont < escenario->maximosClientes; cont++){
+						//	if(clientes[cont].username != clientes[*clienteN].username){
+						//		if(clientes[cont].socket != INVALID_SOCKET) enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[*clienteN].username +" se ha conectado.");
+						//	}
+						//}
+						mensaje.emisor=clientes[*clienteN].socket;
+						mensaje.msj = clientes[*clienteN].username +" se ha conectado.";
+						mensaje.tiempoActivo=time(NULL);
 						
 						//cliente_id++;
 
@@ -224,7 +241,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 																//si no hay lugar, lo saco
 						enviarPaquete(clientes[*clienteN].socket, paqueteFinal, "Ya se ha alcanzado la cantidad maxima de clientes.");
 						cliente_id--;
-						_endthread();
+						clientes[*clienteN].activo=false;
 					}
 				}
                 break;
@@ -247,20 +264,24 @@ void Servidor::recibirDeCliente(int* clienteN)
 
 	if(clientes[*clienteN].activo){
 		if(time(NULL) - clientes[*clienteN].time > 2){	//2 segundos de espera
-			clientes[*clienteN].activo=false;
+			
 			clientes[*clienteN].socket = INVALID_SOCKET;
 			cout<<clientes[*clienteN].username<<" se ha desconectado."<<endl;
 
 			////hago que el resto sepa que se desconectó el cliente
-			for(int cont=0; cont < escenario->maximosClientes; cont++){
-				if(clientes[cont].username != clientes[*clienteN].username){
-					if(clientes[cont].socket != INVALID_SOCKET) enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[*clienteN].username +" se ha desconectado.");
-				}
-			}
+			//for(int cont=0; cont < escenario->maximosClientes; cont++){
+			//	if(clientes[cont].username != clientes[*clienteN].username){
+			//		if(clientes[cont].socket != INVALID_SOCKET) enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[*clienteN].username +" se ha desconectado.");
+			//	}
+			//}
+			mensaje.emisor=clientes[*clienteN].socket;
+			mensaje.msj = clientes[*clienteN].username +" se ha desconectado.";
+			mensaje.tiempoActivo=time(NULL);
 
 			for (std::list<Gusano*>::const_iterator it = clientes[*clienteN].figuras.begin(); it != clientes[*clienteN].figuras.end(); it++) {
 				(*it)->setCongelado(true);
 			}
+			clientes[*clienteN].activo=false;
 		}
 	}
 	delete paquete;

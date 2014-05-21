@@ -50,11 +50,11 @@ void JuegoCliente::ejecutar(){
 			}
 		}
 
-		EnterCriticalSection(&criticalSection);
+		//EnterCriticalSection(&criticalSection);
 		vistaCliente->Dibujar();
-		LeaveCriticalSection(&criticalSection);
+		//LeaveCriticalSection(&criticalSection);
 
-		SDL_Delay(3);
+		//SDL_Delay(3);
 	}
 }
 
