@@ -47,7 +47,7 @@ void Juego::ejecutar(){
 		}
 		escenario->notificar();
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
-		SDL_Delay(3);
+		SDL_Delay(2);
 
 	}
 }
