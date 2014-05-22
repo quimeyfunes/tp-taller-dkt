@@ -37,10 +37,12 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	}
 	
 	this->congelado = false;
+	//this->armaSeleccionada = new Bazooka(x - (ancho/2), y, rotacion, world, estatico, ancho /4 ,alto /4, masa /2 );
 }
 
 Gusano::~Gusano(void)
 {
+	delete this->armaSeleccionada;
 }
 
 bool Gusano::meClickeo(float x,float y) {
@@ -107,4 +109,8 @@ void Gusano::setCongelado(bool congelado){
 
 void Gusano::setMeClickearon(bool d){
 	this->meClick = d;
+}
+
+Bazooka* Gusano::getArmaSeleccionada(){
+	return this->armaSeleccionada;
 }

@@ -7,6 +7,8 @@
 #include "Box2D/Box2D.h"
 #include "../../Observador/Observable.h"
 #include "../../constantes.h"
+#include "../Armas/Arma.h"
+#include "../Armas/Bazooka.h"
 #include "Figura.h"
 
 class Gusano: public Figura
@@ -17,6 +19,9 @@ private:
 	vector<bool> meClickearon;
 	bool congelado;
 	int maximosCLientes;
+	//Para probar
+	Bazooka* armaSeleccionada;
+
 public:
 	Gusano();
 	Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa,int maximosClientes);
@@ -32,6 +37,7 @@ public:
 	void setMeClickearon(bool meClickearon, int cliente);
 	bool getCongelado();
 	void setCongelado(bool congelado);
+	Bazooka* getArmaSeleccionada();
 	
 };
 
