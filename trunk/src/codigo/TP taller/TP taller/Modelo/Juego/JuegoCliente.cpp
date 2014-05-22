@@ -1,41 +1,35 @@
 #include "JuegoCliente.h"
 
 Cliente* JuegoCliente::cliente = NULL;
-Vista* JuegoCliente::vistaCliente = NULL;
-EscenarioParseado* JuegoCliente::esc;
-list<Dibujable*>* JuegoCliente::dibujablesBase;
-CRITICAL_SECTION JuegoCliente::criticalSection;
 
 JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	
 	cliente = new Cliente(nombreCliente, ip);
+
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
 	this->cartelInfo = NULL;
 	while(this->cliente->recibirDeServidor());	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
 	
-	esc = cliente->getEscenarioActual();
-	vistaCliente = new Vista(esc);
+	this->esc = cliente->getEscenarioActual();
+	this->vista = new Vista(esc);
 	agregarTexturas(esc);
 	agregarAgua(esc);
-	this->dibujablesBase = new list<Dibujable*>(this->vistaCliente->getListaDibujables()->size());
-	copy(vistaCliente->getListaDibujables()->begin(),vistaCliente->getListaDibujables()->end(),this->dibujablesBase->begin());
-	InitializeCriticalSection(&this->criticalSection);
+	this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
+	copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
+	
 }
 
 void JuegoCliente::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 	//game loop
-
-	//_beginthread(creandoLista, 0, (void*)0);
-	
-	bool ok = false;
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
+		
 		this->leerEvento();
-		crearLista(cliente->vistaSerializada);
 		this->cliente->actualizar();
+		this->crearLista(this->cliente->vistaSerializada);
 
 		if(this->cliente->nuevoMensaje){
 			this->cartelInfo->setInfo(this->cliente->mensajeInfo);
@@ -49,30 +43,15 @@ void JuegoCliente::ejecutar(){
 				case PAUSADO:		esperar();	break;
 			}
 		}
-
-		//EnterCriticalSection(&criticalSection);
-		vistaCliente->Dibujar();
-		//LeaveCriticalSection(&criticalSection);
-
+		vista->Dibujar();
 		//SDL_Delay(3);
 	}
 }
 
-void JuegoCliente::creandoLista(void* arg){
-	
-	while(true){
-			if(TryEnterCriticalSection(&criticalSection)){	
-			crearLista(cliente->vistaSerializada);
-			LeaveCriticalSection(&criticalSection);
-			}
-
-		}
-}
-
 void JuegoCliente::leerEvento(){
 
-	if (this->vistaCliente->leerEvento(evento)){
-		int accion = this->vistaCliente->getAccion();
+	if (this->vista->leerEvento(evento)){
+		int accion = this->vista->getAccion();
 		switch(accion){
 
 		case SALIR:			salir();						break;
@@ -88,8 +67,8 @@ void JuegoCliente::leerEvento(){
 
 			e->accion = accion;
 			 
-			e->x = (x + vistaCliente->getCorrimientoX()) / (relacionPPU * vistaCliente->getZoom());
-			e->y = (y + vistaCliente->getCorrimientoY()) / (relacionPPU * vistaCliente->getZoom());
+			e->x = (x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom());
+			e->y = (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom());
 			this->cliente->enviarEvento(e->serializar());
 			delete e;
 		}
@@ -116,42 +95,34 @@ void JuegoCliente::esperar(){}
 
 void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 
-	vistaCliente->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, texturaFondo, "");
-	vistaCliente->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenCielo, texturaCieloDEF);
-	vistaCliente->crearScrollingSprite(0, 10,  e->anchoPx/ 5, e->altoPx /10, rutaNube1);
-	vistaCliente->crearScrollingSprite( e->anchoU*relacionPPU/2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
-	vistaCliente->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenTierra, "");
-	this->cartelInfo = vistaCliente->crearCartelInfo(10, 10, 0, 20);
+	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, texturaFondo, "");
+	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenCielo, texturaCieloDEF);
+	vista->crearScrollingSprite(0, 10,  e->anchoPx/ 5, e->altoPx /10, rutaNube1);
+	vista->crearScrollingSprite( e->anchoU*relacionPPU/2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
+	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenTierra, "");
+	this->cartelInfo = vista->crearCartelInfo(10, 10, 0, 20);
 	this->cartelInfo->setColor(255,0,255,100);
 }
 
-void JuegoCliente::agregarAgua(EscenarioParseado* esc){
-	//vista->crearDibujableTextura(0, e->nivelAgua*this->escenario->getRelacionAlto(), terreno->getLector()->getAnchoMatriz(), terreno->getLector()->getAltoMatriz() - e->nivelAgua*this->escenario->getRelacionAlto(), texturaAgua, texturaAguaDEF);
-	
-	for(int i=0;i<4;i++){
-		//vista->crearSprite( (i* terreno->getLector()->getAnchoMatriz())/4, e->nivelAgua* this->escenario->getRelacionAlto() - 15,  terreno->getLector()->getAnchoMatriz()/4, 15, spriteOlas, 2, 6, 256, 144);
-		Sprite* sprite = vistaCliente->crearSprite( (i* esc->anchoU*relacionPPU)/4, esc->nivelAgua*relacionPPU - 24,  esc->anchoU*relacionPPU/4, 24, spriteOlas, 2, 6, 256, 144);
-		sprite->setTransparencia(230);
-	}
-	DibujableTextura* agua = vistaCliente->crearDibujableTextura(0, esc->nivelAgua*relacionPPU, esc->anchoU*relacionPPU, (esc->altoU - esc->nivelAgua) *relacionPPU, texturaAgua, texturaAguaDEF);
-	agua->setTransparencia(230);
+void JuegoCliente::agregarAgua(EscenarioParseado* e){
+	Juego::agregarAgua(e);
 }
 
 //le paso la lista como parametro para no estar haciendo new cada vez que entro 
 /*list<Dibujable*>* */void JuegoCliente::crearLista(string vistaSerializada){
 	//elimino elementos de la vista que son figuras
 	int index = 0;
-	for (list<Dibujable*>::iterator it = vistaCliente->getListaDibujables()->begin(); it != vistaCliente->getListaDibujables()->end(); it++) {
-		if(index > dibujablesBase->size() - 6 && index < vistaCliente->getListaDibujables()->size() - 5){
+	for (list<Dibujable*>::iterator it = this->vista->getListaDibujables()->begin(); it != this->vista->getListaDibujables()->end(); it++) {
+		if(index > this->dibujablesBase->size() - 6 && index < this->vista->getListaDibujables()->size() - 5){
 			delete *it;
 		}
 		index++;
 	}
 	
-	list<Dibujable*> *lista = new list<Dibujable*>(dibujablesBase->size());
+	list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 
 
-	copy(dibujablesBase->begin(),dibujablesBase->end(),lista->begin());
+	copy(this->dibujablesBase->begin(),this->dibujablesBase->end(),lista->begin());
 	//Saco el agua
 	
 	for (index = 0; index < 5;index ++) {
@@ -167,7 +138,7 @@ void JuegoCliente::agregarAgua(EscenarioParseado* esc){
 				GusanoDibujable* gusano = new GusanoDibujable();
 				gusano->deserealizar(entidadSerializada);
 
-				GusanoDibujable* gusano2 = new GusanoDibujable(vistaCliente->renderer, gusano->getRect(), rutaGusano, rutaGusanoDEF);
+				GusanoDibujable* gusano2 = new GusanoDibujable(this->vista->renderer, gusano->getRect(), rutaGusano, rutaGusanoDEF);
 				lista->push_back(gusano2);
 				//delete gusano;
 				break;
@@ -176,7 +147,7 @@ void JuegoCliente::agregarAgua(EscenarioParseado* esc){
 				GusanoSprite* gusano = new GusanoSprite();
 				gusano->deserealizar(entidadSerializada);
 				int frame = gusano->getFrame();
-				GusanoSprite* gusano2 = new GusanoSprite(vistaCliente->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, gusano->getNombre(),esc->maximosClientes);
+				GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, gusano->getNombre(),this->esc->maximosClientes);
 				gusano2->setFrame(frame);
 				gusano2->setCambiarImgIzq(gusano->hayCambioImgIzq());
 				gusano2->setCambiarImgDer(gusano->hayCambioImgDer());
@@ -190,7 +161,7 @@ void JuegoCliente::agregarAgua(EscenarioParseado* esc){
 				gusano2->velocidadRefresco = gusano->velocidadRefresco;
 				gusano2->numCuadros = gusano->numCuadros;
 				gusano2->congelado = gusano->congelado;
-				gusano2->cliente = cliente->getId();
+				gusano2->cliente = this->cliente->getId();
 				lista->push_back(gusano2);
 
 				delete gusano;
@@ -222,13 +193,13 @@ void JuegoCliente::agregarAgua(EscenarioParseado* esc){
 
 	}
 
-	list<Dibujable*> *listaAnterior = vistaCliente->getListaDibujables();
+	list<Dibujable*> *listaAnterior = this->vista->getListaDibujables();
 	//borro la lista anterior(no los elementos)
 	delete listaAnterior;
-	vistaCliente->setListaDibujables(lista);
+	this->vista->setListaDibujables(lista);
 	index = 0;
-	for (list<Dibujable*>::iterator it = dibujablesBase->begin(); it != dibujablesBase->end(); it++) {
-		if (index > dibujablesBase->size() - 6) {
+	for (list<Dibujable*>::iterator it = this->dibujablesBase->begin(); it != this->dibujablesBase->end(); it++) {
+		if (index > this->dibujablesBase->size() - 6) {
 			Dibujable* dib = *it;
 			lista->push_back(dib);
 		}
@@ -245,5 +216,4 @@ JuegoCliente::~JuegoCliente(){
 	delete this->esc;
 	//delete this->evento;
 	delete Logger::getLogger();
-	DeleteCriticalSection(&criticalSection);
 }

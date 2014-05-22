@@ -67,7 +67,7 @@ public:
 	bool haySuperposicionConTerreno(Figura* figura);
 	Terreno* getTerreno();
 	void setTerreno(Terreno* terreno);
-	void click(float x, float y);
+	bool click(float x, float y);
 	void clickCliente(int cliente, list<Gusano*> figurasCliente, list<Gusano*> figurasOtrosCliente,float x, float y);
 	void arriba(bool arriba);
 	void arribaCliente(int cliente, bool arriba);
@@ -88,6 +88,7 @@ public:
 	//Es la del servidor
 	Figura* getFiguraActiva();
 	void inicializarCliente(int cliente);
+	void explotar(float x, float y, int radio);
 };
 
 

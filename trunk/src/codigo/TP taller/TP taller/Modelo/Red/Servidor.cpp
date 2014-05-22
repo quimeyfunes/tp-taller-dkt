@@ -14,7 +14,7 @@ mensajeStru Servidor::mensaje;
 
 Servidor::Servidor(){
     // id's to assign clients for our table
-    cliente_id = -1;
+    cliente_id = 0;
 	clienteEnEspera = false;
 	this->escenario = ParserYaml::getParser()->getEscenario();
 	this->mensaje.tiempoActivo=0;
@@ -44,10 +44,11 @@ void Servidor::aceptarClientes(void* arg){
 		if(red->aceptarNuevoCliente()){
 
 			//seteo el socket en espera en el espacio N
-			cliente_id++;
+			
 			clientes[cliente_id].socket = red->sockNuevo;
 			clientes[cliente_id].activo = true;
 			_beginthread(Servidor::actualizar, 0, (void*)cliente_id);
+			cliente_id++;
 		}
 	}
 }

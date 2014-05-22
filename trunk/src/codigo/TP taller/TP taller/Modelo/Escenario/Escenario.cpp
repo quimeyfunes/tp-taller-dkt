@@ -284,17 +284,20 @@ std::stringstream Escenario::getMensajeSuperposicionTerreno(int linea){
 	return info;
 }
 
-void Escenario::click(float x, float y){
-	/*for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+bool Escenario::click(float x, float y){
+	for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		if ((*it)->meClickeo(x,y) && !(*it)->estaMuerto()) {
 			if (this->gusanoActivo != NULL) {
 				this->gusanoActivo->setMeClickearon(false);
 			}
 			this->gusanoActivo = (Gusano*)(*it);
 			this->gusanoActivo->setMeClickearon(true);
-			return;
+			return true;
 		}
-	}*/
+	}
+	this->terreno->destruirTerreno(x,y,30);
+	this->explotar(x,y,30);
+	return false;
 }
 
 void Escenario::clickCliente(int cliente, list<Gusano*> figurasCliente, list<Gusano*> figurasOtrosCliente,float x, float y){
@@ -373,7 +376,7 @@ void Escenario::moverseClientes(){
 void Escenario::saltar(){
 	if (this->gusanoActivo->puedeSaltar() && (this->puedeMoverseArriba) && !(this->gusanoActivo->estaMuerto())) {
 		b2Body* cuerpo = this->gusanoActivo->getBody();
-		cuerpo->SetLinearVelocity(b2Vec2(0,saltoGusano));
+		cuerpo->SetLinearVelocity(b2Vec2(0,-25));
 		//cuerpo->ApplyLinearImpulse(b2Vec2(0,-100),this->figuraActiva->getPosicion(),true);
 	}
 }
@@ -382,7 +385,7 @@ void Escenario::saltarClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) && ((Gusano*)this->figurasActivas[i])->puedeSaltar() && (this->puedeMoverseArribaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
-			cuerpo->SetLinearVelocity(b2Vec2(0,saltoGusano));
+			cuerpo->SetLinearVelocity(b2Vec2(0,-25));
 		}
 	}
 }
@@ -390,7 +393,7 @@ void Escenario::saltarClientes(){
 void Escenario::moverIzquierda(){
 	if (this->puedeMoverseIzquierda && !(this->gusanoActivo->estaMuerto())) {
 		b2Body* cuerpo = this->gusanoActivo->getBody();
-		cuerpo->SetLinearVelocity(b2Vec2(-velocidadGusano,cuerpo->GetLinearVelocity().y));
+		cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
 		this->gusanoActivo->setMovimientoIzq(true);
 		this->gusanoActivo->setMovimientoDer(false);
 	}
@@ -400,7 +403,7 @@ void Escenario::moverIzquierdaClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseIzquierdaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
-			cuerpo->SetLinearVelocity(b2Vec2(-velocidadGusano,cuerpo->GetLinearVelocity().y));
+			cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
 			this->figurasActivas[i]->setMovimientoIzq(true);
 			this->figurasActivas[i]->setMovimientoDer(false);
 		}
@@ -410,7 +413,7 @@ void Escenario::moverIzquierdaClientes(){
 void Escenario::moverDerecha(){
 	if (this->puedeMoverseDerecha && !(this->gusanoActivo->estaMuerto())) {
 		b2Body* cuerpo = this->gusanoActivo->getBody();
-		cuerpo->SetLinearVelocity(b2Vec2(velocidadGusano,cuerpo->GetLinearVelocity().y));
+		cuerpo->SetLinearVelocity(b2Vec2(5,cuerpo->GetLinearVelocity().y));
 		this->gusanoActivo->setMovimientoDer(true);
 		this->gusanoActivo->setMovimientoIzq(false);
 	}
@@ -420,7 +423,7 @@ void Escenario::moverDerechaClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseDerechaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
-			cuerpo->SetLinearVelocity(b2Vec2(velocidadGusano,cuerpo->GetLinearVelocity().y));
+			cuerpo->SetLinearVelocity(b2Vec2(5,cuerpo->GetLinearVelocity().y));
 			this->figurasActivas[i]->setMovimientoDer(true);
 			this->figurasActivas[i]->setMovimientoIzq(false);
 		}
@@ -433,4 +436,24 @@ Figura* Escenario::getFiguraActiva(){
 
 vector<Gusano*> Escenario::getFigurasActivas(){
 	return this->figurasActivas;
+}
+
+void Escenario::explotar(float x, float y, int radio) {
+	float potenciaPorUnidad = 3000; //Iria en constantesFisicas, q en esta version todavia no esta
+	float potenciaTotal = potenciaPorUnidad * radio;
+	b2Vec2 posicion,distanciaV,fuerza;
+	float distancia,fuerzaTotal,angulo;
+	for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+		posicion = (*it)->getPosicion();
+		distanciaV = b2Vec2(posicion.x - x, posicion.y - y );
+		distancia = distanciaV.Length();
+		if (distancia < radio ) {
+			fuerzaTotal = potenciaTotal / distancia;
+			angulo = atan2(distanciaV.y , distanciaV.x);
+			fuerza.x = fuerzaTotal * cos (angulo);
+			fuerza.y = fuerzaTotal * sin (angulo);
+			(*it)->getBody()->ApplyForceToCenter(fuerza,true);
+		}
+
+	}
 }
