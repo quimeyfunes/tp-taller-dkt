@@ -307,3 +307,16 @@ void Vista::validarCorrimiento() {
 	}
 }
 
+void Vista::destruir(float x,float y,int radio, LectorTerreno* lector){
+	
+	lector->destruirMatriz(x, y, radio);
+	int i = 0;
+	//El terreno es 5to
+	for (list<Dibujable*>::iterator it = this->listaDibujables->begin(); it != this->listaDibujables->end() && i < 5; it++) {
+		if ( i == 4) {
+			DibujableTextura* d = (DibujableTextura*) (*it);
+			d->setImagen(this->renderer,lector->getRutaTexturaActualizada());
+		}
+		i++;
+	}
+}

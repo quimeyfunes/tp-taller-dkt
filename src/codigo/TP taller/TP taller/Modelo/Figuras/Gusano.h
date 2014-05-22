@@ -13,6 +13,7 @@ class Gusano: public Figura
 {
 private:
 	int numContactos;
+	bool meClick;
 	vector<bool> meClickearon;
 	bool congelado;
 	int maximosCLientes;
@@ -27,6 +28,7 @@ public:
 	void simularAgua(int nivelAgua);
 	void reiniciar();
 	bool getMeClickearon(int cliente);
+	void setMeClickearon(bool d);
 	void setMeClickearon(bool meClickearon, int cliente);
 	bool getCongelado();
 	void setCongelado(bool congelado);

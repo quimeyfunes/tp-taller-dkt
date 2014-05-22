@@ -8,6 +8,7 @@
 #include "../../constantes.h"
 #include "../../constantesFisicas.h"
 
+
 using namespace std;
 
 class Figura : public Observable

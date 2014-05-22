@@ -5,6 +5,7 @@
 #include "SDL/SDL_image.h"
 #include "../Dibujables/DibujableTextura.h"
 #include "../../constantes.h"
+#include "../../Modelo/Escenario/Escenario.h"
 #include "../../Parser/yaml/ParserYaml.h"
 #include "../../Observador/Observador.h"
 #include "../../Modelo/Figuras/Figura.h"
@@ -13,12 +14,6 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-#ifdef _DEBUG   
-	#ifndef DBG_NEW      
-		#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )      
-		#define new DBG_NEW   
-	#endif
-#endif  // _DEBUG
 
 typedef enum{
 	IZQ,

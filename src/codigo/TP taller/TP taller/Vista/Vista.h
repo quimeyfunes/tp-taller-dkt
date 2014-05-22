@@ -1,6 +1,5 @@
 #ifndef __VISTA_H__
 #define __VISTA_H__
-
 #include "Dibujables/DibujableTextura.h"
 #include "Dibujables/CirculoDibujable.h"
 #include "Dibujables/PoligonoDibujable.h"
@@ -80,6 +79,7 @@ public:
 	void zoom(SDL_Event* evento,int x, int y);
 	void validarCorrimiento();
 
+	void destruir(float x,float y,int radio, LectorTerreno* lector);
 };
 
 #endif

@@ -31,7 +31,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	this->numContactos = 0;
 	this->maximosCLientes = maximosCLientes;
 
-	//this->meClickearon = false;
+	this->meClick = false;
 	for(int i=0; i < this->maximosCLientes; i++){
 		this->meClickearon.push_back(false);
 	}
@@ -103,4 +103,8 @@ bool Gusano::getCongelado() {
 
 void Gusano::setCongelado(bool congelado){
 	this->congelado = congelado;
+}
+
+void Gusano::setMeClickearon(bool d){
+	this->meClick = d;
 }

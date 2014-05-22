@@ -12,7 +12,7 @@ Juego::Juego(string texto){
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
 	this->vista = new Vista(e);
-	SDL_HideWindow(this->vista->window);
+	//SDL_HideWindow(this->vista->window);
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
@@ -47,7 +47,8 @@ void Juego::ejecutar(){
 		}
 		escenario->notificar();
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
-		SDL_Delay(2);
+		this->vista->Dibujar();
+		SDL_Delay(3);
 
 	}
 }
@@ -113,7 +114,9 @@ void Juego::leerEvento(){
                 case CLICK:     
                         int x,y;
                         SDL_GetMouseState(&x,&y);
-                        this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
+                        if (!(this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom())))) {
+							this->vista->destruir((x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),30 * relacionPPU,this->terreno->getLector());
+						}
                         break;
                 }
        }
@@ -224,7 +227,7 @@ void Juego::agregarObjetos(){
 			}
 		case 2:
 			{
-				Rectangulo* rec = escenario->crearRectangulo(*it);
+				/*Rectangulo* rec = escenario->crearRectangulo(*it);
 				if(rec){
 					//cout<<(*it).ancho<<endl;
 					RectanguloDibujable* rectangulo = vista->crearRectanguloDibujable((*it).ancho * escalaAncho, (*it).alto * escalaAlto);
@@ -232,14 +235,15 @@ void Juego::agregarObjetos(){
 					rec->agregarObservador(rectangulo);
 				}
 				break;
+			}*/
+				worm = escenario->crearGusano(*it);
+				if (worm){
+					//GusanoDibujable* gusano = vista->crearGusanoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * escalaAncho, (*it).alto * escalaAlto, rutaGusano, rutaGusanoDEF);
+					GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600,"Rasta",4);
+					worm->agregarObservador(gusano);
+				} 
+				break;
 			}
-			/*worm = escenario->crearGusano(*it);
-			if (worm){
-				//GusanoDibujable* gusano = vista->crearGusanoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * escalaAncho, (*it).alto * escalaAlto, rutaGusano, rutaGusanoDEF);
-				GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600,"Rasta");
-				worm->agregarObservador(gusano);
-			} */
-			break;
 		default:
 			{
 				Poligono* pol = escenario->crearPoligono(*it);
