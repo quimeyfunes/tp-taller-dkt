@@ -17,6 +17,7 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->puedeMoverseArriba = false;
 	this->puedeMoverseDerecha = false;
 	this->puedeMoverseIzquierda = false;
+	this->puedeDisparar = false;
 
 	for(int i=0; i < this->maximosClientes; i++){
 		this->figurasActivas.push_back(NULL);
@@ -343,6 +344,10 @@ void Escenario::izquierda(bool izquierda){
 	this->puedeMoverseIzquierda = izquierda;
 }
 
+void Escenario::disparar(bool disparo){
+	this->puedeDisparar = disparo;
+}
+
 void Escenario::izquierdaCliente(int cliente,bool izquierda){
 	this->puedeMoverseIzquierdaClientes[cliente] = izquierda;
 }
@@ -419,6 +424,14 @@ void Escenario::moverDerecha(){
 	}
 }
 
+void Escenario::realizarDisparo(int potencia){
+	if (this->puedeDisparar && !(this->gusanoActivo->estaMuerto())){
+		this->gusanoActivo->getArmaSeleccionada()->disparar(potencia);
+	}
+
+
+}
+
 void Escenario::moverDerechaClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseDerechaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
@@ -457,3 +470,4 @@ void Escenario::explotar(float x, float y, int radio) {
 
 	}
 }
+

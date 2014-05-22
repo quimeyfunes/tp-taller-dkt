@@ -113,7 +113,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->contDer = 0;
 		this->contFrent = 0;
 		this->contMuerte++;
-		this->actualizarFrame();
+		//this->actualizarFrame();
 		this->estado = MUERTO;	
 	}
 
@@ -143,11 +143,12 @@ void GusanoSprite::actualizar(Observable* observable) {
 void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
 	SDL_Rect rect = this->rect;
 
-	if ((this->estado == MUERTO) && (this->contMuerte >= 1)){
+	if ((this->estado == MUERTO) && (this->contMuerte == 1)){
 		this->setFrame(0);
 		this->setImagen(renderer, rutaGrave);
 	} else {
-		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent >= 1) ){
+		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent == 1) ){
+				this->setFrame(0);
 				if (this->estado == IZQ){
 					if(!this->congelado){
 						this->setImagen(renderer, spriteWormIzq);
@@ -163,14 +164,14 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 					}
 				}
 		}
-		if ( (this->hayCambioImgDer()) && (this->contDer >= 1 ) ){
+		if ( (this->hayCambioImgDer()) && (this->contDer == 1 ) ){
 			if (this->estado == MUERTO){
 				this->setImagen(renderer, rutaGrave);
 			} else {
 				this->setImagen(renderer, rutaGusanoDer);
 			}
 		}
-		if ( (this->hayCambioImgIzq())  && (this->contIzq >= 1) ){
+		if ( (this->hayCambioImgIzq())  && (this->contIzq == 1) ){
 			if (this->estado == MUERTO){
 				this->setImagen(renderer, rutaGrave);
 			} else {

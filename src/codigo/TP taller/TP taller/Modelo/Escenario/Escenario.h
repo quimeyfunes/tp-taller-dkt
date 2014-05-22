@@ -35,6 +35,7 @@ private:
 	bool puedeMoverseArriba; 
 	bool puedeMoverseIzquierda;
 	bool puedeMoverseDerecha;
+	bool puedeDisparar;
 
 	//Para clientes
 	vector<bool> puedeMoverseArribaClientes;
@@ -89,6 +90,8 @@ public:
 	Figura* getFiguraActiva();
 	void inicializarCliente(int cliente);
 	void explotar(float x, float y, int radio);
+	void disparar(bool disparo);
+	void realizarDisparo(int potencia);
 };
 
 
