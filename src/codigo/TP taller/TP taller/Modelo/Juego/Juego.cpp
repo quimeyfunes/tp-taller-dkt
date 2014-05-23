@@ -97,8 +97,11 @@ void Juego::chequearNuevosJugadores(){
 }
 
 void Juego::leerEvento(){
+
 	 if (this->vista->leerEvento(evento)){
 		 int x, y;
+		 b2Vec2 pos;
+	
                 switch(this->vista->getAccion()){
 
                 case SALIR:                     salir();                                                break;
@@ -123,10 +126,11 @@ void Juego::leerEvento(){
 					if(this->escenario->getGusanoActivo() != NULL)
 						if(this->escenario->getGusanoActivo()->tieneUnArma())
 							this->escenario->getGusanoActivo()->getArmaSeleccionada()->aumentarPotencia();
-					cout<<"potencia: "<<this->escenario->getGusanoActivo()->getArmaSeleccionada()->getPotencia()<<endl;
+					//cout<<"potencia: "<<this->escenario->getGusanoActivo()->getArmaSeleccionada()->getPotencia()<<endl;
 					break;
 				case SOLTARESPACIO:
-						this->escenario->realizarDisparo();
+					//pos=this->escenario->getFiguraActiva()->getPosicion();
+					this->escenario->getGusanoActivo()->getArmaSeleccionada()->disparar();
 					break;
 
                 case CLICK:     
@@ -139,8 +143,12 @@ void Juego::leerEvento(){
 				case CLICKDERECHO:
 						SDL_GetMouseState(&x, &y);
 						if(this->escenario->getGusanoActivo() != NULL){
-							cout<<"tengo un arma"<<endl;
-							this->escenario->getGusanoActivo()->setArma(new Bazooka(x - (y/2), y, 0, this->escenario->getWorld(), false, x/4 ,y/4, 100 ));
+						//	cout<<"tengo un arma"<<endl;
+							pos=this->escenario->getFiguraActiva()->getPosicion();
+							this->escenario->getGusanoActivo()->setArma(new Bazooka(pos.x, pos.y, 0, this->escenario->getWorld(), false, 24 ,14, 100 ));
+							this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
+							ArmaDibujable* arma = this->vista->crearArmaDibujable(pos.x , pos.y, 24,14,rutaBazIzq,rutaBazIzq);
+							this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
 						}
 							break;
 
