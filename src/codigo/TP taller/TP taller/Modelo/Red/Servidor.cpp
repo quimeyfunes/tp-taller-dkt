@@ -70,7 +70,7 @@ void Servidor::actualizar(void* clienteN)
 		enviarCliente(&id, paqueteVista, dibujablesSerializados);
 	}
 
-	_endthread();
+	//_endthread();
 }
 
 void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){
