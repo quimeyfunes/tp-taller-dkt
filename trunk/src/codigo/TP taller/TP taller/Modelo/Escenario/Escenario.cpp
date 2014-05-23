@@ -8,6 +8,7 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->anchoU = anchoU;
 	this->nivelAgua = nivelAgua;
 	this->listaFiguras = new list<Figura*>();
+	this->listaArmas = new list<Arma*>();
 	this->maximosClientes = maximosClientes;
 
 	b2Vec2* gravity = new b2Vec2(gravedadX, gravedadY);
@@ -65,8 +66,16 @@ void Escenario::agregarFigura(Figura* figura) {
 	this->listaFiguras->push_back(figura);
 }
 
+void Escenario::agregarArma(Arma* arma){
+	this->listaArmas->push_back(arma);
+}
+
 void Escenario::notificar() {
 	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+		(*it)->notificar();
+	}
+
+	for (list<Arma*>::iterator it = this->listaArmas->begin(); it != this->listaArmas->end(); it++) {
 		(*it)->notificar();
 	}
 

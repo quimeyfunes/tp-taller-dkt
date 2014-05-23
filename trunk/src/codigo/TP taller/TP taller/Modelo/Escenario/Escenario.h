@@ -28,6 +28,7 @@ private:
 	static float relacionAncho;
 	static float relacionAlto;
 	list<Figura*>* listaFiguras;
+	list<Arma*>* listaArmas;
 	Terreno* terreno;
 	//Es la del servidor
 	Gusano* gusanoActivo;
@@ -63,6 +64,7 @@ public:
 	Gusano* crearGusano(ObjetoParseado objeto);
 	Gusano* crearGusanoParaJugador();
 	void agregarFigura(Figura* figura);
+	void agregarArma(Arma* arma);
 	void notificar();
 	void simularAgua();
 	void reiniciar();
