@@ -37,6 +37,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	}
 	this->armaSeleccionada = NULL;
 	this->congelado = false;
+	this->tieneArma = false;
 	//this->armaSeleccionada = new Bazooka(x - (ancho/2), y, rotacion, world, estatico, ancho /4 ,alto /4, masa /2 );
 }
 
@@ -117,6 +118,10 @@ Arma* Gusano::getArmaSeleccionada(){
 
 void Gusano::setArma(Arma* nueva){
 	if(this->armaSeleccionada != NULL) delete this->armaSeleccionada;
-
+	this->tieneArma = true;
 	this->armaSeleccionada = nueva;
+}
+
+bool Gusano::tieneUnArma(){
+	return this->tieneArma;
 }

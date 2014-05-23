@@ -424,9 +424,11 @@ void Escenario::moverDerecha(){
 	}
 }
 
-void Escenario::realizarDisparo(int potencia){
+void Escenario::realizarDisparo(){
 	if (this->puedeDisparar && !(this->gusanoActivo->estaMuerto())){
-		this->gusanoActivo->getArmaSeleccionada()->disparar(potencia);
+		if(! this->gusanoActivo->getArmaSeleccionada()->fueDisparada())
+			if(this->gusanoActivo->tieneUnArma())
+				this->gusanoActivo->getArmaSeleccionada()->disparar();
 	}
 
 

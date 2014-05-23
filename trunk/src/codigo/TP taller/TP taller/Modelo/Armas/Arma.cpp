@@ -23,6 +23,7 @@ Arma::Arma(float x, float y, short int rotacion, b2World* world, bool estatico, 
 	myBodyDef.angle = this->anguloInicial*DEGTORAD; 
 
 	this->disparada=false;
+	this->potencia=0;
 	this->body = world->CreateBody(&myBodyDef);
 }
 
