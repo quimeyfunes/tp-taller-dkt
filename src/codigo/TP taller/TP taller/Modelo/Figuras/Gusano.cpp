@@ -42,7 +42,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 
 Gusano::~Gusano(void)
 {
-	delete this->armaSeleccionada;
+	//delete this->armaSeleccionada;
 }
 
 bool Gusano::meClickeo(float x,float y) {
