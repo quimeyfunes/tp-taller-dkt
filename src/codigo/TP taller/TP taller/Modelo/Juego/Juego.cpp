@@ -21,7 +21,7 @@ Juego::Juego(string texto){
 	ResolverContacto* resolverContacto = new ResolverContacto();
 	this->mundo->SetContactListener(resolverContacto);
 	agregarTexturas(e);
-	//agregarObjetos();
+	agregarObjetos();
 	agregarAgua(e);
 }
 
@@ -104,8 +104,12 @@ void Juego::leerEvento(){
                 case SALIR:                     salir();                                                break;
                 case JUGAR:                     reiniciar();                                    break;
                 case PAUSAR:            alternarPausa();                                break;
-                case ARRIBA:            this->escenario->arriba(true);          break;
-				case ABAJO:				this->escenario->abajo(true);			break;
+				case ARRIBA:            this->escenario->arriba(true);
+										cout<<this->escenario->getGusanoActivo()->getArmaSeleccionada()->getAnguloDisparo()<<endl; 
+										break;
+				case ABAJO:				this->escenario->abajo(true);	
+										cout<<this->escenario->getGusanoActivo()->getArmaSeleccionada()->getAnguloDisparo()<<endl; 
+										break;
                 case IZQUIERDA:         this->escenario->izquierda(true);       break;
                 case DERECHA:           this->escenario->derecha(true);         break; 
                 case SOLTARARRIBA:              this->escenario->arriba(false);         break;
@@ -133,9 +137,11 @@ void Juego::leerEvento(){
 
 				case CLICKDERECHO:
 						SDL_GetMouseState(&x, &y);
-						if(this->escenario->getGusanoActivo() != NULL)
+						if(this->escenario->getGusanoActivo() != NULL){
+							cout<<"tengo un arma"<<endl;
 							this->escenario->getGusanoActivo()->setArma(new Bazooka(x - (y/2), y, 0, this->escenario->getWorld(), false, x/4 ,y/4, 100 ));
-						break;
+						}
+							break;
 
 
                 }

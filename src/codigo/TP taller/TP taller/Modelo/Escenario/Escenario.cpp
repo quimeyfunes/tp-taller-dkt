@@ -333,6 +333,10 @@ void Escenario::arriba(bool arriba){
 	this->puedeMoverseArriba = arriba;
 }
 
+void Escenario::abajo(bool abajo){
+	this->puedeMoverseAbajo = abajo;
+}
+
 void Escenario::arribaCliente(int cliente ,bool arriba){
 	this->puedeMoverseArribaClientes[cliente] = arriba;
 }
