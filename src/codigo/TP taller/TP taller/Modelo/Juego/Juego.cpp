@@ -97,7 +97,7 @@ void Juego::chequearNuevosJugadores(){
 
 void Juego::leerEvento(){
 	 if (this->vista->leerEvento(evento)){
-
+		 int x, y;
                 switch(this->vista->getAccion()){
 
                 case SALIR:                     salir();                                                break;
@@ -112,14 +112,16 @@ void Juego::leerEvento(){
                 case SOLTARDERECHA:             {this->escenario->derecha(false);
                                                                  this->escenario->reiniciarTeclas();}   break; 
 
-				case ESPACIO: this->escenario->getGusanoActivo()->getArmaSeleccionada()->aumentarPotencia();	break;
+				case ESPACIO: 
+					if(this->escenario->getGusanoActivo() != NULL)
+						if(this->escenario->getGusanoActivo()->tieneUnArma())
+							this->escenario->getGusanoActivo()->getArmaSeleccionada()->aumentarPotencia();
+					break;
 				case SOLTARESPACIO:
-					Arma* arma = this->escenario->getGusanoActivo()->getArmaSeleccionada();
-					if(!arma->fueDisparada()) arma->disparar();
+						this->escenario->realizarDisparo();
 					break;
 
                 case CLICK:     
-                        int x,y;
                         SDL_GetMouseState(&x,&y);
                         if (!(this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom())))) {
 							this->vista->destruir((x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),30 * relacionPPU,this->terreno->getLector());
@@ -127,9 +129,8 @@ void Juego::leerEvento(){
                         break;
 
 				case CLICKDERECHO:
-						int x, y;
 						SDL_GetMouseState(&x, &y);
-						this->escenario->getGusanoActivo()->setArma(new Bazooka(x - (y/2), y, 0, this->escenario->getWorld(), false, x/4 ,y/4, 100 ));
+						//this->escenario->getGusanoActivo()->setArma(new Bazooka(x - (y/2), y, 0, this->escenario->getWorld(), false, x/4 ,y/4, 100 ));
 						break;
 
 

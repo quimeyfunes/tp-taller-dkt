@@ -93,7 +93,7 @@ public:
 	void inicializarCliente(int cliente);
 	void explotar(float x, float y, int radio);
 	void disparar(bool disparo);
-	void realizarDisparo(int potencia);
+	void realizarDisparo();
 };
 
 

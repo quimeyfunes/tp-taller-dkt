@@ -20,6 +20,7 @@ private:
 	bool congelado;
 	int maximosCLientes;
 	//Para probar
+	bool tieneArma;
 	Arma* armaSeleccionada;
 
 public:
@@ -39,7 +40,7 @@ public:
 	void setCongelado(bool congelado);
 	Arma* getArmaSeleccionada();
 	void setArma(Arma* nuevaArma);
-	
+	bool tieneUnArma();
 };
 
 #endif
