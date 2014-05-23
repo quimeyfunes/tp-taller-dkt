@@ -186,6 +186,7 @@ bool Vista::leerEvento(SDL_Event* evento) {
 			case SDLK_UP:		this->accion = ARRIBA;		return true;	break;
 			case SDLK_LEFT:		this->accion = IZQUIERDA;	return true;	break;
 			case SDLK_RIGHT:	this->accion = DERECHA;		return true;	break; 
+			case SDLK_SPACE:	this->accion = ESPACIO;		return true;	break;
 
 			}
 			
@@ -195,13 +196,16 @@ bool Vista::leerEvento(SDL_Event* evento) {
 					case SDLK_UP:		this->accion = SOLTARARRIBA;		return true;	break;
 					case SDLK_LEFT:		this->accion = SOLTARIZQUIERDA;		return true;	break;
 					case SDLK_RIGHT:	this->accion = SOLTARDERECHA;		return true;	break; 
+					case SDLK_SPACE:    this->accion = SOLTARESPACIO;		return true;	break;
 				}
 			}
 		}
 
 		if (evento->type == SDL_MOUSEBUTTONDOWN) {
-			this->accion = CLICK;
-			return true;
+			switch(evento->button.button){
+			case SDL_BUTTON_LEFT:		this->accion = CLICK;			return true;	break;
+			case SDL_BUTTON_RIGHT:		this->accion = CLICKDERECHO;	return true;	break;
+			}
 		}
 
 		if (evento->type == SDL_MOUSEWHEEL){

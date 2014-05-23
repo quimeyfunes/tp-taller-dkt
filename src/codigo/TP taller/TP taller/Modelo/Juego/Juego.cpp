@@ -111,6 +111,13 @@ void Juego::leerEvento(){
                                                                  this->escenario->reiniciarTeclas();}   break;
                 case SOLTARDERECHA:             {this->escenario->derecha(false);
                                                                  this->escenario->reiniciarTeclas();}   break; 
+
+				case ESPACIO: this->escenario->getGusanoActivo()->getArmaSeleccionada()->aumentarPotencia();	break;
+				case SOLTARESPACIO:
+					Arma* arma = this->escenario->getGusanoActivo()->getArmaSeleccionada();
+					if(!arma->fueDisparada()) arma->disparar();
+					break;
+
                 case CLICK:     
                         int x,y;
                         SDL_GetMouseState(&x,&y);
@@ -118,6 +125,14 @@ void Juego::leerEvento(){
 							this->vista->destruir((x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),30 * relacionPPU,this->terreno->getLector());
 						}
                         break;
+
+				case CLICKDERECHO:
+						int x, y;
+						SDL_GetMouseState(&x, &y);
+						this->escenario->getGusanoActivo()->setArma(new Bazooka(x - (y/2), y, 0, this->escenario->getWorld(), false, x/4 ,y/4, 100 ));
+						break;
+
+
                 }
        }
 		

@@ -35,7 +35,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	for(int i=0; i < this->maximosCLientes; i++){
 		this->meClickearon.push_back(false);
 	}
-	
+	this->armaSeleccionada = NULL;
 	this->congelado = false;
 	//this->armaSeleccionada = new Bazooka(x - (ancho/2), y, rotacion, world, estatico, ancho /4 ,alto /4, masa /2 );
 }
@@ -111,6 +111,12 @@ void Gusano::setMeClickearon(bool d){
 	this->meClick = d;
 }
 
-Bazooka* Gusano::getArmaSeleccionada(){
+Arma* Gusano::getArmaSeleccionada(){
 	return this->armaSeleccionada;
+}
+
+void Gusano::setArma(Arma* nueva){
+	if(this->armaSeleccionada != NULL) delete this->armaSeleccionada;
+
+	this->armaSeleccionada = nueva;
 }

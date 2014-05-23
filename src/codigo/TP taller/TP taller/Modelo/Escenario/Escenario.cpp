@@ -432,6 +432,11 @@ void Escenario::realizarDisparo(int potencia){
 
 }
 
+Gusano* Escenario::getGusanoActivo(){
+
+	return this->gusanoActivo;
+}
+
 void Escenario::moverDerechaClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseDerechaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
