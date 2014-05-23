@@ -12,6 +12,7 @@ Bazooka::Bazooka(float x, float y, short int rotacion, b2World* world, bool esta
 
 void Bazooka::disparar(){
 	this->disparada=true;
+
 	this->getBody()->SetLinearVelocity(b2Vec2(this->potencia*cos(this->anguloInicial*DEGTORAD), this->potencia*sin(this->anguloInicial*DEGTORAD)));
 
 }

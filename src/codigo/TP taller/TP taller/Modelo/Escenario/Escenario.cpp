@@ -18,6 +18,7 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->puedeMoverseDerecha = false;
 	this->puedeMoverseIzquierda = false;
 	this->puedeDisparar = false;
+	this->puedeMoverseAbajo = false;
 
 	for(int i=0; i < this->maximosClientes; i++){
 		this->figurasActivas.push_back(NULL);
@@ -363,6 +364,7 @@ void Escenario::derechaCliente(int cliente,bool derecha){
 void Escenario::moverse(){
 	if ((this->gusanoActivo != NULL) && !(this->gusanoActivo->estaMuerto())) {
 		this->saltar();
+		this->bajar();
 		this->moverDerecha();
 		this->moverIzquierda();
 	}
@@ -380,9 +382,19 @@ void Escenario::moverseClientes(){
 
 void Escenario::saltar(){
 	if (this->gusanoActivo->puedeSaltar() && (this->puedeMoverseArriba) && !(this->gusanoActivo->estaMuerto())) {
-		b2Body* cuerpo = this->gusanoActivo->getBody();
-		cuerpo->SetLinearVelocity(b2Vec2(0,-25));
+		if(!this->gusanoActivo->tieneUnArma()){
+			b2Body* cuerpo = this->gusanoActivo->getBody();
+			cuerpo->SetLinearVelocity(b2Vec2(0,-25));
+		}else{
+			this->gusanoActivo->getArmaSeleccionada()->aumentarAnguloDisparo();
+		}
 		//cuerpo->ApplyLinearImpulse(b2Vec2(0,-100),this->figuraActiva->getPosicion(),true);
+	}
+}
+
+void Escenario::bajar(){
+	if(this->puedeMoverseAbajo && (!this->gusanoActivo->estaMuerto()) && (this->gusanoActivo->tieneUnArma())){
+		this->gusanoActivo->getArmaSeleccionada()->disminuirAnguloDisparo();
 	}
 }
 

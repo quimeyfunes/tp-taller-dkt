@@ -61,11 +61,11 @@ float Arma::getPotencia(){
 }
 
 void Arma::aumentarAnguloDisparo(){
-	this->anguloInicial++;
+	if(this->anguloInicial <= 90) this->anguloInicial+=5,625;
 }
 
 void Arma::disminuirAnguloDisparo(){
-	this->anguloInicial--;
+	if(this->anguloInicial >= -90 ) this->anguloInicial-=5,625;
 }
 
 float Arma::getAnguloDisparo(){

@@ -33,6 +33,7 @@ private:
 	Gusano* gusanoActivo;
 	vector<Gusano*> figurasActivas;
 	bool puedeMoverseArriba; 
+	bool puedeMoverseAbajo;
 	bool puedeMoverseIzquierda;
 	bool puedeMoverseDerecha;
 	bool puedeDisparar;
@@ -73,6 +74,7 @@ public:
 	bool click(float x, float y);
 	void clickCliente(int cliente, list<Gusano*> figurasCliente, list<Gusano*> figurasOtrosCliente,float x, float y);
 	void arriba(bool arriba);
+	void abajo(bool abajo);
 	void arribaCliente(int cliente, bool arriba);
 	void setPuedeSaltarCliente(int cliente,bool puedeSaltar);
 	void izquierda(bool izquierda);
@@ -82,6 +84,7 @@ public:
 	void moverse();
 	void moverseClientes();
 	void saltar();
+	void bajar();
 	void moverIzquierda();
 	void moverDerecha();
 	void saltarClientes();

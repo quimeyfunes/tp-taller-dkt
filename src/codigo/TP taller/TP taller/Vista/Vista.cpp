@@ -186,6 +186,7 @@ bool Vista::leerEvento(SDL_Event* evento) {
 			case SDLK_UP:		this->accion = ARRIBA;		return true;	break;
 			case SDLK_LEFT:		this->accion = IZQUIERDA;	return true;	break;
 			case SDLK_RIGHT:	this->accion = DERECHA;		return true;	break; 
+			case SDLK_DOWN:		this->accion = ABAJO;		return true;	break;
 			case SDLK_SPACE:	this->accion = ESPACIO;		return true;	break;
 
 			}
@@ -194,6 +195,7 @@ bool Vista::leerEvento(SDL_Event* evento) {
 			if (evento->type == SDL_KEYUP) {
 				switch(evento->key.keysym.sym){
 					case SDLK_UP:		this->accion = SOLTARARRIBA;		return true;	break;
+					case SDLK_DOWN:		this->accion = SOLTARABAJO;			return true;	break;
 					case SDLK_LEFT:		this->accion = SOLTARIZQUIERDA;		return true;	break;
 					case SDLK_RIGHT:	this->accion = SOLTARDERECHA;		return true;	break; 
 					case SDLK_SPACE:    this->accion = SOLTARESPACIO;		return true;	break;

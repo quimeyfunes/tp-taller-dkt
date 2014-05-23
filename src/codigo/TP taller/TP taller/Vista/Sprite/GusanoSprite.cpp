@@ -19,11 +19,25 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	this->frame = 0;
 	this->rect = recDestino;
 
+	this->rectApuntando = new SDL_Rect[32];
+	for(int i=0; i< 32; i++){
+		rectApuntando[i].h = tamanioCuadroY;
+		rectApuntando[i].w = tamanioCuadroX;
+	}
+
+	for(int i=0; i<fil; i++){
+		for(int j=0; j<col; j++){
+			rectApuntando[j + i*col].x = j* tamanioCuadroX;
+			rectApuntando[j + i*col].y = i* tamanioCuadroY;
+		}
+	}
+
 	this->recCuadro = new SDL_Rect[numCuadros];
 	for(int i=0; i< numCuadros; i++){
 		recCuadro[i].h = tamanioCuadroY;
 		recCuadro[i].w = tamanioCuadroX;
 	}
+
 	for(int i=0; i<fil; i++){
 		for(int j=0; j<col; j++){
 
@@ -191,9 +205,6 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 	if (this->mostrarCartel[this->cliente] && this->estado != MUERTO) {
 		this->cartel->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
 	}
-
-	
-	
 }
 
 void GusanoSprite::setCambiarImgDer(bool cambio){
@@ -286,8 +297,6 @@ string GusanoSprite::serializar(){
 	std::string vectorSerializado = ss.str();
 	serializado += vectorSerializado;
 	
-
-
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->velocidadRefresco);
 	serializado += separadorCamposEntidades;
@@ -348,7 +357,6 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	for (int i = 0; i < mostrarCartelArreglo.size(); i++) {
 		this->mostrarCartel.push_back(StringUtil::str2int(mostrarCartelArreglo.at(i)));
 	}
-
 
 	this->velocidadRefresco = StringUtil::str2int(atributos.at(15));
 	this->numCuadros = StringUtil::str2int(atributos.at(16));

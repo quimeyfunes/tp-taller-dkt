@@ -48,6 +48,7 @@ void Juego::ejecutar(){
 		escenario->notificar();
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
 		this->vista->Dibujar();
+
 		SDL_Delay(3);
 
 	}
@@ -104,9 +105,11 @@ void Juego::leerEvento(){
                 case JUGAR:                     reiniciar();                                    break;
                 case PAUSAR:            alternarPausa();                                break;
                 case ARRIBA:            this->escenario->arriba(true);          break;
+				case ABAJO:				this->escenario->abajo(true);			break;
                 case IZQUIERDA:         this->escenario->izquierda(true);       break;
                 case DERECHA:           this->escenario->derecha(true);         break; 
                 case SOLTARARRIBA:              this->escenario->arriba(false);         break;
+				case SOLTARABAJO:			this->escenario->abajo(false);
                 case SOLTARIZQUIERDA:   {this->escenario->izquierda(false);
                                                                  this->escenario->reiniciarTeclas();}   break;
                 case SOLTARDERECHA:             {this->escenario->derecha(false);
@@ -130,7 +133,8 @@ void Juego::leerEvento(){
 
 				case CLICKDERECHO:
 						SDL_GetMouseState(&x, &y);
-						//this->escenario->getGusanoActivo()->setArma(new Bazooka(x - (y/2), y, 0, this->escenario->getWorld(), false, x/4 ,y/4, 100 ));
+						if(this->escenario->getGusanoActivo() != NULL)
+							this->escenario->getGusanoActivo()->setArma(new Bazooka(x - (y/2), y, 0, this->escenario->getWorld(), false, x/4 ,y/4, 100 ));
 						break;
 
 
