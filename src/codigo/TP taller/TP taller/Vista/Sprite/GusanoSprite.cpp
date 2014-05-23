@@ -10,6 +10,7 @@ GusanoSprite::GusanoSprite(void)
 
 GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex, string nombre,int maximosCLientes): DibujableTextura(){
 
+	this->tieneArma = false;
 	this->numCuadros = col*fil;
 	this->velocidadRefresco = timeGusanoQuieto;
 	this->contador = 0;
@@ -21,15 +22,13 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 
 	this->rectApuntando = new SDL_Rect[32];
 	for(int i=0; i< 32; i++){
-		rectApuntando[i].h = tamanioCuadroY;
-		rectApuntando[i].w = tamanioCuadroX;
+		rectApuntando[i].h = 60;
+		rectApuntando[i].w = 60;
 	}
 
-	for(int i=0; i<fil; i++){
-		for(int j=0; j<col; j++){
-			rectApuntando[j + i*col].x = j* tamanioCuadroX;
-			rectApuntando[j + i*col].y = i* tamanioCuadroY;
-		}
+	for(int i=0; i<32; i++){
+			rectApuntando[i].x = 0;
+			rectApuntando[i].y = i* 60;
 	}
 
 	this->recCuadro = new SDL_Rect[numCuadros];
@@ -45,7 +44,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 			recCuadro[j + i*col].y = i* tamanioCuadroY;
 		}
 	}
-	
+	this->enUso = recCuadro;
 	this->imagen = IMG_LoadTexture(renderer, path.c_str());
 	this->cambiarImgDer = false;
 	this->cambiarImgIzq = false;
@@ -94,15 +93,26 @@ void GusanoSprite::actualizar(Observable* observable) {
 		//No se mueve
 		if ( !(fig->seMueveALaDer() ) && !(fig->seMueveALaIzq()) ) {
 			this->contFrent++;
-			this->contIzq = 0;
-			this->contDer = 0;
-			this->setCambiarImgDer(false);
-			this->setCambiarImgIzq(false);
-			this->velocidadRefresco = timeGusanoQuieto;
-			this->actualizarFrame();
+				this->contIzq = 0;
+				this->contDer = 0;
+				this->setCambiarImgDer(false);
+				this->setCambiarImgIzq(false);
+			if(!fig->tieneUnArma()){
+
+				this->enUso = recCuadro;
+				this->tieneArma = false;
+				this->velocidadRefresco = timeGusanoQuieto;
+				this->actualizarFrame();
+			}else{
+					this->enUso = rectApuntando;
+					this->tieneArma = true;
+					this->actualizarFrameDisparo(fig->getArmaSeleccionada()->getAnguloDisparo());
+			}
 		} else {
 			this->velocidadRefresco = timeGusanoMovil;
+			this->tieneArma=false;
 				if ((fig->seMueveALaDer())){
+					
 					this->contIzq = 0;
 					this->contFrent = 0;
 					this->contDer++;
@@ -162,20 +172,36 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 		this->setImagen(renderer, rutaGrave);
 	} else {
 		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent >= 1) ){
+			if(!this->tieneArma){
 				if (this->estado == IZQ){
 					if(!this->congelado){
 						this->setImagen(renderer, spriteWormIzq);
 					}else{
 						this->setImagen(renderer, rutaWormGrisIzq);
 					}
-				}
-				else{	
+				}else{	
 					if(!this->congelado){
 						this->setImagen(renderer, spriteWormDer);
 					}else{
 						this->setImagen(renderer, rutaWormGrisDer);
 					}
 				}
+			}else{
+				this->frame = frameDisparo;
+				if (this->estado == IZQ){
+					if(!this->congelado){
+						this->setImagen(renderer, rutaWormBazIzq);
+					}else{
+						this->setImagen(renderer, rutaWormGrisIzq);
+					}
+				}else{	
+					if(!this->congelado){
+						this->setImagen(renderer, rutaWormBazDer);
+					}else{
+						this->setImagen(renderer, rutaWormGrisDer);
+					}
+				}
+			}
 		}
 		if ( (this->hayCambioImgDer()) && (this->contDer >= 1 ) ){
 			if (this->estado == MUERTO){
@@ -195,11 +221,11 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 	
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
 		rect = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
-		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame], &rect);
+		SDL_RenderCopy(renderer, this->imagen, &this->enUso[frame], &rect);
 	} else {
 		rect.x -=corrimientoX;
 		rect.y -=corrimientoY;
-		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame], &rect);
+		SDL_RenderCopy(renderer, this->imagen, &this->enUso[frame], &rect);
 	}
 
 	if (this->mostrarCartel[this->cliente] && this->estado != MUERTO) {
@@ -235,6 +261,12 @@ void GusanoSprite::actualizarFrame(){
 	}
 	if(this->frame >= this->numCuadros) this->frame = 0;
 }
+
+void GusanoSprite::actualizarFrameDisparo(int angulo){
+
+	this->frameDisparo = (float)(15.5/90) * angulo + 15.5f;
+}
+
 
 int GusanoSprite::getFrame(){
 	return this->frame;

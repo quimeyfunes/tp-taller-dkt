@@ -105,10 +105,10 @@ void Juego::leerEvento(){
                 case JUGAR:                     reiniciar();                                    break;
                 case PAUSAR:            alternarPausa();                                break;
 				case ARRIBA:            this->escenario->arriba(true);
-										//cout<<this->escenario->getGusanoActivo()->getArmaSeleccionada()->getAnguloDisparo()<<endl; 
+
 										break;
 				case ABAJO:				this->escenario->abajo(true);	
-										//cout<<this->escenario->getGusanoActivo()->getArmaSeleccionada()->getAnguloDisparo()<<endl; 
+
 										break;
                 case IZQUIERDA:         this->escenario->izquierda(true);       break;
                 case DERECHA:           this->escenario->derecha(true);         break; 
@@ -123,6 +123,7 @@ void Juego::leerEvento(){
 					if(this->escenario->getGusanoActivo() != NULL)
 						if(this->escenario->getGusanoActivo()->tieneUnArma())
 							this->escenario->getGusanoActivo()->getArmaSeleccionada()->aumentarPotencia();
+					cout<<"potencia: "<<this->escenario->getGusanoActivo()->getArmaSeleccionada()->getPotencia()<<endl;
 					break;
 				case SOLTARESPACIO:
 						this->escenario->realizarDisparo();
