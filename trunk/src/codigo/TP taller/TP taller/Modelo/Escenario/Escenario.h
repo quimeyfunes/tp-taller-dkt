@@ -52,6 +52,8 @@ public:
     int getAnchoU();
     int getNivelAgua();
 	int getMaximosClientes();
+
+	Gusano* getGusanoActivo();
 	list<Figura*>* getFiguras();
 	b2World* getWorld();
 	Poligono* crearPoligono(ObjetoParseado objeto);

@@ -20,7 +20,7 @@ private:
 	bool congelado;
 	int maximosCLientes;
 	//Para probar
-	Bazooka* armaSeleccionada;
+	Arma* armaSeleccionada;
 
 public:
 	Gusano();
@@ -37,7 +37,8 @@ public:
 	void setMeClickearon(bool meClickearon, int cliente);
 	bool getCongelado();
 	void setCongelado(bool congelado);
-	Bazooka* getArmaSeleccionada();
+	Arma* getArmaSeleccionada();
+	void setArma(Arma* nuevaArma);
 	
 };
 
