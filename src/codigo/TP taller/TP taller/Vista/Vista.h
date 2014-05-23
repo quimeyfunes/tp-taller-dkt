@@ -13,6 +13,7 @@
 #include "../Parser/yaml/ParserYaml.h"
 #include "SDL/SDL_ttf.h"
 #include <list>
+#include "Dibujables\ArmaDibujable.h"
 
 using namespace std;
 
@@ -67,6 +68,7 @@ public:
 	GusanoDibujable* crearGusanoDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef);
 	GusanoSprite* crearGusanoSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex,string nombre,int maximosClientes);
 	CartelInfo* crearCartelInfo(int x, int y, int ancho, int alto);
+	ArmaDibujable* crearArmaDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef);
 
 	void agregarDibujable(Dibujable* dibujable);
 	list<Dibujable*>* getListaDibujables();

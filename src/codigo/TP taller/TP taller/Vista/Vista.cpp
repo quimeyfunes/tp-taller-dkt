@@ -136,6 +136,19 @@ GusanoDibujable* Vista::crearGusanoDibujable(int x, int y, int ancho, int alto, 
 
 }
 
+ArmaDibujable* Vista::crearArmaDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef){
+
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = ancho;
+	rect.h = alto;
+
+	ArmaDibujable* dib = new ArmaDibujable(this->renderer, rect,pathImagen,imagenDef);
+	this->agregarDibujable(dib);
+	return dib;
+}
+
 
 void Vista::agregarDibujable(Dibujable* dibujable) {
 	this->listaDibujables->push_back(dibujable);
