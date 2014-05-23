@@ -48,6 +48,7 @@ public:
 	void jugar();
 	void alternarPausa();
 	void esperar();
+	
 	void agregarTexturas(EscenarioParseado* e);
 	void agregarAgua(EscenarioParseado* e);
 	void leerEvento();
