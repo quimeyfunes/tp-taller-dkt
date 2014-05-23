@@ -2,6 +2,7 @@
 #define __ARMA_DIBUJABLE_H__
 
 #include "DibujableTextura.h"
+#include "../../Modelo/Armas/Bazooka.h"
 #include "../../Observador/Observador.h"
 #include <string>
 
