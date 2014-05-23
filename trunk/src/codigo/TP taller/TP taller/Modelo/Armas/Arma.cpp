@@ -53,6 +53,7 @@ void Arma::aumentarPotencia(){
 	if(this->potencia < POTENCIA_MAXIMA_DISPARO) this->potencia+=0.5f;
 	else{
 		this->disparar();
+		this->potencia=0;
 	}
 }
 
@@ -61,11 +62,11 @@ float Arma::getPotencia(){
 }
 
 void Arma::aumentarAnguloDisparo(){
-	if(this->anguloInicial <= 90) this->anguloInicial+=5,625;
+	if(this->anguloInicial < 90) this->anguloInicial+=1.0f;
 }
 
 void Arma::disminuirAnguloDisparo(){
-	if(this->anguloInicial >= -90 ) this->anguloInicial-=5,625;
+	if(this->anguloInicial > -90 ) this->anguloInicial-=1.0f;
 }
 
 float Arma::getAnguloDisparo(){

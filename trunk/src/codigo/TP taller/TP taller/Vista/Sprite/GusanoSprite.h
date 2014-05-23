@@ -5,6 +5,7 @@
 #include "SDL/SDL_image.h"
 #include "../Dibujables/DibujableTextura.h"
 #include "../../constantes.h"
+#include "../../constantesArmas.h"
 #include "../../Modelo/Escenario/Escenario.h"
 #include "../../Parser/yaml/ParserYaml.h"
 #include "../../Observador/Observador.h"
@@ -25,6 +26,8 @@ class GusanoSprite: public DibujableTextura, public Observador{
 private:
 	SDL_Rect* recCuadro;
 	SDL_Rect* rectApuntando;
+	SDL_Rect* enUso;
+	int frameDisparo;
 	int frame;
 	bool cambiarImgDer;
 	bool cambiarImgIzq;
@@ -43,6 +46,7 @@ public:
 	void setCambiarImgIzq(bool cambio);
 	void setNumCuadros(int numCuadros);
 	void actualizarFrame();
+	void actualizarFrameDisparo(int frame);
 	int getNumCuadros();
 	int getFrame();
 	void setFrame(int frame);
@@ -55,6 +59,7 @@ public:
 	int contDer;
 	int contFrent;
 	int contMuerte;
+	bool tieneArma;
 	ESTADO estado;
 	vector<bool> mostrarCartel;
 	int velocidadRefresco;
