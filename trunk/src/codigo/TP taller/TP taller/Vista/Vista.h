@@ -7,6 +7,7 @@
 #include "Dibujables\CartelDibujable.h"
 #include "Dibujables\GusanoDibujable.h"
 #include "Dibujables/CartelInfo.h"
+#include "Dibujables/PanelArmas.h"
 #include "Sprite/Sprite.h"
 #include "Sprite\GusanoSprite.h"
 #include "Sprite/ScrollingSprite.h"
@@ -69,7 +70,7 @@ public:
 	GusanoSprite* crearGusanoSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex,string nombre,int maximosClientes);
 	CartelInfo* crearCartelInfo(int x, int y, int ancho, int alto);
 	ArmaDibujable* crearArmaDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef);
-
+	PanelArmas* Vista::crearPanelArmas(int x , int y ,int ancho,int alto);
 	void agregarDibujable(Dibujable* dibujable);
 	list<Dibujable*>* getListaDibujables();
 	void setListaDibujables(list<Dibujable*>* dibujables);
