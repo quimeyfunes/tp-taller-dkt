@@ -166,66 +166,46 @@ void GusanoSprite::actualizar(Observable* observable) {
 
 void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
 	SDL_Rect rect = this->rect;
+	SDL_RendererFlip flip = SDL_FLIP_NONE;
+	
+	if (this->estado == DER) {
+			flip = SDL_FLIP_HORIZONTAL;
+	}
 
 	if ((this->estado == MUERTO) && (this->contMuerte >= 1)){
 		this->setFrame(0);
 		this->setImagen(renderer, rutaGrave);
 	} else {
-		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent >= 1) ){
+		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent >= 1) ){ //Esta quieto
 			if(!this->tieneArma){
-				if (this->estado == IZQ){
-					if(!this->congelado){
-						this->setImagen(renderer, spriteWormIzq);
-					}else{
-						this->setImagen(renderer, rutaWormGrisIzq);
-					}
-				}else{	
-					if(!this->congelado){
-						this->setImagen(renderer, spriteWormDer);
-					}else{
-						this->setImagen(renderer, rutaWormGrisDer);
-					}
+				if(!this->congelado){
+					this->setImagen(renderer, spriteWormIzq);
+				}else{
+					this->setImagen(renderer, rutaWormGrisIzq);
 				}
 			}else{
 				this->frame = frameDisparo;
-				if (this->estado == IZQ){
-					if(!this->congelado){
+				if(!this->congelado){
 						this->setImagen(renderer, rutaWormBazIzq);
 					}else{
 						this->setImagen(renderer, rutaWormGrisIzq);
 					}
-				}else{	
-					if(!this->congelado){
-						this->setImagen(renderer, rutaWormBazDer);
-					}else{
-						this->setImagen(renderer, rutaWormGrisDer);
-					}
-				}
 			}
-		}
-		if ( (this->hayCambioImgDer()) && (this->contDer >= 1 ) ){
-			if (this->estado == MUERTO){
-				this->setImagen(renderer, rutaGrave);
-			} else {
-				this->setImagen(renderer, rutaGusanoDer);
-			}
-		}
-		if ( (this->hayCambioImgIzq())  && (this->contIzq >= 1) ){
-			if (this->estado == MUERTO){
-				this->setImagen(renderer, rutaGrave);
-			} else {
+		} else {
+			if ((this->hayCambioImgDer() && this->contDer >= 1) || (this->hayCambioImgIzq() && this->contIzq >= 1)) {
 				this->setImagen(renderer, rutaGusanoIzq);
 			}
+
 		}
 	}
 	
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
 		rect = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
-		SDL_RenderCopy(renderer, this->imagen, &this->enUso[frame], &rect);
+		SDL_RenderCopyEx(renderer, this->imagen, &this->enUso[frame], &rect,0,NULL,flip);
 	} else {
 		rect.x -=corrimientoX;
 		rect.y -=corrimientoY;
-		SDL_RenderCopy(renderer, this->imagen, &this->enUso[frame], &rect);
+		SDL_RenderCopyEx(renderer, this->imagen, &this->enUso[frame], &rect,0,NULL,flip);
 	}
 
 	if (this->mostrarCartel[this->cliente] && this->estado != MUERTO) {
