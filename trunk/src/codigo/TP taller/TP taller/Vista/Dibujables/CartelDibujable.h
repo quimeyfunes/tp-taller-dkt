@@ -17,7 +17,6 @@
 class CartelDibujable: public DibujableTextura{
 protected:
 	TTF_Font* font;
-	string texto;
 	SDL_Surface* surf;
 	SDL_Color textColor;
 
@@ -26,6 +25,7 @@ public:
 	CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF, string nombre);
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	~CartelDibujable(void);
+	string texto;
 };
 
 #endif

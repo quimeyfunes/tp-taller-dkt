@@ -111,44 +111,51 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 //le paso la lista como parametro para no estar haciendo new cada vez que entro 
 /*list<Dibujable*>* */void JuegoCliente::crearLista(string vistaSerializada){
 	//elimino elementos de la vista que son figuras
-	int index = 0;
+	/*int index = 0;
 	for (list<Dibujable*>::iterator it = this->vista->getListaDibujables()->begin(); it != this->vista->getListaDibujables()->end(); it++) {
 		if(index > this->dibujablesBase->size() - 6 && index < this->vista->getListaDibujables()->size() - 5){
 			delete *it;
 		}
 		index++;
-	}
+	}*/
 	
-	list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
+	list<Dibujable*> *lista = new list<Dibujable*>(this->vista->getListaDibujables()->size());
 
 
-	copy(this->dibujablesBase->begin(),this->dibujablesBase->end(),lista->begin());
+	copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),lista->begin());
 	//Saco el agua
 	
-	for (index = 0; index < 5;index ++) {
+	for (int index = 0; index < 5;index ++) {
 		lista->pop_back();
 	}
 	
+	//Paso la lista a vector para trabajar con los indices
+	std::vector<Dibujable*> vecAux(lista->begin(), lista->end() );
+
 	vector<string> entidadesSerializadas = StringUtil::split(vistaSerializada,separadorEntidades);
-	for (int i = 0; i < entidadesSerializadas.size(); i++) {
+	for(int i=0; i<entidadesSerializadas.size(); i++){
+		
 		string entidadSerializada = entidadesSerializadas.at(i);
 		vector<string> des = StringUtil::split(entidadSerializada,separadorCampoTipoEntidades);
-		switch (StringUtil::str2int(des.at(0))){
-			case serializadoGusanoDibujable: {
-				GusanoDibujable* gusano = new GusanoDibujable();
-				gusano->deserealizar(entidadSerializada);
-
-				GusanoDibujable* gusano2 = new GusanoDibujable(this->vista->renderer, gusano->getRect(), rutaGusano, rutaGusanoDEF);
-				lista->push_back(gusano2);
-				//delete gusano;
-				break;
-			}
+		switch (StringUtil::str2int(des.at(0))){				
 			case serializadoGusanoSprite: {
 				GusanoSprite* gusano = new GusanoSprite();
-				gusano->deserealizar(entidadSerializada);
-				int frame = gusano->getFrame();
-				GusanoSprite* gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, gusano->getNombre(),this->esc->maximosClientes);
-				gusano2->setFrame(frame);
+				gusano->deserealizar(entidadSerializada);				
+				GusanoSprite* gusano2;
+				if(vecAux.size() + 5 - this->dibujablesBase->size() < entidadesSerializadas.size()){
+					//Si no estaba lo creo
+					gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, gusano->getNombre(),this->esc->maximosClientes);
+				}else{
+					gusano2 = (GusanoSprite*)vecAux[this->dibujablesBase->size() - 5 + i];
+					gusano2->setRect(gusano->getRect());
+					SDL_Rect rectCart = gusano->getRect();
+					rectCart.h = gusano->getRect().h / 4;
+					rectCart.x = gusano->getRect().x + gusano->getRect().w/2;
+					rectCart.w = gusano2->getCartel()->texto.length() * 7;
+					gusano2->getCartel()->setRect(rectCart);
+				}
+
+				gusano2->setFrame(gusano->getFrame());
 				gusano2->setCambiarImgIzq(gusano->hayCambioImgIzq());
 				gusano2->setCambiarImgDer(gusano->hayCambioImgDer());
 				gusano2->contDer = gusano->contDer;
@@ -162,8 +169,9 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 				gusano2->numCuadros = gusano->numCuadros;
 				gusano2->congelado = gusano->congelado;
 				gusano2->cliente = this->cliente->getId();
-				lista->push_back(gusano2);
-
+				if(vecAux.size() + 5 - this->dibujablesBase->size() < entidadesSerializadas.size()){
+					vecAux.push_back(gusano2);
+				}
 				delete gusano;
 				break;
 			}
@@ -190,14 +198,22 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 				break;
 			}
 		}
-
 	}
 
-	list<Dibujable*> *listaAnterior = this->vista->getListaDibujables();
+	
+	//list<Dibujable*> *listaAnterior = this->vista->getListaDibujables();
 	//borro la lista anterior(no los elementos)
-	delete listaAnterior;
+	
+	for(int j=0; j<vecAux.size(); j++){
+		if(j >= this->vista->getListaDibujables()->size() - 5){
+			lista->push_back(vecAux[j]);
+		}
+	}
+
+	//delete listaAnterior;
+	
 	this->vista->setListaDibujables(lista);
-	index = 0;
+	int index = 0;
 	for (list<Dibujable*>::iterator it = this->dibujablesBase->begin(); it != this->dibujablesBase->end(); it++) {
 		if (index > this->dibujablesBase->size() - 6) {
 			Dibujable* dib = *it;
@@ -205,10 +221,7 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 		}
 		index++;
 	}
-	//Agrego a lo ultimo el agua
-	//lista->push_back(this->dibujablesBase->back());
 
-	//return lista;
 }
 
 JuegoCliente::~JuegoCliente(){
