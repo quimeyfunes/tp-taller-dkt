@@ -95,6 +95,7 @@ DibujableTextura* Vista::crearDibujableTextura(int x , int y ,int ancho,int alto
 	return dib;
 }
 
+
 CirculoDibujable* Vista::crearCirculoDibujable(int x , int y ,int radioHorizontal, int radioVertical) {
 	CirculoDibujable* dib = new CirculoDibujable(x,y,radioHorizontal,radioVertical);
 	this->agregarDibujable(dib);
@@ -145,6 +146,18 @@ ArmaDibujable* Vista::crearArmaDibujable(int x, int y, int ancho, int alto, stri
 	rect.h = alto;
 
 	ArmaDibujable* dib = new ArmaDibujable(this->renderer, rect,pathImagen,imagenDef);
+	this->agregarDibujable(dib);
+	return dib;
+}
+
+PanelArmas* Vista::crearPanelArmas(int x , int y, int ancho, int alto) {
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = ancho;
+	rect.h = alto;
+	
+	PanelArmas* dib = new PanelArmas(this->renderer, rect, "imagenes/texturas/armas/panelFondo.png", "");
 	this->agregarDibujable(dib);
 	return dib;
 }

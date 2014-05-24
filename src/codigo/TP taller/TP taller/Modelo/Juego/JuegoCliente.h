@@ -26,12 +26,14 @@ private:
 
 	EscenarioParseado* esc;
 	CartelInfo* cartelInfo;
+	PanelArmas* panelArmas;
 	static Cliente* cliente;
 	list<Dibujable*>* dibujablesBase;
 	void reiniciar();
 	void salir();
 	void jugar();
 	void alternarPausa();
+	void alternarPanelArmas();
 	void esperar();
 	void agregarTexturas(EscenarioParseado* e);
 	void agregarAgua(EscenarioParseado* e);

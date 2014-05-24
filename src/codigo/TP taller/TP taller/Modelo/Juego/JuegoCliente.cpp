@@ -56,7 +56,7 @@ void JuegoCliente::leerEvento(){
 
 		case SALIR:			salir();						break;
 		//case JUGAR:			reiniciar();					break;
-		//case PAUSAR:		alternarPausa();				break;
+		case CLICKDERECHO:		this->alternarPanelArmas();				break;
 		}
 
 		if(accion == CLICK || accion == IZQUIERDA || accion == DERECHA || accion == ARRIBA || accion == SOLTARARRIBA || accion == SOLTARIZQUIERDA || accion == SOLTARDERECHA){
@@ -91,6 +91,10 @@ void JuegoCliente::alternarPausa(){
 	Juego::alternarPausa();
 }
 
+void JuegoCliente::alternarPanelArmas(){
+	this->panelArmas->alternarVisibilidad();
+}
+
 void JuegoCliente::esperar(){}
 
 void JuegoCliente::agregarTexturas(EscenarioParseado* e){
@@ -102,6 +106,7 @@ void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenTierra, "");
 	this->cartelInfo = vista->crearCartelInfo(10, 10, 0, 20);
 	this->cartelInfo->setColor(255,0,255,100);
+	this->panelArmas = vista->crearPanelArmas(e->anchoPx - e->altoPx/3, 10, e->altoPx/3, e->altoPx/3);
 }
 
 void JuegoCliente::agregarAgua(EscenarioParseado* e){
