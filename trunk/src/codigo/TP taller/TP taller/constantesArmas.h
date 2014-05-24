@@ -7,4 +7,11 @@
 #define rutaWormBazIzq "imagenes/texturas/wormConBazookaIzq.png"
 #define rutaWormBazDer "imagenes/texturas/wormConBazookaDer.png"
 
+////////// TIPOS DE ARMAS ////////////
+typedef enum{
+	NINGUNA,
+	BAZOOKA,
+}tipoArma;
+//////////////////////////////////////
+
 #endif

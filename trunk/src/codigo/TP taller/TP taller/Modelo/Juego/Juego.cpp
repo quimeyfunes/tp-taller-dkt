@@ -141,7 +141,6 @@ void Juego::leerEvento(){
                         break;
 
 				case CLICKDERECHO:
-						SDL_GetMouseState(&x, &y);
 						if(this->escenario->getGusanoActivo() != NULL){
 						//	cout<<"tengo un arma"<<endl;
 							pos=this->escenario->getFiguraActiva()->getPosicion();

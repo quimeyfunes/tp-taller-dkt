@@ -17,7 +17,9 @@ protected:
 	float anguloInicial;
 	float potencia;
 	bool disparada;
+	
 public:
+	tipoArma armaTipo;
 	Arma(void);
 	Arma(float x, float y, short int rotacion, b2World* world, bool estatico, bool rotacionFija);
 	void setPosicion(float x, float y, float angulo);

@@ -7,6 +7,7 @@
 #include "Box2D/Box2D.h"
 #include "../../Observador/Observable.h"
 #include "../../constantes.h"
+#include "../../constantesArmas.h"
 #include "../Armas/Arma.h"
 #include "../Armas/Bazooka.h"
 #include "Figura.h"
@@ -20,7 +21,7 @@ private:
 	bool congelado;
 	int maximosCLientes;
 	//Para probar
-	bool tieneArma;
+	tipoArma armaTipo;
 	Arma* armaSeleccionada;
 
 public:
@@ -41,6 +42,7 @@ public:
 	Arma* getArmaSeleccionada();
 	void setArma(Arma* nuevaArma);
 	bool tieneUnArma();
+	tipoArma getTipoArma();
 };
 
 #endif
