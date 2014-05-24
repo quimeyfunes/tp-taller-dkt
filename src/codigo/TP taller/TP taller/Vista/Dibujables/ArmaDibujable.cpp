@@ -14,13 +14,9 @@ ArmaDibujable::ArmaDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathI
 void ArmaDibujable::actualizar(Observable* observable){
 
 	Bazooka* fig = (Bazooka*)observable;
-
-	cout << "Pos x: " << fig->getPosicion().x << endl;
-	cout << "Pos y: " << fig->getPosicion().y << endl;
 	SDL_Rect rect = this->rect;
 	rect.x = (fig->getPosicion().x * relacionPPU) - rect.w /2;
 	rect.y = (fig->getPosicion().y * relacionPPU) - rect.h /2;
-
 	this->setRect(rect);
 
 }

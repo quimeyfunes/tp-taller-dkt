@@ -10,7 +10,7 @@ GusanoSprite::GusanoSprite(void)
 
 GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex, string nombre,int maximosCLientes): DibujableTextura(){
 
-	this->tieneArma = false;
+	this->armaTipo = NINGUNA;
 	this->numCuadros = col*fil;
 	this->velocidadRefresco = timeGusanoQuieto;
 	this->contador = 0;
@@ -100,17 +100,19 @@ void GusanoSprite::actualizar(Observable* observable) {
 			if(!fig->tieneUnArma()){
 
 				this->enUso = recCuadro;
-				this->tieneArma = false;
+				this->armaTipo = NINGUNA;
 				this->velocidadRefresco = timeGusanoQuieto;
 				this->actualizarFrame();
 			}else{
+					//printf("HOLA\n");
 					this->enUso = rectApuntando;
-					this->tieneArma = true;
+					this->armaTipo = fig->getTipoArma();
 					this->actualizarFrameDisparo(fig->getArmaSeleccionada()->getAnguloDisparo());
+					//cout<<this->frameDisparo<<endl;
 			}
 		} else {
 			this->velocidadRefresco = timeGusanoMovil;
-			this->tieneArma=false;
+			this->armaTipo = NINGUNA;
 				if ((fig->seMueveALaDer())){
 					
 					this->contIzq = 0;
@@ -177,25 +179,18 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 		this->setImagen(renderer, rutaGrave);
 	} else {
 		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent >= 1) ){ //Esta quieto
-			if(!this->tieneArma){
-				if(!this->congelado){
-					this->setImagen(renderer, spriteWormIzq);
-				}else{
-					this->setImagen(renderer, rutaWormGrisIzq);
-				}
+			if(this->congelado){
+				this->setImagen(renderer, rutaWormGrisIzq);
 			}else{
-				this->frame = frameDisparo;
-				if(!this->congelado){
-						this->setImagen(renderer, rutaWormBazIzq);
-					}else{
-						this->setImagen(renderer, rutaWormGrisIzq);
-					}
+				switch(this->armaTipo){
+				case NINGUNA:	this->setImagen(renderer, spriteWormIzq);   break;
+				case BAZOOKA:	this->setImagen(renderer, rutaWormBazIzq);	break;
+				}
 			}
 		} else {
 			if ((this->hayCambioImgDer() && this->contDer >= 1) || (this->hayCambioImgIzq() && this->contIzq >= 1)) {
 				this->setImagen(renderer, rutaGusanoIzq);
 			}
-
 		}
 	}
 	
@@ -244,7 +239,7 @@ void GusanoSprite::actualizarFrame(){
 
 void GusanoSprite::actualizarFrameDisparo(int angulo){
 
-	this->frameDisparo = (float)(15.5/90) * angulo + 15.5f;
+	this->frame = (float)(15.5/90) * angulo + 15.5f;
 }
 
 

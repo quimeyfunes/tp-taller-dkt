@@ -59,7 +59,7 @@ public:
 	int contDer;
 	int contFrent;
 	int contMuerte;
-	bool tieneArma;
+	tipoArma armaTipo;
 	ESTADO estado;
 	vector<bool> mostrarCartel;
 	int velocidadRefresco;
