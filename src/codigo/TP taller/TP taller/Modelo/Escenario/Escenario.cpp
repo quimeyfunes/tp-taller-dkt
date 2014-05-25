@@ -399,7 +399,8 @@ void Escenario::saltar(){
 			b2Body* cuerpo = this->gusanoActivo->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(0,-25));
 		}else{
-			this->gusanoActivo->getArmaSeleccionada()->aumentarAnguloDisparo();
+			if(this->gusanoActivo->armaActual.anguloDisparo < 90)
+				this->gusanoActivo->armaActual.anguloDisparo+=1.0f;
 		}
 		//cuerpo->ApplyLinearImpulse(b2Vec2(0,-100),this->figuraActiva->getPosicion(),true);
 	}
@@ -407,7 +408,8 @@ void Escenario::saltar(){
 
 void Escenario::bajar(){
 	if(this->puedeMoverseAbajo && (!this->gusanoActivo->estaMuerto()) && (this->gusanoActivo->tieneUnArma())){
-		this->gusanoActivo->getArmaSeleccionada()->disminuirAnguloDisparo();
+			if(this->gusanoActivo->armaActual.anguloDisparo > -90)
+				this->gusanoActivo->armaActual.anguloDisparo-=1.0f;
 	}
 }
 
@@ -426,6 +428,7 @@ void Escenario::moverIzquierda(){
 		cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
 		this->gusanoActivo->setMovimientoIzq(true);
 		this->gusanoActivo->setMovimientoDer(false);
+		this->gusanoActivo->armaActual.sentidoDisparo = true;
 	}
 }
 
@@ -445,16 +448,17 @@ void Escenario::moverDerecha(){
 		b2Body* cuerpo = this->gusanoActivo->getBody();
 		cuerpo->SetLinearVelocity(b2Vec2(5,cuerpo->GetLinearVelocity().y));
 		this->gusanoActivo->setMovimientoDer(true);
+		this->gusanoActivo->armaActual.sentidoDisparo = false;
 		this->gusanoActivo->setMovimientoIzq(false);
 	}
 }
 
 void Escenario::realizarDisparo(){
-	if (this->puedeDisparar && !(this->gusanoActivo->estaMuerto())){
-		if(! this->gusanoActivo->getArmaSeleccionada()->fueDisparada())
-			if(this->gusanoActivo->tieneUnArma())
-				this->gusanoActivo->getArmaSeleccionada()->disparar();
-	}
+	//if (this->puedeDisparar && !(this->gusanoActivo->estaMuerto())){
+	//	if(! this->gusanoActivo->getArmaSeleccionada()->fueDisparada())
+	//		if(this->gusanoActivo->tieneUnArma())
+	//			this->gusanoActivo->getArmaSeleccionada()->disparar();
+	//}
 
 
 }

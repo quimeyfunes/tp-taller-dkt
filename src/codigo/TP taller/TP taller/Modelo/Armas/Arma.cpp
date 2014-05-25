@@ -17,13 +17,11 @@ Arma::Arma(float x, float y, short int rotacion, b2World* world, bool estatico, 
 	myBodyDef.fixedRotation = rotacionFija;
 	myBodyDef.position.Set(x, y);
 	this->posicionInicial = b2Vec2(x,y);
-	this->anguloInicial = rotacion;
+
 	//AnguloInicial en GRADOS!!
 	//myBodyDef.angle en RADIANES
-	myBodyDef.angle = this->anguloInicial*DEGTORAD; 
+	myBodyDef.angle = rotacion*DEGTORAD; 
 
-	this->disparada=false;
-	this->potencia=0;
 	this->body = world->CreateBody(&myBodyDef);
 }
 
@@ -43,34 +41,10 @@ b2Vec2 Arma::getPosicion()
 	return this->body->GetPosition();
 }
 
-void Arma::disparar(){
+void Arma::disparar(bool sentido, int potencia, float angulo){
 }
 
 void Arma::explotar(){
-}
-
-void Arma::aumentarPotencia(){
-	if(this->potencia < POTENCIA_MAXIMA_DISPARO) this->potencia+=0.5f;
-}
-
-float Arma::getPotencia(){
-	return this->potencia;
-}
-
-void Arma::aumentarAnguloDisparo(){
-	if(this->anguloInicial < 90) this->anguloInicial+=1.0f;
-}
-
-void Arma::disminuirAnguloDisparo(){
-	if(this->anguloInicial > -90 ) this->anguloInicial-=1.0f;
-}
-
-float Arma::getAnguloDisparo(){
-	return this->anguloInicial;
-}
-
-bool Arma::fueDisparada(){
-	return this->disparada;
 }
 
 Arma::~Arma(void)
