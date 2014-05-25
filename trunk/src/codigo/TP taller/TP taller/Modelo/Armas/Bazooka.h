@@ -7,7 +7,7 @@ class Bazooka: public ExplosivaPorContacto
 {
 public:
 	Bazooka(void);
-	Bazooka(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa);
+	Bazooka(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa, float radio);
 	void disparar(bool sentido, int potencia, float angulo);
 	void notificar();
 	~Bazooka(void);

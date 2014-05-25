@@ -2,7 +2,7 @@
 #include "../constantes.h"
 #include "Escenario\Escenario.h"
 
-
+#include <typeinfo>
 
 class ResolverContacto : public b2ContactListener
 {

@@ -49,6 +49,8 @@ public:
 	void setArma(Arma* nuevaArma);
 	bool tieneUnArma();
 	tipoArma getTipoArma();
+	void BeginContact();
+	void EndContact();
 
 
 

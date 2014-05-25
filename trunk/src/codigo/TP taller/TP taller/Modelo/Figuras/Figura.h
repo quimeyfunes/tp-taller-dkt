@@ -43,6 +43,8 @@ public:
 	virtual void simularAgua(int nivelAgua);
 	bool estaMuerto();
 	void setMuerto(bool estado);
+	virtual void BeginContact();
+	virtual void EndContact();
 	~Figura();
 };
 

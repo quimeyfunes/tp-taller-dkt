@@ -8,6 +8,8 @@
 
 const int POTENCIA_MAXIMA_DISPARO = 100;
 const int AUMENTO_POTENCIA = 2;
+
+const float radioBazooka = 5;
 ////////// TIPOS DE ARMAS ////////////
 typedef enum{
 	NINGUNA,

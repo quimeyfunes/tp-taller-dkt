@@ -32,6 +32,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	b2FixtureDef fixtureDefSensor;
 	fixtureDefSensor.isSensor = true;
 	fixtureDefSensor.shape = &rectanguloShape;
+	int data = GUSANO;
 	fixtureDefSensor.userData = this;
 	this->getBody()->CreateFixture(&fixtureDefSensor);
 	this->numContactos = 0;
@@ -132,4 +133,12 @@ bool Gusano::tieneUnArma(){
 
 tipoArma Gusano::getTipoArma(){
 	return this->armaActual.armaTipo;
+}
+
+void Gusano::BeginContact() {
+	this->agregarContacto();
+}
+
+void Gusano::EndContact(){
+	this->sacarContacto();
 }

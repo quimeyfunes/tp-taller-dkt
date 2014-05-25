@@ -113,8 +113,8 @@ void Terreno::destruirTerreno(float x, float y, int radio){
 		this->body->DestroyFixture(f);
 	}
 		
-	//Creo circulo. Aproximo lados = 200 para circulo 
-	int n = radio; 
+	//Creo circulo. Aproximo lados = 40 para circulo 
+	int n = 40; 
 	PoligonoBoost circulo;
 	float angulo = (2 * b2_pi / n);
 	for (int i = 0; i < n; i++) {

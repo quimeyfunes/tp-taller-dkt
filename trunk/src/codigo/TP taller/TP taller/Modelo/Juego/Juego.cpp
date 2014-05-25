@@ -49,7 +49,11 @@ void Juego::ejecutar(){
 			}
 		}
 		escenario->notificar();
-
+		b2Vec3 explosion = this->escenario->hayExplosion();
+		if ( explosion.z >= 0){
+			explosion *= relacionPPU;
+			this->vista->destruir((explosion.x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(explosion.y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),explosion.z,this->terreno->getLector());
+		}
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
 		this->vista->Dibujar();
 		
@@ -136,9 +140,9 @@ void Juego::leerEvento(){
 
 				case SOLTARESPACIO:
 					pos=this->escenario->getFiguraActiva()->getPosicion();
-					this->escenario->getGusanoActivo()->setArma(new Bazooka(pos.x, pos.y, 0, this->escenario->getWorld(), false, 14 ,8, 10 ));
+					this->escenario->getGusanoActivo()->setArma(new Bazooka(pos.x, pos.y, 0, this->escenario->getWorld(), false, 2 ,2, 10, radioBazooka ));
 					this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
-					arma = this->vista->crearArmaDibujable(pos.x , pos.y, 14,8,rutaBazIzq,rutaBazIzq);
+					arma = this->vista->crearArmaDibujable(pos.x , pos.y, relacionPPU * 2,relacionPPU * 2,rutaBazIzq,rutaBazIzq);
 					this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
 					this->escenario->getGusanoActivo()->getArmaSeleccionada()->disparar(this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, this->escenario->getGusanoActivo()->armaActual.potenciaDisparo, this->escenario->getGusanoActivo()->armaActual.anguloDisparo);
 					//cout<<this->escenario->getGusanoActivo()->armaActual.potenciaDisparo<<endl;

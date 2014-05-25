@@ -21,4 +21,9 @@
 
 	const int potenciaPorUnidad = 3000; //Para explosion
 
+	typedef enum{
+		GUSANO,
+		ARMA_CONTACTO,
+	}tipoContacto;
+	
 #endif

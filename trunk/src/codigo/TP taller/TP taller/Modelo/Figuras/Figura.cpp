@@ -110,3 +110,9 @@ bool Figura::estaMuerto(){
 void Figura::setMuerto(bool estado){
 	this->muerto = estado;
 }
+
+void Figura::BeginContact() {
+}
+
+void Figura::EndContact(){
+}

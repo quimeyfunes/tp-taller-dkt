@@ -74,7 +74,7 @@ void Escenario::notificar() {
 	
 	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		(*it)->notificar();
-		cout<<(*it)->getBody()->GetLinearVelocity().y<<endl;
+		//cout<<(*it)->getBody()->GetLinearVelocity().y<<endl;
 	}
 
 	for (list<Arma*>::iterator it = this->listaArmas->begin(); it != this->listaArmas->end(); it++) {
@@ -504,6 +504,20 @@ Figura* Escenario::getFiguraActiva(){
 
 vector<Gusano*> Escenario::getFigurasActivas(){
 	return this->figurasActivas;
+}
+
+b2Vec3 Escenario::hayExplosion() {
+	for (list<Arma*>::iterator it = this->listaArmas->begin(); it != this->listaArmas->end(); it++) {
+		if ((*it)->getExplotar()) {
+			b2Vec2 pos = (*it)->getBody()->GetPosition();
+			this->explotar(pos.x,pos.y,(*it)->getRadio());
+			this->terreno->destruirTerreno(pos.x,pos.y,(*it)->getRadio());
+			(*it)->explotar(false);
+			(*it)->setPosicion(1000000,0,0);	//Borrar estas 2 lineas y borrar el elemento
+			return b2Vec3(pos.x,pos.y,(*it)->getRadio());
+		}
+	}
+	return b2Vec3(0,0,-1);
 }
 
 void Escenario::explotar(float x, float y, int radio) {
