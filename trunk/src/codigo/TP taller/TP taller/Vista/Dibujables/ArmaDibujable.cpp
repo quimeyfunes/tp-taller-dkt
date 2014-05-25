@@ -14,11 +14,10 @@ ArmaDibujable::ArmaDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathI
 void ArmaDibujable::actualizar(Observable* observable){
 
 	Bazooka* fig = (Bazooka*)observable;
-	SDL_Rect rect = this->rect;
-	rect.x = (fig->getPosicion().x * relacionPPU) - rect.w /2;
-	rect.y = (fig->getPosicion().y * relacionPPU) - rect.h /2;
-	this->setRect(rect);
-
+	
+	this->rect.x = (fig->getPosicion().x * relacionPPU) - rect.w /2;
+	this->rect.y = (fig->getPosicion().y * relacionPPU) - rect.h /2;
+	this->anguloRotacion = fig->getBody()->GetAngle() * RADTODEG;
 }
 
 void ArmaDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){

@@ -44,7 +44,7 @@
 	const int gusanosPorPersonaje = 3;
 
 	//Relacion Pixel por Unidad
-	const float relacionPPU = 2;
+	const float relacionPPU = 10;
 
 	//Escenario
 	const unsigned anchoPxDEF=1200;
@@ -53,8 +53,8 @@
 	const unsigned altoUDEF=300;
 	const unsigned nivelAguaDEF=100;
 
-	const unsigned altoUMIN=100;
-	const unsigned anchoUMIN=100;
+	const unsigned altoUMIN=10;
+	const unsigned anchoUMIN=10;
 	const unsigned altoPXMIN=200;
 	const unsigned anchoPXMIN=200;
 

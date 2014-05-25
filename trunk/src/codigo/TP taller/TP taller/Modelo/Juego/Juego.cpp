@@ -49,6 +49,7 @@ void Juego::ejecutar(){
 			}
 		}
 		escenario->notificar();
+
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
 		this->vista->Dibujar();
 		
@@ -132,9 +133,9 @@ void Juego::leerEvento(){
 				case ESPACIO: 
 					if(this->escenario->getGusanoActivo() != NULL)
 						if(this->escenario->getGusanoActivo()->armaActual.armaTipo != NINGUNA)
-							if(this->escenario->getGusanoActivo()->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO)
+							if(this->escenario->getGusanoActivo()->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO) {
 								this->escenario->getGusanoActivo()->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
-					//cout<<"potencia: "<<this->escenario->getGusanoActivo()->armaActual.potenciaDisparo<<endl;
+							}
 					break;
 
 				case SOLTARESPACIO:
@@ -144,13 +145,15 @@ void Juego::leerEvento(){
 					arma = this->vista->crearArmaDibujable(pos.x , pos.y, 24,14,rutaBazIzq,rutaBazIzq);
 					this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
 					this->escenario->getGusanoActivo()->getArmaSeleccionada()->disparar(this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, this->escenario->getGusanoActivo()->armaActual.potenciaDisparo, this->escenario->getGusanoActivo()->armaActual.anguloDisparo);
+					//cout<<this->escenario->getGusanoActivo()->armaActual.potenciaDisparo<<endl;
+					
 					this->escenario->getGusanoActivo()->armaActual.potenciaDisparo = 0;
 					break;
 
                 case CLICK:     
                         SDL_GetMouseState(&x,&y);
                         if (!(this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom())))) {
-							this->vista->destruir((x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),30 * relacionPPU,this->terreno->getLector());
+							this->vista->destruir((x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),5 * relacionPPU,this->terreno->getLector());
 						}
                         break;
 
@@ -288,7 +291,7 @@ void Juego::agregarObjetos(){
 				worm = escenario->crearGusano(*it);
 				if (worm){
 					//GusanoDibujable* gusano = vista->crearGusanoDibujable((*it).x * escalaAncho, (*it).y * escalaAlto , (*it).ancho * escalaAncho, (*it).alto * escalaAlto, rutaGusano, rutaGusanoDEF);
-					GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600,"Rasta",4);
+					GusanoSprite* gusano = vista->crearGusanoSprite( (*it).x * escalaAncho, (*it).y * escalaAlto , anchoGusano * escalaAlto * 2.5, altoGusano * escalaAncho * 2.5, spriteWormIzq, 1, 10, 60, 600,"Rasta",4);
 					worm->agregarObservador(gusano);
 				} 
 				break;
