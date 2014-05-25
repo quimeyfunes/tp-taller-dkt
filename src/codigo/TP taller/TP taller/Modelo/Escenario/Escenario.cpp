@@ -348,6 +348,10 @@ void Escenario::abajo(bool abajo){
 	this->puedeMoverseAbajo = abajo;
 }
 
+void Escenario::espacio(bool esp){
+		this->puedeDisparar = esp;
+}
+
 void Escenario::arribaCliente(int cliente ,bool arriba){
 	this->puedeMoverseArribaClientes[cliente] = arriba;
 }
@@ -361,7 +365,7 @@ void Escenario::izquierda(bool izquierda){
 }
 
 void Escenario::disparar(bool disparo){
-	this->puedeDisparar = disparo;
+	//this->puedeDisparar = disparo;
 }
 
 void Escenario::izquierdaCliente(int cliente,bool izquierda){
@@ -382,7 +386,20 @@ void Escenario::moverse(){
 		this->bajar();
 		this->moverDerecha();
 		this->moverIzquierda();
+		this->cargarDisparo();
 	}
+}
+
+void Escenario::cargarDisparo(){
+	if((puedeDisparar)&&(this->gusanoActivo != NULL)&&(this->gusanoActivo->armaActual.armaTipo != NINGUNA)){ 
+		if(this->gusanoActivo->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO)
+			this->gusanoActivo->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
+			cout<<getGusanoActivo()->armaActual.potenciaDisparo<<endl;	
+	}else{
+		this->gusanoActivo->armaActual.potenciaDisparo = 0;
+	}
+
+
 }
 
 void Escenario::moverseClientes(){

@@ -7,7 +7,7 @@
 #define rutaWormBazDer "imagenes/texturas/wormConBazookaDer.png"
 
 const int POTENCIA_MAXIMA_DISPARO = 100;
-const int AUMENTO_POTENCIA = 5;
+const int AUMENTO_POTENCIA = 2;
 ////////// TIPOS DE ARMAS ////////////
 typedef enum{
 	NINGUNA,
