@@ -20,14 +20,20 @@ private:
 	vector<bool> meClickearon;
 	bool congelado;
 	int maximosCLientes;
-	//Para probar
-	tipoArma armaTipo;
-	Arma* armaSeleccionada;
+	
+	typedef struct{
+		tipoArma armaTipo;
+		Arma* armaSeleccionada;
+		float anguloDisparo;
+		int potenciaDisparo;
+		bool sentidoDisparo;
+	}armaStruct;
 
 public:
 	Gusano();
 	Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa,int maximosClientes);
 	~Gusano(void);
+	armaStruct armaActual;
 	bool meClickeo(float x,float y);
 	void agregarContacto();
 	void sacarContacto();
@@ -43,6 +49,9 @@ public:
 	void setArma(Arma* nuevaArma);
 	bool tieneUnArma();
 	tipoArma getTipoArma();
+
+
+
 };
 
 #endif

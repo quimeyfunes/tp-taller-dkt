@@ -10,7 +10,13 @@ Gusano::Gusano()
 Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa, int maximosCLientes)
 	: Figura(x , y , rotacion, world, estatico, true)
 {
-	this->armaTipo = NINGUNA;
+	this->armaActual.potenciaDisparo = 0;
+	this->armaActual.anguloDisparo=0;
+	this->armaActual.armaSeleccionada = NULL;
+	this->armaActual.armaTipo = NINGUNA;
+	this->armaActual.sentidoDisparo = true;	//true = izq
+	
+
 	b2PolygonShape rectanguloShape;
 	//Divido a la mitad el ancho y alto para que las medidas sean correctas
 	rectanguloShape.SetAsBox(ancho/2, alto/2);
@@ -35,7 +41,6 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	for(int i=0; i < this->maximosCLientes; i++){
 		this->meClickearon.push_back(false);
 	}
-	this->armaSeleccionada = NULL;
 	this->congelado = false;
 	//this->armaSeleccionada = new Bazooka(x - (ancho/2), y, rotacion, world, estatico, ancho /4 ,alto /4, masa /2 );
 }
@@ -112,19 +117,19 @@ void Gusano::setMeClickearon(bool d){
 }
 
 Arma* Gusano::getArmaSeleccionada(){
-	return this->armaSeleccionada;
+	return this->armaActual.armaSeleccionada;
 }
 
 void Gusano::setArma(Arma* nueva){
-	if(this->armaSeleccionada != NULL) delete this->armaSeleccionada;
-	this->armaSeleccionada = nueva;
-	this->armaTipo = nueva->armaTipo;
+	if(this->armaActual.armaSeleccionada != NULL) delete this->armaActual.armaSeleccionada;
+	this->armaActual.armaSeleccionada = nueva;
+	this->armaActual.armaTipo = nueva->armaTipo;
 }
 
 bool Gusano::tieneUnArma(){
-	return (this->armaTipo == NINGUNA)? false:true;
+	return (this->armaActual.armaTipo == NINGUNA)? false:true;
 }
 
 tipoArma Gusano::getTipoArma(){
-	return this->armaTipo;
+	return this->armaActual.armaTipo;
 }

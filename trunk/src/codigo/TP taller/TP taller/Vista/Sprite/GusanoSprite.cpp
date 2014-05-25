@@ -107,7 +107,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 					//printf("HOLA\n");
 					this->enUso = rectApuntando;
 					this->armaTipo = fig->getTipoArma();
-					this->actualizarFrameDisparo(fig->getArmaSeleccionada()->getAnguloDisparo());
+					this->actualizarFrameDisparo(fig->armaActual.anguloDisparo);
 					//cout<<this->frameDisparo<<endl;
 			}
 		} else {

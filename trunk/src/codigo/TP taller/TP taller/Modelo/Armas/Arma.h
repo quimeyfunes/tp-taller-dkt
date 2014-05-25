@@ -14,10 +14,6 @@ class Arma: public Observable
 protected:
 	b2Body* body;
 	b2Vec2 posicionInicial;
-	float anguloInicial;
-	float potencia;
-	bool disparada;
-	
 public:
 	tipoArma armaTipo;
 	Arma(void);
@@ -25,15 +21,8 @@ public:
 	void setPosicion(float x, float y, float angulo);
 	b2Body* getBody();
 	b2Vec2 getPosicion();
-	virtual void disparar();
+	virtual void disparar(bool sentido, int potencia, float angulo);
 	virtual void explotar();
-
-	void aumentarPotencia();
-	float getPotencia();
-	void aumentarAnguloDisparo();
-	void disminuirAnguloDisparo();
-	float getAnguloDisparo();
-	bool fueDisparada();
 
 	~Arma(void);
 };
