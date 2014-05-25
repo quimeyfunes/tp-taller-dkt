@@ -28,7 +28,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	fixtureDef.restitution = restitucion;
 	fixtureDef.friction = friccion;
 	this->getBody()->CreateFixture(&fixtureDef);
-	rectanguloShape.SetAsBox(ancho/2,2,b2Vec2(0,alto/2),0);
+	rectanguloShape.SetAsBox(ancho/2,alto/8,b2Vec2(0,alto/2),0);
 	b2FixtureDef fixtureDefSensor;
 	fixtureDefSensor.isSensor = true;
 	fixtureDefSensor.shape = &rectanguloShape;

@@ -71,8 +71,10 @@ void Escenario::agregarArma(Arma* arma){
 }
 
 void Escenario::notificar() {
+	
 	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		(*it)->notificar();
+		cout<<(*it)->getBody()->GetLinearVelocity().y<<endl;
 	}
 
 	for (list<Arma*>::iterator it = this->listaArmas->begin(); it != this->listaArmas->end(); it++) {
@@ -84,7 +86,7 @@ void Escenario::notificar() {
 }
 
 Gusano* Escenario::crearGusano(ObjetoParseado objeto){
-	Gusano* gusano = new Gusano(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,objeto.ancho,objeto.alto,objeto.masa,this->maximosClientes);
+	Gusano* gusano = new Gusano(objeto.x,objeto.y,objeto.rotacion,this->world,objeto.estatico,anchoGusano,altoGusano,objeto.masa,this->maximosClientes);
 	if (this->haySuperposicion(gusano)){
 		//Remuevo figura del world
 		this->getWorld()->DestroyBody(gusano->getBody());
@@ -306,8 +308,8 @@ bool Escenario::click(float x, float y){
 			return true;
 		}
 	}
-	this->terreno->destruirTerreno(x,y,30);
-	this->explotar(x,y,30);
+	this->terreno->destruirTerreno(x,y,5);
+	this->explotar(x,y,5);
 	return false;
 }
 
@@ -397,7 +399,7 @@ void Escenario::saltar(){
 	if (this->gusanoActivo->puedeSaltar() && (this->puedeMoverseArriba) && !(this->gusanoActivo->estaMuerto())) {
 		if(!this->gusanoActivo->tieneUnArma()){
 			b2Body* cuerpo = this->gusanoActivo->getBody();
-			cuerpo->SetLinearVelocity(b2Vec2(0,-25));
+			cuerpo->SetLinearVelocity(b2Vec2(0,saltoGusano));
 		}else{
 			if(this->gusanoActivo->armaActual.anguloDisparo < 90)
 				this->gusanoActivo->armaActual.anguloDisparo+=1.0f;
@@ -417,7 +419,7 @@ void Escenario::saltarClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) && ((Gusano*)this->figurasActivas[i])->puedeSaltar() && (this->puedeMoverseArribaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
-			cuerpo->SetLinearVelocity(b2Vec2(0,-25));
+			cuerpo->SetLinearVelocity(b2Vec2(0,saltoGusano));
 		}
 	}
 }
@@ -425,7 +427,7 @@ void Escenario::saltarClientes(){
 void Escenario::moverIzquierda(){
 	if (this->puedeMoverseIzquierda && !(this->gusanoActivo->estaMuerto())) {
 		b2Body* cuerpo = this->gusanoActivo->getBody();
-		cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
+		cuerpo->SetLinearVelocity(b2Vec2(-velocidadGusano,cuerpo->GetLinearVelocity().y));
 		this->gusanoActivo->setMovimientoIzq(true);
 		this->gusanoActivo->setMovimientoDer(false);
 		this->gusanoActivo->armaActual.sentidoDisparo = true;
@@ -436,7 +438,7 @@ void Escenario::moverIzquierdaClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseIzquierdaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
-			cuerpo->SetLinearVelocity(b2Vec2(-5,cuerpo->GetLinearVelocity().y));
+			cuerpo->SetLinearVelocity(b2Vec2(-velocidadGusano,cuerpo->GetLinearVelocity().y));
 			this->figurasActivas[i]->setMovimientoIzq(true);
 			this->figurasActivas[i]->setMovimientoDer(false);
 		}
@@ -446,7 +448,7 @@ void Escenario::moverIzquierdaClientes(){
 void Escenario::moverDerecha(){
 	if (this->puedeMoverseDerecha && !(this->gusanoActivo->estaMuerto())) {
 		b2Body* cuerpo = this->gusanoActivo->getBody();
-		cuerpo->SetLinearVelocity(b2Vec2(5,cuerpo->GetLinearVelocity().y));
+		cuerpo->SetLinearVelocity(b2Vec2(velocidadGusano,cuerpo->GetLinearVelocity().y));
 		this->gusanoActivo->setMovimientoDer(true);
 		this->gusanoActivo->armaActual.sentidoDisparo = false;
 		this->gusanoActivo->setMovimientoIzq(false);
@@ -472,7 +474,7 @@ void Escenario::moverDerechaClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) &&  (this->puedeMoverseDerechaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
-			cuerpo->SetLinearVelocity(b2Vec2(5,cuerpo->GetLinearVelocity().y));
+			cuerpo->SetLinearVelocity(b2Vec2(velocidadGusano,cuerpo->GetLinearVelocity().y));
 			this->figurasActivas[i]->setMovimientoDer(true);
 			this->figurasActivas[i]->setMovimientoIzq(false);
 		}
@@ -488,7 +490,6 @@ vector<Gusano*> Escenario::getFigurasActivas(){
 }
 
 void Escenario::explotar(float x, float y, int radio) {
-	float potenciaPorUnidad = 3000; //Iria en constantesFisicas, q en esta version todavia no esta
 	float potenciaTotal = potenciaPorUnidad * radio;
 	b2Vec2 posicion,distanciaV,fuerza;
 	float distancia,fuerzaTotal,angulo;
