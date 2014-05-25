@@ -77,6 +77,7 @@ public:
 	void clickCliente(int cliente, list<Gusano*> figurasCliente, list<Gusano*> figurasOtrosCliente,float x, float y);
 	void arriba(bool arriba);
 	void abajo(bool abajo);
+	void espacio(bool esp);
 	void arribaCliente(int cliente, bool arriba);
 	void setPuedeSaltarCliente(int cliente,bool puedeSaltar);
 	void izquierda(bool izquierda);
@@ -87,6 +88,7 @@ public:
 	void moverseClientes();
 	void saltar();
 	void bajar();
+	void cargarDisparo();
 	void moverIzquierda();
 	void moverDerecha();
 	void saltarClientes();

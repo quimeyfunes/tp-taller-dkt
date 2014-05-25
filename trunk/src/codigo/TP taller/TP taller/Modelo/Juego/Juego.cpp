@@ -130,13 +130,9 @@ void Juego::leerEvento(){
                 case SOLTARDERECHA:             {this->escenario->derecha(false);
                                                                  this->escenario->reiniciarTeclas();}   break; 
 
-				case ESPACIO: 
-					if(this->escenario->getGusanoActivo() != NULL)
-						if(this->escenario->getGusanoActivo()->armaActual.armaTipo != NINGUNA)
-							if(this->escenario->getGusanoActivo()->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO) {
-								this->escenario->getGusanoActivo()->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
-							}
-					break;
+				case ESPACIO: 				this->escenario->espacio(true);
+											
+											break;
 
 				case SOLTARESPACIO:
 					pos=this->escenario->getFiguraActiva()->getPosicion();
@@ -147,7 +143,7 @@ void Juego::leerEvento(){
 					this->escenario->getGusanoActivo()->getArmaSeleccionada()->disparar(this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, this->escenario->getGusanoActivo()->armaActual.potenciaDisparo, this->escenario->getGusanoActivo()->armaActual.anguloDisparo);
 					//cout<<this->escenario->getGusanoActivo()->armaActual.potenciaDisparo<<endl;
 					
-					this->escenario->getGusanoActivo()->armaActual.potenciaDisparo = 0;
+					this->escenario->espacio(false);
 					break;
 
                 case CLICK:     
