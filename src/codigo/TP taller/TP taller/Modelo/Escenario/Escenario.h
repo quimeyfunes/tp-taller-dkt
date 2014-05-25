@@ -98,6 +98,7 @@ public:
 	//Es la del servidor
 	Figura* getFiguraActiva();
 	void inicializarCliente(int cliente);
+	b2Vec3 hayExplosion();
 	void explotar(float x, float y, int radio);
 	void disparar(bool disparo);
 	void realizarDisparo();

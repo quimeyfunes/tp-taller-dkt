@@ -11,15 +11,16 @@ void ResolverContacto::BeginContact(b2Contact* contact) {
 	  
 	if ( fixtureUserData ) {
 		//Solo el gusano tiene userData por ahora
-		Gusano* gusano = (Gusano*) fixtureUserData;
-		gusano->agregarContacto();
+		Figura* fig = (Figura*) fixtureUserData;
+		fig->BeginContact();
 	}
 	  
 	fixtureUserData = contact->GetFixtureB()->GetUserData();
       
 	if ( fixtureUserData ) {
-		Gusano* gusano = (Gusano*) fixtureUserData;
-		gusano->agregarContacto();
+		//Solo el gusano tiene userData por ahora
+		Figura* fig = (Figura*) fixtureUserData;
+		fig->BeginContact();
 	}
 }
 
@@ -30,15 +31,15 @@ void ResolverContacto::EndContact(b2Contact* contact) {
 	  
 	if ( fixtureUserData ) {
 		//Solo el gusano tiene userData por ahora
-		Gusano* gusano = (Gusano*) fixtureUserData;
-		gusano->sacarContacto();
+		Figura* fig = (Figura*) fixtureUserData;
+		fig->EndContact();
 	}
 	  
 	fixtureUserData = contact->GetFixtureB()->GetUserData();
       
 	if ( fixtureUserData ) {
-		Gusano* gusano = (Gusano*) fixtureUserData;
-		gusano->sacarContacto();
+		Figura* fig = (Figura*) fixtureUserData;
+		fig->EndContact();
 	}
 }
 

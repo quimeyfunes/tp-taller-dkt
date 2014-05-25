@@ -7,7 +7,8 @@ class ExplosivaPorContacto: public Arma
 {
 public:
 	ExplosivaPorContacto(void);
-	ExplosivaPorContacto(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa);
+	ExplosivaPorContacto(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa,float radio);
+	void BeginContact();
 	~ExplosivaPorContacto(void);
 };
 
