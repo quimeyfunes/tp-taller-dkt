@@ -25,6 +25,11 @@ void JuegoCliente::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 	//game loop
+
+	const int SKIP_TICKS = 1000 / FPS;
+	int sleepTime =0;
+    DWORD next_game_tick = GetTickCount();
+
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
 		this->leerEvento();
@@ -44,7 +49,12 @@ void JuegoCliente::ejecutar(){
 			}
 		}
 		vista->Dibujar();
-		//SDL_Delay(3);
+
+		next_game_tick += SKIP_TICKS;
+        sleepTime = next_game_tick - GetTickCount();
+        if( sleepTime >= 0 ) {
+            Sleep( sleepTime );
+        }
 	}
 }
 
