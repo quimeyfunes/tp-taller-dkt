@@ -45,7 +45,7 @@ public:
 	void setMuerto(bool estado);
 	virtual void BeginContact();
 	virtual void EndContact();
-	~Figura();
+	virtual ~Figura();
 };
 
 #endif

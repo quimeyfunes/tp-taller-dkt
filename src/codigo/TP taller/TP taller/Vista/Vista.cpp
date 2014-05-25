@@ -177,8 +177,16 @@ void Vista::setListaDibujables(list<Dibujable*>* dibujables){
 
 void Vista::Dibujar(){
 	SDL_RenderClear(this->renderer);
-	for (list<Dibujable*>::iterator it = this->listaDibujables->begin(); it != this->listaDibujables->end(); it++) {
-		(*it)->dibujar(this->renderer, this->corrimientoX, this->corrimientoY, this->escalaZoom, this->anchoPx, this->altoPx);
+	list<Dibujable*>::iterator it = this->listaDibujables->begin();
+	while (it != this->listaDibujables->end())
+	{
+		if ((*it)->getDestruido()) 	{
+			delete (*it);
+			this->listaDibujables->erase(it++);  
+		} else {
+			(*it)->dibujar(this->renderer, this->corrimientoX, this->corrimientoY, this->escalaZoom, this->anchoPx, this->altoPx);
+			++it;
+		}
 	}
 	SDL_RenderPresent(this->renderer);
 }

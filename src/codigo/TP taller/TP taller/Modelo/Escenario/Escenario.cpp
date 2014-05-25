@@ -74,7 +74,6 @@ void Escenario::notificar() {
 	
 	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		(*it)->notificar();
-		//cout<<(*it)->getBody()->GetLinearVelocity().y<<endl;
 	}
 
 	for (list<Arma*>::iterator it = this->listaArmas->begin(); it != this->listaArmas->end(); it++) {
@@ -394,7 +393,6 @@ void Escenario::cargarDisparo(){
 	if((puedeDisparar)&&(this->gusanoActivo != NULL)&&(this->gusanoActivo->armaActual.armaTipo != NINGUNA)){ 
 		if(this->gusanoActivo->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO)
 			this->gusanoActivo->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
-			cout<<getGusanoActivo()->armaActual.potenciaDisparo<<endl;	
 	}else{
 		this->gusanoActivo->armaActual.potenciaDisparo = 0;
 	}
@@ -413,11 +411,12 @@ void Escenario::moverseClientes(){
 }
 
 void Escenario::saltar(){
-	if (this->gusanoActivo->puedeSaltar() && (this->puedeMoverseArriba) && !(this->gusanoActivo->estaMuerto())) {
-		if(!this->gusanoActivo->tieneUnArma()){
+	if (this->puedeMoverseArriba) {
+		if (this->gusanoActivo->puedeSaltar()) {
 			b2Body* cuerpo = this->gusanoActivo->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(0,saltoGusano));
-		}else{
+		}
+		if(this->gusanoActivo->tieneUnArma()){
 			if(this->gusanoActivo->armaActual.anguloDisparo < 90)
 				this->gusanoActivo->armaActual.anguloDisparo+=1.0f;
 		}
@@ -507,14 +506,19 @@ vector<Gusano*> Escenario::getFigurasActivas(){
 }
 
 b2Vec3 Escenario::hayExplosion() {
-	for (list<Arma*>::iterator it = this->listaArmas->begin(); it != this->listaArmas->end(); it++) {
+	list<Arma*>::iterator it = this->listaArmas->begin();
+	while (it != this->listaArmas->end()) {
 		if ((*it)->getExplotar()) {
 			b2Vec2 pos = (*it)->getBody()->GetPosition();
 			this->explotar(pos.x,pos.y,(*it)->getRadio());
 			this->terreno->destruirTerreno(pos.x,pos.y,(*it)->getRadio());
-			(*it)->explotar(false);
-			(*it)->setPosicion(1000000,0,0);	//Borrar estas 2 lineas y borrar el elemento
-			return b2Vec3(pos.x,pos.y,(*it)->getRadio());
+			float radio = (*it)->getRadio();
+			this->world->DestroyBody((*it)->getBody());
+			delete (*it);
+			this->listaArmas->erase(it);
+			return b2Vec3(pos.x,pos.y,radio);
+		} else {
+			++it;
 		}
 	}
 	return b2Vec3(0,0,-1);

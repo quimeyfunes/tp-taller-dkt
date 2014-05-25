@@ -1,4 +1,5 @@
 #include "Observable.h"
+#include <iostream>
 
 Observable::Observable()
 {
@@ -8,8 +9,7 @@ Observable::Observable()
 
 Observable::~Observable()
 {
-
-
+	delete this->listaObservadores;
 }
 
 void Observable::agregarObservador(Observador* observador)

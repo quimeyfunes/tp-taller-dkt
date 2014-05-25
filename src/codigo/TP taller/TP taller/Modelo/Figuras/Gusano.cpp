@@ -122,7 +122,8 @@ Arma* Gusano::getArmaSeleccionada(){
 }
 
 void Gusano::setArma(Arma* nueva){
-	if(this->armaActual.armaSeleccionada != NULL) delete this->armaActual.armaSeleccionada;
+	/*if(this->armaActual.armaSeleccionada != NULL) 
+		delete this->armaActual.armaSeleccionada;*/
 	this->armaActual.armaSeleccionada = nueva;
 	this->armaActual.armaTipo = nueva->armaTipo;
 }
