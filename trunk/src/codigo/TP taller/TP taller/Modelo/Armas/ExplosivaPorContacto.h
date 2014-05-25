@@ -9,7 +9,7 @@ public:
 	ExplosivaPorContacto(void);
 	ExplosivaPorContacto(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa,float radio);
 	void BeginContact();
-	~ExplosivaPorContacto(void);
+	virtual ~ExplosivaPorContacto(void);
 };
 
 #endif

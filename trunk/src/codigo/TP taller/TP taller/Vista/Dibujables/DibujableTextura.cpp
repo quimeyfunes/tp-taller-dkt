@@ -1,6 +1,8 @@
 #include "DibujableTextura.h"
 
-DibujableTextura::DibujableTextura(){}
+DibujableTextura::DibujableTextura(){
+	this->destruido = false;
+}
 
 DibujableTextura::DibujableTextura(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF) {
 	this->rect = rect;
@@ -10,6 +12,7 @@ DibujableTextura::DibujableTextura(SDL_Renderer* renderer, SDL_Rect rect, string
 		this->imagen = IMG_LoadTexture(renderer, pathDEF.c_str());
 	}
 	this->anguloRotacion = 0;
+	this->destruido = false;
 };
 
 DibujableTextura::~DibujableTextura() {

@@ -19,3 +19,7 @@ string Dibujable::serializar(){
 
 void Dibujable::deserealizar(string aDeserealizar){
 }
+
+bool Dibujable::getDestruido(){
+	return this->destruido;
+}

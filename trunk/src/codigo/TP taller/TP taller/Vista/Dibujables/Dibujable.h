@@ -14,6 +14,8 @@ using namespace std;
 
 class Dibujable: public Serializable
 {
+protected:
+	bool destruido;
 public:
 	Dibujable();
 	virtual ~Dibujable();
@@ -21,6 +23,7 @@ public:
 	virtual void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	virtual string serializar();
 	virtual void deserealizar(string aDeserealizar);
+	bool getDestruido();
 };
 
 #endif
