@@ -27,7 +27,10 @@
 	#define rutaWormGrisDer "imagenes/texturas/wormGrisFrentDer.png"
 
 	#define rutaArchivoIP "config/IP.txt"
-	
+
+	//a cuantos FPS correr el juego	
+	const int FPS = 60;
+
 	const int timeStepOlas = 5;
 	const int timeStepNubes = 6;
 	const int maxColumnasInvalidasMascara = 10;
