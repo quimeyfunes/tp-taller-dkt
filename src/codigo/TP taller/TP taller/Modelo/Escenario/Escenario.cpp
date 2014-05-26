@@ -516,6 +516,7 @@ b2Vec3 Escenario::hayExplosion() {
 			this->world->DestroyBody((*it)->getBody());
 			delete (*it);
 			this->listaArmas->erase(it);
+			printf("el radio es $i",radio);
 			return b2Vec3(pos.x,pos.y,radio);
 		} else {
 			++it;

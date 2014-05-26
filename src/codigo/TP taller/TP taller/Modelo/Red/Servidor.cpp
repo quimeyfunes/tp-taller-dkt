@@ -11,6 +11,7 @@ ServidorRed* Servidor::red;
 cliente* Servidor::clientes;
 EscenarioParseado* Servidor::escenario;
 mensajeStru Servidor::mensaje;
+bool  Servidor::terrenoModificado;
 
 Servidor::Servidor(){
     // id's to assign clients for our table
@@ -31,6 +32,7 @@ Servidor::Servidor(){
 	
 	//creo un thread q se dedique a escuchar a los clientes entrantes
 	_beginthread(Servidor::aceptarClientes, 0, (void*)this->escenario->maximosClientes);
+
 }
 
 Servidor::~Servidor(){
@@ -53,9 +55,15 @@ void Servidor::aceptarClientes(void* arg){
 	}
 }
 
+void Servidor::enviarTerreno(SOCKET sock){
+	enviarImagen(sock, texturaTerreno,paqueteTextura);
+}
+
+
 void Servidor::actualizar(void* clienteN) 
 {
 	int id= (int)clienteN;
+	int contador=0;
 	while(clientes[id].activo){
 
 		//recibe los mensajes que mandan otros clientes sin chocar en los threads
@@ -68,6 +76,17 @@ void Servidor::actualizar(void* clienteN)
 
 		recibirDeCliente(&id);
 		enviarCliente(&id, paqueteVista, dibujablesSerializados);
+		
+		if(Servidor::terrenoModificado){
+			if(clientes[id].socket != INVALID_SOCKET){ enviarTerreno(clientes[id].socket);}
+			contador++;
+		}
+		if(contador == Servidor::cliente_id){
+			Servidor::setTerrenoModificado(false);
+			contador=0;
+		}
+
+		
 	}
 
 	//_endthread();
@@ -94,6 +113,13 @@ void Servidor::enviarCliente(int* clienteN, int tipoPaquete, string mensaje){
 		if(clientes[*clienteN].socket != INVALID_SOCKET) enviarPaquete(clientes[*clienteN].socket, tipoPaquete, mensaje);
 
 }
+
+
+void Servidor::setTerrenoModificado(bool estado){
+	Servidor::terrenoModificado=estado;
+}
+
+
 
 int Servidor::buscarCliente(string nombre){
 

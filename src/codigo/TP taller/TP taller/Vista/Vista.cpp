@@ -366,3 +366,16 @@ void Vista::destruir(float x,float y,int radio, LectorTerreno* lector){
 		i++;
 	}
 }
+
+
+DibujableTerreno* Vista::crearDibujableTerreno(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF) {
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = ancho;
+	rect.h = alto;
+	
+	DibujableTerreno* dib = new DibujableTerreno(this->renderer, rect, pathImagen, imagenDEF);
+	this->agregarDibujable(dib);
+	return dib;
+}

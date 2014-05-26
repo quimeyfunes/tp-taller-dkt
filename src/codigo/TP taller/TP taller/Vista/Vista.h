@@ -1,6 +1,7 @@
 #ifndef __VISTA_H__
 #define __VISTA_H__
 #include "Dibujables/DibujableTextura.h"
+#include "Dibujables/DibujableTerreno.h"
 #include "Dibujables/CirculoDibujable.h"
 #include "Dibujables/PoligonoDibujable.h"
 #include "Dibujables\RectanguloDibujable.h"
@@ -87,6 +88,9 @@ public:
 	void scroll(int x ,int y );
 	void zoom(SDL_Event* evento,int x, int y);
 	void validarCorrimiento();
+	
+	DibujableTerreno* crearDibujableTerreno(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF);
+
 
 	void destruir(float x,float y,int radio, LectorTerreno* lector);
 };
