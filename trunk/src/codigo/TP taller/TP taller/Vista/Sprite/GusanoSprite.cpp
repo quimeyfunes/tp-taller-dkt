@@ -192,6 +192,7 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 				case NINGUNA:	this->setImagen(renderer, spriteWormIzq);	 break;
 				case BAZOOKA:	this->setImagen(renderer, rutaWormBazIzq);	 break;
 				case GRANADA:	this->setImagen(renderer, rutaWormGran);	break;
+				case ALELUYA:	this->setImagen(renderer, rutaWormAle);		break;
 				}
 			}
 		} else {
