@@ -53,11 +53,11 @@ void JuegoCliente::ejecutar(){
 
 		vista->Dibujar();
 
-		next_game_tick += SKIP_TICKS;
+	/*	next_game_tick += SKIP_TICKS;
         sleepTime = next_game_tick - GetTickCount();
         if( sleepTime >= 0 ) {
             Sleep( sleepTime );
-        }
+        }*/
 	}
 }
 

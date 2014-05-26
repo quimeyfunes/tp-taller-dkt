@@ -102,7 +102,7 @@ void Juego::chequearNuevosJugadores(){
 					Gusano* worm = escenario->crearGusanoParaJugador();
 					if (worm){
 						string nombreGusano = this->servidor->clientes[i].username + " "+StringUtil::int2string(j);
-						GusanoSprite* gusano = vista->crearGusanoSprite( worm->getPosicion().x * escalaAncho, worm->getPosicion().y * escalaAlto , anchoGusano * 5, altoGusano * 5, spriteWormIzq, 1, 10, 60, 600,nombreGusano,this->escenario->getMaximosClientes());
+						GusanoSprite* gusano = vista->crearGusanoSprite( worm->getPosicion().x * escalaAncho, worm->getPosicion().y * escalaAlto , anchoGusano * relacionPPU*2.5, altoGusano * relacionPPU*2.5, spriteWormIzq, 1, 10, 60, 600,nombreGusano,this->escenario->getMaximosClientes());
 						worm->agregarObservador(gusano);
 						this->servidor->clientes[i].figuras.push_back(worm);
 					} 
