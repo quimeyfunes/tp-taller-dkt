@@ -22,6 +22,7 @@ public:
 	virtual void explotar(bool explotar);
 	bool getExplotar();
 	float getRadio();
+	tipoArma getArmaTipo();
 	virtual ~Arma(void);
 };
 

@@ -16,6 +16,7 @@
 #include "../StringUtil.h"
 #include "../ResolverContacto.h"
 #include "../Red/Evento.h"
+#include "../Armas/Granada.h"
 
 
 using namespace std;

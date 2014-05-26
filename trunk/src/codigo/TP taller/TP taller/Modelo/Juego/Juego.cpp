@@ -146,12 +146,18 @@ void Juego::leerEvento(){
 
 				case SOLTARESPACIO:
 					pos=this->escenario->getFiguraActiva()->getPosicion();
-					this->escenario->getGusanoActivo()->setArma(new Bazooka(pos.x, /*pos.y*/0, 0, this->escenario->getWorld(), false, 2 ,2, 10, radioBazooka ));
+					//this->escenario->getGusanoActivo()->setArma(new Bazooka(pos.x, /*pos.y*/0, 0, this->escenario->getWorld(), false, 2 ,2, 10, radioBazooka ));
+					this->escenario->getGusanoActivo()->setArma(new Granada(pos.x, 0, 0, this->escenario->getWorld(), false, radioGranada, 3, 10));
 					this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
-					arma = this->vista->crearArmaDibujable(pos.x , pos.y, relacionPPU * 2,relacionPPU * 2,rutaBazIzq,rutaBazIzq);
-					this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
-					this->escenario->getGusanoActivo()->getArmaSeleccionada()->disparar(this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, this->escenario->getGusanoActivo()->armaActual.potenciaDisparo, this->escenario->getGusanoActivo()->armaActual.anguloDisparo);
+					switch (this->escenario->getGusanoActivo()->getArmaSeleccionada()->getArmaTipo()){
+					case BAZOOKA:
+						arma = this->vista->crearArmaDibujable(pos.x , pos.y, relacionPPU * 2,relacionPPU * 2,rutaBazIzq,rutaBazIzq); break;
+					case GRANADA:
+						arma = this->vista->crearArmaDibujable(pos.x , pos.y,  relacionPPU * 2,relacionPPU * 2,rutaGranada,rutaGranada); break;
 					
+					}
+					this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
+					this->escenario->getGusanoActivo()->getArmaSeleccionada()->disparar(this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, this->escenario->getGusanoActivo()->armaActual.potenciaDisparo, this->escenario->getGusanoActivo()->armaActual.anguloDisparo); 
 					this->escenario->espacio(false);
 					break;
 
@@ -167,7 +173,7 @@ void Juego::leerEvento(){
 				case CLICKDERECHO:
 						if(this->escenario->getGusanoActivo() != NULL){
 						//	cout<<"tengo un arma"<<endl;
-							this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
+							this->escenario->getGusanoActivo()->armaActual.armaTipo = GRANADA;
 							//pos=this->escenario->getFiguraActiva()->getPosicion();
 							//this->escenario->getGusanoActivo()->setArma(new Bazooka(pos.x, pos.y, 0, this->escenario->getWorld(), false, 24 ,14, 100 ));
 							//this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());

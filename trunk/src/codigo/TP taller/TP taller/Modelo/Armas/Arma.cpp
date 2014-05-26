@@ -26,6 +26,9 @@ float Arma::getRadio(){
 	return this->radio;
 }
 
+tipoArma Arma::getArmaTipo(){
+	return this->armaTipo;
+}
 Arma::~Arma(void)
 {
 }
