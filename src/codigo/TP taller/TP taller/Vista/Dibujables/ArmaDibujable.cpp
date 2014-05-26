@@ -13,7 +13,7 @@ ArmaDibujable::ArmaDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathI
 
 void ArmaDibujable::actualizar(Observable* observable){
 
-	Bazooka* fig = (Bazooka*)observable;
+	Arma* fig = (Arma*)observable;
 	if (fig->getExplotar()) {
 		this->destruido = true;
 	} else {

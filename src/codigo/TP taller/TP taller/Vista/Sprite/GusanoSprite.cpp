@@ -189,8 +189,9 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 				this->setImagen(renderer, rutaWormGrisIzq);
 			}else{
 				switch(this->armaTipo){
-				case NINGUNA:	this->setImagen(renderer, spriteWormIzq);  cout << "Entre sin arma" << endl; break;
-				case BAZOOKA:	this->setImagen(renderer, rutaWormBazIzq); cout << "Entre con arma" << endl;break;
+				case NINGUNA:	this->setImagen(renderer, spriteWormIzq);	 break;
+				case BAZOOKA:	this->setImagen(renderer, rutaWormBazIzq);	 break;
+				case GRANADA:	this->setImagen(renderer, rutaWormGran);	break;
 				}
 			}
 		} else {
