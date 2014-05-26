@@ -11,8 +11,13 @@
 const int POTENCIA_MAXIMA_DISPARO = 100;
 const int AUMENTO_POTENCIA = 2;
 
-const float radioBazooka = 5;
-const float radioGranada = 5;
+//RADIO DE ARMA CIRCULARES
+const float radioGranada = 1;
+
+//PARA EXPLOSIONES
+const float radioExplosionBazooka = 5;
+const float radioExplosionGranada = 5;
+
 ////////// TIPOS DE ARMAS ////////////
 typedef enum{
 	NINGUNA,
