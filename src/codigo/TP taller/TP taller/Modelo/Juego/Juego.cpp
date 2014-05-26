@@ -55,7 +55,7 @@ void Juego::ejecutar(){
 		
 		if ( explosion.z >= 0){
 			explosion *= relacionPPU;
-			this->vista->destruir((explosion.x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(explosion.y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),explosion.z,this->terreno->getLector());
+			this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
 			//aviso al servidor q se modifico el terreno
 			Servidor::setTerrenoModificado(true);
 		}
