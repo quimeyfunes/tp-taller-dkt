@@ -13,6 +13,7 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	while(this->cliente->recibirDeServidor());	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
 	
 	this->esc = cliente->getEscenarioActual();
+	//this->armas = cliente->getArmasActual();
 	this->vista = new Vista(esc);
 	agregarTexturas(esc);
 	agregarAgua(esc);
@@ -69,7 +70,7 @@ void JuegoCliente::leerEvento(){
 		case CLICKDERECHO:		this->alternarPanelArmas();				break;
 		}
 
-		if(accion == CLICK || accion == IZQUIERDA || accion == DERECHA || accion == ARRIBA || accion == SOLTARARRIBA || accion == SOLTARIZQUIERDA || accion == SOLTARDERECHA){
+		if((accion == CLICK && !this->panelArmas->visible) || accion == IZQUIERDA || accion == DERECHA || accion == ARRIBA || accion == SOLTARARRIBA || accion == SOLTARIZQUIERDA || accion == SOLTARDERECHA){
 			//Para estos eventos tengo que notificar al servidor
 			Evento* e = new Evento();
 			int x,y;
@@ -79,6 +80,27 @@ void JuegoCliente::leerEvento(){
 			 
 			e->x = (x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom());
 			e->y = (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom());
+			this->cliente->enviarEvento(e->serializar());
+			delete e;
+		}else if(accion == CLICK && this->panelArmas->visible){
+			//Manejo el click aparte para verificar el click sobre el panel de armas
+			Evento* e = new Evento();
+			int x,y;
+			SDL_GetMouseState(&x,&y);
+			int armaSeleccionada = this->getArmaSeleccionada(x,y);
+			if(armaSeleccionada >= 0){
+				//Notifico al servidor el arma seleccionada
+				e->accion = CLICKARMA;
+				e->x = armaSeleccionada;
+				e->y = armaSeleccionada;
+			}else{
+				//Envio el click al servidor para que lo procese
+				e->accion = accion;
+				e->x = (x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom());
+				e->y = (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom());
+				
+			}
+			
 			this->cliente->enviarEvento(e->serializar());
 			delete e;
 		}
@@ -116,24 +138,16 @@ void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenTierra, "");
 	this->cartelInfo = vista->crearCartelInfo(10, 10, 0, 20);
 	this->cartelInfo->setColor(255,0,255,100);
-	this->panelArmas = vista->crearPanelArmas(e->anchoPx - e->altoPx/3, 10, e->altoPx/3, e->altoPx/3);
+	//Las armas vienen en el paquete inicial
+	vector<int> armas;
+	this->panelArmas = vista->crearPanelArmas(e->anchoPx - e->altoPx/3, 10, e->altoPx/3, e->altoPx/3, armas);
 }
 
 void JuegoCliente::agregarAgua(EscenarioParseado* e){
 	Juego::agregarAgua(e);
 }
 
-//le paso la lista como parametro para no estar haciendo new cada vez que entro 
-/*list<Dibujable*>* */void JuegoCliente::crearLista(string vistaSerializada){
-	//elimino elementos de la vista que son figuras
-	/*int index = 0;
-	for (list<Dibujable*>::iterator it = this->vista->getListaDibujables()->begin(); it != this->vista->getListaDibujables()->end(); it++) {
-		if(index > this->dibujablesBase->size() - 6 && index < this->vista->getListaDibujables()->size() - 5){
-			delete *it;
-		}
-		index++;
-	}*/
-	
+void JuegoCliente::crearLista(string vistaSerializada){
 	list<Dibujable*> *lista = new list<Dibujable*>(this->vista->getListaDibujables()->size());
 
 
@@ -237,6 +251,17 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 		index++;
 	}
 
+}
+
+int JuegoCliente::getArmaSeleccionada(int x, int y){
+	if(x > this->panelArmas->getRect().x && x < (this->panelArmas->getRect().x + this->panelArmas->getRect().w) && y > this->panelArmas->getRect().y && y < (this->panelArmas->getRect().y + this->panelArmas->getRect().h)){
+		//Se clickeo dentro del panel
+		int tamanoCuadradoX = this->panelArmas->getRect().w/4;
+		int tamanoCuadradoY = this->panelArmas->getRect().h/4;
+		int cuadradoSeleccionado = (x - this->panelArmas->getRect().x)/tamanoCuadradoX + ((y - this->panelArmas->getRect().y)/tamanoCuadradoY) * 4;
+		return cuadradoSeleccionado;
+	}
+	return -1;
 }
 
 JuegoCliente::~JuegoCliente(){

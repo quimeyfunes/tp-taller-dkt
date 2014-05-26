@@ -34,6 +34,7 @@ typedef enum{
 	CLICKDERECHO,
 	ESPACIO,
 	SOLTARESPACIO,
+	CLICKARMA,
 }ACCION_REALIZADA;
 
 class Vista
@@ -70,7 +71,7 @@ public:
 	GusanoSprite* crearGusanoSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex,string nombre,int maximosClientes);
 	CartelInfo* crearCartelInfo(int x, int y, int ancho, int alto);
 	ArmaDibujable* crearArmaDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef);
-	PanelArmas* Vista::crearPanelArmas(int x , int y ,int ancho,int alto);
+	PanelArmas* Vista::crearPanelArmas(int x , int y , int ancho, int alto, vector<int> armas);
 	void agregarDibujable(Dibujable* dibujable);
 	list<Dibujable*>* getListaDibujables();
 	void setListaDibujables(list<Dibujable*>* dibujables);

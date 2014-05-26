@@ -204,6 +204,7 @@ void Juego::leerEvento(){
 						}
 						this->escenario->clickCliente(i,this->servidor->clientes[i].figuras,figurasOtrosClientes, evento->x, evento->y);
 						break;
+
 				}
 
 				delete evento;

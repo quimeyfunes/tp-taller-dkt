@@ -39,6 +39,7 @@ private:
 	void agregarAgua(EscenarioParseado* e);
 	void leerEvento();
 	/*list<Dibujable*>* */void crearLista(string vistaSerializada);
+	int getArmaSeleccionada(int x, int y);
 public:
 	JuegoCliente();
 	JuegoCliente(string nombreCliente, string ip);

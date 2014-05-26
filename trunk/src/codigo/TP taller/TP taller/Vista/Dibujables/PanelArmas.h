@@ -12,10 +12,11 @@ public:
 	~PanelArmas();
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	void alternarVisibilidad();
-
+	bool visible;
+	void agregarArma(SDL_Renderer* renderer, string nombreArmaSeleccionada);
 private:
 	SDL_Renderer* renderer;
-	bool visible;
+	vector<DibujableTextura*> armasTexturas;
 };
 
 #endif
