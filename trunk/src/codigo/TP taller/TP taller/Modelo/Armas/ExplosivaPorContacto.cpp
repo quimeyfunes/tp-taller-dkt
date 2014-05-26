@@ -21,6 +21,7 @@ ExplosivaPorContacto::ExplosivaPorContacto(float x, float y, short int rotacion,
 	fixtureDef.friction = friccion;
 	fixtureDef.userData = this;
 	this->getBody()->CreateFixture(&fixtureDef);
+
 }
 
 void ExplosivaPorContacto::BeginContact() {

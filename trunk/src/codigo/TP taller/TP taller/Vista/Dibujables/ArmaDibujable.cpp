@@ -20,6 +20,7 @@ void ArmaDibujable::actualizar(Observable* observable){
 		this->rect.x = (fig->getPosicion().x * relacionPPU) - rect.w /2;
 		this->rect.y = (fig->getPosicion().y * relacionPPU) - rect.h /2;
 		this->anguloRotacion = fig->getBody()->GetAngle() * RADTODEG;
+		cout<<fig->getBody()->GetAngle() <<endl;
 	}
 }
 

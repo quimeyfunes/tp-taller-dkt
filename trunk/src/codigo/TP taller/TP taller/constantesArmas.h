@@ -14,6 +14,9 @@
 const int POTENCIA_MAXIMA_DISPARO = 100;
 const int AUMENTO_POTENCIA = 2;
 
+const float anchoBazooka = 1.6;
+const float altoBazooka = 0.8;
+const int masaBazooka = 80;
 //RADIO DE ARMA CIRCULARES
 const float radioGranada = 1;
 const float radioBazooka = 4;

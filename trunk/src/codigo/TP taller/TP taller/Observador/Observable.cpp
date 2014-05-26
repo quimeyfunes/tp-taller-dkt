@@ -20,6 +20,6 @@ void Observable::agregarObservador(Observador* observador)
 
 void Observable::notificar(){
 	for (list<Observador*>::iterator it = this->listaObservadores->begin(); it != this->listaObservadores->end(); it++) {
-		(*it)->actualizar(this);
+ 		(*it)->actualizar(this);
 	}
 }

@@ -142,17 +142,13 @@ void Juego::leerEvento(){
 				case SOLTARESPACIO:
 
 					posGusano=this->escenario->getFiguraActiva()->getBody()->GetWorldCenter();
-					posD = getPosicionInicialDisparo(posGusano, this->escenario->getGusanoActivo()->armaActual.anguloDisparo, this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, 10);
+					posD = getPosicionInicialDisparo(posGusano, this->escenario->getGusanoActivo()->armaActual.anguloDisparo, this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, altoGusano/2 + 1.5*anchoBazooka);
 					
 
 					switch (this->escenario->getGusanoActivo()->armaActual.armaTipo){
 					case BAZOOKA:
-						this->escenario->getGusanoActivo()->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, 1, 1, 50, radioBazooka ));
-						if (this->escenario->getGusanoActivo()->armaActual.sentidoDisparo){
-							arma = this->vista->crearArmaDibujable(posD.x, posD.y, relacionPPU * 2,relacionPPU * 2,rutaBazIzq,rutaBazIzq);
-						} else {
-							arma = this->vista->crearArmaDibujable(posD.x, posD.y, relacionPPU * 2,relacionPPU * 2,rutaBazDer,rutaBazDer);
-						}
+						this->escenario->getGusanoActivo()->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, anchoBazooka, altoBazooka, masaBazooka, radioBazooka ));
+							arma = this->vista->crearArmaDibujable(posD.x, posD.y, anchoBazooka*relacionPPU,altoBazooka*relacionPPU,rutaBazIzq,rutaBazIzq);
 						
 						break;
 				
@@ -185,7 +181,7 @@ void Juego::leerEvento(){
 				case CLICKDERECHO:
 						if(this->escenario->getGusanoActivo() != NULL){
 						//	cout<<"tengo un arma"<<endl;
-							this->escenario->getGusanoActivo()->armaActual.armaTipo = ALELUYA;
+							this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
 							//pos=this->escenario->getFiguraActiva()->getPosicion();
 							//this->escenario->getGusanoActivo()->setArma(new Bazooka(pos.x, pos.y, 0, this->escenario->getWorld(), false, 24 ,14, 100 ));
 							//this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
@@ -244,8 +240,8 @@ void Juego::leerEvento(){
 b2Vec2 Juego::getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, int separacion){
 
 	b2Vec2 ret;
-	ret.x = separacion*sin(angulo*DEGTORAD);
-	ret.y = 0; //posGusano.y + separacion*cos(angulo*DEGTORAD);
+	ret.x = separacion*cos(angulo*DEGTORAD);
+	ret.y = posGusano.y - separacion*sin(angulo*DEGTORAD);
 	
 	if(sentido) ret.x*=-1;
 	ret.x += posGusano.x;
