@@ -32,14 +32,16 @@ public:
 	static void recibirDeCliente(int* clienteN);
 	static void enviarCliente(int* clienteN, int tipoPaquete, string mensaje);
 	static string dibujablesSerializados;
+	static void enviarTerreno(SOCKET sock);
 
-	void enviarAeClientes(char* mensaje);
 	static void enviarImagen(SOCKET sock, string direccion, int tipoPaquete);
 	static ServidorRed* red;
 	static void aceptarClientes(void* arg);
 	static void enviarEscenario(int num_cliente);
 	static void enviarImagenes(SOCKET sock);
 	static cliente* clientes;
+	static bool terrenoModificado;
+	static void setTerrenoModificado(bool estado);
 	
 
 private:

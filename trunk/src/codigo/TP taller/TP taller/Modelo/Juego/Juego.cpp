@@ -40,6 +40,8 @@ void Juego::ejecutar(){
 
 		this->chequearNuevosJugadores();
 		this->leerEvento();
+		
+		
 
 		if(simulando){
 			switch(estadoActual){
@@ -50,13 +52,17 @@ void Juego::ejecutar(){
 		}
 		escenario->notificar();
 		b2Vec3 explosion = this->escenario->hayExplosion();
+		
 		if ( explosion.z >= 0){
 			explosion *= relacionPPU;
 			this->vista->destruir((explosion.x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(explosion.y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),explosion.z,this->terreno->getLector());
+			//aviso al servidor q se modifico el terreno
+			Servidor::setTerrenoModificado(true);
 		}
+
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
 		this->vista->Dibujar();
-		
+
         next_game_tick += SKIP_TICKS;
         sleepTime = next_game_tick - GetTickCount();
         if( sleepTime >= 0 ) {
@@ -153,6 +159,8 @@ void Juego::leerEvento(){
                         SDL_GetMouseState(&x,&y);
                         if (!(this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom())))) {
 							this->vista->destruir((x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),5 * relacionPPU,this->terreno->getLector());
+							//aviso al servidor q se modifico el terreno
+							Servidor::setTerrenoModificado(true);
 						}
                         break;
 

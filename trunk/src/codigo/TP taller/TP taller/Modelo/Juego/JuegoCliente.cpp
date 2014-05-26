@@ -49,6 +49,8 @@ void JuegoCliente::ejecutar(){
 				case PAUSADO:		esperar();	break;
 			}
 		}
+
+
 		vista->Dibujar();
 
 		next_game_tick += SKIP_TICKS;
@@ -135,7 +137,12 @@ void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenCielo, texturaCieloDEF);
 	vista->crearScrollingSprite(0, 10,  e->anchoPx/ 5, e->altoPx /10, rutaNube1);
 	vista->crearScrollingSprite( e->anchoU*relacionPPU/2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
-	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenTierra, "");
+
+	//le seteo el terreno q se va a ir actualizando
+	vista->crearDibujableTerreno(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenTierra, "");
+	
+
+
 	this->cartelInfo = vista->crearCartelInfo(10, 10, 0, 20);
 	this->cartelInfo->setColor(255,0,255,100);
 	//Las armas vienen en el paquete inicial

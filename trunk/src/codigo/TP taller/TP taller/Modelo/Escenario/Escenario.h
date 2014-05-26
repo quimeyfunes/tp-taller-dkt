@@ -15,6 +15,7 @@
 #include "../../constantes.h"
 #include "../Terreno/Terreno.h"
 
+
 using namespace std;
 
 class Escenario
