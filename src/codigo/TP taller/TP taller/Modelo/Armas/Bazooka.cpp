@@ -19,6 +19,7 @@ void Bazooka::disparar(bool sentido, int potencia, float angulo){
 	if(sentido) vX *= -1;
 
 	this->getBody()->SetLinearVelocity(b2Vec2(vX, vY));
+	//this->getBody()->ApplyForceToCenter(b2Vec2(vX,vY),true);
 }
 
 
