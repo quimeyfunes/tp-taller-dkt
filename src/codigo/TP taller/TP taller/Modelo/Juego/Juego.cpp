@@ -157,8 +157,13 @@ void Juego::leerEvento(){
 						break;
 				
 					case GRANADA:
-						//this->escenario->getGusanoActivo()->setArma(new Granada(posD.x, posD.y, 0, this->escenario->getWorld(), false, 2, 1, 50, radioGranada ));
-						//arma = this->vista->crearArmaDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaGranada,rutaGranada); 
+						this->escenario->getGusanoActivo()->setArma(new Granada(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionGranada, radioGranada, 20 ));
+						arma = this->vista->crearArmaDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaGranada,rutaGranada); 
+						break;
+
+					case ALELUYA:
+						this->escenario->getGusanoActivo()->setArma(new Aleluya(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionAleluya, radioAleluya, 20 ));
+						arma = this->vista->crearArmaDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaAleluya,rutaAleluya); 
 						break;
 					
 					}
@@ -180,7 +185,7 @@ void Juego::leerEvento(){
 				case CLICKDERECHO:
 						if(this->escenario->getGusanoActivo() != NULL){
 						//	cout<<"tengo un arma"<<endl;
-							this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
+							this->escenario->getGusanoActivo()->armaActual.armaTipo = ALELUYA;
 							//pos=this->escenario->getFiguraActiva()->getPosicion();
 							//this->escenario->getGusanoActivo()->setArma(new Bazooka(pos.x, pos.y, 0, this->escenario->getWorld(), false, 24 ,14, 100 ));
 							//this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
