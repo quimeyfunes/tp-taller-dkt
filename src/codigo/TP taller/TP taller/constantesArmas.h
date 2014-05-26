@@ -13,6 +13,7 @@ const int AUMENTO_POTENCIA = 2;
 
 //RADIO DE ARMA CIRCULARES
 const float radioGranada = 1;
+const float radioBazooka = 4;
 
 //PARA EXPLOSIONES
 const float radioExplosionBazooka = 5;

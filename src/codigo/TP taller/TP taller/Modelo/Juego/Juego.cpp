@@ -117,45 +117,47 @@ void Juego::leerEvento(){
 
 	 if (this->vista->leerEvento(evento)){
 		 int x, y;
-		 b2Vec2 pos;
+		 b2Vec2 posGusano;
+		 b2Vec2 posD;
 		 ArmaDibujable* arma;
 	
                 switch(this->vista->getAccion()){
 
-                case SALIR:                     salir();                                                break;
-                case JUGAR:                     reiniciar();                                    break;
-                case PAUSAR:            alternarPausa();                                break;
-				case ARRIBA:            this->escenario->arriba(true);
-
-										break;
-				case ABAJO:				this->escenario->abajo(true);	
-
-										break;
+                case SALIR:				salir();                                break;
+                case JUGAR:             reiniciar();                            break;
+                case PAUSAR:            alternarPausa();                        break;
+				case ARRIBA:            this->escenario->arriba(true);			break;
+				case ABAJO:				this->escenario->abajo(true);			break;
                 case IZQUIERDA:         this->escenario->izquierda(true);       break;
                 case DERECHA:           this->escenario->derecha(true);         break; 
-                case SOLTARARRIBA:              this->escenario->arriba(false);         break;
-				case SOLTARABAJO:			this->escenario->abajo(false);
-                case SOLTARIZQUIERDA:   {this->escenario->izquierda(false);
-                                                                 this->escenario->reiniciarTeclas();}   break;
-                case SOLTARDERECHA:             {this->escenario->derecha(false);
-                                                                 this->escenario->reiniciarTeclas();}   break; 
+                case SOLTARARRIBA:		this->escenario->arriba(false);         break;
+				case SOLTARABAJO:		this->escenario->abajo(false);
+                case SOLTARIZQUIERDA:   this->escenario->izquierda(false);
+                                        this->escenario->reiniciarTeclas();		break;
+				case SOLTARDERECHA:		this->escenario->derecha(false);
+										this->escenario->reiniciarTeclas();		break; 
 
-				case ESPACIO: 				this->escenario->espacio(true);
-											
-											break;
+				case ESPACIO: 			this->escenario->espacio(true);			break;
 
 				case SOLTARESPACIO:
-					pos=this->escenario->getFiguraActiva()->getPosicion();
-					//this->escenario->getGusanoActivo()->setArma(new Bazooka(pos.x, /*pos.y*/0, 0, this->escenario->getWorld(), false, 2 ,2, 10, radioBazooka ));
-					this->escenario->getGusanoActivo()->setArma(new Granada(pos.x, 0, 0, this->escenario->getWorld(), false, radioExplosionGranada, radioGranada, 10));
-					this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
-					switch (this->escenario->getGusanoActivo()->getArmaSeleccionada()->getArmaTipo()){
+
+					posGusano=this->escenario->getFiguraActiva()->getBody()->GetWorldCenter();
+					posD = getPosicionInicialDisparo(posGusano, this->escenario->getGusanoActivo()->armaActual.anguloDisparo, this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, 10);
+					
+
+					switch (this->escenario->getGusanoActivo()->armaActual.armaTipo){
 					case BAZOOKA:
-						arma = this->vista->crearArmaDibujable(pos.x , pos.y, relacionPPU * 2,relacionPPU * 2,rutaBazIzq,rutaBazIzq); break;
+						this->escenario->getGusanoActivo()->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, 2, 1, 50, radioBazooka ));
+						arma = this->vista->crearArmaDibujable(posD.x, posD.y, relacionPPU * 2,relacionPPU * 2,rutaBazIzq,rutaBazIzq);
+						break;
+				
 					case GRANADA:
-						arma = this->vista->crearArmaDibujable(pos.x , pos.y,  relacionPPU * 2,relacionPPU * 2,rutaGranada,rutaGranada); break;
+						//this->escenario->getGusanoActivo()->setArma(new Granada(posD.x, posD.y, 0, this->escenario->getWorld(), false, 2, 1, 50, radioGranada ));
+						//arma = this->vista->crearArmaDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaGranada,rutaGranada); 
+						break;
 					
 					}
+					this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
 					this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
 					this->escenario->getGusanoActivo()->getArmaSeleccionada()->disparar(this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, this->escenario->getGusanoActivo()->armaActual.potenciaDisparo, this->escenario->getGusanoActivo()->armaActual.anguloDisparo); 
 					this->escenario->espacio(false);
@@ -173,7 +175,7 @@ void Juego::leerEvento(){
 				case CLICKDERECHO:
 						if(this->escenario->getGusanoActivo() != NULL){
 						//	cout<<"tengo un arma"<<endl;
-							this->escenario->getGusanoActivo()->armaActual.armaTipo = GRANADA;
+							this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
 							//pos=this->escenario->getFiguraActiva()->getPosicion();
 							//this->escenario->getGusanoActivo()->setArma(new Bazooka(pos.x, pos.y, 0, this->escenario->getWorld(), false, 24 ,14, 100 ));
 							//this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
@@ -227,6 +229,18 @@ void Juego::leerEvento(){
 		}
 	}
 
+}
+
+b2Vec2 Juego::getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, int separacion){
+
+	b2Vec2 ret;
+	ret.x = separacion*sin(angulo*DEGTORAD);
+	ret.y = 0; //posGusano.y + separacion*cos(angulo*DEGTORAD);
+	
+	if(sentido) ret.x*=-1;
+	ret.x += posGusano.x;
+	
+	return ret;
 }
 
 void Juego::jugar(){
