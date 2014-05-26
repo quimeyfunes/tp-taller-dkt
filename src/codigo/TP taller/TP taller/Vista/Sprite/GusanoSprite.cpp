@@ -53,6 +53,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	this->contDer = 0;
 	this->contFrent = 0;
 	this->contMuerte = 0;
+	this->contArma = 0;
 	this->estado = IZQ;
 	this->nombre = nombre;
 	SDL_Rect rectCart = this->rect;
@@ -93,18 +94,21 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->contMuerte = 0;
 		//No se mueve
 		if ( !(fig->seMueveALaDer() ) && !(fig->seMueveALaIzq()) ) {
-			this->contFrent++;
+			
 				this->contIzq = 0;
 				this->contDer = 0;
 				this->setCambiarImgDer(false);
 				this->setCambiarImgIzq(false);
 			if(!fig->tieneUnArma()){
-
+				this->contArma =0;
+				this->contFrent++;
 				this->enUso = recCuadro;
 				this->armaTipo = NINGUNA;
 				this->velocidadRefresco = timeGusanoQuieto;
 				this->actualizarFrame();
 			}else{
+				this->contFrent = 0;
+				this->contArma++;
 					//printf("HOLA\n");
 					this->enUso = rectApuntando;
 					this->armaTipo = fig->getTipoArma();
@@ -114,10 +118,10 @@ void GusanoSprite::actualizar(Observable* observable) {
 		} else {
 			this->velocidadRefresco = timeGusanoMovil;
 			this->armaTipo = NINGUNA;
-				if ((fig->seMueveALaDer())){
-					
+				if ((fig->seMueveALaDer())){	
 					this->contIzq = 0;
 					this->contFrent = 0;
+					this->contArma = 0;
 					this->contDer++;
 					this->setCambiarImgDer(true);
 					this->setCambiarImgIzq(false);
@@ -127,6 +131,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 					//Se mueve a la izquierda
 					this->contDer = 0;
 					this->contFrent = 0;
+					this->contArma = 0;
 					this->contIzq++;
 					this->setCambiarImgDer(false);
 					this->setCambiarImgIzq(true);
@@ -175,22 +180,23 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 			flip = SDL_FLIP_HORIZONTAL;
 	}
 
-	if ((this->estado == MUERTO) && (this->contMuerte >= 1)){
+	if ((this->estado == MUERTO) && (this->contMuerte == 1)){
 		this->setFrame(0);
 		this->setImagen(renderer, rutaGrave);
 	} else {
-		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && (this->contFrent >= 1) ){ //Esta quieto
+		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && ((this->contFrent == 1) || this->contArma == 1) ){ //Esta quieto
 			if(this->congelado){
 				this->setImagen(renderer, rutaWormGrisIzq);
 			}else{
 				switch(this->armaTipo){
-				case NINGUNA:	this->setImagen(renderer, spriteWormIzq);   break;
-				case BAZOOKA:	this->setImagen(renderer, rutaWormBazIzq);	break;
+				case NINGUNA:	this->setImagen(renderer, spriteWormIzq);  cout << "Entre sin arma" << endl; break;
+				case BAZOOKA:	this->setImagen(renderer, rutaWormBazIzq); cout << "Entre con arma" << endl;break;
 				}
 			}
 		} else {
-			if ((this->hayCambioImgDer() && this->contDer >= 1) || (this->hayCambioImgIzq() && this->contIzq >= 1)) {
+			if ((this->hayCambioImgDer() && this->contDer == 1) || (this->hayCambioImgIzq() && this->contIzq == 1)) {
 				this->setImagen(renderer, rutaGusanoIzq);
+				
 			}
 		}
 	}
