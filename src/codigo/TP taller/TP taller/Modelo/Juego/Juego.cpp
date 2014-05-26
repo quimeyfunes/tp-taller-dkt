@@ -147,8 +147,13 @@ void Juego::leerEvento(){
 
 					switch (this->escenario->getGusanoActivo()->armaActual.armaTipo){
 					case BAZOOKA:
-						this->escenario->getGusanoActivo()->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, 2, 1, 50, radioBazooka ));
-						arma = this->vista->crearArmaDibujable(posD.x, posD.y, relacionPPU * 2,relacionPPU * 2,rutaBazIzq,rutaBazIzq);
+						this->escenario->getGusanoActivo()->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, 1, 1, 50, radioBazooka ));
+						if (this->escenario->getGusanoActivo()->armaActual.sentidoDisparo){
+							arma = this->vista->crearArmaDibujable(posD.x, posD.y, relacionPPU * 2,relacionPPU * 2,rutaBazIzq,rutaBazIzq);
+						} else {
+							arma = this->vista->crearArmaDibujable(posD.x, posD.y, relacionPPU * 2,relacionPPU * 2,rutaBazDer,rutaBazDer);
+						}
+						
 						break;
 				
 					case GRANADA:
