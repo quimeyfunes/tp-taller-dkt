@@ -150,7 +150,7 @@ ArmaDibujable* Vista::crearArmaDibujable(int x, int y, int ancho, int alto, stri
 	return dib;
 }
 
-PanelArmas* Vista::crearPanelArmas(int x , int y, int ancho, int alto) {
+PanelArmas* Vista::crearPanelArmas(int x , int y, int ancho, int alto, vector<int> armas) {
 	SDL_Rect rect;
 	rect.x = x;
 	rect.y = y;
@@ -159,6 +159,12 @@ PanelArmas* Vista::crearPanelArmas(int x , int y, int ancho, int alto) {
 	
 	PanelArmas* dib = new PanelArmas(this->renderer, rect, "imagenes/texturas/armas/panelFondo.png", "");
 	this->agregarDibujable(dib);
+
+	//Tengo que recorrrer el vector y agregar las armas
+	
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/bazooka.2.png");
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/cluster.2.png");
+
 	return dib;
 }
 
