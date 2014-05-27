@@ -54,15 +54,17 @@ void Juego::ejecutar(){
 			}
 		}
 		escenario->notificar();
-		b2Vec3 explosion = this->escenario->hayExplosion();
+		b2Vec3 explosion;
+		do {
+			explosion = this->escenario->hayExplosion();
 		
-		if ( explosion.z >= 0){
-			explosion *= relacionPPU;
-			this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
-			//aviso al servidor q se modifico el terreno
-			Servidor::setTerrenoModificado(true);
-		}
-
+			if ( explosion.z >= 0){
+				explosion *= relacionPPU;
+				this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
+				//aviso al servidor q se modifico el terreno
+				Servidor::setTerrenoModificado(true);
+			}
+		} while (explosion.z >= 0);
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
 		this->vista->Dibujar();
 
@@ -153,24 +155,24 @@ void Juego::leerEvento(){
 
 						switch (this->escenario->getGusanoActivo()->armaActual.armaTipo){
 						case BAZOOKA:
-							this->escenario->getGusanoActivo()->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, anchoBazooka, altoBazooka, masaBazooka, radioBazooka ));
-								arma = this->vista->crearArmaDibujable(posD.x, posD.y, anchoBazooka*relacionPPU,altoBazooka*relacionPPU,rutaBaz,rutaBaz);
+							this->escenario->getGusanoActivo()->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, anchoBazooka, altoBazooka, masaBazooka, radioExplosionBazooka ));
+								arma = this->vista->crearArmaContactoDibujable(posD.x, posD.y, anchoBazooka*relacionPPU,altoBazooka*relacionPPU,rutaBaz,rutaBaz);
 						
 							break;
 				
 						case GRANADA:
 							this->escenario->getGusanoActivo()->setArma(new Granada(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionGranada, radioGranada, masaGranada , tiempoExplosionGranada));
-							arma = this->vista->crearArmaDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaGranada,rutaGranada); 
+							arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaGranada,rutaGranada); 
 							break;
 
 						case ALELUYA:
 							this->escenario->getGusanoActivo()->setArma(new Aleluya(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionAleluya, radioAleluya, masaAleluya ));
-							arma = this->vista->crearArmaDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaAleluya,rutaAleluya); 
+							arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaAleluya,rutaAleluya); 
 							break;
 
 						case DINAMITA:
 							this->escenario->getGusanoActivo()->setArma(new Dinamita(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionDinamita, anchoDinamita, altoDinamita, masaDinamita, tiempoExplosionDinamita));
-							arma = this->vista->crearArmaDibujable(posD.x, posD.y, relacionPPU * anchoDinamita,relacionPPU * altoDinamita,rutaDinamita,rutaDinamita);
+							arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y, relacionPPU * anchoDinamita,relacionPPU * altoDinamita,rutaDinamita,rutaDinamita);
 							break;
 					
 						}

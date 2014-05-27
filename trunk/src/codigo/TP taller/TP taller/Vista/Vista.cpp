@@ -137,7 +137,7 @@ GusanoDibujable* Vista::crearGusanoDibujable(int x, int y, int ancho, int alto, 
 
 }
 
-ArmaDibujable* Vista::crearArmaDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef){
+ATiempoDibujable* Vista::crearArmaTiempoDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef){
 
 	SDL_Rect rect;
 	rect.x = x;
@@ -145,10 +145,25 @@ ArmaDibujable* Vista::crearArmaDibujable(int x, int y, int ancho, int alto, stri
 	rect.w = ancho;
 	rect.h = alto;
 
-	ArmaDibujable* dib = new ArmaDibujable(this->renderer, rect,pathImagen,imagenDef);
+	ATiempoDibujable* dib = new ATiempoDibujable(this->renderer, rect,pathImagen,imagenDef);
 	this->agregarDibujable(dib);
 	return dib;
 }
+
+
+AContactoDibujable* Vista::crearArmaContactoDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef){
+
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = ancho;
+	rect.h = alto;
+
+	AContactoDibujable* dib = new AContactoDibujable(this->renderer, rect,pathImagen,imagenDef);
+	this->agregarDibujable(dib);
+	return dib;
+}
+
 
 PanelArmas* Vista::crearPanelArmas(int x , int y, int ancho, int alto, vector<int> armas) {
 	SDL_Rect rect;

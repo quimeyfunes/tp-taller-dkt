@@ -16,7 +16,6 @@ const float AUMENTO_POTENCIA = 0.5;
 
 const float anchoBazooka = 1;
 const float altoBazooka = 1;
-const float radioBazooka = 4; // ???
 const int masaBazooka = 80;
 
 const float radioGranada = 1;
