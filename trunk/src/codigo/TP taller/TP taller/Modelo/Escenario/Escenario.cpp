@@ -67,6 +67,9 @@ void Escenario::agregarFigura(Figura* figura) {
 }
 
 void Escenario::agregarArma(Arma* arma){
+	if (this->haySuperposicionConTerreno(arma)) {
+		arma->explotar(true);
+	}
 	this->listaArmas->push_back(arma);
 }
 

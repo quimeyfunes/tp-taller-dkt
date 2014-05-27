@@ -157,7 +157,7 @@ void Juego::leerEvento(){
 						case BAZOOKA:
 							this->escenario->getGusanoActivo()->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, anchoBazooka, altoBazooka, masaBazooka, radioExplosionBazooka ));
 								arma = this->vista->crearArmaContactoDibujable(posD.x, posD.y, anchoBazooka*relacionPPU,altoBazooka*relacionPPU,rutaBaz,rutaBaz);
-						
+							
 							break;
 				
 						case GRANADA:
