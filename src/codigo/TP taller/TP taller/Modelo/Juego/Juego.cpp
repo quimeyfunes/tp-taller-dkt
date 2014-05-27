@@ -23,6 +23,9 @@ Juego::Juego(string texto){
 	agregarTexturas(e);
 	agregarObjetos();
 	agregarAgua(e);
+
+
+	this->NUMCLICKDERECHOS=0;
 }
 
 
@@ -155,13 +158,18 @@ void Juego::leerEvento(){
 						break;
 				
 					case GRANADA:
-						this->escenario->getGusanoActivo()->setArma(new Granada(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionGranada, radioGranada, 20 ));
+						this->escenario->getGusanoActivo()->setArma(new Granada(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionGranada, radioGranada, masaGranada , tiempoExplosionGranada));
 						arma = this->vista->crearArmaDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaGranada,rutaGranada); 
 						break;
 
 					case ALELUYA:
-						this->escenario->getGusanoActivo()->setArma(new Aleluya(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionAleluya, radioAleluya, 20 ));
+						this->escenario->getGusanoActivo()->setArma(new Aleluya(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionAleluya, radioAleluya, masaAleluya ));
 						arma = this->vista->crearArmaDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaAleluya,rutaAleluya); 
+						break;
+
+					case DINAMITA:
+						this->escenario->getGusanoActivo()->setArma(new Dinamita(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionDinamita, anchoDinamita, altoDinamita, masaDinamita, tiempoExplosionDinamita));
+						arma = this->vista->crearArmaDibujable(posD.x, posD.y, relacionPPU * anchoDinamita,relacionPPU * altoDinamita,rutaDinamita,rutaDinamita);
 						break;
 					
 					}
@@ -182,13 +190,18 @@ void Juego::leerEvento(){
 
 				case CLICKDERECHO:
 						if(this->escenario->getGusanoActivo() != NULL){
+							this->NUMCLICKDERECHOS++;
 						//	cout<<"tengo un arma"<<endl;
-							this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
-							//pos=this->escenario->getFiguraActiva()->getPosicion();
-							//this->escenario->getGusanoActivo()->setArma(new Bazooka(pos.x, pos.y, 0, this->escenario->getWorld(), false, 24 ,14, 100 ));
-							//this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
-							//ArmaDibujable* arma = this->vista->crearArmaDibujable(pos.x , pos.y, 24,14,rutaBazIzq,rutaBazIzq);
-							//this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
+
+							switch(NUMCLICKDERECHOS % 5){
+
+							case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA; break;
+							case 1: this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA; break;
+							case 2: this->escenario->getGusanoActivo()->armaActual.armaTipo = GRANADA; break;
+							case 3: this->escenario->getGusanoActivo()->armaActual.armaTipo = ALELUYA; break;
+							case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA; break;
+							}
+
 						}
 							break;
 

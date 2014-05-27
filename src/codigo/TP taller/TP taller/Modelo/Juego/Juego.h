@@ -18,6 +18,7 @@
 #include "../Red/Evento.h"
 #include "../Armas/Granada.h"
 #include "../Armas/Aleluya.h"
+#include "../Armas/Dinamita.h"
 
 
 using namespace std;
@@ -39,6 +40,9 @@ private:
 	void agregarObjetos();
 	static void servidorLoop(void * arg);
 	static void clienteLoop(void * arg);
+
+	//para setear el arma mas facil mientras se prueba
+	int NUMCLICKDERECHOS;
 public:
 	string Juego::crearLista(int &tamanio);
 	Vista* vista;
