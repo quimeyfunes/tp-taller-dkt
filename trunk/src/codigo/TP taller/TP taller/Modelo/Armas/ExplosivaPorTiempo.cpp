@@ -5,31 +5,22 @@ ExplosivaPorTiempo::ExplosivaPorTiempo(void)
 {
 }
 
-ExplosivaPorTiempo::ExplosivaPorTiempo(float x, float y, short int rotacion, b2World* world, bool estatico, float radioExplosion, float radioArma, float masa)
-	: Arma(x,y, rotacion, world, estatico, false, radioExplosion)
+ExplosivaPorTiempo::ExplosivaPorTiempo(float x, float y, short int rotacion, b2World* world, bool estatico, float radioExplosion, float masa, int tiempoExplosion)	: Arma(x,y, rotacion, world, estatico, false, radioExplosion)
 {
-	b2CircleShape circleShape;
-	circleShape.m_radius = radioArma;
+	this->tiempoExplosion = tiempoExplosion;
+	this->tiempoInicial = time(NULL);
 
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &circleShape; 
-	float areaCirculo = b2_pi * radioArma * radioArma;
-	fixtureDef.density = masa/areaCirculo;
-	fixtureDef.restitution = restitucion;
-	fixtureDef.friction = friccion;
-	this->getBody()->CreateFixture(&fixtureDef);
-	this->timer = time(NULL);
+}
 
+bool ExplosivaPorTiempo::getExplotar(){
+
+	if (time(NULL) - this->tiempoInicial >= this->tiempoExplosion){
+		this->explotar(true);
+	}else this->explotar(false);
+
+	return this->explota;
 }
 
 ExplosivaPorTiempo::~ExplosivaPorTiempo(void)
 {
-}
-
-void ExplosivaPorTiempo::setTimer(int timer){
-	this->timer = timer;
-}
-
-int ExplosivaPorTiempo::getTimer(){
-	return this->timer;
 }

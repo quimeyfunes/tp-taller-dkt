@@ -112,7 +112,10 @@ void GusanoSprite::actualizar(Observable* observable) {
 					//printf("HOLA\n");
 					this->enUso = rectApuntando;
 					this->armaTipo = fig->getTipoArma();
-					this->actualizarFrameDisparo(fig->armaActual.anguloDisparo);
+					if(armaTipo == DINAMITA)
+						this->frame = 0;
+					else
+						this->actualizarFrameDisparo(fig->armaActual.anguloDisparo);
 					//cout<<this->frameDisparo<<endl;
 			}
 		} else {
@@ -191,9 +194,10 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 			}else{
 				switch(this->armaTipo){
 				case NINGUNA:	this->setImagen(renderer, spriteWormIzq);	 break;
-				case BAZOOKA:	this->setImagen(renderer, rutaWormBaz);	 break;
+				case BAZOOKA:	this->setImagen(renderer, rutaWormBaz);		break;
 				case GRANADA:	this->setImagen(renderer, rutaWormGran);	break;
 				case ALELUYA:	this->setImagen(renderer, rutaWormAle);		break;
+				case DINAMITA:	this->setImagen(renderer, rutaWormDin);		break;
 				}
 			}
 		} else {

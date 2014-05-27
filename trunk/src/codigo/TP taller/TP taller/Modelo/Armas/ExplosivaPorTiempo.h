@@ -6,14 +6,14 @@
 
 class ExplosivaPorTiempo: public Arma
 {
-private:
-	int timer;
+protected:
+	int tiempoExplosion;
+	int tiempoInicial;
 public:
 	ExplosivaPorTiempo(void);
-	ExplosivaPorTiempo(float x, float y, short int rotacion, b2World* world, bool estatico, float radioExplosion, float radioArma, float masa);
+	ExplosivaPorTiempo(float x, float y, short int rotacion, b2World* world, bool estatico, float radioExplosion, float masa, int tiempoExplosion);
 	~ExplosivaPorTiempo(void);
-	void setTimer(int timer);
-	int getTimer();
+	bool getExplotar();
 	
 };
 
