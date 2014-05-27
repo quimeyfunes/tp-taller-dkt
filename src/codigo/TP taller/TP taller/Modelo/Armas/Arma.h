@@ -18,7 +18,7 @@ public:
 	tipoArma armaTipo;
 	Arma(void);
 	Arma(float x, float y, short int rotacion, b2World* world, bool estatico, bool rotacionFija,float radio);
-	virtual void disparar(bool sentido, int potencia, float angulo);
+	virtual void disparar(bool sentido, float potencia, float angulo);
 	virtual void explotar(bool explotar);
 	bool getExplotar();
 	float getRadio();

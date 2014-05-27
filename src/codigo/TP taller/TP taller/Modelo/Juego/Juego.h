@@ -35,7 +35,7 @@ private:
 	//list<DibujableSerializado> Juego::crearLista(int &tamanio);
 	b2World* mundo;
 
-	b2Vec2 getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, int separacion);
+	b2Vec2 getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, double separacion);
 	void agregarObjetos();
 	static void servidorLoop(void * arg);
 	static void clienteLoop(void * arg);

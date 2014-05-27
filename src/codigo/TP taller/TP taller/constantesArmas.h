@@ -1,21 +1,19 @@
 #ifndef CTTES_ARMAS_H_
 #define CTTES_ARMAS_H_
 
-#define rutaBazIzq "imagenes/texturas/bazIzq.png"
-#define rutaBazDer "imagenes/texturas/bazDer.png"
+#define rutaBaz "imagenes/texturas/bazIzq.png"
 #define rutaGranada "imagenes/texturas/granada.png"
 #define rutaAleluya "imagenes/texturas/aleluya.png"
-#define rutaWormBazIzq "imagenes/texturas/wormConBazookaIzq.png"
-#define rutaWormBazDer "imagenes/texturas/wormConBazookaDer.png"
+#define rutaWormBaz "imagenes/texturas/wormConBazookaIzq.png"
 #define rutaWormGran "imagenes/texturas/wormGran.png"
 #define rutaWormAle "imagenes/texturas/wormAleluya.png"
 
 
-const int POTENCIA_MAXIMA_DISPARO = 100;
-const int AUMENTO_POTENCIA = 2;
+const int POTENCIA_MAXIMA_DISPARO = 40;
+const float AUMENTO_POTENCIA = 0.5;
 
-const float anchoBazooka = 1.6;
-const float altoBazooka = 0.8;
+const float anchoBazooka = 1;
+const float altoBazooka = 1;
 const int masaBazooka = 80;
 //RADIO DE ARMA CIRCULARES
 const float radioGranada = 1;

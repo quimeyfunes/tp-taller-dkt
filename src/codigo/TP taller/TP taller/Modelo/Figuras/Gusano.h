@@ -25,7 +25,7 @@ private:
 		tipoArma armaTipo;
 		Arma* armaSeleccionada;
 		float anguloDisparo;
-		int potenciaDisparo;
+		float potenciaDisparo;
 		bool sentidoDisparo;
 	}armaStruct;
 

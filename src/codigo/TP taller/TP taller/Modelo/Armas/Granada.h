@@ -9,7 +9,7 @@ public:
 	Granada(void);
 	Granada(float x, float y, short int rotacion, b2World* world, bool estatico, float radioExplosion, float radioArma, float masa);
 	~Granada(void);
-	void disparar(bool sentido, int potencia, float angulo);
+	void disparar(bool sentido, float potencia, float angulo);
 };
 
 #endif

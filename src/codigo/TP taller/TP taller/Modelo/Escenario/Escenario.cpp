@@ -393,6 +393,8 @@ void Escenario::cargarDisparo(){
 	if((puedeDisparar)&&(this->gusanoActivo != NULL)&&(this->gusanoActivo->armaActual.armaTipo != NINGUNA)){ 
 		if(this->gusanoActivo->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO)
 			this->gusanoActivo->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
+
+		cout<<this->getGusanoActivo()->armaActual.potenciaDisparo<<endl;
 	}else{
 		this->gusanoActivo->armaActual.potenciaDisparo = 0;
 	}
@@ -516,7 +518,7 @@ b2Vec3 Escenario::hayExplosion() {
 			this->world->DestroyBody((*it)->getBody());
 			delete (*it);
 			this->listaArmas->erase(it);
-			printf("el radio es $i",radio);
+			//printf("el radio es $i",radio);
 			return b2Vec3(pos.x,pos.y,radio);
 		} else {
 			++it;

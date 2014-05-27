@@ -15,7 +15,7 @@ Granada::~Granada(void)
 {
 }
 
-void Granada::disparar(bool sentido, int potencia, float angulo){
+void Granada::disparar(bool sentido, float potencia, float angulo){
 
 	float vX = potencia*cos(angulo*DEGTORAD);
 	float vY = -potencia*sin(angulo*DEGTORAD);
