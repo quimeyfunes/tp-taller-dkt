@@ -191,7 +191,7 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 			}else{
 				switch(this->armaTipo){
 				case NINGUNA:	this->setImagen(renderer, spriteWormIzq);	 break;
-				case BAZOOKA:	this->setImagen(renderer, rutaWormBazIzq);	 break;
+				case BAZOOKA:	this->setImagen(renderer, rutaWormBaz);	 break;
 				case GRANADA:	this->setImagen(renderer, rutaWormGran);	break;
 				case ALELUYA:	this->setImagen(renderer, rutaWormAle);		break;
 				}

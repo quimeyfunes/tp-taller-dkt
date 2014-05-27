@@ -16,7 +16,7 @@ Aleluya::~Aleluya(void)
 }
 
 
-void Aleluya::disparar(bool sentido, int potencia, float angulo){
+void Aleluya::disparar(bool sentido, float potencia, float angulo){
 
 	float vX = potencia*cos(angulo*DEGTORAD);
 	float vY = -potencia*sin(angulo*DEGTORAD);

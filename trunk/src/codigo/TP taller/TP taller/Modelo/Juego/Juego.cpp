@@ -137,18 +137,20 @@ void Juego::leerEvento(){
 				case SOLTARDERECHA:		this->escenario->derecha(false);
 										this->escenario->reiniciarTeclas();		break; 
 
-				case ESPACIO: 			this->escenario->espacio(true);			break;
+				case ESPACIO: 			this->escenario->espacio(true); 
+										
+										break;
 
 				case SOLTARESPACIO:
 
 					posGusano=this->escenario->getFiguraActiva()->getBody()->GetWorldCenter();
-					posD = getPosicionInicialDisparo(posGusano, this->escenario->getGusanoActivo()->armaActual.anguloDisparo, this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, altoGusano/2 + 1.5*anchoBazooka);
+					posD = getPosicionInicialDisparo(posGusano, this->escenario->getGusanoActivo()->armaActual.anguloDisparo, this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, altoGusano/2 + 1.35);
 					
 
 					switch (this->escenario->getGusanoActivo()->armaActual.armaTipo){
 					case BAZOOKA:
 						this->escenario->getGusanoActivo()->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, anchoBazooka, altoBazooka, masaBazooka, radioBazooka ));
-							arma = this->vista->crearArmaDibujable(posD.x, posD.y, anchoBazooka*relacionPPU,altoBazooka*relacionPPU,rutaBazIzq,rutaBazIzq);
+							arma = this->vista->crearArmaDibujable(posD.x, posD.y, anchoBazooka*relacionPPU,altoBazooka*relacionPPU,rutaBaz,rutaBaz);
 						
 						break;
 				
@@ -237,7 +239,7 @@ void Juego::leerEvento(){
 
 }
 
-b2Vec2 Juego::getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, int separacion){
+b2Vec2 Juego::getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, double separacion){
 
 	b2Vec2 ret;
 	ret.x = separacion*cos(angulo*DEGTORAD);

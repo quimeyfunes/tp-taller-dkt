@@ -11,7 +11,7 @@ Bazooka::Bazooka(float x, float y, short int rotacion, b2World* world, bool esta
 	this->armaTipo = BAZOOKA;
 }
 
-void Bazooka::disparar(bool sentido, int potencia, float angulo){
+void Bazooka::disparar(bool sentido, float potencia, float angulo){
 
 	float vX = potencia*cos(angulo*DEGTORAD);
 	float vY = -potencia*sin(angulo*DEGTORAD);

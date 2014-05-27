@@ -11,7 +11,7 @@ Arma::Arma(float x, float y, short int rotacion, b2World* world, bool estatico, 
 	this->explota = false;
 }
 
-void Arma::disparar(bool sentido, int potencia, float angulo){
+void Arma::disparar(bool sentido, float potencia, float angulo){
 }
 
 void Arma::explotar(bool explotar){
