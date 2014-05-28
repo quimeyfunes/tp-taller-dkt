@@ -24,7 +24,12 @@ void PanelArmas::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimient
 		}
 
 		for(int i=0; i<this->armasTexturas.size(); i++){
-			//this->armasTexturas[i]->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
+			if(i==this->armaSeleccionada){
+				//Uso la imagen del arma seleccionada
+				this->armasTexturas[i]->setImagen(renderer,this->nombresArmasSeleccionada[i]);
+			}else{
+				this->armasTexturas[i]->setImagen(renderer,this->nombresArmasDeseleccionada[i]);
+			}
 			SDL_RenderCopyEx(renderer,this->armasTexturas[i]->getImagen(),NULL, &this->armasTexturas[i]->getRect(),this->armasTexturas[i]->getAngulo(),NULL,SDL_FLIP_NONE);
 		}
 	}
@@ -39,18 +44,24 @@ void PanelArmas::alternarVisibilidad(){
 }
 
 
-void PanelArmas::agregarArma(SDL_Renderer* renderer, string nombreArmaSeleccionada){
+void PanelArmas::agregarArma(SDL_Renderer* renderer, string nombreArmaSeleccionada, string nombreArmaDeseleccionada){
 	SDL_Rect rect;
-	int tamanoCuadradoX = this->getRect().w/4;
-	int tamanoCuadradoY = this->getRect().h/4;
+	int tamanoCuadradoX = this->getRect().w/3;
+	int tamanoCuadradoY = this->getRect().h/3;
 	int numeroCuadrado = this->armasTexturas.size();
-	int x = this->getRect().x + tamanoCuadradoX * (numeroCuadrado%4);
-	int y = this->getRect().y + tamanoCuadradoY * (numeroCuadrado/4);
-	rect.x = x + 8;
-	rect.y = y + 8;
-	rect.w = tamanoCuadradoX - 16;
-	rect.h = tamanoCuadradoY - 16;
+	int x = this->getRect().x + tamanoCuadradoX * (numeroCuadrado%3);
+	int y = this->getRect().y + tamanoCuadradoY * (numeroCuadrado/3);
+	rect.x = x + 4;
+	rect.y = y + 4;
+	rect.w = tamanoCuadradoX - 20;
+	rect.h = tamanoCuadradoY - 20;
 
 	DibujableTextura* arma = new DibujableTextura(renderer, rect, nombreArmaSeleccionada, "");
 	this->armasTexturas.push_back(arma);
+	this->nombresArmasSeleccionada.push_back(nombreArmaSeleccionada);
+	this->nombresArmasDeseleccionada.push_back(nombreArmaDeseleccionada);
+}
+
+void PanelArmas::seleccionarArma(int numeroArma){
+	this->armaSeleccionada = numeroArma;
 }

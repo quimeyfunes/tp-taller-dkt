@@ -172,13 +172,15 @@ PanelArmas* Vista::crearPanelArmas(int x , int y, int ancho, int alto, vector<in
 	rect.w = ancho;
 	rect.h = alto;
 	
-	PanelArmas* dib = new PanelArmas(this->renderer, rect, "imagenes/texturas/armas/panelFondo.png", "");
+	PanelArmas* dib = new PanelArmas(this->renderer, rect, "imagenes/texturas/armas/panelFondo2.png", "");
 	this->agregarDibujable(dib);
 
 	//Tengo que recorrrer el vector y agregar las armas
 	
-	dib->agregarArma(this->renderer,"imagenes/texturas/armas/bazooka.2.png");
-	dib->agregarArma(this->renderer,"imagenes/texturas/armas/cluster.2.png");
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/bazooka.1.png","imagenes/texturas/armas/bazooka.2.png");
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/cluster.1.png","imagenes/texturas/armas/cluster.2.png");
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/hgrenade.1.png","imagenes/texturas/armas/hgrenade.2.png");
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/dynamite.1.png","imagenes/texturas/armas/dynamite.2.png");
 
 	return dib;
 }
