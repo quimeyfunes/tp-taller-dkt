@@ -20,6 +20,7 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->puedeMoverseIzquierda = false;
 	this->puedeDisparar = false;
 	this->puedeMoverseAbajo = false;
+	this->puedeSaltar = false;
 
 	for(int i=0; i < this->maximosClientes; i++){
 		this->figurasActivas.push_back(NULL);
@@ -310,8 +311,8 @@ bool Escenario::click(float x, float y){
 			return true;
 		}
 	}
-	this->terreno->destruirTerreno(x,y,5);
-	this->explotar(x,y,5);
+	//this->terreno->destruirTerreno(x,y,5);
+	//this->explotar(x,y,5);
 	return false;
 }
 
@@ -340,6 +341,10 @@ void Escenario::clickCliente(int cliente, list<Gusano*> figurasCliente, list<Gus
 			(*it)->setMeClickearon(false,cliente);
 		}
 	}
+}
+
+void Escenario::enter(bool enter){
+	this->puedeSaltar = enter;
 }
 
 void Escenario::arriba(bool arriba){
@@ -386,6 +391,7 @@ void Escenario::moverse(){
 	if ((this->gusanoActivo != NULL) && !(this->gusanoActivo->estaMuerto())) {
 		this->saltar();
 		this->bajar();
+		this->subir();
 		this->moverDerecha();
 		this->moverIzquierda();
 		this->cargarDisparo();
@@ -397,7 +403,7 @@ void Escenario::cargarDisparo(){
 		if(this->gusanoActivo->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO)
 			this->gusanoActivo->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
 
-		cout<<this->getGusanoActivo()->armaActual.potenciaDisparo<<endl;
+		//cout<<this->getGusanoActivo()->armaActual.potenciaDisparo<<endl;
 	}else{
 		this->gusanoActivo->armaActual.potenciaDisparo = 0;
 	}
@@ -415,15 +421,20 @@ void Escenario::moverseClientes(){
 	}
 }
 
-void Escenario::saltar(){
-	if (this->puedeMoverseArriba) {
-		if (this->gusanoActivo->puedeSaltar()) {
-			b2Body* cuerpo = this->gusanoActivo->getBody();
-			cuerpo->SetLinearVelocity(b2Vec2(0,saltoGusano));
-		}
+void Escenario::subir(){
+	if(this->puedeMoverseArriba){
 		if(this->gusanoActivo->tieneUnArma()){
 			if(this->gusanoActivo->armaActual.anguloDisparo < 90)
 				this->gusanoActivo->armaActual.anguloDisparo+=1.0f;
+		}
+	}
+}
+
+void Escenario::saltar(){
+	if (this->puedeSaltar) {
+		if (this->gusanoActivo->puedeSaltar()) {
+			b2Body* cuerpo = this->gusanoActivo->getBody();
+			cuerpo->SetLinearVelocity(b2Vec2(0,saltoGusano));
 		}
 		//cuerpo->ApplyLinearImpulse(b2Vec2(0,-100),this->figuraActiva->getPosicion(),true);
 	}

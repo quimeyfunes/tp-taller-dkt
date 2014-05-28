@@ -14,16 +14,16 @@
 const int POTENCIA_MAXIMA_DISPARO = 40;
 const float AUMENTO_POTENCIA = 0.5;
 
-const float anchoBazooka = 1;
+const float anchoBazooka = 1.4;
 const float altoBazooka = 1;
-const int masaBazooka = 80;
+const int masaBazooka = 30;
 
-const float radioGranada = 1;
-const float masaGranada = 10;
+const float radioGranada = 0.8;
+const float masaGranada = 5;
 const int tiempoExplosionGranada = 3; //hay q poder variar este valor
 
 const float radioAleluya = 1;
-const int masaAleluya = 10;
+const int masaAleluya = 5;
 const int tiempoExplosionAleluya = 3;
 
 const float altoDinamita = 2;

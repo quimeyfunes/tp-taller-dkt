@@ -245,6 +245,7 @@ bool Vista::leerEvento(SDL_Event* evento) {
 			case SDLK_RIGHT:	this->accion = DERECHA;		return true;	break; 
 			case SDLK_DOWN:		this->accion = ABAJO;		return true;	break;
 			case SDLK_SPACE:	this->accion = ESPACIO;		return true;	break;
+			case SDLK_RETURN:	this->accion = ENTER;		return true;	break;
 
 			}
 			
@@ -256,6 +257,7 @@ bool Vista::leerEvento(SDL_Event* evento) {
 					case SDLK_LEFT:		this->accion = SOLTARIZQUIERDA;		return true;	break;
 					case SDLK_RIGHT:	this->accion = SOLTARDERECHA;		return true;	break; 
 					case SDLK_SPACE:    this->accion = SOLTARESPACIO;		return true;	break;
+					case SDLK_RETURN:	this->accion = SOLTARENTER;			return true;	break;
 				}
 			}
 		}
