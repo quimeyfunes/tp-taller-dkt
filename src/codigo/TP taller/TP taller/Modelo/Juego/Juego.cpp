@@ -135,6 +135,8 @@ void Juego::leerEvento(){
 				case ABAJO:				this->escenario->abajo(true);			break;
                 case IZQUIERDA:         this->escenario->izquierda(true);       break;
                 case DERECHA:           this->escenario->derecha(true);         break; 
+				case ENTER:				this->escenario->enter(true);			break;
+				case SOLTARENTER:		this->escenario->enter(false);			break;
                 case SOLTARARRIBA:		this->escenario->arriba(false);         break;
 				case SOLTARABAJO:		this->escenario->abajo(false);
                 case SOLTARIZQUIERDA:   this->escenario->izquierda(false);
@@ -150,7 +152,7 @@ void Juego::leerEvento(){
 
 					if((this->escenario->getGusanoActivo() != NULL)&&(this->escenario->getGusanoActivo()->armaActual.armaTipo != NINGUNA )){
 						posGusano=this->escenario->getFiguraActiva()->getBody()->GetWorldCenter();
-						posD = getPosicionInicialDisparo(posGusano, this->escenario->getGusanoActivo()->armaActual.anguloDisparo, this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, altoGusano/2 + 1.35);
+						posD = getPosicionInicialDisparo(posGusano, this->escenario->getGusanoActivo()->armaActual.anguloDisparo, this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, altoGusano/2 + 1.5);
 					
 
 						switch (this->escenario->getGusanoActivo()->armaActual.armaTipo){
@@ -162,12 +164,12 @@ void Juego::leerEvento(){
 				
 						case GRANADA:
 							this->escenario->getGusanoActivo()->setArma(new Granada(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionGranada, radioGranada, masaGranada , tiempoExplosionGranada));
-							arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaGranada,rutaGranada); 
+							arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioGranada,relacionPPU * 2*radioGranada,rutaGranada,rutaGranada); 
 							break;
 
 						case ALELUYA:
 							this->escenario->getGusanoActivo()->setArma(new Aleluya(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionAleluya, radioAleluya, masaAleluya ));
-							arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2,relacionPPU * 2,rutaAleluya,rutaAleluya); 
+							arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioAleluya,relacionPPU * 2*radioAleluya,rutaAleluya,rutaAleluya); 
 							break;
 
 						case DINAMITA:
@@ -185,12 +187,13 @@ void Juego::leerEvento(){
 					break;
 
 				case CLICK:     
-                        SDL_GetMouseState(&x,&y);
-                        if (!(this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom())))) {
-							this->vista->destruir((x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),5 * relacionPPU,this->terreno->getLector());
+						 SDL_GetMouseState(&x,&y);
+						 this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
+						// if (!(this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom())))) {
+							//this->vista->destruir((x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),5 * relacionPPU,this->terreno->getLector());
 							//aviso al servidor q se modifico el terreno
-							Servidor::setTerrenoModificado(true);
-						}
+							//Servidor::setTerrenoModificado(true);
+						//}
                         break;
 
 				case CLICKDERECHO:

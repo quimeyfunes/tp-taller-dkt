@@ -39,6 +39,7 @@ private:
 	bool puedeMoverseIzquierda;
 	bool puedeMoverseDerecha;
 	bool puedeDisparar;
+	bool puedeSaltar;
 
 	//Para clientes
 	vector<bool> puedeMoverseArribaClientes;
@@ -79,6 +80,7 @@ public:
 	void arriba(bool arriba);
 	void abajo(bool abajo);
 	void espacio(bool esp);
+	void enter(bool enter);
 	void arribaCliente(int cliente, bool arriba);
 	void setPuedeSaltarCliente(int cliente,bool puedeSaltar);
 	void izquierda(bool izquierda);
@@ -88,6 +90,7 @@ public:
 	void moverse();
 	void moverseClientes();
 	void saltar();
+	void subir();
 	void bajar();
 	void cargarDisparo();
 	void moverIzquierda();
