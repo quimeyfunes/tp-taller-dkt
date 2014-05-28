@@ -150,7 +150,7 @@ void Juego::leerEvento(){
 
 				case SOLTARESPACIO:
 
-					if((this->escenario->getGusanoActivo() != NULL)&&(this->escenario->getGusanoActivo()->armaActual.armaTipo != NINGUNA )){
+					if((this->escenario->getGusanoActivo() != NULL)&&(this->escenario->getGusanoActivo()->armaActual.armaTipo != NINGUNA ) && !(this->escenario->getGusanoActivo()->estaMuerto())){
 						posGusano=this->escenario->getFiguraActiva()->getBody()->GetWorldCenter();
 						posD = getPosicionInicialDisparo(posGusano, this->escenario->getGusanoActivo()->armaActual.anguloDisparo, this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, altoGusano/2 + 1.5);
 					
