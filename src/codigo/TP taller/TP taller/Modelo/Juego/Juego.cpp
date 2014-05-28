@@ -237,7 +237,7 @@ void Juego::leerEvento(){
 											 this->escenario->reiniciarTeclas();}	break;
 					case SOLTARDERECHA:		{this->escenario->derechaCliente(i,false);
 											 this->escenario->reiniciarTeclas();}	break; 
-					case CLICK:	
+					case CLICK:	{
 						list<Gusano*> figurasOtrosClientes;
 						for(int j=0; j< this->escenario->getMaximosClientes(); j++){
 							if(i != j){
@@ -246,6 +246,16 @@ void Juego::leerEvento(){
 						}
 						this->escenario->clickCliente(i,this->servidor->clientes[i].figuras,figurasOtrosClientes, evento->x, evento->y);
 						break;
+					}
+					case CLICKARMA:	{
+						switch(evento->x){
+							/*case 0: this->escenario->getFigurasActivas()[i]->armaActual.armaTipo = BAZOOKA; break;
+							case 1: this->escenario->getFigurasActivas()[i]->armaActual.armaTipo = GRANADA; break;
+							case 2: this->escenario->getFigurasActivas()[i]->armaActual.armaTipo = ALELUYA; break;
+							case 3: this->escenario->getFigurasActivas()[i]->armaActual.armaTipo = DINAMITA; break;
+							default: this->escenario->getFigurasActivas()[i]->armaActual.armaTipo = NINGUNA; break;*/
+						}
+					}
 
 				}
 

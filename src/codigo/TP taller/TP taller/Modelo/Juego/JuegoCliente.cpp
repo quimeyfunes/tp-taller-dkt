@@ -91,6 +91,8 @@ void JuegoCliente::leerEvento(){
 			SDL_GetMouseState(&x,&y);
 			int armaSeleccionada = this->getArmaSeleccionada(x,y);
 			if(armaSeleccionada >= 0){
+				this->panelArmas->seleccionarArma(armaSeleccionada);
+
 				//Notifico al servidor el arma seleccionada
 				e->accion = CLICKARMA;
 				e->x = armaSeleccionada;
@@ -147,7 +149,7 @@ void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 	this->cartelInfo->setColor(255,0,255,100);
 	//Las armas vienen en el paquete inicial
 	vector<int> armas;
-	this->panelArmas = vista->crearPanelArmas(e->anchoPx - e->altoPx/3, 10, e->altoPx/3, e->altoPx/3, armas);
+	this->panelArmas = vista->crearPanelArmas(e->anchoPx - e->altoPx/4, 10, e->altoPx/4, e->altoPx/4, armas);
 }
 
 void JuegoCliente::agregarAgua(EscenarioParseado* e){
@@ -263,9 +265,9 @@ void JuegoCliente::crearLista(string vistaSerializada){
 int JuegoCliente::getArmaSeleccionada(int x, int y){
 	if(x > this->panelArmas->getRect().x && x < (this->panelArmas->getRect().x + this->panelArmas->getRect().w) && y > this->panelArmas->getRect().y && y < (this->panelArmas->getRect().y + this->panelArmas->getRect().h)){
 		//Se clickeo dentro del panel
-		int tamanoCuadradoX = this->panelArmas->getRect().w/4;
-		int tamanoCuadradoY = this->panelArmas->getRect().h/4;
-		int cuadradoSeleccionado = (x - this->panelArmas->getRect().x)/tamanoCuadradoX + ((y - this->panelArmas->getRect().y)/tamanoCuadradoY) * 4;
+		int tamanoCuadradoX = this->panelArmas->getRect().w/3;
+		int tamanoCuadradoY = this->panelArmas->getRect().h/3;
+		int cuadradoSeleccionado = (x - this->panelArmas->getRect().x)/tamanoCuadradoX + ((y - this->panelArmas->getRect().y)/tamanoCuadradoY) * 3;
 		return cuadradoSeleccionado;
 	}
 	return -1;
