@@ -138,6 +138,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 		} else {
 			this->velocidadRefresco = timeGusanoMovil;
 			this->armaTipo = NINGUNA;
+			this->mostrarCrosshair = false;
 				if ((fig->seMueveALaDer())){	
 					this->contIzq = 0;
 					this->contFrent = 0;
