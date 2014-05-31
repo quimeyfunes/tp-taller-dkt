@@ -47,8 +47,8 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 		}
 	}
 
-	this->recPotencia = new SDL_Rect[18];
-	for(int i=0; i<18; i++){
+	this->recPotencia = new SDL_Rect[17];
+	for(int i=0; i<17; i++){
 		this->recPotencia[i].h = 28;
 		this->recPotencia[i].w = 244;
 		this->recPotencia[i].x = 0;
@@ -238,8 +238,9 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 			SDL_Rect aux = rect;
 			aux.w = 244 * escalaZoom;
 			aux.h = 28 * escalaZoom;
-			aux.y += altoGusano/2 * relacionPPU;
 			aux.x -= (128 - (1.5f * anchoGusano)*relacionPPU);
+			aux.y += altoGusano/2 * relacionPPU;
+
 			if(this->estado == DER)
 				SDL_RenderCopyEx(renderer, this->crosshair, &this->recPotencia[frameCrosshair], &aux, -this->anguloDisparo, 0, flip);
 			else
@@ -290,7 +291,7 @@ void GusanoSprite::actualizarFrameDisparo(int angulo){
 
 void GusanoSprite::actualizarFrameCrosshair(int potencia){
 	
-	this->frameCrosshair = ((float)(18.0f/POTENCIA_MAXIMA_DISPARO)) * potencia;
+	this->frameCrosshair = ((float)(17.0f/POTENCIA_MAXIMA_DISPARO)) * potencia;
 }
 
 int GusanoSprite::getFrame(){

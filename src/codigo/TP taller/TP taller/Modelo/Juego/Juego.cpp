@@ -127,13 +127,13 @@ void Juego::chequearNuevosJugadores(){
 
 void Juego::leerEvento(){
 
+	if(this->escenario->getGusanoActivo() != NULL)
+		if( this->escenario->getGusanoActivo()->armaActual.potenciaDisparo >= POTENCIA_MAXIMA_DISPARO) dispararArma();
+
 	 if (this->vista->leerEvento(evento)){
 		 int x, y;
-		 b2Vec2 posGusano;
-		 b2Vec2 posD;
-		 ArmaDibujable* arma;
-	
-                switch(this->vista->getAccion()){
+				
+			switch(this->vista->getAccion()){
 
                 case SALIR:				salir();                                break;
                 case JUGAR:             reiniciar();                            break;
@@ -145,53 +145,19 @@ void Juego::leerEvento(){
 				case ENTER:				this->escenario->enter(true);			break;
 				case SOLTARENTER:		this->escenario->enter(false);			break;
                 case SOLTARARRIBA:		this->escenario->arriba(false);         break;
-				case SOLTARABAJO:		this->escenario->abajo(false);
-                case SOLTARIZQUIERDA:   this->escenario->izquierda(false);
+				case SOLTARABAJO:		this->escenario->abajo(false);			break;
+                case SOLTARIZQUIERDA:   this->escenario->izquierda(false);	
                                         this->escenario->reiniciarTeclas();		break;
 				case SOLTARDERECHA:		this->escenario->derecha(false);
 										this->escenario->reiniciarTeclas();		break; 
 
-				case ESPACIO: 			this->escenario->espacio(true); 
-										
+				case ESPACIO: 			this->escenario->espacio(true); 		
 										break;
 
 				case SOLTARESPACIO:
-
-					if((this->escenario->getGusanoActivo() != NULL)&&(this->escenario->getGusanoActivo()->armaActual.armaTipo != NINGUNA ) && !(this->escenario->getGusanoActivo()->estaMuerto())){
-						posGusano=this->escenario->getFiguraActiva()->getBody()->GetWorldCenter();
-						posD = getPosicionInicialDisparo(posGusano, this->escenario->getGusanoActivo()->armaActual.anguloDisparo, this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, altoGusano/2 + 1.5);
-					
-
-						switch (this->escenario->getGusanoActivo()->armaActual.armaTipo){
-						case BAZOOKA:
-							this->escenario->getGusanoActivo()->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, anchoBazooka, altoBazooka, masaBazooka, radioExplosionBazooka ));
-								arma = this->vista->crearArmaContactoDibujable(posD.x, posD.y, anchoBazooka*relacionPPU,altoBazooka*relacionPPU,rutaBaz,rutaBaz);
-							
-							break;
-				
-						case GRANADA:
-							this->escenario->getGusanoActivo()->setArma(new Granada(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionGranada, radioGranada, masaGranada , tiempoExplosionGranada));
-							arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioGranada,relacionPPU * 2*radioGranada,rutaGranada,rutaGranada); 
-							break;
-
-						case ALELUYA:
-							this->escenario->getGusanoActivo()->setArma(new Aleluya(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionAleluya, radioAleluya, masaAleluya ));
-							arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioAleluya,relacionPPU * 2*radioAleluya,rutaAleluya,rutaAleluya); 
-							break;
-
-						case DINAMITA:
-							this->escenario->getGusanoActivo()->setArma(new Dinamita(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionDinamita, anchoDinamita, altoDinamita, masaDinamita, tiempoExplosionDinamita));
-							arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y, relacionPPU * anchoDinamita,relacionPPU * altoDinamita,rutaDinamita,rutaDinamita);
-							break;
-					
-						}
-						this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
-						this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
-						this->escenario->getGusanoActivo()->getArmaSeleccionada()->disparar(this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, this->escenario->getGusanoActivo()->armaActual.potenciaDisparo, this->escenario->getGusanoActivo()->armaActual.anguloDisparo); 
-						this->escenario->espacio(false);
-					}
-
-					break;
+										this->dispararArma();	
+										this->escenario->espacio(false);
+										break;
 
 				case CLICK:     
 						 SDL_GetMouseState(&x,&y);
@@ -210,17 +176,25 @@ void Juego::leerEvento(){
 
 							switch(NUMCLICKDERECHOS % 5){
 
-							case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA; break;
-							case 1: this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA; break;
-							case 2: this->escenario->getGusanoActivo()->armaActual.armaTipo = GRANADA; break;
-							case 3: this->escenario->getGusanoActivo()->armaActual.armaTipo = ALELUYA; break;
-							case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA; break;
+							case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									break;
+							case 1: this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+									break;
+							case 2: this->escenario->getGusanoActivo()->armaActual.armaTipo = GRANADA;			
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+									break;
+							case 3: this->escenario->getGusanoActivo()->armaActual.armaTipo = ALELUYA;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+									break;
+							case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									break;
 							}
 
 						}
 							break;
-
-
                 }
        }
 		
@@ -275,6 +249,47 @@ void Juego::leerEvento(){
 		}
 	}
 
+}
+
+void Juego::dispararArma(){
+
+	b2Vec2 posGusano;
+	b2Vec2 posD;
+	ArmaDibujable* arma;
+
+	if((this->escenario->getGusanoActivo() != NULL)&&(this->escenario->getGusanoActivo()->armaActual.armaTipo != NINGUNA ) && !(this->escenario->getGusanoActivo()->estaMuerto())){
+	posGusano=this->escenario->getFiguraActiva()->getBody()->GetWorldCenter();
+	posD = getPosicionInicialDisparo(posGusano, this->escenario->getGusanoActivo()->armaActual.anguloDisparo, this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, altoGusano/2 + 1.5);
+					
+
+	switch (this->escenario->getGusanoActivo()->armaActual.armaTipo){
+	case BAZOOKA:
+		this->escenario->getGusanoActivo()->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, anchoBazooka, altoBazooka, masaBazooka, radioExplosionBazooka ));
+			arma = this->vista->crearArmaContactoDibujable(posD.x, posD.y, anchoBazooka*relacionPPU,altoBazooka*relacionPPU,rutaBaz,rutaBaz);
+							
+		break;
+				
+	case GRANADA:
+		this->escenario->getGusanoActivo()->setArma(new Granada(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionGranada, radioGranada, masaGranada , tiempoExplosionGranada));
+		arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioGranada,relacionPPU * 2*radioGranada,rutaGranada,rutaGranada); 
+		break;
+
+	case ALELUYA:
+		this->escenario->getGusanoActivo()->setArma(new Aleluya(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionAleluya, radioAleluya, masaAleluya ));
+		arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioAleluya,relacionPPU * 2*radioAleluya,rutaAleluya,rutaAleluya); 
+		break;
+
+	case DINAMITA:
+		this->escenario->getGusanoActivo()->setArma(new Dinamita(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionDinamita, anchoDinamita, altoDinamita, masaDinamita, tiempoExplosionDinamita));
+		arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y, relacionPPU * anchoDinamita,relacionPPU * altoDinamita,rutaDinamita,rutaDinamita);
+		break;
+					
+	}
+	this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
+	this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
+	this->escenario->getGusanoActivo()->getArmaSeleccionada()->disparar(this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, this->escenario->getGusanoActivo()->armaActual.potenciaDisparo, this->escenario->getGusanoActivo()->armaActual.anguloDisparo); 
+	this->escenario->getGusanoActivo()->armaActual.potenciaDisparo = 0;
+}
 }
 
 b2Vec2 Juego::getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, double separacion){

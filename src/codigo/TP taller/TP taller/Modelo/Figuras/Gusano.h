@@ -27,6 +27,7 @@ private:
 		float anguloDisparo;
 		float potenciaDisparo;
 		bool sentidoDisparo;
+		bool puedeCargarse;
 	}armaStruct;
 
 public:
