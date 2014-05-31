@@ -26,6 +26,12 @@ class GusanoSprite: public DibujableTextura, public Observador{
 private:
 	SDL_Rect* recCuadro;
 	SDL_Rect* rectApuntando;
+	SDL_Rect* recPotencia;
+	SDL_Texture* crosshair;
+	SDL_Point* posFigura;
+	bool mostrarCrosshair;
+	int frameCrosshair;
+	int anguloDisparo;
 	SDL_Rect* enUso;
 	int frameDisparo;
 	int frame;
@@ -47,6 +53,7 @@ public:
 	void setNumCuadros(int numCuadros);
 	void actualizarFrame();
 	void actualizarFrameDisparo(int frame);
+	void actualizarFrameCrosshair(int potencia);
 	int getNumCuadros();
 	int getFrame();
 	void setFrame(int frame);

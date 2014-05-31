@@ -1,6 +1,7 @@
 #ifndef CTTES_ARMAS_H_
 #define CTTES_ARMAS_H_
 
+#define rutaCrosshair "imagenes/texturas/crosshair.png"
 #define rutaBaz "imagenes/texturas/bazIzq.png"
 #define rutaGranada "imagenes/texturas/granada.png"
 #define rutaAleluya "imagenes/texturas/aleluya.png"
