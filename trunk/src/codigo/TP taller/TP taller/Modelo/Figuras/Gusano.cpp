@@ -15,6 +15,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	this->armaActual.armaSeleccionada = NULL;
 	this->armaActual.armaTipo = NINGUNA;
 	this->armaActual.sentidoDisparo = true;	//true = izq
+	this->armaActual.puedeCargarse = false;
 	
 
 	b2PolygonShape rectanguloShape;

@@ -43,6 +43,8 @@ private:
 	static void servidorLoop(void * arg);
 	static void clienteLoop(void * arg);
 	static string jugadorActual;
+
+	void dispararArma();
 	//para setear el arma mas facil mientras se prueba
 	int NUMCLICKDERECHOS;
 public:
