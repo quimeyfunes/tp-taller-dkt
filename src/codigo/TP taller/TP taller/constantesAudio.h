@@ -1,9 +1,7 @@
 #ifndef CONSTANTESAUDIO_H_
 #define CONSTANTESAUDIO_H_
 
-#define rutaSonidoExplosion1 "audio/efectos/Explosion1.wav"
-#define rutaSonidoExplosion2 "audio/efectos/Explosion2.wav"
-#define rutaSonidoExplosion3 "audio/efectos/Explosion3.wav"
+#define rutaSonidoExplosion "audio/efectos/Explosion.wav"
 #define rutaSonidoAgua "audio/efectos/Agua.wav"
 #define rutaSonidoAleluya "audio/efectos/Aleluya.wav"
 #define rutaSonidoImpactoAleluya "audio/efectos/ImpactoAleluya.wav"
