@@ -11,6 +11,14 @@ private:
 	Reproductor();
 	static bool fondo;
 	static bool explosion;
+	static bool agua;
+	static bool aleluya;
+	static bool impactoAleluya;
+	static bool impactoGranada;
+	static bool cargandoDisparo;
+	static bool soltarDisparo;
+	static bool caminando;
+	
 	static Mix_Music* musicaFondo; 
 	static Mix_Chunk** efectosDeSonido;
 	
@@ -22,6 +30,13 @@ public:
 		
 	static void actualizar(void* arg);
 	static void reproducirExplosion();
+	static void reproducirAgua();
+	static void reproducirAleluya();
+	static void reproducirImpactoAleluya();
+	static void reproducirImpactoGranada();
+	static void reproducirCargandoDisparo();
+	static void reproducirSoltarDisparo();
+	static void reproducirCaminando();
 	static void reproducirMusicaFondo();
 
 };
