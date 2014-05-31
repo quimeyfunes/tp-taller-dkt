@@ -8,6 +8,7 @@ Juego::Juego(){
 }
 
 Juego::Juego(string texto){
+
 	this->simulando = true;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
@@ -34,12 +35,16 @@ Juego::Juego(string texto){
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 
+	//inicio un thread para el reproductor de audio
+	_beginthread(Reproductor::getReproductor()->actualizar, 0, (void*)0);
+
 	servidor = new Servidor();
 	int tamanio;
 
     const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
+	
 
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
@@ -69,6 +74,7 @@ void Juego::ejecutar(){
 				explosion *= relacionPPU;
 				this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
 				//aviso al servidor q se modifico el terreno
+				Reproductor::getReproductor()->reproducirExplosion();
 				Servidor::setTerrenoModificado(true);
 			}
 		} while (explosion.z >= 0);

@@ -21,6 +21,7 @@
 #include "../Armas/Dinamita.h"
 #include "Turno.h"
 
+#include "../Reproductor.h"
 
 using namespace std;
 
@@ -36,7 +37,6 @@ private:
 	static Servidor* servidor;
 	//list<DibujableSerializado> Juego::crearLista(int &tamanio);
 	b2World* mundo;
-
 	Turno* turno;
 	b2Vec2 getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, double separacion);
 	void agregarObjetos();

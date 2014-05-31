@@ -1,6 +1,5 @@
 #include "Vista.h"
 
-
 Vista::Vista(EscenarioParseado* e){
 	SDL_Init( SDL_INIT_EVERYTHING );
 	this->anchoPx = e->anchoPx;
@@ -10,7 +9,6 @@ Vista::Vista(EscenarioParseado* e){
 	this->window = SDL_CreateWindow("Worms!", 25, 25, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN);
 	this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	this->listaDibujables = new list<Dibujable*>;
-
 	this->corrimientoX = 0;
 	this->corrimientoY = 0;
 	SDL_SetWindowIcon(this->window, IMG_Load(rutaIcono));
