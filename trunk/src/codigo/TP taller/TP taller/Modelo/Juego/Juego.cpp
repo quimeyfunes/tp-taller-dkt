@@ -1,6 +1,8 @@
 	#include "Juego.h"
 
 Servidor* Juego::servidor = NULL;
+string Juego::jugadorActual = "";
+
 
 Juego::Juego(){
 }
@@ -40,6 +42,11 @@ void Juego::ejecutar(){
     DWORD next_game_tick = GetTickCount();
 
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
+		
+		//if( this->turno->estaTerminado() ){
+		//	this->servidor->siguienteJugador();
+		//	this->turno->comenzar();
+		//}
 
 		this->chequearNuevosJugadores();
 		this->leerEvento();
@@ -381,4 +388,13 @@ Juego::~Juego(){
 
 	//delete this->evento;
 	//delete Logger::getLogger();
+}
+
+
+string Juego::getJugadorActual(){
+	return Juego::jugadorActual;
+}
+
+void Juego::cambiarJugador(string jugador){
+	Juego::jugadorActual = jugador;
 }

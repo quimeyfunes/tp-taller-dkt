@@ -12,6 +12,7 @@ cliente* Servidor::clientes;
 EscenarioParseado* Servidor::escenario;
 mensajeStru Servidor::mensaje;
 bool  Servidor::terrenoModificado;
+int Servidor::idJugando=0; //este es el id q va a arrancar a jugar.
 
 Servidor::Servidor(){
     // id's to assign clients for our table
@@ -114,11 +115,9 @@ void Servidor::enviarCliente(int* clienteN, int tipoPaquete, string mensaje){
 
 }
 
-
 void Servidor::setTerrenoModificado(bool estado){
 	Servidor::terrenoModificado=estado;
 }
-
 
 
 int Servidor::buscarCliente(string nombre){
@@ -341,4 +340,11 @@ void Servidor::enviarImagen(SOCKET sock, string direccion, int tipoPaquete){
 	Servicio::enviarMensaje(sock, dataImagen, tamanioPaqueteImagen);
 	delete dataImagen;
 	delete newfilename;
+}
+
+string Servidor::siguienteJugador(){
+
+	if(Servidor::idJugando+1 == Servidor::cliente_id)		Servidor::idJugando = 0;
+	else												Servidor::idJugando++;
+	return clientes[Servidor::idJugando].username;
 }
