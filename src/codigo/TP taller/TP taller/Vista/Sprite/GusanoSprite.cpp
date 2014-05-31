@@ -15,6 +15,10 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	this->numCuadros = col*fil;
 	this->velocidadRefresco = timeGusanoQuieto;
 	this->contador = 0;
+	this->crosshair = IMG_LoadTexture(renderer, rutaCrosshair);
+	this->mostrarCrosshair = false;
+	this->frameCrosshair = 0;
+	this->posFigura = new SDL_Point();
 
 	int tamanioCuadroX = anchoTex / col;
 	int tamanioCuadroY = altoTex / fil;
@@ -25,11 +29,8 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	for(int i=0; i< 32; i++){
 		rectApuntando[i].h = 60;
 		rectApuntando[i].w = 60;
-	}
-
-	for(int i=0; i<32; i++){
-			rectApuntando[i].x = 0;
-			rectApuntando[i].y = i* 60;
+		rectApuntando[i].x = 0;
+		rectApuntando[i].y = i* 60;
 	}
 
 	this->recCuadro = new SDL_Rect[numCuadros];
@@ -45,6 +46,16 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 			recCuadro[j + i*col].y = i* tamanioCuadroY;
 		}
 	}
+
+	this->recPotencia = new SDL_Rect[18];
+	for(int i=0; i<18; i++){
+		this->recPotencia[i].h = 28;
+		this->recPotencia[i].w = 122;
+		this->recPotencia[i].x = 0;
+		this->recPotencia[i].y = i*28;
+	}
+
+
 	this->enUso = recCuadro;
 	this->imagen = IMG_LoadTexture(renderer, path.c_str());
 	this->cambiarImgDer = false;
@@ -89,10 +100,14 @@ GusanoSprite::~GusanoSprite(void)
 void GusanoSprite::actualizar(Observable* observable) {
 
 	Gusano* fig = (Gusano*)observable;
-	
+	this->posFigura->x = fig->getBody()->GetPosition().x;
+	this->posFigura->y = fig->getBody()->GetPosition().y;
+
 	if (!(fig->estaMuerto())){
 		this->contMuerte = 0;
 		//No se mueve
+		this->frameCrosshair = 0;
+
 		if ( !(fig->seMueveALaDer() ) && !(fig->seMueveALaIzq()) ) {
 			
 				this->contIzq = 0;
@@ -100,6 +115,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 				this->setCambiarImgDer(false);
 				this->setCambiarImgIzq(false);
 			if(!fig->tieneUnArma()){
+				this->mostrarCrosshair = false;
 				this->contArma =0;
 				this->contFrent++;
 				this->enUso = recCuadro;
@@ -112,10 +128,12 @@ void GusanoSprite::actualizar(Observable* observable) {
 					//printf("HOLA\n");
 					this->enUso = rectApuntando;
 					this->armaTipo = fig->getTipoArma();
-					if(armaTipo == DINAMITA)
+					if(armaTipo == DINAMITA){
 						this->frame = 0;
-					else
+					}else{
+						this->actualizarFrameCrosshair(fig->armaActual.potenciaDisparo);
 						this->actualizarFrameDisparo(fig->armaActual.anguloDisparo);
+					}
 					//cout<<this->frameDisparo<<endl;
 			}
 		} else {
@@ -143,6 +161,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 				}
 			}
 	} else {
+		this->mostrarCrosshair=false;
 		this->velocidadRefresco = timeGrave;
 		this->contIzq = 0;
 		this->contDer = 0;
@@ -193,11 +212,11 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 				this->setImagen(renderer, rutaWormGrisIzq);
 			}else{
 				switch(this->armaTipo){
-				case NINGUNA:	this->setImagen(renderer, spriteWormIzq);	 break;
-				case BAZOOKA:	this->setImagen(renderer, rutaWormBaz);		break;
-				case GRANADA:	this->setImagen(renderer, rutaWormGran);	break;
-				case ALELUYA:	this->setImagen(renderer, rutaWormAle);		break;
-				case DINAMITA:	this->setImagen(renderer, rutaWormDin);		break;
+				case NINGUNA:	this->setImagen(renderer, spriteWormIzq);	this->mostrarCrosshair = false;	 break;
+				case BAZOOKA:	this->setImagen(renderer, rutaWormBaz);		this->mostrarCrosshair = true;	 break;
+				case GRANADA:	this->setImagen(renderer, rutaWormGran);	this->mostrarCrosshair = true;	 break;
+				case ALELUYA:	this->setImagen(renderer, rutaWormAle);		this->mostrarCrosshair = true;	 break;
+				case DINAMITA:	this->setImagen(renderer, rutaWormDin);		this->mostrarCrosshair = false;	 break;
 				}
 			}
 		} else {
@@ -210,17 +229,25 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 	
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
 		rect = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
-		SDL_RenderCopyEx(renderer, this->imagen, &this->enUso[frame], &rect,0,NULL,flip);
 	} else {
 		rect.x -=corrimientoX;
 		rect.y -=corrimientoY;
-		SDL_RenderCopyEx(renderer, this->imagen, &this->enUso[frame], &rect,0,NULL,flip);
 	}
+
+	SDL_RenderCopyEx(renderer, this->imagen, &this->enUso[frame], &rect,0,NULL,flip);
+		if(this->mostrarCrosshair && this->estado != MUERTO){
+			SDL_Rect aux = rect;
+			aux.w = 122 * escalaZoom;
+			aux.h = 28 * escalaZoom;
+			SDL_RenderCopyEx(renderer, this->crosshair, &this->recPotencia[frameCrosshair], &aux, this->anguloDisparo, 0, flip);
+		}
+
 
 	if (this->mostrarCartel[this->cliente] && this->estado != MUERTO) {
 		this->cartel->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
 	}
 }
+
 
 void GusanoSprite::setCambiarImgDer(bool cambio){
 	this->cambiarImgDer = cambio;
@@ -254,8 +281,13 @@ void GusanoSprite::actualizarFrame(){
 void GusanoSprite::actualizarFrameDisparo(int angulo){
 
 	this->frame = (float)(15.5/90) * angulo + 15.5f;
+	this->anguloDisparo = angulo;
 }
 
+void GusanoSprite::actualizarFrameCrosshair(int potencia){
+	
+	this->frameCrosshair = ((float)(18.0f/POTENCIA_MAXIMA_DISPARO)) * potencia;
+}
 
 int GusanoSprite::getFrame(){
 	return this->frame;
