@@ -19,6 +19,7 @@
 #include "../Armas/Granada.h"
 #include "../Armas/Aleluya.h"
 #include "../Armas/Dinamita.h"
+#include "Turno.h"
 
 
 using namespace std;
@@ -36,11 +37,12 @@ private:
 	//list<DibujableSerializado> Juego::crearLista(int &tamanio);
 	b2World* mundo;
 
+	Turno* turno;
 	b2Vec2 getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, double separacion);
 	void agregarObjetos();
 	static void servidorLoop(void * arg);
 	static void clienteLoop(void * arg);
-
+	static string jugadorActual;
 	//para setear el arma mas facil mientras se prueba
 	int NUMCLICKDERECHOS;
 public:
@@ -54,7 +56,8 @@ public:
 	void jugar();
 	void alternarPausa();
 	void esperar();
-	
+	static string getJugadorActual();
+	static void cambiarJugador(string jugador);
 	void agregarTexturas(EscenarioParseado* e);
 	void agregarAgua(EscenarioParseado* e);
 	void leerEvento();

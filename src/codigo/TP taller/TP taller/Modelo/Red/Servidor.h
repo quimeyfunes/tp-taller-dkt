@@ -42,6 +42,8 @@ public:
 	static cliente* clientes;
 	static bool terrenoModificado;
 	static void setTerrenoModificado(bool estado);
+	static string siguienteJugador();
+
 	
 
 private:
@@ -52,6 +54,7 @@ private:
    static int buscarCliente(string nombre);
    static void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);
    bool clienteEnEspera;
+   static int idJugando;
 
    // The ServerNetwork object 
 

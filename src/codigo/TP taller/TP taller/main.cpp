@@ -1,4 +1,5 @@
 #include "Modelo/Juego/JuegoCliente.h"
+#include "Modelo/Juego/Turno.h"
 #include <process.h>
 #include <winsock2.h>
 #include <stdlib.h>
@@ -79,5 +80,21 @@ int main(int argc, char* argv[]){
 		Logger::getLogger()->escribir(e.what());
 		Logger::getLogger()->guardarEstado();
 	}
+	/*Turno *turno = new Turno();
+	turno->comenzar();
+	while(turno->estaTerminado() == false){
+		cout << turno->getTiempoActual() << endl;
+		if (turno->getTiempoActual() == 4) turno->esperarDisparo();
+		turno->actualizar();
+	}
+
+	
+	int b =2;
+	if(b == 1) cout << "if " << endl;
+	else cout << "else " << endl;
+
+	char a;
+	cin >> a;*/
+
 	return 0;    
 }
