@@ -5,6 +5,7 @@
 #include <process.h>
 #include "../BuscadorArchivos.h"
 
+
 unsigned int Servidor::cliente_id; 
 string Servidor::dibujablesSerializados;
 ServidorRed* Servidor::red;
@@ -13,6 +14,7 @@ EscenarioParseado* Servidor::escenario;
 mensajeStru Servidor::mensaje;
 bool  Servidor::terrenoModificado;
 int Servidor::idJugando=0; //este es el id q va a arrancar a jugar.
+int Servidor::tiempo=-1;
 
 Servidor::Servidor(){
     // id's to assign clients for our table
@@ -88,7 +90,9 @@ void Servidor::actualizar(void* clienteN)
 		}
 
 		//envio el tiempo del reloj a los clientes:
-		//if(clientes[id].socket != INVALID_SOCKET){ enviarCliente(&id,paqueteTiempo, );}
+		if(Servidor::tiempo != -1){ 
+			enviarCliente(&id,paqueteTiempo, StringUtil::int2string(Servidor::tiempo));
+		}
 		
 	}
 

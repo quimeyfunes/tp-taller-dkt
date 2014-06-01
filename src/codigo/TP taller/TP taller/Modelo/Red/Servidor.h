@@ -2,6 +2,7 @@
 #include "../Figuras/Gusano.h"
 #include "../../Parser/yaml/ParserYaml.h"
 #include "../../constantes.h"
+#include "../StringUtil.h"
 
 typedef struct structCliente{
 	string username;
@@ -27,6 +28,7 @@ public:
 
     Servidor();
     ~Servidor();
+	static int tiempo;
 	static mensajeStru mensaje;
 	static EscenarioParseado* escenario;
     static void actualizar(void* clienteN);
