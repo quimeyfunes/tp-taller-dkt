@@ -22,9 +22,10 @@
 	const float pxPorVida = 0.5;
 	const int potenciaPorUnidad = 3000; //Para explosion
 
-	typedef enum{
-		GUSANO,
-		ARMA_CONTACTO,
-	}tipoContacto;
+	typedef enum categoriaFigura {
+		NORMAL = 0x0001,
+		GUSANO = 0x0002,
+		PROYECTIL = 0x0004,
+	};
 	
 #endif
