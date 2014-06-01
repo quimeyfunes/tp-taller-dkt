@@ -14,7 +14,7 @@ Juego::Juego(string texto){
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
 	this->vista = new Vista(e);
-	SDL_HideWindow(this->vista->window);
+	//SDL_HideWindow(this->vista->window);
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
@@ -44,11 +44,11 @@ void Juego::ejecutar(){
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
 
-	cout << "esperando a 2 jugadores..." << endl;
-		while( Servidor::getCantidadDeClientes()<2 ){
-			this->chequearNuevosJugadores();
-		}
-	
+	//cout << "esperando a 2 jugadores..." << endl;
+	//	while( Servidor::getCantidadDeClientes()<2 ){
+	//		this->chequearNuevosJugadores();
+	//	}
+	//
 	
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
@@ -81,12 +81,13 @@ void Juego::ejecutar(){
 				explosion *= relacionPPU;
 				this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
 				//aviso al servidor q se modifico el terreno
+				if(Reproductor::getReproductor()->estaReproduciendo(MECHA)) Reproductor::getReproductor()->detenerSonido(MECHA);
 				Reproductor::getReproductor()->reproducirSonido(EXPLOSION);
 				Servidor::setTerrenoModificado(true);
 			}
 		} while (explosion.z >= 0);
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
-		//this->vista->Dibujar();
+		this->vista->Dibujar();
 
         next_game_tick += SKIP_TICKS;
         sleepTime = next_game_tick - GetTickCount();
@@ -168,7 +169,9 @@ void Juego::leerEvento(){
 										break;
 
 				case SOLTARESPACIO:
-										this->dispararArma();	
+										this->dispararArma();
+										Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
+										//Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
 										this->escenario->espacio(false);
 										break;
 

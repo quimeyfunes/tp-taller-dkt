@@ -403,6 +403,8 @@ void Escenario::cargarDisparo(){
 		if(this->gusanoActivo->armaActual.puedeCargarse){
 			if(this->gusanoActivo->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO){
 				this->gusanoActivo->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
+				if(!Reproductor::getReproductor()->estaReproduciendo(CARGANDODISPARO))
+					Reproductor::getReproductor()->reproducirSonido(CARGANDODISPARO);
 			}
 		}
 		//cout<<this->getGusanoActivo()->armaActual.potenciaDisparo<<endl;

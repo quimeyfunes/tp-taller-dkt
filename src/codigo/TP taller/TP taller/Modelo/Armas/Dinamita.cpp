@@ -3,6 +3,7 @@
 
 Dinamita::Dinamita(float x, float y, short int rotacion, b2World* world, bool estatico, float radioExplosion, float ancho, float alto, float masa, int tiempoExplosion): ExplosivaPorTiempo(x,y,rotacion,world,estatico,radioExplosion, masa, tiempoExplosion)
 {
+	this->aCubierto = false;
 	this->armaTipo = DINAMITA;
 	b2PolygonShape rectanguloShape;
 	//Divido a la mitad el ancho y alto para que las medidas sean correctas
@@ -23,6 +24,26 @@ void Dinamita::disparar(bool sentido, float potencia, float angulo){
 	//float vX = 1;
 	//if(sentido) vX *= -1;
 	//this->getBody()->SetLinearVelocity(b2Vec2(vX, 0));
+	Reproductor::getReproductor()->reproducirSonido(RISA);
+	Sleep(1);
+	Reproductor::getReproductor()->reproducirSonido(MECHA);
+}
+
+bool Dinamita::getExplotar(){
+	this->explota = false;
+
+	if(!aCubierto){
+		if(time(NULL) - this->tiempoInicial == this->tiempoExplosion - 1){
+			Reproductor::getReproductor()->reproducirSonido(ACUBIERTO);
+			aCubierto=true;
+			Sleep(1);	//para dejar que el reproductor empiece a reproducir y sirva el if de abajo
+		}
+	}else{
+		if(time(NULL) - this->tiempoInicial == this->tiempoExplosion) this->explota=true;
+		else
+			this->explota=false;
+	}
+	return this->explota;
 }
 
 Dinamita::~Dinamita(void)
