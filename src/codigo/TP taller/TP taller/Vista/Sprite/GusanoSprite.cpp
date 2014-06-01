@@ -6,6 +6,7 @@ GusanoSprite::GusanoSprite(void)
 	this->recCuadro = NULL;
 	this->cartel = NULL;
 	this->imagen = NULL;
+	this->vida = NULL;
 }
 
 GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex, string nombre,int maximosCLientes): DibujableTextura(){
@@ -19,7 +20,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	this->mostrarCrosshair = false;
 	this->frameCrosshair = 0;
 	this->posFigura = new SDL_Point();
-
+	
 	int tamanioCuadroX = anchoTex / col;
 	int tamanioCuadroY = altoTex / fil;
 	this->frame = 0;
@@ -79,6 +80,15 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 		this->mostrarCartel.push_back(false);
 	}
 	this->cliente = 0;
+	SDL_Rect rectVida = this->rect;
+	rectVida.h = 5;
+	rectVida.w = pxPorVida * vidaGusano;
+	this->vida = new DibujableTextura(renderer,rectVida,"imagenes/texturas/vida.png","imagenes/texturas/vida.png");
+	int rgb[3];
+	rgb[0] = 0;
+	rgb[1] = 255;
+	rgb[2] = 0;
+	this->vida->setColor(rgb);
 }
 
 GusanoSprite::~GusanoSprite(void)
@@ -185,6 +195,20 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->mostrarCartel[i] = fig->getMeClickearon(i);
 	}
 
+	SDL_Rect rectVida = this->vida->getRect();
+	
+	rectVida.y = this->rect.y - 10;
+	int vida = fig->getVida() * pxPorVida;
+	if (vida != rectVida.w) {
+		rectVida.w = vida;
+		int rgb[3];
+		rgb[1] = fig->getVida() * 255 / vidaGusano;
+		rgb[0] = 255;
+		rgb[2] = 0;
+		this->vida->setColor(rgb);
+	}
+	rectVida.x = this->rect.x + this->rect.w/2 - rectVida.w/2;
+	this->vida->setRect(rectVida);
 	/*if (fig->getMeClickearon()) {
 		this->mostrarCartel = true;
 	} else {
@@ -252,6 +276,7 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 	if (this->mostrarCartel[this->cliente] && this->estado != MUERTO) {
 		this->cartel->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
 	}
+	this->vida->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
 }
 
 

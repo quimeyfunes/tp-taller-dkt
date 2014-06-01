@@ -116,3 +116,6 @@ void Figura::BeginContact() {
 
 void Figura::EndContact(){
 }
+
+void Figura::explotar(float fuerza) {
+}
