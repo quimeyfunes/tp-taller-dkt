@@ -83,7 +83,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	SDL_Rect rectVida = this->rect;
 	rectVida.h = 5;
 	rectVida.w = pxPorVida * vidaGusano;
-	this->vida = new DibujableTextura(renderer,rectVida,"imagenes/texturas/vida.png","imagenes/texturas/vida.png");
+	this->vida = new DibujableTextura(renderer,rectVida,rutaVida,rutaVida);
 	int rgb[3];
 	rgb[0] = 0;
 	rgb[1] = 255;

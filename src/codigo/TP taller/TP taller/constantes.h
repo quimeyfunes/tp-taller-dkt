@@ -25,7 +25,7 @@
 	#define rutaGrave "imagenes/texturas/grave.png"
 	#define rutaWormGrisIzq "imagenes/texturas/wormGrisFrentIzq.png"
 	#define rutaWormGrisDer "imagenes/texturas/wormGrisFrentDer.png"
-
+	#define rutaVida "imagenes/texturas/vida.png"
 	#define rutaArchivoIP "config/IP.txt"
 
 	//a cuantos FPS correr el juego	
