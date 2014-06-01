@@ -198,7 +198,7 @@ void Gusano::chequearChoqueConArma() {
 			for (b2Fixture* fixture = this->getBody()->GetFixtureList(); fixture; fixture = fixture->GetNext())  {
 				if (!b2TestOverlap(fixture->GetShape(),0,fix->GetShape(),0,this->getBody()->GetTransform(),arma->getBody()->GetTransform())) {
 					contador++;
-				};
+				}
 			}
 			if (contador == 2) {
 					this->choqueConArma = true;
