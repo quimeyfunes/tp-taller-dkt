@@ -1,14 +1,13 @@
-#include "Banana.h"
+#include "MiniBanana.h"
 
 
-Banana::Banana(void)
+MiniBanana::MiniBanana(void)
 {
 }
 
-Banana::Banana(float x, float y, short int rotacion, b2World* world, bool estatico,float radioExplosion, float radioArma, float masa, int tiempoExplosion)
-	: ExplosivaPorTiempo(x,y,rotacion, world, estatico, radioExplosion, masa, tiempoExplosion)
+MiniBanana::MiniBanana(float x, float y, short int rotacion, b2World* world, bool estatico,float radioExplosion, float radioArma, float masa, int tiempoExplosion)
+	 : ExplosivaPorContacto(x,y,rotacion,world,estatico,2*radioArma,2*radioArma,masa, radioExplosion)
 {
-	this->contactos=0;
 	this->armaTipo = BANANA;
 	b2CircleShape circleShape;
 	circleShape.m_radius = radioArma;
@@ -22,7 +21,7 @@ Banana::Banana(float x, float y, short int rotacion, b2World* world, bool estati
 	this->getBody()->CreateFixture(&fixtureDef);
 }
 
-void Banana::disparar(bool sentido, float potencia, float angulo){
+void MiniBanana::disparar(bool sentido, float potencia, float angulo){
 
 	float vX = potencia*cos(angulo*DEGTORAD);
 	float vY = -potencia*sin(angulo*DEGTORAD);
@@ -34,14 +33,7 @@ void Banana::disparar(bool sentido, float potencia, float angulo){
 
 }
 
-void Banana::BeginContact(){
 
-	Reproductor::getReproductor()->reproducirSonido(IMPACTOBANANA);
-}
-
-
-
-Banana::~Banana(void)
+MiniBanana::~MiniBanana(void)
 {
 }
-
