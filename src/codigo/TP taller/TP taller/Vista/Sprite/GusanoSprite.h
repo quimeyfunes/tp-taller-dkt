@@ -24,15 +24,8 @@ typedef enum{
 
 class GusanoSprite: public DibujableTextura, public Observador{
 private:
-	SDL_Rect* recCuadro;
-	SDL_Rect* rectApuntando;
-	SDL_Rect* recPotencia;
 	SDL_Texture* crosshair;
 	SDL_Point* posFigura;
-	bool mostrarCrosshair;
-	int frameCrosshair;
-	int anguloDisparo;
-	SDL_Rect* enUso;
 	int frameDisparo;
 	int frame;
 	bool cambiarImgDer;
@@ -74,6 +67,13 @@ public:
 	int numCuadros;
 	int cliente;
 	int congelado;
+	bool mostrarCrosshair;
+	int frameCrosshair;
+	int anguloDisparo;
+	SDL_Rect* enUso;
+	SDL_Rect* recPotencia;
+	SDL_Rect* rectApuntando;
+	SDL_Rect* recCuadro;
 };
 
 #endif

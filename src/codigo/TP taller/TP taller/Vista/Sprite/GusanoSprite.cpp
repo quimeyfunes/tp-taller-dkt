@@ -362,6 +362,36 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::int2string(this->numCuadros);
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->congelado);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->armaTipo);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->contArma);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->anguloDisparo);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->anguloRotacion);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->mostrarCrosshair);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->frameCrosshair);
+
+	/*serializado += separadorCamposEntidades;    
+	serializado += StringUtil::int2string(this->recPotencia->x);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->recPotencia->y);
+    serializado += separadorCamposEntidades;
+    serializado += StringUtil::int2string(this->recPotencia->w);
+	serializado += separadorCamposEntidades;
+    serializado += StringUtil::int2string(this->recPotencia->h);
+
+	serializado += separadorCamposEntidades;    
+	serializado += StringUtil::int2string(this->enUso->x);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->enUso->y);
+    serializado += separadorCamposEntidades;
+    serializado += StringUtil::int2string(this->enUso->w);
+	serializado += separadorCamposEntidades;
+    serializado += StringUtil::int2string(this->enUso->h);*/
 	
 	return serializado;
 }
@@ -420,6 +450,26 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->velocidadRefresco = StringUtil::str2int(atributos.at(15));
 	this->numCuadros = StringUtil::str2int(atributos.at(16));
 	this->congelado = StringUtil::str2int(atributos.at(17));
+	this->armaTipo = static_cast<tipoArma>(StringUtil::str2int(atributos.at(18)));
+	this->contArma = StringUtil::str2int(atributos.at(19));
+	this->anguloDisparo = StringUtil::str2int(atributos.at(20));
+	this->anguloRotacion = StringUtil::str2int(atributos.at(21));
+	this->mostrarCrosshair = StringUtil::str2int(atributos.at(22));
+	this->frameCrosshair = StringUtil::str2int(atributos.at(23));
+
+	/*SDL_Rect* rectAux2 = new SDL_Rect();
+	rectAux2->x = StringUtil::str2int(atributos.at(24));
+	rectAux2->y = StringUtil::str2int(atributos.at(25));
+	rectAux2->w = StringUtil::str2int(atributos.at(26));
+	rectAux2->h = StringUtil::str2int(atributos.at(27));
+	this->recPotencia = rectAux2;
+
+	SDL_Rect* rectAux3 = new SDL_Rect();
+	rectAux3->x = StringUtil::str2int(atributos.at(28));
+	rectAux3->y = StringUtil::str2int(atributos.at(29));
+	rectAux3->w = StringUtil::str2int(atributos.at(30));
+	rectAux3->h = StringUtil::str2int(atributos.at(31));
+	this->enUso = rectAux3;*/
 
 	this->recCuadro = NULL;
 	this->cartel = NULL;

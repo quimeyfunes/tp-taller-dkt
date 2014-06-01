@@ -14,7 +14,6 @@ class DibujableTextura: public Dibujable{
 protected: 
 	SDL_Rect rect;
 	SDL_Texture* imagen;
-	float anguloRotacion;
 
 public:
 	DibujableTextura();
@@ -32,6 +31,7 @@ public:
 	SDL_Rect realizarZoom(SDL_Rect rect, int posX, int PosY, float escalaZoom);
 	virtual string serializar();
 	virtual void deserealizar(string aDeserealizar);
+	float anguloRotacion;
 };
 
 #endif

@@ -183,14 +183,16 @@ void JuegoCliente::crearLista(string vistaSerializada){
 				if(vecAux.size() + 5 - this->dibujablesBase->size() < entidadesSerializadas.size()){
 					//Si no estaba lo creo
 					gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, gusano->getNombre(),this->esc->maximosClientes);
+					//gusano2->deserealizar(entidadSerializada);	
 				}else{
 					gusano2 = (GusanoSprite*)vecAux[this->dibujablesBase->size() - 5 + i];
+					//gusano2->deserealizar(entidadSerializada);	
 					gusano2->setRect(gusano->getRect());
-					SDL_Rect rectCart = gusano->getRect();
-					rectCart.h = gusano->getRect().h / 4;
-					rectCart.x = gusano->getRect().x + gusano->getRect().w/2;
-					rectCart.w = gusano2->getCartel()->texto.length() * 7;
-					gusano2->getCartel()->setRect(rectCart);
+                    SDL_Rect rectCart = gusano->getRect();
+                    rectCart.h = gusano->getRect().h / 4;
+                    rectCart.x = gusano->getRect().x + gusano->getRect().w/2;
+                    rectCart.w = gusano2->getCartel()->texto.length() * 7;
+                    gusano2->getCartel()->setRect(rectCart);
 				}
 
 				gusano2->setFrame(gusano->getFrame());
@@ -206,6 +208,24 @@ void JuegoCliente::crearLista(string vistaSerializada){
 				gusano2->velocidadRefresco = gusano->velocidadRefresco;
 				gusano2->numCuadros = gusano->numCuadros;
 				gusano2->congelado = gusano->congelado;
+				gusano2->cliente = this->cliente->getId();
+				gusano2->armaTipo = gusano->armaTipo;
+
+				if(gusano2->armaTipo != NINGUNA){
+					gusano2->enUso = gusano2->rectApuntando;
+				}else{
+					gusano2->enUso = gusano2->recCuadro;
+				}
+
+				gusano2->contArma = gusano->contArma;
+				gusano2->anguloDisparo = gusano->anguloDisparo;
+				gusano2->anguloRotacion = gusano->anguloRotacion;
+				gusano2->mostrarCrosshair = gusano->mostrarCrosshair;
+				gusano2->frameCrosshair = gusano->frameCrosshair;
+				/*delete []gusano2->recPotencia;
+				gusano2->recPotencia = gusano->recPotencia;
+				delete []gusano2->enUso;
+				gusano2->enUso = gusano->enUso;*/
 				gusano2->cliente = this->cliente->getId();
 				if(vecAux.size() + 5 - this->dibujablesBase->size() < entidadesSerializadas.size()){
 					vecAux.push_back(gusano2);
