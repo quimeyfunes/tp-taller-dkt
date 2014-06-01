@@ -19,6 +19,7 @@
 #include "../Armas/Granada.h"
 #include "../Armas/Aleluya.h"
 #include "../Armas/Dinamita.h"
+#include "../Armas/Banana.h"
 #include "Turno.h"
 
 #include "../Reproductor.h"

@@ -14,6 +14,7 @@
 #define rutaSonidoPonteACubierto "audio/efectos/PonteACubierto.wav"
 #define rutaSonidoWalkC "audio/efectos/Walk-Compress.wav"
 #define rutaSonidoWalkE "audio/efectos/Walk-Expand.wav"
+#define rutaSonidoImpactoBanana "audio/efectos/ImpactoBanana.wav"
 
 #define rutaMusicaFondo "audio/ingame-04-battlezone.wav"
 
@@ -33,6 +34,7 @@ typedef enum{
 	MECHA,
 	ACUBIERTO,
 	NINGUNO,
+	IMPACTOBANANA,
 }sonido;
 
 typedef struct{
