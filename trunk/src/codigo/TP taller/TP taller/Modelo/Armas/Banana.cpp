@@ -35,8 +35,11 @@ void Banana::disparar(bool sentido, float potencia, float angulo){
 }
 
 void Banana::BeginContact(){
+
 	Reproductor::getReproductor()->reproducirSonido(IMPACTOBANANA);
 }
+
+
 
 Banana::~Banana(void)
 {

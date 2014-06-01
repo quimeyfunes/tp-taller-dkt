@@ -402,6 +402,8 @@ void Escenario::moverse(){
 void Escenario::cargarDisparo(){
 	if((puedeDisparar)&&(this->gusanoActivo != NULL)&&(this->gusanoActivo->armaActual.armaTipo != NINGUNA)){ 
 		if(this->gusanoActivo->armaActual.puedeCargarse){
+			if(this->gusanoActivo->armaActual.armaTipo == BAZOOKA && this->gusanoActivo->armaActual.potenciaDisparo == 0)
+				Reproductor::getReproductor()->reproducirSonido(ENEMIGOALAS12);
 			if(this->gusanoActivo->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO){
 				this->gusanoActivo->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
 				if(!Reproductor::getReproductor()->estaReproduciendo(CARGANDODISPARO))

@@ -15,6 +15,7 @@
 #define rutaSonidoWalkC "audio/efectos/Walk-Compress.wav"
 #define rutaSonidoWalkE "audio/efectos/Walk-Expand.wav"
 #define rutaSonidoImpactoBanana "audio/efectos/ImpactoBanana.wav"
+#define rutaSonidoEnemigoALas12 "audio/efectos/EnemigoALas12.wav"
 
 #define rutaMusicaFondo "audio/ingame-04-battlezone.wav"
 
@@ -26,20 +27,23 @@ typedef enum{
 	SONIDOALELUYA,
 	IMPACTOALELUYA,
 	IMPACTOGRANADA,
+	IMPACTOBANANA,
+	ENEMIGOALAS12,
 	CARGANDODISPARO,
 	SOLTARDISPARO,
 	SOLTARGRANADA,
-	CAMINANDO,
 	RISA,
 	MECHA,
 	ACUBIERTO,
+	CAMINANDO,
 	NINGUNO,
-	IMPACTOBANANA,
 }sonido;
 
 typedef struct{
-	Mix_Chunk* audio;
+	sonido efecto;
 	int canal;
+	bool activo;
+	bool porPrimeraVez;
 }audio;
 
 

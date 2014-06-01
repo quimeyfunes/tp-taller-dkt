@@ -34,6 +34,7 @@ Juego::Juego(string texto){
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 
+	Reproductor::getReproductor()->activar();
 	//inicio un thread para el reproductor de audio
 	_beginthread(Reproductor::getReproductor()->actualizar, 0, (void*)0);
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
@@ -81,7 +82,6 @@ void Juego::ejecutar(){
 				explosion *= relacionPPU;
 				this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
 				//aviso al servidor q se modifico el terreno
-				if(Reproductor::getReproductor()->estaReproduciendo(MECHA)) Reproductor::getReproductor()->detenerSonido(MECHA);
 				Reproductor::getReproductor()->reproducirSonido(EXPLOSION);
 				Servidor::setTerrenoModificado(true);
 			}
@@ -423,7 +423,8 @@ void Juego::agregarObjetos(){
 }
 
 Juego::~Juego(){
-
+	Reproductor::getReproductor()->apagar();
+	delete Reproductor::getReproductor();
 	//delete this->evento;
 	//delete Logger::getLogger();
 }

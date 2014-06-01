@@ -50,7 +50,6 @@ bool Aleluya::getExplotar(){
 		if(time(NULL) - this->tiempoInicial == this->tiempoExplosion){
 			Reproductor::getReproductor()->reproducirSonido(SONIDOALELUYA);
 			aleluya=true;
-			Sleep(1);	//para dejar que el reproductor empiece a reproducir y sirva el if de abajo
 		}
 	}else{
 		if(Reproductor::getReproductor()->estaReproduciendo(SONIDOALELUYA)) this->explota=false;
