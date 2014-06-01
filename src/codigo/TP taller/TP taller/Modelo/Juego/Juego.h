@@ -20,7 +20,6 @@
 #include "../Armas/Aleluya.h"
 #include "../Armas/Dinamita.h"
 #include "../Armas/Banana.h"
-#include "../Armas/MiniBanana.h"
 #include "Turno.h"
 
 #include "../Reproductor.h"
