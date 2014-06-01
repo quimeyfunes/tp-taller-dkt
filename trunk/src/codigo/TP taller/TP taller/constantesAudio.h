@@ -9,6 +9,9 @@
 #define rutaSonidoSoltarGranada "audio/efectos/SoltarGranada.wav"
 #define rutaSonidoCargandoDisparo "audio/efectos/CargandoDisparo.wav"
 #define rutaSonidoSoltarDisparo "audio/efectos/SoltarDisparo.wav"
+#define rutaSonidoRisa "audio/efectos/Risa.wav"
+#define rutaSonidoMecha "audio/efectos/Mecha.wav"
+#define rutaSonidoPonteACubierto "audio/efectos/PonteACubierto.wav"
 #define rutaSonidoWalkC "audio/efectos/Walk-Compress.wav"
 #define rutaSonidoWalkE "audio/efectos/Walk-Expand.wav"
 
@@ -26,6 +29,9 @@ typedef enum{
 	SOLTARDISPARO,
 	SOLTARGRANADA,
 	CAMINANDO,
+	RISA,
+	MECHA,
+	ACUBIERTO,
 	NINGUNO,
 }sonido;
 
