@@ -28,7 +28,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	fixtureDef.density = masa/areaRec;
 	fixtureDef.restitution = restitucion;
 	fixtureDef.friction = friccion;
-	this->getBody()->CreateFixture(&fixtureDef);
+	this->fixtureCuerpo = this->getBody()->CreateFixture(&fixtureDef);
 	rectanguloShape.SetAsBox(ancho/2,alto/8,b2Vec2(0,alto/2),0);
 	b2FixtureDef fixtureDefSensor;
 	fixtureDefSensor.isSensor = true;
@@ -98,6 +98,7 @@ void Gusano::reiniciar(){
 	Figura::reiniciar();
 	this->getBody()->SetType(b2_dynamicBody);
 	this->setMuerto(false);
+	this->vida = vidaGusano;
 }
 
 bool Gusano::getMeClickearon(int cliente) {
@@ -128,7 +129,9 @@ void Gusano::setArma(Arma* nueva){
 	/*if(this->armaActual.armaSeleccionada != NULL) 
 		delete this->armaActual.armaSeleccionada;*/
 	this->armaActual.armaSeleccionada = nueva;
-	this->armaActual.armaTipo = nueva->armaTipo;
+	if (nueva != NULL) {
+		this->armaActual.armaTipo = nueva->armaTipo;
+	} 
 }
 
 bool Gusano::tieneUnArma(){
@@ -156,4 +159,56 @@ void Gusano::explotar(float fuerza) {
 
 int Gusano::getVida() {
 	return this->vida;
+}
+
+void Gusano::disparar() {
+	this->tiempoInicial = time(NULL);
+	if (this->getArmaSeleccionada()->getPosicion() == this->getPosicion()) {
+		this->choqueConArma = false;
+		b2Fixture* fixture = this->getArmaSeleccionada()->getBody()->GetFixtureList();
+		b2Filter filter = fixture->GetFilterData();
+
+		filter.categoryBits = PROYECTIL;
+		filter.maskBits = NORMAL | PROYECTIL;
+
+		fixture->SetFilterData(filter);
+
+		filter = this->fixtureCuerpo->GetFilterData();
+		filter.categoryBits = GUSANO;
+		filter.maskBits = NORMAL | GUSANO;
+	
+		for (b2Fixture* fixture = this->getBody()->GetFixtureList(); fixture; fixture = fixture->GetNext()) {
+			fixture->SetFilterData(filter);
+		}
+
+	} else {
+		this->choqueConArma = true;
+	}
+	this->getArmaSeleccionada()->disparar(this->armaActual.sentidoDisparo, this->armaActual.potenciaDisparo, this->armaActual.anguloDisparo); 
+}
+
+void Gusano::chequearChoqueConArma() {
+	int tiempoActual = time(NULL);
+	if (!this->choqueConArma && this->armaActual.armaSeleccionada != NULL) {
+		if (tiempoActual - this->tiempoInicial > 0.5 ) {
+			this->tiempoInicial = tiempoActual;
+			Arma* arma = this->armaActual.armaSeleccionada;
+			b2Fixture* fix = arma->getBody()->GetFixtureList();
+			int contador = 0;
+			for (b2Fixture* fixture = this->getBody()->GetFixtureList(); fixture; fixture = fixture->GetNext())  {
+				if (!b2TestOverlap(fixture->GetShape(),0,fix->GetShape(),0,this->getBody()->GetTransform(),arma->getBody()->GetTransform())) {
+					contador++;
+				};
+			}
+			if (contador == 2) {
+					this->choqueConArma = true;
+					b2Filter filter = fix->GetFilterData();
+					filter.maskBits = NORMAL | GUSANO | PROYECTIL;
+					fix->SetFilterData(filter);
+					filter = this->fixtureCuerpo->GetFilterData();
+					filter.maskBits = NORMAL | GUSANO | PROYECTIL;
+					this->fixtureCuerpo->SetFilterData(filter);
+			}
+		}
+	}	
 }

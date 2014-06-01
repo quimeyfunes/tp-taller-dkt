@@ -395,6 +395,7 @@ void Escenario::moverse(){
 		this->moverDerecha();
 		this->moverIzquierda();
 		this->cargarDisparo();
+		this->gusanoActivo->chequearChoqueConArma();
 	}
 }
 
@@ -534,6 +535,7 @@ b2Vec3 Escenario::hayExplosion() {
 			this->terreno->destruirTerreno(pos.x,pos.y,(*it)->getRadio());
 			float radio = (*it)->getRadio();
 			this->world->DestroyBody((*it)->getBody());
+			this->gusanoActivo->setArma(NULL);
 			delete (*it);
 			this->listaArmas->erase(it);
 			//printf("el radio es $i",radio);

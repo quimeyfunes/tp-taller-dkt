@@ -11,6 +11,7 @@
 #include "../Armas/Arma.h"
 #include "../Armas/Bazooka.h"
 #include "Figura.h"
+#include "time.h"
 
 class Gusano: public Figura
 {
@@ -21,7 +22,10 @@ private:
 	bool congelado;
 	int maximosCLientes;
 	int vida;
-	
+	bool choqueConArma;
+	b2Fixture* fixtureCuerpo;
+	int tiempoInicial;
+
 	typedef struct{
 		tipoArma armaTipo;
 		Arma* armaSeleccionada;
@@ -30,6 +34,7 @@ private:
 		bool sentidoDisparo;
 		bool puedeCargarse;
 	}armaStruct;
+
 
 public:
 	Gusano();
@@ -55,6 +60,8 @@ public:
 	void EndContact();
 	void explotar(float fuerza);
 	int getVida();
+	void disparar();
+	void chequearChoqueConArma();
 };
 
 #endif
