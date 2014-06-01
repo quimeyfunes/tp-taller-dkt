@@ -41,8 +41,8 @@ Reproductor::~Reproductor(){
 
 	//for(int i=0; i<16; i++)
 	//	Mix_FreeChunk(efectosDeSonido[i]);
-	delete repInstancia;
-	Mix_Quit();
+	//delete repInstancia;
+	//Mix_Quit();
 }
 
 Reproductor* Reproductor::getReproductor(){

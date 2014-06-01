@@ -53,13 +53,13 @@ void Juego::ejecutar(){
 	
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
-		this->turno->actualizar();
+		/*this->turno->actualizar();
 		Servidor::tiempo= this->turno->getTiempoActual();
 		if( this->turno->estaTerminado() ){
 			Juego::cambiarJugador(Servidor::siguienteJugador());
 			cout << "Turno de: " <<Juego::getJugadorActual() << endl;
 			this->turno->comenzar();
-		}
+		}*/
 
 		//this->chequearNuevosJugadores();
 		this->leerEvento();
@@ -79,6 +79,17 @@ void Juego::ejecutar(){
 			explosion = this->escenario->hayExplosion();
 		
 			if ( explosion.z >= 0){
+				if (this->escenario->getGusanoActivo()->armaActual.armaTipo == BANANA){
+					for (int i = 0; i <5; i++) {
+						this->escenario->getGusanoActivo()->setArma(new Banana(explosion.x + i, explosion.y + i, 0, this->escenario->getWorld(), false, radioExplosionBanana, radioBanana, masaBanana, tiempoExplosionMiniBanana )); 
+						this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
+						this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(this->vista->crearArmaTiempoDibujable(explosion.x + i, explosion.y + i,  relacionPPU * 2*radioBanana,relacionPPU * 2*radioBanana,rutaBanana,rutaBanana));
+						this->escenario->getGusanoActivo()->getArmaSeleccionada()->getBody()->ApplyForceToCenter(b2Vec2(10,80),true);
+						this->escenario->getGusanoActivo()->disparar();
+						this->escenario->getGusanoActivo()->armaActual.potenciaDisparo = 0;
+					}
+					this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
+				}
 				explosion *= relacionPPU;
 				this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
 				//aviso al servidor q se modifico el terreno
@@ -304,7 +315,7 @@ void Juego::dispararArma(){
 			break;
 		case BANANA:
 			this->escenario->getGusanoActivo()->setArma(new Banana(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionBanana, radioBanana, masaBanana, tiempoExplosionBanana ));
-			arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioAleluya,relacionPPU * 2*radioAleluya,rutaBanana,rutaBanana); 
+			arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioBanana,relacionPPU * 2*radioBanana,rutaBanana,rutaBanana); 
 			break;		
 			}
 			this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());

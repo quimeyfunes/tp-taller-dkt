@@ -34,8 +34,10 @@ const int masaDinamita = 5;
 const int tiempoExplosionDinamita = 5;
 
 const float radioBanana = 1;
+const float radioMiniBanana = 0.5;
 const int masaBanana = 5;
-const int tiempoExplosionBanana = 3;
+const int tiempoExplosionBanana = 5;
+const int tiempoExplosionMiniBanana = 3;
 
 //PARA EXPLOSIONES
 const float radioExplosionGranada = 4;
