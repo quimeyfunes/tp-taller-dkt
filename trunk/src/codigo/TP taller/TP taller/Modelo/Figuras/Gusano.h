@@ -20,6 +20,7 @@ private:
 	vector<bool> meClickearon;
 	bool congelado;
 	int maximosCLientes;
+	int vida;
 	
 	typedef struct{
 		tipoArma armaTipo;
@@ -52,9 +53,8 @@ public:
 	tipoArma getTipoArma();
 	void BeginContact();
 	void EndContact();
-
-
-
+	void explotar(float fuerza);
+	int getVida();
 };
 
 #endif

@@ -44,6 +44,8 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 		this->meClickearon.push_back(false);
 	}
 	this->congelado = false;
+
+	this->vida = vidaGusano;
 	//this->armaSeleccionada = new Bazooka(x - (ancho/2), y, rotacion, world, estatico, ancho /4 ,alto /4, masa /2 );
 }
 
@@ -143,4 +145,15 @@ void Gusano::BeginContact() {
 
 void Gusano::EndContact(){
 	this->sacarContacto();
+}
+
+void Gusano::explotar(float fuerza) {
+	this->vida -= fuerza/200;
+	if (this->vida < 0)
+		this->vida = 0;
+		//this->setMuerto(true);
+}
+
+int Gusano::getVida() {
+	return this->vida;
 }

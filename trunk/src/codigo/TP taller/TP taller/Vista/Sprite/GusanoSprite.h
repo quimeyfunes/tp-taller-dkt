@@ -31,6 +31,7 @@ private:
 	bool cambiarImgDer;
 	bool cambiarImgIzq;
 	CartelDibujable* cartel;
+	DibujableTextura* vida;
 	string nombre;
 	int maximosCLientes;
 public:

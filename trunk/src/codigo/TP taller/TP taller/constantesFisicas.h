@@ -18,7 +18,8 @@
 	const int altoGusano = 2.5;
 	const int velocidadGusano = 3;	//Para moverse hacia la derecha/izquierda
 	const int saltoGusano = -8;	//Cuanto salta
-
+	const int vidaGusano = 100;
+	const float pxPorVida = 0.5;
 	const int potenciaPorUnidad = 3000; //Para explosion
 
 	typedef enum{
