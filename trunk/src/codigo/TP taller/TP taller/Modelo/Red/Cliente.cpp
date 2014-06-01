@@ -170,6 +170,11 @@ bool Cliente::recibirDeServidor(){
 				this->activo=false;
 				break;
 
+			case paqueteTiempo:
+				 //cout << paquete->getMensaje() << endl;
+				break;
+
+
             default:
 
                 //printf("Error en el tipo de paquete.Tipo es %d\n",paquete->getTipo());

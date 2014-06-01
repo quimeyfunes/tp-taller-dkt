@@ -49,6 +49,7 @@ private:
 	int NUMCLICKDERECHOS;
 
 public:
+	
 	string Juego::crearLista(int &tamanio);
 	Vista* vista;
 	Escenario* escenario;

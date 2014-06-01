@@ -120,6 +120,7 @@
 	const unsigned paqueteEscenario=8;
 	const unsigned paqueteTextura=9;
 	const unsigned paqueteMensajeInfo=10;
+	const unsigned paqueteTiempo=11;
 
 	#define MAX_PACKET_SIZE 1000000
 	#define MAXIMOS_CLIENTES 4
