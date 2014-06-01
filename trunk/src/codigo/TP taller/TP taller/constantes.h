@@ -137,5 +137,6 @@
 	#define serializadoPoligonoDibujable 4
 	#define serializadoRectanguloDibujable 5
 	#define serializadoGusanoSprite 6
+	#define serializadoArmaDibujable 7
 
 #endif

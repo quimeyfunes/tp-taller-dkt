@@ -23,3 +23,7 @@ void Dibujable::deserealizar(string aDeserealizar){
 bool Dibujable::getDestruido(){
 	return this->destruido;
 }
+
+void Dibujable::setDestruido(bool destruido){
+	this->destruido = destruido;
+}

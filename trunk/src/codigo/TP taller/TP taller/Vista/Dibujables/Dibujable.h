@@ -24,6 +24,7 @@ public:
 	virtual string serializar();
 	virtual void deserealizar(string aDeserealizar);
 	bool getDestruido();
+	void setDestruido(bool destruido);
 };
 
 #endif

@@ -175,7 +175,16 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 
 void JuegoCliente::crearLista(string vistaSerializada){
 	list<Dibujable*> *lista = new list<Dibujable*>(this->vista->getListaDibujables()->size());
+	int cantidadGusanosTotales = 4;
 
+	//elimino elementos de la vista que son proyectiles, porque los creo en cada ciclo
+	int index = 0;
+	for (list<Dibujable*>::iterator it = this->vista->getListaDibujables()->begin(); it != this->vista->getListaDibujables()->end(); it++) {
+		if(index > dibujablesBase->size() - 6 + cantidadGusanosTotales && index < this->vista->getListaDibujables()->size() - 5){
+			(*it)->setDestruido(true);
+		}
+		index++;
+	}
 
 	copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),lista->begin());
 	//Saco el agua
@@ -197,7 +206,7 @@ void JuegoCliente::crearLista(string vistaSerializada){
 				GusanoSprite* gusano = new GusanoSprite();
 				gusano->deserealizar(entidadSerializada);				
 				GusanoSprite* gusano2;
-				if(vecAux.size() + 5 - this->dibujablesBase->size() < entidadesSerializadas.size()){
+				if(vecAux.size() + 5 - this->dibujablesBase->size() < cantidadGusanosTotales){
 					//Si no estaba lo creo
 					gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, gusano->getNombre(),this->esc->maximosClientes);
 					//gusano2->deserealizar(entidadSerializada);	
@@ -239,12 +248,8 @@ void JuegoCliente::crearLista(string vistaSerializada){
 				gusano2->anguloRotacion = gusano->anguloRotacion;
 				gusano2->mostrarCrosshair = gusano->mostrarCrosshair;
 				gusano2->frameCrosshair = gusano->frameCrosshair;
-				/*delete []gusano2->recPotencia;
-				gusano2->recPotencia = gusano->recPotencia;
-				delete []gusano2->enUso;
-				gusano2->enUso = gusano->enUso;*/
 				gusano2->cliente = this->cliente->getId();
-				if(vecAux.size() + 5 - this->dibujablesBase->size() < entidadesSerializadas.size()){
+				if(vecAux.size() + 5 - this->dibujablesBase->size() < cantidadGusanosTotales){
 					vecAux.push_back(gusano2);
 				}
 				delete gusano;
@@ -268,6 +273,17 @@ void JuegoCliente::crearLista(string vistaSerializada){
 				lista->push_back(rectangulo);
 				break;
 			}
+			case serializadoArmaDibujable:{
+				ArmaDibujable* arma = new ArmaDibujable();
+				arma->deserealizar(entidadSerializada);
+
+				ArmaDibujable* arma2 = new ArmaDibujable(this->vista->renderer, arma->getRect(),arma->rutaImagen,"");
+				arma2->anguloRotacion = arma->anguloRotacion;
+				arma2->setDestruido(arma->getDestruido());
+				lista->push_back(arma2);
+				delete arma;
+				break;
+			}
 		default:
 			{
 				break;
@@ -288,7 +304,7 @@ void JuegoCliente::crearLista(string vistaSerializada){
 	//delete listaAnterior;
 	
 	this->vista->setListaDibujables(lista);
-	int index = 0;
+	index = 0;
 	for (list<Dibujable*>::iterator it = this->dibujablesBase->begin(); it != this->dibujablesBase->end(); it++) {
 		if (index > this->dibujablesBase->size() - 6) {
 			Dibujable* dib = *it;
