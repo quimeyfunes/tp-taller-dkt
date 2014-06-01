@@ -190,7 +190,7 @@ void Juego::leerEvento(){
 							this->NUMCLICKDERECHOS++;
 						//	cout<<"tengo un arma"<<endl;
 
-							switch(NUMCLICKDERECHOS % 5){
+							switch(NUMCLICKDERECHOS % 6){
 
 							case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
@@ -206,6 +206,9 @@ void Juego::leerEvento(){
 									break;
 							case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA;
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									break;
+							case 5: this->escenario->getGusanoActivo()->armaActual.armaTipo = BANANA;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
 									break;
 							}
 
@@ -299,7 +302,10 @@ void Juego::dispararArma(){
 		this->escenario->getGusanoActivo()->setArma(new Dinamita(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionDinamita, anchoDinamita, altoDinamita, masaDinamita, tiempoExplosionDinamita));
 		arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y, relacionPPU * anchoDinamita,relacionPPU * altoDinamita,rutaDinamita,rutaDinamita);
 		break;
-					
+	case BANANA:
+		this->escenario->getGusanoActivo()->setArma(new Banana(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionBanana, radioBanana, masaBanana, tiempoExplosionBanana ));
+		arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioAleluya,relacionPPU * 2*radioAleluya,rutaBanana,rutaBanana); 
+		break;		
 	}
 	this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
 	this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);

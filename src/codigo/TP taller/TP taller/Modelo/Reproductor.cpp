@@ -26,6 +26,7 @@ Reproductor::Reproductor(){
 	efectosDeSonido[MECHA] = Mix_LoadWAV(rutaSonidoMecha);
 	efectosDeSonido[ACUBIERTO] = Mix_LoadWAV(rutaSonidoPonteACubierto);
 	efectosDeSonido[13] = Mix_LoadWAV(rutaSonidoWalkE);
+	efectosDeSonido[IMPACTOBANANA] = Mix_LoadWAV(rutaSonidoImpactoBanana);
 }
 
 
