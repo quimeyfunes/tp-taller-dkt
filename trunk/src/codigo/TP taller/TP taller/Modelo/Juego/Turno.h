@@ -1,8 +1,8 @@
 #ifndef __TURNO_H__
 #define __TURNO_H__
 
-#include "../StringUtil.h"
 #include <time.h>
+#include "../StringUtil.h"
 
 using namespace std;
 

@@ -3,19 +3,18 @@
 Servidor* Juego::servidor = NULL;
 string Juego::jugadorActual = "";
 
-
 Juego::Juego(){
 }
 
 Juego::Juego(string texto){
-
+	this->turno = new Turno();
 	this->simulando = true;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
 	this->vista = new Vista(e);
-	//SDL_HideWindow(this->vista->window);
+	SDL_HideWindow(this->vista->window);
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
@@ -44,16 +43,23 @@ void Juego::ejecutar(){
     const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
+
+	cout << "esperando a 2 jugadores..." << endl;
+		while( Servidor::getCantidadDeClientes()<2 ){
+			this->chequearNuevosJugadores();
+		}
 	
 
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
-		//if( this->turno->estaTerminado() ){
-		//	this->servidor->siguienteJugador();
-		//	this->turno->comenzar();
-		//}
+		this->turno->actualizar();
+		if( this->turno->estaTerminado() ){
+			Juego::cambiarJugador(Servidor::siguienteJugador());
+			cout << "Turno de: " <<Juego::getJugadorActual() << endl;
+			this->turno->comenzar();
+		}
 
-		this->chequearNuevosJugadores();
+		//this->chequearNuevosJugadores();
 		this->leerEvento();
 		
 		
@@ -79,7 +85,7 @@ void Juego::ejecutar(){
 			}
 		} while (explosion.z >= 0);
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
-		this->vista->Dibujar();
+		//this->vista->Dibujar();
 
         next_game_tick += SKIP_TICKS;
         sleepTime = next_game_tick - GetTickCount();
@@ -339,6 +345,7 @@ void Juego::agregarTexturas(EscenarioParseado* e){
 	vista->crearScrollingSprite(0, 10,  e->anchoPx/ 5, e->altoPx /10, rutaNube1);
 	vista->crearScrollingSprite( e->anchoU*relacionPPU/2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
 	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU,terreno->getLector()->getRutaTexturaActualizada(), "");
+	
 }
 
 void Juego::agregarAgua(EscenarioParseado* e){

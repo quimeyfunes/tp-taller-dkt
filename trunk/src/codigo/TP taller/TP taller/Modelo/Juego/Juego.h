@@ -47,6 +47,7 @@ private:
 	void dispararArma();
 	//para setear el arma mas facil mientras se prueba
 	int NUMCLICKDERECHOS;
+
 public:
 	string Juego::crearLista(int &tamanio);
 	Vista* vista;

@@ -3,7 +3,8 @@
 
 Turno::Turno(void){
 	terminado = true;
-	tiempoPorTurno = 10;
+	detenido = true;
+	tiempoPorTurno = 15;
 	tiempoPorDisparo = 3;
 }
 
@@ -14,6 +15,10 @@ Turno::~Turno(void)
 
 
 void Turno::reiniciar(){
+	detenido = false;
+	terminado = false;
+	huboDisparo = false;
+	tiempoInicial = time(NULL);
 	tiempoActual = 0;
 }
 
@@ -44,13 +49,12 @@ bool Turno::estaTerminado(){
 void Turno::terminar(){
 	terminado = true;
 	detener();
-	reiniciar();
-	cout << "TERMINEEEEEE" << endl;
 	
 }
 
 void Turno::actualizar(){
 	if(!detenido){
+		//Juego::tiempo = tiempoActual;
 		int tiempo = time(NULL) - tiempoInicial - tiempoActual;
 		if (tiempo != 0){
 			if ( tiempoActual >= tiempoPorTurno )	terminar();

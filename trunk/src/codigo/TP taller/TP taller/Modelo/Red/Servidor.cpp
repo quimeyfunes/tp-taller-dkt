@@ -87,6 +87,8 @@ void Servidor::actualizar(void* clienteN)
 			contador=0;
 		}
 
+		//envio el tiempo del reloj a los clientes:
+		//if(clientes[id].socket != INVALID_SOCKET){ enviarCliente(&id,paqueteTiempo, );}
 		
 	}
 
@@ -273,13 +275,16 @@ void Servidor::recibirDeCliente(int* clienteN)
                 break;
 
             case paqueteEvento:
-
-				clientes[*clienteN].ultimoEventoSerializado = paquete->getMensaje();
+				if(clientes[*clienteN].username == clientes[Servidor::idJugando].username){
+					clientes[*clienteN].ultimoEventoSerializado = paquete->getMensaje();
+				}
+				else{
+					cout << "espere su turno, ahora esta jugando " << clientes[Servidor::idJugando].username <<endl;
+				}
                 break;
 
 			case paqueteEstado:
-
-				clientes[*clienteN].time = time(NULL);
+					clientes[*clienteN].time = time(NULL);
 				break;
 
             default: break;
@@ -347,4 +352,12 @@ string Servidor::siguienteJugador(){
 	if(Servidor::idJugando+1 == Servidor::cliente_id)		Servidor::idJugando = 0;
 	else												Servidor::idJugando++;
 	return clientes[Servidor::idJugando].username;
+
+	
+	
+}
+
+
+unsigned int Servidor::getCantidadDeClientes(){
+	return Servidor::cliente_id;
 }
