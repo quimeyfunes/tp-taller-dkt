@@ -199,11 +199,17 @@ void GusanoSprite::actualizar(Observable* observable) {
 	
 	rectVida.y = this->rect.y - 10;
 	int vida = fig->getVida() * pxPorVida;
+	float fraccion = fig->getVida() * 1.0 / vidaGusano;
 	if (vida != rectVida.w) {
 		rectVida.w = vida;
 		int rgb[3];
-		rgb[1] = fig->getVida() * 255 / vidaGusano;
-		rgb[0] = 255;
+		rgb[0] = (1 - fraccion) * 255 / 0.5;
+		if (rgb[0] > 255) rgb[0] = 255;
+		if (fraccion < 0.5) {
+			rgb[1] = fraccion / 2 * 255;
+		} else {
+			rgb[1] = 255;
+		}
 		rgb[2] = 0;
 		this->vida->setColor(rgb);
 	}
