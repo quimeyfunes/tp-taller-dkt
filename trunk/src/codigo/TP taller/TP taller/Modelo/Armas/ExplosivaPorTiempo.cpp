@@ -13,7 +13,6 @@ ExplosivaPorTiempo::ExplosivaPorTiempo(float x, float y, short int rotacion, b2W
 }
 
 bool ExplosivaPorTiempo::getExplotar(){
-
 	if (time(NULL) - this->tiempoInicial >= this->tiempoExplosion){
 		this->explotar(true);
 	}else this->explotar(false);
@@ -24,3 +23,9 @@ bool ExplosivaPorTiempo::getExplotar(){
 ExplosivaPorTiempo::~ExplosivaPorTiempo(void)
 {
 }
+
+void ExplosivaPorTiempo::BeginContact(){
+cout<<"hola"<<endl;
+}
+
+void ExplosivaPorTiempo::EndContact(){}

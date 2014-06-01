@@ -2,42 +2,28 @@
 #define REPRODUCTOR_H_
 #include <SDL/SDL_Mixer.h>
 #include <iostream>
+#include <stdio.h>
+#include <windows.h>
 #include "../constantesAudio.h"
 
 class Reproductor{
 private:
-
+	static sonido aReproducir;
 	static Reproductor* repInstancia;
 	Reproductor();
-	static bool fondo;
-	static bool explosion;
-	static bool agua;
-	static bool aleluya;
-	static bool impactoAleluya;
-	static bool impactoGranada;
-	static bool cargandoDisparo;
-	static bool soltarDisparo;
-	static bool caminando;
-	
-	static Mix_Music* musicaFondo; 
 	static Mix_Chunk** efectosDeSonido;
 	
-
-
 public:
 	static Reproductor* getReproductor();
 	~Reproductor();
 		
 	static void actualizar(void* arg);
-	static void reproducirExplosion();
-	static void reproducirAgua();
-	static void reproducirAleluya();
-	static void reproducirImpactoAleluya();
-	static void reproducirImpactoGranada();
-	static void reproducirCargandoDisparo();
-	static void reproducirSoltarDisparo();
-	static void reproducirCaminando();
+	static void reproducirSonido(sonido aRep);
+	static void detenerSonido(sonido aRep);
+	static void pausarSonido(sonido aRep);
 	static void reproducirMusicaFondo();
+	static bool estaReproduciendo(sonido rep);
+	static sonido getAReproducir();
 
 };
 

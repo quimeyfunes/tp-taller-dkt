@@ -8,7 +8,6 @@ void ResolverContacto::BeginContact(b2Contact* contact) {
 	  
 	// Para ver si gusano toca algo por abajo y volver a saltar
 	void* fixtureUserData = contact->GetFixtureA()->GetUserData();
-	  
 	if ( fixtureUserData ) {
 		//Solo el gusano tiene userData por ahora
 		Figura* fig = (Figura*) fixtureUserData;

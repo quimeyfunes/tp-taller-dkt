@@ -401,8 +401,9 @@ void Escenario::moverse(){
 void Escenario::cargarDisparo(){
 	if((puedeDisparar)&&(this->gusanoActivo != NULL)&&(this->gusanoActivo->armaActual.armaTipo != NINGUNA)){ 
 		if(this->gusanoActivo->armaActual.puedeCargarse){
-			if(this->gusanoActivo->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO)
+			if(this->gusanoActivo->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO){
 				this->gusanoActivo->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
+			}
 		}
 		//cout<<this->getGusanoActivo()->armaActual.potenciaDisparo<<endl;
 	}else{
