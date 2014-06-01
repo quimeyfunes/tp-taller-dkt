@@ -19,6 +19,10 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	agregarAgua(esc);
 	this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
 	copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
+
+	for (int i = 0; i < teclas; i++) {
+		eventos[i] = false;
+	}
 	
 }
 
@@ -72,7 +76,19 @@ void JuegoCliente::leerEvento(){
 		case CLICKDERECHO:		this->alternarPanelArmas();				break;
 		}
 
-		if((accion == CLICK && !this->panelArmas->visible) || accion == IZQUIERDA || accion == DERECHA || accion == ARRIBA || accion == SOLTARARRIBA || accion == SOLTARIZQUIERDA || accion == SOLTARDERECHA){
+		bool enviar = false;
+		if ( accion == IZQUIERDA || accion == DERECHA || accion == ABAJO || accion == ARRIBA || accion == ENTER || accion == ESPACIO) {
+			if (!this->eventos[accion]) {
+				this->eventos[accion] = true;
+				enviar = true;
+			}		
+		} else {
+			if (accion == SOLTARIZQUIERDA || accion == SOLTARABAJO || accion == SOLTARESPACIO || accion == SOLTARENTER || accion == SOLTARARRIBA || accion == SOLTARDERECHA) {
+				this->eventos[accion - teclas] = false;
+				enviar = true;
+			}
+		}
+		if((accion == CLICK && !this->panelArmas->visible) || enviar){
 			//Para estos eventos tengo que notificar al servidor
 			Evento* e = new Evento();
 			int x,y;
@@ -82,6 +98,7 @@ void JuegoCliente::leerEvento(){
 			 
 			e->x = (x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom());
 			e->y = (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom());
+			
 			this->cliente->enviarEvento(e->serializar());
 			delete e;
 		}else if(accion == CLICK && this->panelArmas->visible){

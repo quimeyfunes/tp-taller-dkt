@@ -15,6 +15,8 @@
 
 using namespace std;
 
+const int teclas = 6;	//Arriba,Abajo,Derecha,Izquierda,Enter,Space
+
 class JuegoCliente: public Juego{
 
 private:
@@ -29,6 +31,7 @@ private:
 	PanelArmas* panelArmas;
 	static Cliente* cliente;
 	list<Dibujable*>* dibujablesBase;
+	bool eventos[teclas];		
 	void reiniciar();
 	void salir();
 	void jugar();
@@ -40,6 +43,8 @@ private:
 	void leerEvento();
 	/*list<Dibujable*>* */void crearLista(string vistaSerializada);
 	int getArmaSeleccionada(int x, int y);
+
+
 public:
 	JuegoCliente();
 	JuegoCliente(string nombreCliente, string ip);
