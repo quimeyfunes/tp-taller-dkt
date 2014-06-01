@@ -36,7 +36,7 @@ void Juego::ejecutar(){
 
 	//inicio un thread para el reproductor de audio
 	_beginthread(Reproductor::getReproductor()->actualizar, 0, (void*)0);
-
+	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 	servidor = new Servidor();
 	int tamanio;
 
@@ -49,7 +49,7 @@ void Juego::ejecutar(){
 			this->chequearNuevosJugadores();
 		}
 	
-
+	
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
 		this->turno->actualizar();
@@ -81,7 +81,7 @@ void Juego::ejecutar(){
 				explosion *= relacionPPU;
 				this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
 				//aviso al servidor q se modifico el terreno
-				Reproductor::getReproductor()->reproducirExplosion();
+				Reproductor::getReproductor()->reproducirSonido(EXPLOSION);
 				Servidor::setTerrenoModificado(true);
 			}
 		} while (explosion.z >= 0);

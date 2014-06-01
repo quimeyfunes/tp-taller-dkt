@@ -31,6 +31,7 @@ void Bazooka::disparar(bool sentido, float potencia, float angulo){
 	if(sentido) vX *= -1;
 
 	this->getBody()->SetLinearVelocity(b2Vec2(vX, vY));
+	Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
 }
 
 

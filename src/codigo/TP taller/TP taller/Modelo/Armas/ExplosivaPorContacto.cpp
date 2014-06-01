@@ -13,6 +13,7 @@ ExplosivaPorContacto::ExplosivaPorContacto(float x, float y, short int rotacion,
 
 void ExplosivaPorContacto::BeginContact() {
 	this->explotar(true);
+	
 }
 
 ExplosivaPorContacto::~ExplosivaPorContacto(void)

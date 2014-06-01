@@ -8,6 +8,7 @@
 #include "../../constantes.h"
 #include "../../constantesFisicas.h"
 #include "../../constantesArmas.h"
+#include "../Reproductor.h"
 
 class Arma: public Figura
 {

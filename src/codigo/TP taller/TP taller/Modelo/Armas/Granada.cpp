@@ -8,6 +8,7 @@ Granada::Granada(void)
 Granada::Granada(float x, float y, short int rotacion, b2World* world, bool estatico,float radioExplosion, float radioArma, float masa, int tiempoExplosion)
 	: ExplosivaPorTiempo(x,y,rotacion, world, estatico, radioExplosion, masa, tiempoExplosion)
 {
+	this->contactos=0;
 	this->armaTipo = GRANADA;
 	b2CircleShape circleShape;
 	circleShape.m_radius = radioArma;
@@ -17,6 +18,7 @@ Granada::Granada(float x, float y, short int rotacion, b2World* world, bool esta
 	fixtureDef.density = masa/areaCirculo;
 	fixtureDef.restitution = restitucion;
 	fixtureDef.friction = friccion;
+	fixtureDef.userData = this;
 	this->getBody()->CreateFixture(&fixtureDef);
 }
 
@@ -30,8 +32,12 @@ void Granada::disparar(bool sentido, float potencia, float angulo){
 	float vY = -potencia*sin(angulo*DEGTORAD);
 
 	if(sentido) vX *= -1;
-
 	this->getBody()->SetLinearVelocity(b2Vec2(vX, vY));
 	this->getBody()->SetAngularVelocity(2);
+	Reproductor::getReproductor()->reproducirSonido(SOLTARGRANADA);
 
+}
+
+void Granada::BeginContact(){
+	Reproductor::getReproductor()->reproducirSonido(IMPACTOGRANADA);
 }
