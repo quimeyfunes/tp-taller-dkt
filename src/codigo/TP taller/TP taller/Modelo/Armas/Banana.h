@@ -5,6 +5,8 @@
 
 class Banana: public ExplosivaPorTiempo 
 {
+
+private:
 public:
 	Banana(void);
 	Banana(float x, float y, short int rotacion, b2World* world, bool estatico, float radioExplosion, float radioArma, float masa, int tiempoExplosion);

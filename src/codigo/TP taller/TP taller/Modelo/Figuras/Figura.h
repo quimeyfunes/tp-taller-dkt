@@ -7,6 +7,7 @@
 #include "../../Observador/Observable.h"
 #include "../../constantes.h"
 #include "../../constantesFisicas.h"
+#include "../Reproductor.h"
 
 
 using namespace std;

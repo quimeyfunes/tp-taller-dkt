@@ -25,7 +25,6 @@ ExplosivaPorTiempo::~ExplosivaPorTiempo(void)
 }
 
 void ExplosivaPorTiempo::BeginContact(){
-cout<<"hola"<<endl;
 }
 
 void ExplosivaPorTiempo::EndContact(){}

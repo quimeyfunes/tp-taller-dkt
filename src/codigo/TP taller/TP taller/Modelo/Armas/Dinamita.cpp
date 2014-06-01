@@ -25,7 +25,6 @@ void Dinamita::disparar(bool sentido, float potencia, float angulo){
 	//if(sentido) vX *= -1;
 	//this->getBody()->SetLinearVelocity(b2Vec2(vX, 0));
 	Reproductor::getReproductor()->reproducirSonido(RISA);
-	Sleep(1);
 	Reproductor::getReproductor()->reproducirSonido(MECHA);
 }
 
@@ -36,10 +35,12 @@ bool Dinamita::getExplotar(){
 		if(time(NULL) - this->tiempoInicial == this->tiempoExplosion - 1){
 			Reproductor::getReproductor()->reproducirSonido(ACUBIERTO);
 			aCubierto=true;
-			Sleep(1);	//para dejar que el reproductor empiece a reproducir y sirva el if de abajo
 		}
-	}else{
-		if(time(NULL) - this->tiempoInicial == this->tiempoExplosion) this->explota=true;
+	}else{	
+		if(time(NULL) - this->tiempoInicial == this->tiempoExplosion){
+			this->explota=true;
+			Reproductor::getReproductor()->detenerSonido(MECHA);
+		}
 		else
 			this->explota=false;
 	}
