@@ -1,6 +1,7 @@
 #include "ServidorRed.h"
 #include "../Figuras/Gusano.h"
 #include "../../Parser/yaml/ParserYaml.h"
+#include "../../constantes.h"
 
 typedef struct structCliente{
 	string username;
@@ -43,14 +44,13 @@ public:
 	static bool terrenoModificado;
 	static void setTerrenoModificado(bool estado);
 	static string siguienteJugador();
-
+	static unsigned int getCantidadDeClientes();
 	
 
 private:
 
    // IDs for the clients connecting for table in ServerNetwork 
     static unsigned int cliente_id;
-
    static int buscarCliente(string nombre);
    static void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);
    bool clienteEnEspera;

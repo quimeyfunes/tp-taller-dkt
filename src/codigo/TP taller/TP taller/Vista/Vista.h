@@ -17,6 +17,7 @@
 #include <list>
 #include "Dibujables\AContactoDibujable.h"
 #include "Dibujables\ATiempoDibujable.h"
+#include "Dibujables\RelojDibujable.h"
 using namespace std;
 
 typedef enum{
@@ -93,6 +94,7 @@ public:
 	void validarCorrimiento();
 	
 	DibujableTerreno* crearDibujableTerreno(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF);
+	RelojDibujable* crearRelojDibujable(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF);
 
 
 	void destruir(float x,float y,int radio, LectorTerreno* lector);

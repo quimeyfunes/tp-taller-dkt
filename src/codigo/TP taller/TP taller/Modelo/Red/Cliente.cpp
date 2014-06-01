@@ -169,6 +169,7 @@ bool Cliente::recibirDeServidor(){
 				cout<<paquete->getMensaje();
 				this->activo=false;
 				break;
+
             default:
 
                 //printf("Error en el tipo de paquete.Tipo es %d\n",paquete->getTipo());
