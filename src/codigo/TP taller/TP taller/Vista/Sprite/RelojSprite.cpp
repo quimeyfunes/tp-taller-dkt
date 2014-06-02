@@ -49,7 +49,16 @@ void RelojSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimien
 	SDL_Rect rect = this->rect;
 	SDL_Rect rect2 = this->rect;
 	rect2.x += rect.w;
-	if(frame1 < 1 && frame2 <= 3) this->imagen = IMG_LoadTexture(renderer, imagenRelojRojo.c_str());
+	int contador=3;
+	
+	if(frame1 < 1 && frame2 <= 3) {
+		this->imagen = IMG_LoadTexture(renderer, imagenRelojRojo.c_str());
+		if(contador = frame2){
+			Reproductor::getReproductor()->reproducirSonido(TIMERTICK);
+			contador--;
+		}
+	}
+
 	else  this->imagen = IMG_LoadTexture(renderer, imagenReloj.c_str());
 
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
