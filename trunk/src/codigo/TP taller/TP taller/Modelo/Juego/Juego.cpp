@@ -81,10 +81,12 @@ void Juego::ejecutar(){
 			if ( explosion.z >= 0){
 				if (this->escenario->getGusanoActivo()->armaActual.armaTipo == BANANA){
 					for (int i = 0; i <5; i++) {
+						//Tiempo random para la explosion de la mini banana entre 1 y 3 segundos
+						int tiempoExplosionMiniBanana = rand() % 3 + 1;
 						this->escenario->getGusanoActivo()->setArma(new Banana(explosion.x + i, explosion.y + i, 0, this->escenario->getWorld(), false, radioExplosionBanana, radioBanana, masaBanana, tiempoExplosionMiniBanana )); 
 						this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
 						this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(this->vista->crearArmaTiempoDibujable(explosion.x + i, explosion.y + i,  relacionPPU * 2*radioBanana,relacionPPU * 2*radioBanana,rutaBanana,rutaBanana));
-						this->escenario->getGusanoActivo()->getArmaSeleccionada()->getBody()->ApplyForceToCenter(b2Vec2(10,80),true);
+						this->escenario->getGusanoActivo()->getArmaSeleccionada()->getBody()->SetLinearVelocity(b2Vec2(10,-80));
 						this->escenario->getGusanoActivo()->disparar();
 						this->escenario->getGusanoActivo()->armaActual.potenciaDisparo = 0;
 					}
