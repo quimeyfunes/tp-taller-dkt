@@ -11,6 +11,7 @@
 	#define texturaAgua "imagenes/texturas/agua.png"
 	#define spriteOlas "imagenes/texturas/olas.png"
 	#define spriteReloj "imagenes/texturas/reloj.png"
+	#define spriteRelojRojo "imagenes/texturas/relojRojo.png"
 	#define spriteWormIzq "imagenes/texturas/wormFrentIzq.png"
 	#define spriteWormDer "imagenes/texturas/wormFrentDer.png"
 	#define rutaNube1 "imagenes/texturas/nube1.png"

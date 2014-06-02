@@ -30,9 +30,9 @@ RelojSprite::RelojSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string pat
 			recCuadro[j + i*col].y = i* tamanioCuadroY;
 		}
 	}
-	
+	this->imagenReloj = spriteReloj;
+	this->imagenRelojRojo = spriteRelojRojo;
 	this->imagen = IMG_LoadTexture(renderer, path.c_str());
-	
 }
 
 RelojSprite::~RelojSprite(void)
@@ -49,10 +49,12 @@ void RelojSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimien
 	SDL_Rect rect = this->rect;
 	SDL_Rect rect2 = this->rect;
 	rect2.x += rect.w;
-	
+	if(frame1 < 1 && frame2 <= 3) this->imagen = IMG_LoadTexture(renderer, imagenRelojRojo.c_str());
+	else  this->imagen = IMG_LoadTexture(renderer, imagenReloj.c_str());
+
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
 		rect = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
-		rect2 = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
+		rect2 = realizarZoom(rect2, corrimientoX, corrimientoY, escalaZoom);
 		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame1], &rect);
 		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame2], &rect2);
 		//SDL_RenderCopy(renderer, IMG_LoadTexture(renderer, path_imagen.c_str()), &this->recCuadro[frame2], &rect2);
