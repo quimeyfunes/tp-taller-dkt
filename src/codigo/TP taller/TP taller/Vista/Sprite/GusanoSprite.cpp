@@ -515,3 +515,7 @@ CartelDibujable* GusanoSprite::getCartel(){
 string GusanoSprite::getNombre(){
 	return this->nombre;
 }
+
+DibujableTextura*  GusanoSprite::getVida(){
+	return this->vida;
+}

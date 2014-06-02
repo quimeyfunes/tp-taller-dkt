@@ -284,6 +284,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 				}
 				else{
 					cout << "espere su turno, ahora esta jugando " << clientes[Servidor::idJugando].username <<endl;
+					clientes[*clienteN].ultimoEventoSerializado = paquete->getMensaje();
 				}
                 break;
 

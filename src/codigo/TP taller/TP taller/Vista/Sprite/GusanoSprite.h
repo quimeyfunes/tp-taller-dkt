@@ -54,6 +54,7 @@ public:
 	bool hayCambioImgIzq();
 	~GusanoSprite(void);
 	CartelDibujable* getCartel();
+	DibujableTextura* getVida();
 	string getNombre();
 	int contador;
 	int contIzq;

@@ -46,6 +46,8 @@ private:
 	vector<bool> puedeSaltarClientes;
 	vector<bool> puedeMoverseIzquierdaClientes;
 	vector<bool> puedeMoverseDerechaClientes;
+	vector<bool> puedeDispararClientes;
+	vector<bool> puedeMoverseAbajoClientes;
 
 	std::stringstream getMensajeSuperposicionObjeto(int linea);
 	std::stringstream getMensajeSuperposicionTerreno(int linea);
@@ -80,8 +82,11 @@ public:
 	void arriba(bool arriba);
 	void abajo(bool abajo);
 	void espacio(bool esp);
+	void espacioCliente(int cliente, bool esp);
 	void enter(bool enter);
+	void enterCliente(int cliente, bool enter);
 	void arribaCliente(int cliente, bool arriba);
+	void abajoCliente(int cliente, bool arriba);
 	void setPuedeSaltarCliente(int cliente,bool puedeSaltar);
 	void izquierda(bool izquierda);
 	void izquierdaCliente(int cliente,bool izquierda);
@@ -98,6 +103,9 @@ public:
 	void saltarClientes();
 	void moverIzquierdaClientes();
 	void moverDerechaClientes();
+	void bajarClientes();
+	void subirClientes();
+	void cargarDisparoClientes();
 	vector<Gusano*> getFigurasActivas();
 	//Es la del servidor
 	Figura* getFiguraActiva();

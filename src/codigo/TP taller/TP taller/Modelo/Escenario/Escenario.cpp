@@ -28,6 +28,8 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 		this->puedeMoverseDerechaClientes.push_back(false);
 		this->puedeMoverseIzquierdaClientes.push_back(false);
 		this->puedeSaltarClientes.push_back(false);
+		this->puedeDispararClientes.push_back(false);
+		this->puedeMoverseAbajoClientes.push_back(false);
 	}
 }
 
@@ -322,11 +324,11 @@ void Escenario::clickCliente(int cliente, list<Gusano*> figurasCliente, list<Gus
 		if ((*it)->meClickeo(x,y) && !(*it)->estaMuerto()) {
 			//printf("cliente %d clickeo uno de sus gusanos.\n",cliente);
 			//this->figurasActivas[cliente] = (*it);
-			if (this->figurasActivas[cliente] != NULL) {
+			/*if (this->figurasActivas[cliente] != NULL) {
 				this->figurasActivas[cliente]->setMeClickearon(false,cliente);
-			}
-			this->figurasActivas[cliente] = (Gusano*)(*it);
-			this->figurasActivas[cliente]->setMeClickearon(true,cliente);
+			}*/
+			this->gusanoActivo = (Gusano*)(*it);
+			this->gusanoActivo->setMeClickearon(true,cliente);
 		}
 	}
 
@@ -347,6 +349,10 @@ void Escenario::enter(bool enter){
 	this->puedeSaltar = enter;
 }
 
+void Escenario::enterCliente(int cliente, bool enter){
+	this->puedeSaltarClientes[cliente] = enter;
+}
+
 void Escenario::arriba(bool arriba){
 	this->puedeMoverseArriba = arriba;
 }
@@ -359,8 +365,16 @@ void Escenario::espacio(bool esp){
 		this->puedeDisparar = esp;
 }
 
+void Escenario::espacioCliente(int cliente, bool esp){
+		this->puedeDispararClientes[cliente] = esp;
+}
+
 void Escenario::arribaCliente(int cliente ,bool arriba){
 	this->puedeMoverseArribaClientes[cliente] = arriba;
+}
+
+void Escenario::abajoCliente(int cliente ,bool arriba){
+	this->puedeMoverseAbajoClientes[cliente] = arriba;
 }
 
 void Escenario::setPuedeSaltarCliente(int cliente,bool puedeSaltar) {
@@ -418,14 +432,33 @@ void Escenario::cargarDisparo(){
 
 }
 
-void Escenario::moverseClientes(){
+void Escenario::cargarDisparoClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
-		if ((this->figurasActivas[i] != NULL) && !(this->figurasActivas[i]->estaMuerto()) && !(this->figurasActivas[i]->estaMuerto())) {
-			this->saltarClientes();
-			this->moverDerechaClientes();
-			this->moverIzquierdaClientes();
+		if ((this->figurasActivas[i] != NULL) && (this->puedeDispararClientes[i]) && (this->figurasActivas[i]->armaActual.armaTipo != NINGUNA) &&!(this->figurasActivas[i]->estaMuerto())) {
+			if(this->figurasActivas[i]->armaActual.puedeCargarse){
+				if(this->figurasActivas[i]->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO){
+					this->figurasActivas[i]->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
+					if(!Reproductor::getReproductor()->estaReproduciendo(CARGANDODISPARO))
+						Reproductor::getReproductor()->reproducirSonido(CARGANDODISPARO);
+				}
+			}
+		}else{
+			this->figurasActivas[i]->armaActual.potenciaDisparo = 0;
 		}
 	}
+}
+
+void Escenario::moverseClientes(){
+	/*for(int i=0; i < this->maximosClientes; i++){
+		if ((this->figurasActivas[i] != NULL) && !(this->figurasActivas[i]->estaMuerto()) && !(this->figurasActivas[i]->estaMuerto())) {
+			this->saltarClientes();
+			this->bajarClientes();
+			this->subirClientes();
+			this->moverDerechaClientes();
+			this->moverIzquierdaClientes();
+			this->cargarDisparoClientes();
+		}
+	}*/
 }
 
 void Escenario::subir(){
@@ -454,9 +487,28 @@ void Escenario::bajar(){
 	}
 }
 
+void Escenario::bajarClientes(){
+	for(int i=0; i < this->maximosClientes; i++){
+		if ((this->figurasActivas[i] != NULL) && (this->puedeMoverseAbajoClientes[i]) && !(this->figurasActivas[i]->estaMuerto()) && (this->figurasActivas[i]->tieneUnArma())) {
+				if(this->figurasActivas[i]->armaActual.anguloDisparo > -90)
+				this->figurasActivas[i]->armaActual.anguloDisparo-=1.0f;
+		}
+	}
+}
+
+
+void Escenario::subirClientes(){
+	for(int i=0; i < this->maximosClientes; i++){
+		if ((this->figurasActivas[i] != NULL) && (this->figurasActivas[i]->tieneUnArma())) {
+				if(this->figurasActivas[i]->armaActual.anguloDisparo < 90)
+					this->figurasActivas[i]->armaActual.anguloDisparo+=1.0f;
+		}
+	}
+}
+
 void Escenario::saltarClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
-		if ((this->figurasActivas[i] != NULL) && ((Gusano*)this->figurasActivas[i])->puedeSaltar() && (this->puedeMoverseArribaClientes[i]) && !(this->figurasActivas[i]->estaMuerto())) {
+		if ((this->figurasActivas[i] != NULL) && ((Gusano*)this->figurasActivas[i])->puedeSaltar() && !(this->figurasActivas[i]->estaMuerto())) {
 			b2Body* cuerpo = this->figurasActivas[i]->getBody();
 			cuerpo->SetLinearVelocity(b2Vec2(0,saltoGusano));
 		}
