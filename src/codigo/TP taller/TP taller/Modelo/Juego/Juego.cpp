@@ -215,12 +215,13 @@ void Juego::leerEvento(){
 							case 3: this->escenario->getGusanoActivo()->armaActual.armaTipo = ALELUYA;
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
 									break;
-							case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
-									break;
-							case 5: this->escenario->getGusanoActivo()->armaActual.armaTipo = BANANA;
+							case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = BANANA;
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
 									break;
+							case 5: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									break;
+
 							}
 
 						}

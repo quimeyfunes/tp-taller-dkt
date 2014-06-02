@@ -15,8 +15,8 @@ Reproductor::Reproductor(){
 	//Mix_Volume(-1, 50);
 	agregar1.efecto = NINGUNO;
 	agregar2.efecto = NINGUNO;
-	Mix_AllocateChannels(16);
-	efectosDeSonido = new Mix_Chunk*[16];
+	Mix_AllocateChannels(17);
+	efectosDeSonido = new Mix_Chunk*[17];
 	efectosDeSonido[MUSICAFONDO] = Mix_LoadWAV(rutaMusicaFondo);
 	efectosDeSonido[EXPLOSION] = Mix_LoadWAV(rutaSonidoExplosion);
 	efectosDeSonido[AGUA] = Mix_LoadWAV(rutaSonidoAgua);
@@ -31,16 +31,18 @@ Reproductor::Reproductor(){
 	efectosDeSonido[RISA] = Mix_LoadWAV(rutaSonidoRisa);
 	efectosDeSonido[MECHA] = Mix_LoadWAV(rutaSonidoMecha);
 	efectosDeSonido[ACUBIERTO] = Mix_LoadWAV(rutaSonidoPonteACubierto);
-	efectosDeSonido[CAMINANDO] = Mix_LoadWAV(rutaSonidoWalkC);
-	efectosDeSonido[15] = Mix_LoadWAV(rutaSonidoWalkE);
+	efectosDeSonido[CAMINANDO] = Mix_LoadWAV(rutaSonidoWalk);
+	efectosDeSonido[SALTO] = Mix_LoadWAV(rutaSonidoSalto);
+	efectosDeSonido[OUCH] = Mix_LoadWAV(rutaSonidoOuch);
 	
 }
 
 
 Reproductor::~Reproductor(){
-
+	//Mix_HaltChannel(-1);
 	//for(int i=0; i<16; i++)
 	//	Mix_FreeChunk(efectosDeSonido[i]);
+
 	//delete repInstancia;
 	//Mix_Quit();
 }

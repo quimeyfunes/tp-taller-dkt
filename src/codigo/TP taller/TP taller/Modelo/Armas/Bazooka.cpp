@@ -34,7 +34,6 @@ void Bazooka::disparar(bool sentido, float potencia, float angulo){
 	Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
 }
 
-
 Bazooka::~Bazooka(void)
 {
 }

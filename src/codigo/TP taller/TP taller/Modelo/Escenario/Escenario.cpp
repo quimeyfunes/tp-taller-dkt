@@ -209,6 +209,9 @@ void Escenario::simularAgua () {
 	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		(*it)->simularAgua(this->nivelAgua);
 	}
+		for (list<Arma*>::iterator it = this->listaArmas->begin(); it != this->listaArmas->end(); it++) {
+		(*it)->simularAgua(this->nivelAgua);
+	}
 }
 
 void Escenario::reiniciar(){
@@ -474,6 +477,7 @@ void Escenario::saltar(){
 	if (this->puedeSaltar) {
 		if (this->gusanoActivo->puedeSaltar()) {
 			b2Body* cuerpo = this->gusanoActivo->getBody();
+			Reproductor::getReproductor()->reproducirSonido(SALTO);
 			cuerpo->SetLinearVelocity(b2Vec2(0,saltoGusano));
 		}
 		//cuerpo->ApplyLinearImpulse(b2Vec2(0,-100),this->figuraActiva->getPosicion(),true);

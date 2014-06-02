@@ -12,8 +12,9 @@
 #define rutaSonidoRisa "audio/efectos/Risa.wav"
 #define rutaSonidoMecha "audio/efectos/Mecha.wav"
 #define rutaSonidoPonteACubierto "audio/efectos/PonteACubierto.wav"
-#define rutaSonidoWalkC "audio/efectos/Walk-Compress.wav"
-#define rutaSonidoWalkE "audio/efectos/Walk-Expand.wav"
+#define rutaSonidoSalto "audio/efectos/Salto.wav"
+#define rutaSonidoWalk "audio/efectos/Walk.wav"
+#define rutaSonidoOuch "audio/efectos/Ouch.wav"
 #define rutaSonidoImpactoBanana "audio/efectos/ImpactoBanana.wav"
 #define rutaSonidoEnemigoALas12 "audio/efectos/EnemigoALas12.wav"
 
@@ -36,6 +37,8 @@ typedef enum{
 	MECHA,
 	ACUBIERTO,
 	CAMINANDO,
+	SALTO,
+	OUCH,
 	NINGUNO,
 }sonido;
 
