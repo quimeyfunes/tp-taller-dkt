@@ -148,23 +148,6 @@ GusanoDibujable* Vista::crearGusanoDibujable(int x, int y, int ancho, int alto, 
 
 }
 
-RelojDibujable* Vista::crearRelojDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDEF){
-
-	SDL_Rect rect;
-	rect.x = x;
-	rect.y = y;
-	rect.w = ancho;
-	rect.h = alto;
-	
-	RelojDibujable* dib = new RelojDibujable(this->renderer, rect,pathImagen,imagenDEF);
-
-	this->agregarDibujable(dib);
-	
-	return dib;
-
-}
-
-
 ATiempoDibujable* Vista::crearArmaTiempoDibujable(int x, int y, int ancho, int alto, string pathImagen, string imagenDef){
 
 	SDL_Rect rect;
