@@ -6,6 +6,7 @@ Turno::Turno(void){
 	detenido = true;
 	this->tiempoPorTurno = tiempoTurno;
 	this->tiempoPorDisparo = tiempoDisparo;
+	this->tiempoActual = this->tiempoPorTurno;
 }
 
 

@@ -46,24 +46,16 @@ void RelojSprite::setTiempoActual(int tiempo){
 
 void RelojSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
 
-		/*SDL_Rect recFrame;
-	recFrame.x = x;
-	recFrame.y = y;
-	recFrame.w = anchoFrame;
-	recFrame.h = altoFrame;*/
-
 	SDL_Rect rect = this->rect;
 	SDL_Rect rect2 = this->rect;
 	rect2.x += rect.w;
-	//string path_imagen = "imagenes/texturas/reloj1.png";
-
-
+	
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
 		rect = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
 		rect2 = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
 		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame1], &rect);
 		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame2], &rect2);
-		//SDL_RenderCopy(renderer, IMG_LoadTexture(renderer, path_imagen.c_str()), &this->recCuadro[frame], &rect2);
+		//SDL_RenderCopy(renderer, IMG_LoadTexture(renderer, path_imagen.c_str()), &this->recCuadro[frame2], &rect2);
 	} else {
 		rect.x -=corrimientoX;
 		rect.y -=corrimientoY;
@@ -74,6 +66,7 @@ void RelojSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimien
 	}
 
 	//frame1 = tiempoActual-(tiempoActual%10);
+
 	frame1= tiempoActual/10;
 	frame2 = tiempoActual%10;
 	
