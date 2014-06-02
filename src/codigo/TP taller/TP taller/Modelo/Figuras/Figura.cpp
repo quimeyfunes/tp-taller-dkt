@@ -118,5 +118,8 @@ void Figura::BeginContact() {
 void Figura::EndContact(){
 }
 
+void Figura::PostSolve(float impulso){
+}
+
 void Figura::explotar(float fuerza) {
 }

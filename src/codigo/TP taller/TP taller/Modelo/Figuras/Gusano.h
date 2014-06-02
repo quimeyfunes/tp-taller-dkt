@@ -58,6 +58,7 @@ public:
 	tipoArma getTipoArma();
 	void BeginContact();
 	void EndContact();
+	void PostSolve(float impulso);
 	void explotar(float fuerza);
 	int getVida();
 	void disparar();
