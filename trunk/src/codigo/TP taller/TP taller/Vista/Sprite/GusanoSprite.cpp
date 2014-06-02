@@ -267,12 +267,12 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 
 	SDL_RenderCopyEx(renderer, this->imagen, &this->enUso[frame], &rect,0,NULL,flip);
 		if(this->mostrarCrosshair && this->estado != MUERTO){
-			SDL_Rect aux = rect;
-			aux.w = 244 * escalaZoom;
-			aux.h = 28 * escalaZoom;
+			SDL_Rect aux = this->rect;
+			aux.w = 244;
+			aux.h = 28;
 			aux.x -= (128 - (1.5f * anchoGusano)*relacionPPU);
 			aux.y += altoGusano/2 * relacionPPU;
-
+			aux = realizarZoom(aux,corrimientoX,corrimientoY,escalaZoom);
 			if(this->estado == DER)
 				SDL_RenderCopyEx(renderer, this->crosshair, &this->recPotencia[frameCrosshair], &aux, -this->anguloDisparo, 0, flip);
 			else
