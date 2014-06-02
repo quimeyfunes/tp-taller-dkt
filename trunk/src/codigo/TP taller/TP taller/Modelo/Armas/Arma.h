@@ -15,6 +15,7 @@ class Arma: public Figura
 protected:
 	bool explota;
 	float radio;
+	bool enElAgua;
 public:
 	tipoArma armaTipo;
 	Arma(void);
@@ -22,9 +23,13 @@ public:
 	virtual void disparar(bool sentido, float potencia, float angulo);
 	virtual void explotar(bool explotar);
 	virtual bool getExplotar();
+	void simularAgua(int nivelAgua);
 	float getRadio();
 	tipoArma getArmaTipo();
 	virtual ~Arma(void);
+
+	
+
 };
 
 #endif

@@ -49,6 +49,7 @@ public:
 	virtual void BeginContact();
 	virtual void EndContact();
 	virtual void PostSolve(float impulso);
+
 };
 
 #endif
