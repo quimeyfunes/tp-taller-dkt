@@ -4,7 +4,7 @@ escenario:
     altoun: 60
     anchoun: 80
     nivel_agua: 20
-    maximosclientes: 4
+    maximosclientes: 1
     imagen_tierra: imagenes/mascaras/mascara1.png
     imagen_cielo: imagenes/texturas/cielo.png
     objetos:

@@ -178,7 +178,7 @@ void JuegoCliente::agregarAgua(EscenarioParseado* e){
 
 void JuegoCliente::crearLista(string vistaSerializada){
 	list<Dibujable*> *lista = new list<Dibujable*>(this->vista->getListaDibujables()->size());
-	int cantidadGusanosTotales = 4;
+	int cantidadGusanosTotales = this->esc->maximosClientes*gusanosPorPersonaje + 1;
 
 	//elimino elementos de la vista que son proyectiles, porque los creo en cada ciclo
 	int index = 0;
