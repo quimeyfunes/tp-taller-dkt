@@ -84,13 +84,12 @@ void Juego::ejecutar(){
 						//Tiempo random para la explosion de la mini banana entre 1 y 3 segundos
 						int tiempoExplosionMiniBanana = rand() % 3 + 1;
 						b2Vec2 fuerza;
-						fuerza.x = rand() % 500 + 800;
-						fuerza.y = -(rand() % 500 + 800);
+						fuerza.x = rand() % 1500 + 500;
+						fuerza.y = -(rand() % 1500 + 500);
 						if (i % 2 == 0){
 							fuerza.x = -fuerza.x;
 						}
 						this->escenario->getGusanoActivo()->setArma(new Banana(explosion.x , explosion.y , 0, this->escenario->getWorld(), false, radioExplosionMiniBanana, radioBanana, masaBanana, tiempoExplosionMiniBanana )); 
-						//this->escenario->getGusanoActivo()->getArmaSeleccionada()->getBody()->ApplyForceToCenter(fuerza, true);
 						this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
 						this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(this->vista->crearArmaTiempoDibujable(explosion.x, explosion.y,  relacionPPU * 2*radioBanana,relacionPPU * 2*radioBanana,rutaBanana,rutaBanana));
 						this->escenario->getGusanoActivo()->disparar();

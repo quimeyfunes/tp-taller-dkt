@@ -3,7 +3,7 @@ escenario:
     anchopx: 800
     altoun: 60
     anchoun: 80
-    nivel_agua: 20
+    nivel_agua: 5
     maximosclientes: 1
     imagen_tierra: imagenes/mascaras/mascara1.png
     imagen_cielo: imagenes/texturas/cielo.png
