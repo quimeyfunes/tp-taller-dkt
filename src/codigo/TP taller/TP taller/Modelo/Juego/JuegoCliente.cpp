@@ -332,6 +332,7 @@ int JuegoCliente::getArmaSeleccionada(int x, int y){
 JuegoCliente::~JuegoCliente(){
 
 	delete this->esc;
+	delete this->reloj;
 	//delete this->evento;
 	delete Logger::getLogger();
 }
