@@ -17,6 +17,7 @@
 #define rutaSonidoOuch "audio/efectos/Ouch.wav"
 #define rutaSonidoImpactoBanana "audio/efectos/ImpactoBanana.wav"
 #define rutaSonidoEnemigoALas12 "audio/efectos/EnemigoALas12.wav"
+#define rutaSonidoTimerTick "audio/efectos/TIMERTICK.wav"
 
 #define rutaMusicaFondo "audio/ingame-04-battlezone.wav"
 
@@ -40,6 +41,7 @@ typedef enum{
 	SALTO,
 	OUCH,
 	NINGUNO,
+	TIMERTICK,
 }sonido;
 
 typedef struct{

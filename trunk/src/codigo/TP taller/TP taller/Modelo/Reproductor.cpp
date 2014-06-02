@@ -15,8 +15,8 @@ Reproductor::Reproductor(){
 	//Mix_Volume(-1, 50);
 	agregar1.efecto = NINGUNO;
 	agregar2.efecto = NINGUNO;
-	Mix_AllocateChannels(17);
-	efectosDeSonido = new Mix_Chunk*[17];
+	Mix_AllocateChannels(18);
+	efectosDeSonido = new Mix_Chunk*[18];
 	efectosDeSonido[MUSICAFONDO] = Mix_LoadWAV(rutaMusicaFondo);
 	efectosDeSonido[EXPLOSION] = Mix_LoadWAV(rutaSonidoExplosion);
 	efectosDeSonido[AGUA] = Mix_LoadWAV(rutaSonidoAgua);
@@ -34,6 +34,7 @@ Reproductor::Reproductor(){
 	efectosDeSonido[CAMINANDO] = Mix_LoadWAV(rutaSonidoWalk);
 	efectosDeSonido[SALTO] = Mix_LoadWAV(rutaSonidoSalto);
 	efectosDeSonido[OUCH] = Mix_LoadWAV(rutaSonidoOuch);
+	efectosDeSonido[TIMERTICK] = Mix_LoadWAV(rutaSonidoTimerTick);
 	
 }
 
