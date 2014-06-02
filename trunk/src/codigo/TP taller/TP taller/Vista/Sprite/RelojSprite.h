@@ -25,6 +25,7 @@ private:
 	int tiempoActual;
 	string imagenReloj;
 	string imagenRelojRojo;
+	bool sono;
 	
 
 public:

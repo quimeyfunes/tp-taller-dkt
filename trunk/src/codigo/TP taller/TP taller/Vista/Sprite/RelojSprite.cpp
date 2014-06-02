@@ -1,4 +1,5 @@
 #include "RelojSprite.h"
+#include "../../Modelo/Reproductor.h"
 
 
 RelojSprite::RelojSprite(void)
@@ -7,6 +8,7 @@ RelojSprite::RelojSprite(void)
 
 RelojSprite::RelojSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex): DibujableTextura(){
 
+	this->sono = false;
 	this->tiempoActual = 0;
 	this->numCuadros = col*fil;
 	this->velocidadRefresco = timeStepOlas;
@@ -49,16 +51,25 @@ void RelojSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimien
 	SDL_Rect rect = this->rect;
 	SDL_Rect rect2 = this->rect;
 	rect2.x += rect.w;
-	int contador=3;
 	
+	//HARDCODING MODE: ON
 	if(frame1 < 1 && frame2 <= 3) {
 		this->imagen = IMG_LoadTexture(renderer, imagenRelojRojo.c_str());
-		if(contador = frame2){
+		
+		if(frame2 == 3 && !sono){
 			Reproductor::getReproductor()->reproducirSonido(TIMERTICK);
-			contador--;
+			sono=true;
 		}
-	}
+		if(frame2 == 2 && sono){
+			Reproductor::getReproductor()->reproducirSonido(TIMERTICK);
+			sono=false;
+		}
+		if(frame2 == 1 && !sono){
+			Reproductor::getReproductor()->reproducirSonido(TIMERTICK);
+			sono=true;
+		}
 
+	}
 	else  this->imagen = IMG_LoadTexture(renderer, imagenReloj.c_str());
 
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {

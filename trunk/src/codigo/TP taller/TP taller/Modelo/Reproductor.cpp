@@ -15,8 +15,8 @@ Reproductor::Reproductor(){
 	//Mix_Volume(-1, 50);
 	agregar1.efecto = NINGUNO;
 	agregar2.efecto = NINGUNO;
-	Mix_AllocateChannels(18);
-	efectosDeSonido = new Mix_Chunk*[18];
+	Mix_AllocateChannels(19);
+	efectosDeSonido = new Mix_Chunk*[19];
 	efectosDeSonido[MUSICAFONDO] = Mix_LoadWAV(rutaMusicaFondo);
 	efectosDeSonido[EXPLOSION] = Mix_LoadWAV(rutaSonidoExplosion);
 	efectosDeSonido[AGUA] = Mix_LoadWAV(rutaSonidoAgua);
