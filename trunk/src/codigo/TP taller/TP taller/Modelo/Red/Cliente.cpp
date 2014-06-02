@@ -171,7 +171,7 @@ bool Cliente::recibirDeServidor(){
 				break;
 
 			case paqueteTiempo:
-				 //cout << paquete->getMensaje() << endl;
+				 this->setTiempoActualDeJuego(StringUtil::str2int(paquete->getMensaje()));
 				break;
 
 
@@ -209,4 +209,12 @@ string Cliente::getUserName(){
 
 int Cliente::getId(){
 	return this->cliente_id;
+}
+
+int Cliente::getTiempoActualDeJuego(){
+	return this->tiempoActualDeJuego;
+}
+
+void Cliente::setTiempoActualDeJuego(int tiempo){
+	this->tiempoActualDeJuego = tiempo;
 }

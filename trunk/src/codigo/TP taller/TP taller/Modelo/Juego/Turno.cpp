@@ -4,8 +4,8 @@
 Turno::Turno(void){
 	terminado = true;
 	detenido = true;
-	tiempoPorTurno = 15;
-	tiempoPorDisparo = 3;
+	this->tiempoPorTurno = tiempoTurno;
+	this->tiempoPorDisparo = tiempoDisparo;
 }
 
 
@@ -78,7 +78,7 @@ void Turno::comenzar(){
 }
 
 int Turno::getTiempoActual(){
-	return tiempoActual;
+	return (tiempoPorTurno - tiempoActual);
 }
 
 void Turno::esperarDisparo(){

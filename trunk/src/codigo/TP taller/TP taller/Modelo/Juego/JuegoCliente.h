@@ -43,6 +43,7 @@ private:
 	void leerEvento();
 	/*list<Dibujable*>* */void crearLista(string vistaSerializada);
 	int getArmaSeleccionada(int x, int y);
+	RelojSprite* reloj;
 
 
 public:
@@ -51,6 +52,7 @@ public:
 	void ejecutar();
 	~JuegoCliente();
 	void actualizarDibujables(Paquete* paqueteVista);
+	
 };
 
 

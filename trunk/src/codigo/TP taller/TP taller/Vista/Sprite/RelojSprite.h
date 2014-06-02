@@ -17,15 +17,18 @@ class RelojSprite: public DibujableTextura, public Observador
 private:
 
 	SDL_Rect* recCuadro;
-	int frame;
+	int frame1; //primer digito
+	int frame2; //segundo digito
 	int numCuadros;
 	int velocidadRefresco;
 	int contador;
+	int tiempoActual;
 
 public:
 	RelojSprite(void);
-	//RelojSprite(SDL_Renderer* renderer, SDL_Rect recFrame, string path, int col, int fil, int anchoTex, int altoTex);
-	//virtual void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx) override;
+	void setTiempoActual(int tiempo);
+	RelojSprite(SDL_Renderer* renderer, SDL_Rect recFrame, string path, int col, int fil, int anchoTex, int altoTex);
+	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 
 	~RelojSprite(void);
 };

@@ -39,6 +39,8 @@ void JuegoCliente::ejecutar(){
 		
 		this->leerEvento();
 		this->cliente->actualizar();
+		this->reloj->setTiempoActual(this->cliente->getTiempoActualDeJuego());
+		
 		this->crearLista(this->cliente->vistaSerializada);
 
 		if(this->cliente->nuevoMensaje){
@@ -160,7 +162,8 @@ void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 	//le seteo el terreno q se va a ir actualizando
 	vista->crearDibujableTerreno(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenTierra, "");
 	
-
+	//agrego el reloj
+	this->reloj = vista->crearRelojSprite(0,0,3*relacionPPU,4*relacionPPU,spriteReloj,1,10,42,560);
 
 	this->cartelInfo = vista->crearCartelInfo(10, 10, 0, 20);
 	this->cartelInfo->setColor(255,0,255,100);

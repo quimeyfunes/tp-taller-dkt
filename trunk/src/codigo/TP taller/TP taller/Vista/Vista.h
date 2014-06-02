@@ -18,6 +18,7 @@
 #include "Dibujables\AContactoDibujable.h"
 #include "Dibujables\ATiempoDibujable.h"
 #include "Dibujables\RelojDibujable.h"
+#include "Sprite\RelojSprite.h"
 using namespace std;
 
 typedef enum{
@@ -68,6 +69,7 @@ public:
 	SDL_Renderer* getRenderer();
 	DibujableTextura* crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF);
 	Sprite* crearSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex);
+	RelojSprite* crearRelojSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex);
 	void crearScrollingSprite(int x, int y, int ancho, int alto, string path);
 	CirculoDibujable* crearCirculoDibujable(int x , int y ,int radioHorizontal,int radioVertical);
 	PoligonoDibujable* crearPoligonoDibujable(short int n, float escalaAncho, float escalaAlto);
