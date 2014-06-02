@@ -150,6 +150,15 @@ void Gusano::EndContact(){
 	this->sacarContacto();
 }
 
+void Gusano::PostSolve(float impulso){
+	if (impulso > impulsoCaida) {
+		this->vida -= impulso / 10;
+		cout<<vida<<endl;
+	}
+	if (this->vida < 0)
+		this->vida = 0;
+}
+
 void Gusano::explotar(float fuerza) {
 	this->vida -= fuerza/200;
 	if (this->vida < 0)
