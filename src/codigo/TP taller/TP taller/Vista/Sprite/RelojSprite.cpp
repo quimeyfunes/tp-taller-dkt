@@ -52,11 +52,12 @@ void RelojSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimien
 	SDL_Rect rect2 = this->rect;
 	rect2.x += rect.w;
 	
-	//HARDCODING MODE: ON
-	if(frame1 < 1 && frame2 <= 3) {
-		this->imagen = IMG_LoadTexture(renderer, imagenRelojRojo.c_str());
-		
-		if(frame2 == 3 && !sono){
+	
+	if(frame1 < 1 && frame2 == 3)	setImagen(renderer, imagenRelojRojo.c_str());
+	if(tiempoActual == tiempoTurno)	setImagen(renderer, imagenReloj.c_str());
+
+
+		/*if(frame2 == 3 && !sono){
 			Reproductor::getReproductor()->reproducirSonido(TIMERTICK);
 			sono=true;
 		}
@@ -67,10 +68,10 @@ void RelojSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimien
 		if(frame2 == 1 && !sono){
 			Reproductor::getReproductor()->reproducirSonido(TIMERTICK);
 			sono=true;
-		}
+		}*/
 
-	}
-	else  this->imagen = IMG_LoadTexture(renderer, imagenReloj.c_str());
+	
+	
 
 	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
 		rect = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
