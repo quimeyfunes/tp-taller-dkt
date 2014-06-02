@@ -23,6 +23,9 @@ private:
 	int velocidadRefresco;
 	int contador;
 	int tiempoActual;
+	string imagenReloj;
+	string imagenRelojRojo;
+	
 
 public:
 	RelojSprite(void);
