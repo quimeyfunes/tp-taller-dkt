@@ -40,8 +40,9 @@ typedef enum{
 	CAMINANDO,
 	SALTO,
 	OUCH,
-	NINGUNO,
 	TIMERTICK,
+	NINGUNO,
+	
 }sonido;
 
 typedef struct{
