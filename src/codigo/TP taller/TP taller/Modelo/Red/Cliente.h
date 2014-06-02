@@ -1,5 +1,6 @@
 #include "ClienteRed.h"
 #include "../../Parser/yaml/ParserYaml.h"
+#include "../StringUtil.h"
 
 class Cliente
 {
@@ -17,7 +18,8 @@ public:
 	string vistaSerializada;
 	string getUserName();
 	int getId();
-
+	int getTiempoActualDeJuego();
+	void setTiempoActualDeJuego(int tiempo);
 	//cambiar esto por una lista de mensajes (talvez)
 	string mensajeInfo;
 	bool nuevoMensaje;
@@ -26,7 +28,7 @@ public:
 	int timeServidor;
 
 private:
-
+	int tiempoActualDeJuego;
 	int TIEMPO_MAX_ESPERA;
 	int cliente_id;
 	EscenarioParseado* escenario;

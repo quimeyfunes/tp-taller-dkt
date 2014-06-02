@@ -10,6 +10,7 @@
 	#define texturaFondo "imagenes/fondo.png"
 	#define texturaAgua "imagenes/texturas/agua.png"
 	#define spriteOlas "imagenes/texturas/olas.png"
+	#define spriteReloj "imagenes/texturas/reloj.png"
 	#define spriteWormIzq "imagenes/texturas/wormFrentIzq.png"
 	#define spriteWormDer "imagenes/texturas/wormFrentDer.png"
 	#define rutaNube1 "imagenes/texturas/nube1.png"
@@ -38,7 +39,8 @@
 	const int alturaCartel = 8;
 
 	//Turno
-	//const int tiempoPorTurno = 10;
+	const int tiempoTurno = 15;
+	const int tiempoDisparo = 3;
 
 	//Para gusanos
 	const int timeGusanoQuieto = 80;
