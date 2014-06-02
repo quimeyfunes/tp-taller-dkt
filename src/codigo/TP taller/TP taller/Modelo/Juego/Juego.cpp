@@ -53,13 +53,13 @@ void Juego::ejecutar(){
 	
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
-		/*this->turno->actualizar();
+		this->turno->actualizar();
 		Servidor::tiempo= this->turno->getTiempoActual();
 		if( this->turno->estaTerminado() ){
-			Juego::cambiarJugador(Servidor::siguienteJugador());
+			//Juego::cambiarJugador(Servidor::siguienteJugador());
 			cout << "Turno de: " <<Juego::getJugadorActual() << endl;
 			this->turno->comenzar();
-		}*/
+		}
 
 		this->chequearNuevosJugadores();
 		this->leerEvento();
@@ -256,7 +256,8 @@ void Juego::leerEvento(){
 					case SOLTARABAJO:		{this->escenario->abajo(false);
 											 this->escenario->reiniciarTeclas();}	break; 
 
-					case ESPACIO:	this->escenario->espacio(true); 		
+					case ESPACIO:	this->escenario->espacio(true); 
+									this->turno->esperarDisparo();
 									break;
 
 					case SOLTARESPACIO:
