@@ -61,7 +61,7 @@ void Juego::ejecutar(){
 			this->turno->comenzar();
 		}*/
 
-		//this->chequearNuevosJugadores();
+		this->chequearNuevosJugadores();
 		this->leerEvento();
 		
 		
@@ -243,14 +243,27 @@ void Juego::leerEvento(){
 					case SALIR:			salir();						break;
 					case JUGAR:			reiniciar();					break;
 					case PAUSAR:		alternarPausa();				break;
-					case ARRIBA:		this->escenario->arribaCliente(i,true);		break;
-					case IZQUIERDA:		this->escenario->izquierdaCliente(i,true);	break;
-					case DERECHA:		this->escenario->derechaCliente(i,true);		break; 
-					case SOLTARARRIBA:		this->escenario->arribaCliente(i,false);		break;
-					case SOLTARIZQUIERDA:	{this->escenario->izquierdaCliente(i,false);
+					case ARRIBA:		this->escenario->arriba(true);		break;
+					case ABAJO:			this->escenario->abajo(true);		break;
+					case IZQUIERDA:		this->escenario->izquierda(true);	break;
+					case DERECHA:		this->escenario->derecha(true);		break; 
+					case SOLTARARRIBA:		this->escenario->arriba(false);		break;
+					case SOLTARIZQUIERDA:	{this->escenario->izquierda(false);
 											 this->escenario->reiniciarTeclas();}	break;
-					case SOLTARDERECHA:		{this->escenario->derechaCliente(i,false);
+					case SOLTARDERECHA:		{this->escenario->derecha(false);
 											 this->escenario->reiniciarTeclas();}	break; 
+					case SOLTARABAJO:		{this->escenario->abajo(false);
+											 this->escenario->reiniciarTeclas();}	break; 
+
+					case ESPACIO:	this->escenario->espacio(true); 		
+									break;
+
+					case SOLTARESPACIO:
+										this->dispararArma();
+										Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
+										this->escenario->espacio(false);
+										break;
+
 					case CLICK:	{
 						list<Gusano*> figurasOtrosClientes;
 						for(int j=0; j< this->escenario->getMaximosClientes(); j++){
@@ -263,11 +276,24 @@ void Juego::leerEvento(){
 					}
 					case CLICKARMA:	{
 						switch(evento->x){
-							/*case 0: this->escenario->getFigurasActivas()[i]->armaActual.armaTipo = BAZOOKA; break;
-							case 1: this->escenario->getFigurasActivas()[i]->armaActual.armaTipo = GRANADA; break;
-							case 2: this->escenario->getFigurasActivas()[i]->armaActual.armaTipo = ALELUYA; break;
-							case 3: this->escenario->getFigurasActivas()[i]->armaActual.armaTipo = DINAMITA; break;
-							default: this->escenario->getFigurasActivas()[i]->armaActual.armaTipo = NINGUNA; break;*/
+							case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									break;
+							case 1: this->escenario->getGusanoActivo()->armaActual.armaTipo = GRANADA; 
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+									break;
+							case 2: this->escenario->getGusanoActivo()->armaActual.armaTipo = ALELUYA; 
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+									break;
+							case 3: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA; 
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									break;
+							case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = BANANA; 
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+									break;
+							default: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA; 
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									break;
 						}
 					}
 
@@ -324,6 +350,51 @@ void Juego::dispararArma(){
 			this->escenario->getGusanoActivo()->armaActual.potenciaDisparo = 0;
 	}
 }
+
+void Juego::dispararArmaCliente(int cliente){
+
+	b2Vec2 posGusano;
+	b2Vec2 posD;
+	ArmaDibujable* arma;
+
+	if((this->escenario->getFigurasActivas()[cliente] != NULL)&&(this->escenario->getFigurasActivas()[cliente]->armaActual.armaTipo != NINGUNA ) && !(this->escenario->getFigurasActivas()[cliente]->estaMuerto())){
+		posGusano = this->escenario->getFigurasActivas()[cliente]->getBody()->GetWorldCenter();
+		posD = getPosicionInicialDisparo(posGusano, this->escenario->getFigurasActivas()[cliente]->armaActual.anguloDisparo, this->escenario->getFigurasActivas()[cliente]->armaActual.sentidoDisparo, altoGusano/2 + 1.5);
+					
+
+		switch (this->escenario->getFigurasActivas()[cliente]->armaActual.armaTipo){
+			case BAZOOKA:
+				this->escenario->getFigurasActivas()[cliente]->setArma(new Bazooka(posD.x, posD.y, 0, this->escenario->getWorld(), false, anchoBazooka, altoBazooka, masaBazooka, radioExplosionBazooka ));
+					arma = this->vista->crearArmaContactoDibujable(posD.x, posD.y, anchoBazooka*relacionPPU,altoBazooka*relacionPPU,rutaBaz,rutaBaz);
+							
+				break;
+				
+			case GRANADA:
+				this->escenario->getFigurasActivas()[cliente]->setArma(new Granada(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionGranada, radioGranada, masaGranada , tiempoExplosionGranada));
+				arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioGranada,relacionPPU * 2*radioGranada,rutaGranada,rutaGranada); 
+				break;
+
+			case ALELUYA:
+				this->escenario->getFigurasActivas()[cliente]->setArma(new Aleluya(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionAleluya, radioAleluya, masaAleluya ));
+				arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioAleluya,relacionPPU * 2*radioAleluya,rutaAleluya,rutaAleluya); 
+				break;
+
+			case DINAMITA:
+				this->escenario->getFigurasActivas()[cliente]->setArma(new Dinamita(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionDinamita, anchoDinamita, altoDinamita, masaDinamita, tiempoExplosionDinamita));
+				arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y, relacionPPU * anchoDinamita,relacionPPU * altoDinamita,rutaDinamita,rutaDinamita);
+				break;
+			case BANANA:
+				this->escenario->getFigurasActivas()[cliente]->setArma(new Banana(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionBanana, radioBanana, masaBanana, tiempoExplosionBanana ));
+				arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioAleluya,relacionPPU * 2*radioAleluya,rutaBanana,rutaBanana); 
+				break;		
+		}
+		this->escenario->agregarArma(this->escenario->getFigurasActivas()[cliente]->getArmaSeleccionada());
+		this->escenario->getFigurasActivas()[cliente]->getArmaSeleccionada()->agregarObservador(arma);
+		this->escenario->getFigurasActivas()[cliente]->getArmaSeleccionada()->disparar(this->escenario->getFigurasActivas()[cliente]->armaActual.sentidoDisparo, this->escenario->getFigurasActivas()[cliente]->armaActual.potenciaDisparo, this->escenario->getFigurasActivas()[cliente]->armaActual.anguloDisparo); 
+		this->escenario->getFigurasActivas()[cliente]->armaActual.potenciaDisparo = 0;
+	}
+}
+
 
 b2Vec2 Juego::getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, double separacion){
 

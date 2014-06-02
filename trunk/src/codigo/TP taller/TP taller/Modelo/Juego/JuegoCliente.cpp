@@ -222,6 +222,11 @@ void JuegoCliente::crearLista(string vistaSerializada){
                     rectCart.x = gusano->getRect().x + gusano->getRect().w/2;
                     rectCart.w = gusano2->getCartel()->texto.length() * 7;
                     gusano2->getCartel()->setRect(rectCart);
+
+					SDL_Rect rectVida = gusano->getRect();
+					rectVida.h = 5;
+					rectVida.w = pxPorVida * vidaGusano;
+					gusano2->getVida()->setRect(rectVida);
 				}
 
 				gusano2->setFrame(gusano->getFrame());

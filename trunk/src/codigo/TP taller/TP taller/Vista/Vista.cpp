@@ -192,6 +192,7 @@ PanelArmas* Vista::crearPanelArmas(int x , int y, int ancho, int alto, vector<in
 	dib->agregarArma(this->renderer,"imagenes/texturas/armas/cluster.1.png","imagenes/texturas/armas/cluster.2.png");
 	dib->agregarArma(this->renderer,"imagenes/texturas/armas/hgrenade.1.png","imagenes/texturas/armas/hgrenade.2.png");
 	dib->agregarArma(this->renderer,"imagenes/texturas/armas/dynamite.1.png","imagenes/texturas/armas/dynamite.2.png");
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/banana.1.png","imagenes/texturas/armas/banana.2.png");
 
 	return dib;
 }
