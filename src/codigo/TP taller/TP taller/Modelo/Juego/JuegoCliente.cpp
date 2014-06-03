@@ -38,8 +38,6 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 
 void JuegoCliente::ejecutar(){
 
-
-
 	Reproductor::getReproductor()->activar();
 	Logger::getLogger()->guardarEstado();
 	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
