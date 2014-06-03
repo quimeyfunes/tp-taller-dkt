@@ -24,7 +24,7 @@
 	#define rutaCartel "imagenes/texturas/cartel.png"
 	#define rutaCartelDEF "imagenes/texturas/cartelDefault.png"
 	#define rutaFuente "fuentes/acme.ttf"
-	#define rutaGrave "imagenes/texturas/grave.png"
+	#define rutaGrave "imagenes/texturas/grave1.png"
 	#define rutaWormGrisIzq "imagenes/texturas/wormGrisFrentIzq.png"
 	#define rutaWormGrisDer "imagenes/texturas/wormGrisFrentDer.png"
 	#define rutaVida "imagenes/texturas/vida.png"
@@ -48,7 +48,7 @@
 	//Para gusanos
 	const int timeGusanoQuieto = 80;
 	const int timeGusanoMovil = 5;
-	const int timeGrave = 40;
+	const int timeGrave = 10;
 	const int gusanosPorPersonaje = 3;
 	const int timeGusanoTnt = 5;
 
