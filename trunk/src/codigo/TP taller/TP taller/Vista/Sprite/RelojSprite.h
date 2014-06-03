@@ -20,14 +20,11 @@ private:
 	int frame1; //primer digito
 	int frame2; //segundo digito
 	int numCuadros;
-	int velocidadRefresco;
-	int contador;
+	int contadorDePitidos;
 	int tiempoActual;
 	string imagenReloj;
 	string imagenRelojRojo;
-	bool sono;
 	
-
 public:
 	RelojSprite(void);
 	void setTiempoActual(int tiempo);

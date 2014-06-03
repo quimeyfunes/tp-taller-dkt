@@ -27,6 +27,12 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 }
 
 void JuegoCliente::ejecutar(){
+
+	Reproductor::getReproductor()->activar();
+	//inicio un thread para el reproductor de audio
+	_beginthread(Reproductor::getReproductor()->actualizar, 0, (void*)0);
+
+
 	Logger::getLogger()->guardarEstado();
 	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 	//game loop
