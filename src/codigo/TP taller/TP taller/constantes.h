@@ -29,6 +29,7 @@
 	#define rutaWormGrisDer "imagenes/texturas/wormGrisFrentDer.png"
 	#define rutaVida "imagenes/texturas/vida.png"
 	#define rutaArchivoIP "config/IP.txt"
+	#define rutaWormTnt "imagenes/texturas/wormConTnt.png"
 
 	//a cuantos FPS correr el juego	
 	const int FPS = 60;
@@ -49,6 +50,7 @@
 	const int timeGusanoMovil = 5;
 	const int timeGrave = 40;
 	const int gusanosPorPersonaje = 3;
+	const int timeGusanoTnt = 5;
 
 	//Relacion Pixel por Unidad
 	const float relacionPPU = 10;

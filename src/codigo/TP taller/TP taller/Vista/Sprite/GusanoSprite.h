@@ -30,6 +30,8 @@ private:
 	int frame;
 	bool cambiarImgDer;
 	bool cambiarImgIzq;
+	bool muertePorDisparo;
+	bool terminoIteracion;
 	CartelDibujable* cartel;
 	DibujableTextura* vida;
 	string nombre;
@@ -48,6 +50,7 @@ public:
 	void actualizarFrame();
 	void actualizarFrameDisparo(int frame);
 	void actualizarFrameCrosshair(int potencia);
+	void actualizarFrameTnt();
 	int getNumCuadros();
 	int getFrame();
 	void setFrame(int frame);
@@ -62,6 +65,7 @@ public:
 	int contFrent;
 	int contMuerte;
 	int contArma;
+	int contMuerteVida;
 	tipoArma armaTipo;
 	ESTADO estado;
 	vector<bool> mostrarCartel;
@@ -76,6 +80,7 @@ public:
 	SDL_Rect* recPotencia;
 	SDL_Rect* rectApuntando;
 	SDL_Rect* recCuadro;
+	SDL_Rect* rectTnt;
 };
 
 #endif

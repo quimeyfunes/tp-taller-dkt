@@ -154,10 +154,11 @@ void Gusano::PostSolve(float impulso){
 	if (impulso > impulsoCaida) {
 		Reproductor::getReproductor()->reproducirSonido(OUCH);
 		this->vida -= impulso / 10;
-		cout<<vida<<endl;
 	}
-	if (this->vida < 0)
+	if (this->vida < 0){
 		this->vida = 0;
+		this->setMuerto(true);
+	}
 }
 
 void Gusano::explotar(float fuerza) {
