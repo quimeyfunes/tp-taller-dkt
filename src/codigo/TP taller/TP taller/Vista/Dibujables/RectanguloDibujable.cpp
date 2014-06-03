@@ -32,8 +32,8 @@ void RectanguloDibujable::actualizar(Observable* observable) {
 	for (int i = 0; i < this->n; i++) {
 		b2Vec2 vertice = shape->GetVertex(i);
 		float anguloNuevo = atan2f(vertice.y,vertice.x) + fig->getAngulo();
-		this->posicionesX[i] = hipotenusa * escalaX * cos(anguloNuevo) + posicion.x;
-		this->posicionesY[i] = hipotenusa * escalaY * sin(anguloNuevo) + posicion.y;
+		this->posicionesX[i] = hipotenusa * escalaX * coseno[(int) (anguloNuevo * RADTODEG)] + posicion.x;//os(anguloNuevo) + posicion.x;
+		this->posicionesY[i] = hipotenusa * escalaY * seno[(int) (anguloNuevo * RADTODEG)] + posicion.y;//in(anguloNuevo) + posicion.y;
 	}
 }
 

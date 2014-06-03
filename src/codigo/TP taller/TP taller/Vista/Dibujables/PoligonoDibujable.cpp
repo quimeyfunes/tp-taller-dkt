@@ -31,8 +31,8 @@ void PoligonoDibujable::actualizar(Observable* observable) {
 	for (int i = 0; i < this->n; i++) {
 		b2Vec2 vertice = shape->GetVertex(i);
 		float anguloNuevo = atan2(vertice.y*1.0,vertice.x*1.0) + fig->getAngulo();
-		this->posicionesX[i] = this->escalaAncho * cos(anguloNuevo) + posicion.x;
-		this->posicionesY[i] = this->escalaAlto * sin(anguloNuevo) + posicion.y;
+		this->posicionesX[i] = this->escalaAncho * coseno[(int) (anguloNuevo * RADTODEG)] + posicion.x;//os(anguloNuevo) + posicion.x;
+		this->posicionesY[i] = this->escalaAlto * seno[(int) (anguloNuevo * RADTODEG)] + posicion.y;//in(anguloNuevo) + posicion.y;
 	}
 }
 
