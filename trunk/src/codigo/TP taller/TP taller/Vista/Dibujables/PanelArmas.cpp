@@ -3,6 +3,17 @@
 PanelArmas::PanelArmas(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF):DibujableTextura(renderer, rect, pathImagen, pathDEF)
 {
 	this->visible = false;
+
+	int tamanoCuadradoX = (this->getRect().w/3 - 20)/3;
+	int tamanoCuadradoY = (this->getRect().h/3 - 20)/3;
+
+	this->recCuadroProyectiles = new SDL_Rect[10];
+	for(int i=0; i<10; i++){
+			recCuadroProyectiles[i].h =  46;
+			recCuadroProyectiles[i].w = 46;
+			recCuadroProyectiles[i].x = 0;
+			recCuadroProyectiles[i].y = 46*i;
+	}
 }
 
 
@@ -32,6 +43,10 @@ void PanelArmas::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimient
 			}
 			SDL_RenderCopyEx(renderer,this->armasTexturas[i]->getImagen(),NULL, &this->armasTexturas[i]->getRect(),this->armasTexturas[i]->getAngulo(),NULL,SDL_FLIP_NONE);
 		}
+
+		for(int i=0; i<this->cantidadProyectilesTexturas.size(); i++){
+			SDL_RenderCopy(renderer,this->cantidadProyectilesTexturas[i]->getImagen(),&this->recCuadroProyectiles[this->cantidadProyectiles[i]],&this->cantidadProyectilesTexturas[i]->getRect());
+		}
 	}
 }
 
@@ -44,7 +59,7 @@ void PanelArmas::alternarVisibilidad(){
 }
 
 
-void PanelArmas::agregarArma(SDL_Renderer* renderer, string nombreArmaSeleccionada, string nombreArmaDeseleccionada){
+void PanelArmas::agregarArma(SDL_Renderer* renderer, string nombreArmaSeleccionada, string nombreArmaDeseleccionada, int cantidadProyectiles){
 	SDL_Rect rect;
 	int tamanoCuadradoX = this->getRect().w/3;
 	int tamanoCuadradoY = this->getRect().h/3;
@@ -58,10 +73,34 @@ void PanelArmas::agregarArma(SDL_Renderer* renderer, string nombreArmaSelecciona
 
 	DibujableTextura* arma = new DibujableTextura(renderer, rect, nombreArmaSeleccionada, "");
 	this->armasTexturas.push_back(arma);
+
+	SDL_Rect rectCantidadProyectiles;
+	rectCantidadProyectiles.x = rect.x;
+	rectCantidadProyectiles.y = rect.y;
+	rectCantidadProyectiles.w = rect.w/3;
+	rectCantidadProyectiles.h = (rect.h/3);
+	
+
+	DibujableTextura* cantidadProyectilesTextura = new DibujableTextura(renderer, rectCantidadProyectiles, "imagenes/texturas/cantidadProyectiles.png", "");
+	this->cantidadProyectilesTexturas.push_back(cantidadProyectilesTextura);
+
 	this->nombresArmasSeleccionada.push_back(nombreArmaSeleccionada);
 	this->nombresArmasDeseleccionada.push_back(nombreArmaDeseleccionada);
+	this->cantidadProyectiles.push_back(cantidadProyectiles);
 }
 
 void PanelArmas::seleccionarArma(int numeroArma){
 	this->armaSeleccionada = numeroArma;
+}
+
+int PanelArmas::getArmaSeleccionada(){
+	return this->armaSeleccionada;
+}
+
+void PanelArmas::descontarArma(int numeroArma){
+	this->cantidadProyectiles[numeroArma]--;
+}
+
+bool PanelArmas::proyectilRestante(int numeroArma){
+	return this->cantidadProyectiles[numeroArma] > 0;
 }

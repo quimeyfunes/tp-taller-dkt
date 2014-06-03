@@ -95,11 +95,19 @@ void JuegoCliente::leerEvento(){
 			if (!this->eventos[accion]) {
 				this->eventos[accion] = true;
 				enviar = true;
+				if(accion == ESPACIO && !this->panelArmas->proyectilRestante(this->panelArmas->getArmaSeleccionada())){
+					//Si no me quedan mas proyectiles no envio el evento
+					enviar = false;
+				}
 			}		
 		} else {
 			if (accion == SOLTARIZQUIERDA || accion == SOLTARABAJO || accion == SOLTARESPACIO || accion == SOLTARENTER || accion == SOLTARARRIBA || accion == SOLTARDERECHA) {
 				this->eventos[accion - teclas] = false;
 				enviar = true;
+				if(accion == SOLTARESPACIO){
+					//Descuento un proyectil
+					this->panelArmas->descontarArma(this->panelArmas->getArmaSeleccionada());
+				}
 			}
 		}
 		if((accion == CLICK && !this->panelArmas->visible) || enviar){
