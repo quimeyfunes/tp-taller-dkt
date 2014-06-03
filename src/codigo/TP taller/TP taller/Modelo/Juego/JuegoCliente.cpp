@@ -26,9 +26,12 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 }
 
 void JuegoCliente::ejecutar(){
+
+	while(this->cliente->arrancarJuego == false){
+		//espero que el servidor me diga q arranque...
+	}
+
 	Reproductor::getReproductor()->activar();
-
-
 	Logger::getLogger()->guardarEstado();
 	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 	//game loop

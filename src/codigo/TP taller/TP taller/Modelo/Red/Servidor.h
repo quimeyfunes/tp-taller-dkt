@@ -47,6 +47,7 @@ public:
 	static void setTerrenoModificado(bool estado);
 	static string siguienteJugador();
 	static unsigned int getCantidadDeClientes();
+	static void darArranque();
 	
 
 private:
