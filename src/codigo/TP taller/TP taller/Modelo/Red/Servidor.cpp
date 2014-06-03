@@ -366,10 +366,11 @@ unsigned int Servidor::getCantidadDeClientes(){
 
 
 void Servidor::darArranque(){
-
+	
 	for(int id=0; id < Servidor::cliente_id; id++ ){
-		if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) )	
-			enviarPaquete(clientes[id].socket,paqueteArranque,"dale q va");
-	}
 
+			if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) ){	
+				enviarPaquete(clientes[id].socket,paqueteArranque,"dale q va");
+			}
+	}
 }
