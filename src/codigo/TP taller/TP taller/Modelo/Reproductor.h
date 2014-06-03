@@ -13,18 +13,13 @@ private:
 	static bool activo;
 	static Reproductor* repInstancia;
 	Reproductor();
-	static Mix_Chunk** efectosDeSonido;
-	static vector<audio> listaDeReproduccion;
-	static int getPosicion(sonido s);
-	static audio agregar1;
-	static audio agregar2;
+	static audio* listaDeReproduccion;
 
 public:
 	static Reproductor* getReproductor();
 	~Reproductor();
 	static void activar();
 	static void apagar();
-	static void actualizar(void* arg);
 	static void reproducirSonido(sonido aRep);
 	static void detenerSonido(sonido aRep);
 	static bool estaReproduciendo(sonido aRep);

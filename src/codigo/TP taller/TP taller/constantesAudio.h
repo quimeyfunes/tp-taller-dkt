@@ -42,14 +42,13 @@ typedef enum{
 	OUCH,
 	TIMERTICK,
 	NINGUNO,
-	
 }sonido;
 
 typedef struct{
-	sonido efecto;
+	Mix_Chunk* efecto;
 	int canal;
+	int loops;
 	bool activo;
-	bool porPrimeraVez;
 }audio;
 
 
