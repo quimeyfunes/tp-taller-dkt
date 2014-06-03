@@ -52,9 +52,14 @@ void RelojSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimien
 	SDL_Rect rect2 = this->rect;
 	rect2.x += rect.w;
 	
+	frame1 = tiempoActual/10;
+	frame2 = tiempoActual%10;
 	
-	if(frame1 < 1 && frame2 == 3)	setImagen(renderer, imagenRelojRojo.c_str());
+	if(frame1 < 1 && frame2 == tiempoCritico)	setImagen(renderer, imagenRelojRojo.c_str());
 	if(tiempoActual == tiempoTurno)	setImagen(renderer, imagenReloj.c_str());
+
+	SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame1], &rect);
+	SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame2], &rect2);
 
 
 		/*if(frame2 == 3 && !sono){
@@ -73,25 +78,6 @@ void RelojSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimien
 	
 	
 
-	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
-		rect = realizarZoom(rect, corrimientoX, corrimientoY, escalaZoom);
-		rect2 = realizarZoom(rect2, corrimientoX, corrimientoY, escalaZoom);
-		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame1], &rect);
-		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame2], &rect2);
-		//SDL_RenderCopy(renderer, IMG_LoadTexture(renderer, path_imagen.c_str()), &this->recCuadro[frame2], &rect2);
-	} else {
-		rect.x -=corrimientoX;
-		rect.y -=corrimientoY;
-		rect2.x -=corrimientoX;
-		rect2.y -=corrimientoY;
-		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame1], &rect);
-		SDL_RenderCopy(renderer, this->imagen, &this->recCuadro[frame2], &rect2);
-	}
 
-	//frame1 = tiempoActual-(tiempoActual%10);
-
-	frame1= tiempoActual/10;
-	frame2 = tiempoActual%10;
-	
 	
 }
