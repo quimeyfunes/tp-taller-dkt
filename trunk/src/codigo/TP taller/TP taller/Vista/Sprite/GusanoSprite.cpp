@@ -20,7 +20,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	this->mostrarCrosshair = false;
 	this->frameCrosshair = 0;
 	this->posFigura = new SDL_Point();
-	
+
 	int tamanioCuadroX = anchoTex / col;
 	int tamanioCuadroY = altoTex / fil;
 	this->frame = 0;
@@ -56,15 +56,26 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 		this->recPotencia[i].y = i*28;
 	}
 	
+	this->rectTnt = new SDL_Rect[60];
+	for (int i= 0; i<60; i++){
+		rectTnt[i].h = 60;
+		rectTnt[i].w = 60;
+		rectTnt[i].x = 0;
+		rectTnt[i].y = i*60;
+	}
+
 	this->enUso = recCuadro;
 	this->imagen = IMG_LoadTexture(renderer, path.c_str());
 	this->cambiarImgDer = false;
 	this->cambiarImgIzq = false;
+	this->muertePorDisparo = false;
+	this->terminoIteracion = false;
 	this->contIzq = 0;
 	this->contDer = 0;
 	this->contFrent = 0;
 	this->contMuerte = 0;
 	this->contArma = 0;
+	this->contMuerteVida = 0;
 	this->estado = IZQ;
 	this->nombre = nombre;
 	SDL_Rect rectCart = this->rect;
@@ -114,6 +125,8 @@ void GusanoSprite::actualizar(Observable* observable) {
 
 	if (!(fig->estaMuerto())){
 		this->contMuerte = 0;
+		this->contMuerteVida = 0;
+		this->terminoIteracion = false;
 		//No se mueve
 		this->frameCrosshair = 0;
 
@@ -171,14 +184,27 @@ void GusanoSprite::actualizar(Observable* observable) {
 				}
 			}
 	} else {
+		//Aca se murio, me fijo porque murio
 		this->mostrarCrosshair=false;
-		this->velocidadRefresco = timeGrave;
 		this->contIzq = 0;
 		this->contDer = 0;
 		this->contFrent = 0;
-		this->contMuerte++;
-		//this->actualizarFrame();
 		this->estado = MUERTO;	
+		if ( (fig->getVida() == 0) && !(this->terminoIteracion)){
+			this->contMuerte = 0;
+			this->contMuerteVida++;
+			this->enUso = this->rectTnt;
+			this->velocidadRefresco = timeGusanoTnt;
+			this->muertePorDisparo = true;
+			this->actualizarFrameTnt();
+		} else {
+			this->contMuerteVida = 0;
+			this->contMuerte++;
+			this->velocidadRefresco = timeGrave;
+			this->muertePorDisparo = false;
+			this->enUso = recCuadro;
+		}
+		
 	}
 
 	SDL_Rect rect = this->rect;
@@ -232,9 +258,13 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 			flip = SDL_FLIP_HORIZONTAL;
 	}
 
-	if ((this->estado == MUERTO) && (this->contMuerte == 1)){
-		this->setFrame(0);
-		this->setImagen(renderer, rutaGrave);
+	if ((this->estado == MUERTO) && ((this->contMuerte == 1) || this->contMuerteVida == 1) ){
+		if(this->muertePorDisparo){
+			this->setImagen(renderer, rutaWormTnt);
+		} else {
+			this->setFrame(0);
+			this->setImagen(renderer, rutaGrave);
+		}
 	} else {
 		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && ((this->contFrent == 1) || this->contArma == 1) ){ //Esta quieto
 			this->setFrame(0);
@@ -314,6 +344,18 @@ void GusanoSprite::actualizarFrame(){
 			this->contador = 0;
 	}
 	if(this->frame >= this->numCuadros) this->frame = 0;
+}
+
+void GusanoSprite::actualizarFrameTnt(){
+	this->contador++;
+	if(this->contador >= this->velocidadRefresco){
+		this->frame++;
+			this->contador = 0;
+	}
+	if(this->frame >= 60) {
+		this->frame = 0;
+		this->terminoIteracion = true;
+	}
 }
 
 void GusanoSprite::actualizarFrameDisparo(int angulo){
