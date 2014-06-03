@@ -628,3 +628,12 @@ void Escenario::explotar(float x, float y, int radio) {
 	}
 }
 
+void Escenario::detenerMovimientos(){
+	 puedeMoverseArriba = false;
+	 puedeMoverseAbajo = false;
+	 puedeMoverseIzquierda = false;
+	 puedeMoverseDerecha = false;
+	 puedeDisparar = false;
+	 puedeSaltar= false;
+
+}

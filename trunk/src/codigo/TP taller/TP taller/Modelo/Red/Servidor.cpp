@@ -62,7 +62,6 @@ void Servidor::enviarTerreno(SOCKET sock){
 	enviarImagen(sock, texturaTerreno,paqueteTextura);
 }
 
-
 void Servidor::actualizar(void* clienteN) 
 {
 	int id= (int)clienteN;
@@ -90,7 +89,7 @@ void Servidor::actualizar(void* clienteN)
 		}
 
 		//envio el tiempo del reloj a los clientes:
-		if(Servidor::tiempo != -1){ 
+		if(Servidor::tiempo != -1 && Servidor::tiempo <= tiempoTurno){ 
 			enviarCliente(&id,paqueteTiempo, StringUtil::int2string(Servidor::tiempo));
 		}
 		
@@ -124,7 +123,6 @@ void Servidor::enviarCliente(int* clienteN, int tipoPaquete, string mensaje){
 void Servidor::setTerrenoModificado(bool estado){
 	Servidor::terrenoModificado=estado;
 }
-
 
 int Servidor::buscarCliente(string nombre){
 
@@ -284,7 +282,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 				}
 				else{
 					cout << "espere su turno, ahora esta jugando " << clientes[Servidor::idJugando].username <<endl;
-					clientes[*clienteN].ultimoEventoSerializado = paquete->getMensaje();
+					//clientes[*clienteN].ultimoEventoSerializado = paquete->getMensaje();
 				}
                 break;
 
@@ -361,7 +359,6 @@ string Servidor::siguienteJugador(){
 	
 	
 }
-
 
 unsigned int Servidor::getCantidadDeClientes(){
 	return Servidor::cliente_id;

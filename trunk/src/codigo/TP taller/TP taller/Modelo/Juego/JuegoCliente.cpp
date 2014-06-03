@@ -5,7 +5,6 @@ Cliente* JuegoCliente::cliente = NULL;
 JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	
 	cliente = new Cliente(nombreCliente, ip);
-
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
@@ -27,10 +26,7 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 }
 
 void JuegoCliente::ejecutar(){
-
 	Reproductor::getReproductor()->activar();
-	//inicio un thread para el reproductor de audio
-	_beginthread(Reproductor::getReproductor()->actualizar, 0, (void*)0);
 
 
 	Logger::getLogger()->guardarEstado();
@@ -170,7 +166,7 @@ void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 	
 	//agrego el reloj
 	this->reloj = vista->crearRelojSprite(0,0,3*relacionPPU,4*relacionPPU,spriteReloj,1,10,42,560);
-
+	this->reloj->setTiempoActual(tiempoTurno);
 	this->cartelInfo = vista->crearCartelInfo(10, 10, 0, 20);
 	this->cartelInfo->setColor(255,0,255,100);
 	//Las armas vienen en el paquete inicial
