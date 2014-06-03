@@ -18,6 +18,7 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 			cout <<"esperando a los demas jugadores..."<<endl;
 			a = false;
 		}
+		this->cliente->actualizar();
 	};
 
 
