@@ -48,10 +48,10 @@ void Juego::ejecutar(){
 		while( Servidor::getCantidadDeClientes()<2 ){
 			this->chequearNuevosJugadores();
 		}
-	
+	Servidor::darArranque();
 	
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
-		Servidor::darArranque();
+		
 		this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();
 		if( this->turno->estaTerminado() ){
@@ -61,7 +61,7 @@ void Juego::ejecutar(){
 			this->turno->comenzar();
 		}
 
-		this->chequearNuevosJugadores();
+		//this->chequearNuevosJugadores();
 		this->leerEvento();
 		
 		

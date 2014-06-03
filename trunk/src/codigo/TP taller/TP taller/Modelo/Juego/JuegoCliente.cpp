@@ -11,6 +11,16 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	this->cartelInfo = NULL;
 	while(this->cliente->recibirDeServidor());	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
 	
+	bool a = true;
+	//espero que el servidor me diga q arranque...
+	while(this->cliente->arrancarJuego == false){
+		if(a){
+			cout <<"esperando a los demas jugadores..."<<endl;
+			a = false;
+		}
+	};
+
+
 	this->esc = cliente->getEscenarioActual();
 	//this->armas = cliente->getArmasActual();
 	this->vista = new Vista(esc);
@@ -27,9 +37,7 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 
 void JuegoCliente::ejecutar(){
 
-	while(this->cliente->arrancarJuego == false){
-		//espero que el servidor me diga q arranque...
-	}
+
 
 	Reproductor::getReproductor()->activar();
 	Logger::getLogger()->guardarEstado();
