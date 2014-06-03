@@ -33,10 +33,9 @@ Juego::Juego(string texto){
 
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
-
 	Reproductor::getReproductor()->activar();
-	//inicio un thread para el reproductor de audio
-	_beginthread(Reproductor::getReproductor()->actualizar, 0, (void*)0);
+
+
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 	servidor = new Servidor();
 	int tamanio;

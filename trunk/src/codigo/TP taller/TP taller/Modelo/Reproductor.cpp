@@ -1,41 +1,44 @@
 #include "Reproductor.h"
 
 Reproductor* Reproductor::repInstancia = NULL;
-Mix_Chunk** Reproductor::efectosDeSonido;
-vector<audio> Reproductor::listaDeReproduccion;
+audio* Reproductor::listaDeReproduccion;
 bool Reproductor::activo = false;
-audio Reproductor::agregar1;
-audio Reproductor::agregar2;
 
 Reproductor::Reproductor(){
 
 	Mix_OpenAudio( 44100, AUDIO_S16SYS, 2, 2048 );
-	//cargo todos los audios
 
-	//Mix_Volume(-1, 50);
-	agregar1.efecto = NINGUNO;
-	agregar2.efecto = NINGUNO;
-	Mix_AllocateChannels(19);
-	efectosDeSonido = new Mix_Chunk*[19];
-	efectosDeSonido[MUSICAFONDO] = Mix_LoadWAV(rutaMusicaFondo);
-	efectosDeSonido[EXPLOSION] = Mix_LoadWAV(rutaSonidoExplosion);
-	efectosDeSonido[AGUA] = Mix_LoadWAV(rutaSonidoAgua);
-	efectosDeSonido[SONIDOALELUYA] = Mix_LoadWAV(rutaSonidoAleluya);
-	efectosDeSonido[IMPACTOALELUYA] = Mix_LoadWAV(rutaSonidoImpactoAleluya);
-	efectosDeSonido[IMPACTOGRANADA] = Mix_LoadWAV(rutaSonidoImpactoGranada);
-	efectosDeSonido[IMPACTOBANANA] = Mix_LoadWAV(rutaSonidoImpactoBanana);
-	efectosDeSonido[ENEMIGOALAS12] = Mix_LoadWAV(rutaSonidoEnemigoALas12);
-	efectosDeSonido[CARGANDODISPARO] = Mix_LoadWAV(rutaSonidoCargandoDisparo);
-	efectosDeSonido[SOLTARDISPARO] = Mix_LoadWAV(rutaSonidoSoltarDisparo);
-	efectosDeSonido[SOLTARGRANADA] = Mix_LoadWAV(rutaSonidoSoltarGranada);
-	efectosDeSonido[RISA] = Mix_LoadWAV(rutaSonidoRisa);
-	efectosDeSonido[MECHA] = Mix_LoadWAV(rutaSonidoMecha);
-	efectosDeSonido[ACUBIERTO] = Mix_LoadWAV(rutaSonidoPonteACubierto);
-	efectosDeSonido[CAMINANDO] = Mix_LoadWAV(rutaSonidoWalk);
-	efectosDeSonido[SALTO] = Mix_LoadWAV(rutaSonidoSalto);
-	efectosDeSonido[OUCH] = Mix_LoadWAV(rutaSonidoOuch);
-	efectosDeSonido[TIMERTICK] = Mix_LoadWAV(rutaSonidoTimerTick);
-	
+	//cargo todos los audios
+	listaDeReproduccion = new audio[18];
+	listaDeReproduccion[MUSICAFONDO].efecto = Mix_LoadWAV(rutaMusicaFondo);
+	listaDeReproduccion[EXPLOSION].efecto = Mix_LoadWAV(rutaSonidoExplosion);
+	listaDeReproduccion[AGUA].efecto = Mix_LoadWAV(rutaSonidoAgua);
+	listaDeReproduccion[SONIDOALELUYA].efecto = Mix_LoadWAV(rutaSonidoAleluya);
+	listaDeReproduccion[IMPACTOALELUYA].efecto = Mix_LoadWAV(rutaSonidoImpactoAleluya);
+	listaDeReproduccion[IMPACTOGRANADA].efecto = Mix_LoadWAV(rutaSonidoImpactoGranada);
+	listaDeReproduccion[IMPACTOBANANA].efecto = Mix_LoadWAV(rutaSonidoImpactoBanana);
+	listaDeReproduccion[ENEMIGOALAS12].efecto = Mix_LoadWAV(rutaSonidoEnemigoALas12);
+	listaDeReproduccion[CARGANDODISPARO].efecto = Mix_LoadWAV(rutaSonidoCargandoDisparo);
+	listaDeReproduccion[SOLTARDISPARO].efecto = Mix_LoadWAV(rutaSonidoSoltarDisparo);
+	listaDeReproduccion[SOLTARGRANADA].efecto = Mix_LoadWAV(rutaSonidoSoltarGranada);
+	listaDeReproduccion[RISA].efecto = Mix_LoadWAV(rutaSonidoRisa);
+	listaDeReproduccion[MECHA].efecto = Mix_LoadWAV(rutaSonidoMecha);
+	listaDeReproduccion[ACUBIERTO].efecto = Mix_LoadWAV(rutaSonidoPonteACubierto);
+	listaDeReproduccion[CAMINANDO].efecto = Mix_LoadWAV(rutaSonidoWalk);
+	listaDeReproduccion[SALTO].efecto = Mix_LoadWAV(rutaSonidoSalto);
+	listaDeReproduccion[OUCH].efecto = Mix_LoadWAV(rutaSonidoOuch);
+	listaDeReproduccion[TIMERTICK].efecto = Mix_LoadWAV(rutaSonidoTimerTick);
+
+	for(int i=0; i < 18; i++){
+
+		listaDeReproduccion[i].canal = -1;
+		listaDeReproduccion[i].activo = false;
+
+		if( i == MUSICAFONDO || i == MECHA ) //musica de fondo y la mecha de dinamita se reproducen infinitamente hasta ser detenidas manualmente
+			listaDeReproduccion[i].loops = -1;
+		else
+			listaDeReproduccion[i].loops = 0; //reproduce una sola vez y corta.
+	}	
 }
 
 
@@ -56,83 +59,31 @@ Reproductor* Reproductor::getReproductor(){
 }
 
 void Reproductor::reproducirSonido(sonido son){
+
 	if(activo){
-
-		audio nuevo;
-		nuevo.activo= true;
-		nuevo.efecto = son;
-		nuevo.canal = son;
-		nuevo.porPrimeraVez = true;
-
-		for(int i=0; i < listaDeReproduccion.size(); i++){
-			if(!listaDeReproduccion.at(i).activo){
-				listaDeReproduccion.at(i) = nuevo;
-				return;
-			}
-		}
-		
-		if(agregar1.efecto == NINGUNO) agregar1 = nuevo;
-		else if(agregar2.efecto == NINGUNO) agregar2 = nuevo;
+		if(listaDeReproduccion[son].loops == -1) detenerSonido(son); //si se quieren reproducir al mismo tiempo 2 sonidos con loops infinitos, hay q detener uno para q no se quede colgado
+		listaDeReproduccion[son].canal = Mix_PlayChannel(-1, listaDeReproduccion[son].efecto, listaDeReproduccion[son].loops);
+		listaDeReproduccion[son].activo = true;
 	}
-}
-
-int Reproductor::getPosicion(sonido s){
-	for(int i=0; i < listaDeReproduccion.size(); i++){
-		if(listaDeReproduccion.at(i).efecto == s)
-			return i;
-	}
-	return -1;
 }
 
 void Reproductor::detenerSonido(sonido son){
-		int pos = getPosicion(son);		
-		if(pos != -1){
-			Mix_HaltChannel(listaDeReproduccion.at(pos).canal);
-			listaDeReproduccion.at(pos).activo = false;
+
+	if(listaDeReproduccion[son].activo){
+		if(Mix_Playing(listaDeReproduccion[son].canal) != 0){
+			Mix_HaltChannel(listaDeReproduccion[son].canal);
 		}
+		listaDeReproduccion[son].activo = false;
+	}
+	
 }
 
 bool Reproductor::estaReproduciendo(sonido s){
-	int pos = getPosicion(s);
+	
+	if(listaDeReproduccion[s].activo)
+		listaDeReproduccion[s].activo = (Mix_Playing(listaDeReproduccion[s].canal) != 0)? true:false;
 
-	if(pos == -1) return false;
-	else return listaDeReproduccion.at(pos).activo;
-}
-
-void Reproductor::actualizar(void* arg){
-	int loops;
-	while(activo){
-		if(activo){
-
-			if(agregar1.efecto != NINGUNO){
-				listaDeReproduccion.push_back(agregar1);
-				agregar1.efecto = NINGUNO;
-			}
-
-			if(agregar2.efecto != NINGUNO){
-				listaDeReproduccion.push_back(agregar2);
-				agregar2.efecto = NINGUNO;
-			}
-
-			for(int i = 0; i< listaDeReproduccion.size(); i++){
-				if(listaDeReproduccion.at(i).activo){
-					if((listaDeReproduccion.at(i).efecto == MECHA) || (listaDeReproduccion.at(i).efecto == MUSICAFONDO) ){
-						loops = -1;
-					}else{
-						loops = 0;
-					}
-					if(listaDeReproduccion.at(i).porPrimeraVez){
-						Mix_PlayChannel(listaDeReproduccion.at(i).canal, efectosDeSonido[listaDeReproduccion.at(i).efecto], loops);
-						listaDeReproduccion.at(i).porPrimeraVez = false;
-					}
-
-					if(!Mix_Playing(listaDeReproduccion.at(i).canal)){
-						listaDeReproduccion.at(i).activo = false;
-					}
-				}
-			}
-		}
-	}
+	return listaDeReproduccion[s].activo;
 }
 
 void Reproductor::activar(){
