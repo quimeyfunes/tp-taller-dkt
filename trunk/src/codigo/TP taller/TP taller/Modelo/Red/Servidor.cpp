@@ -363,3 +363,13 @@ string Servidor::siguienteJugador(){
 unsigned int Servidor::getCantidadDeClientes(){
 	return Servidor::cliente_id;
 }
+
+
+void Servidor::darArranque(){
+
+	for(int id=0; id < Servidor::cliente_id; id++ ){
+		if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) )	
+			enviarPaquete(clientes[id].socket,paqueteArranque,"dale q va");
+	}
+
+}

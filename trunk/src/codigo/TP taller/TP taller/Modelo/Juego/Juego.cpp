@@ -44,14 +44,14 @@ void Juego::ejecutar(){
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
 
-	//cout << "esperando a 2 jugadores..." << endl;
-	//	while( Servidor::getCantidadDeClientes()<2 ){
-	//		this->chequearNuevosJugadores();
-	//	}
+	cout << "esperando a 2 jugadores..." << endl;
+		while( Servidor::getCantidadDeClientes()<2 ){
+			this->chequearNuevosJugadores();
+		}
 	
 	
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
-		
+		Servidor::darArranque();
 		this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();
 		if( this->turno->estaTerminado() ){

@@ -5,7 +5,7 @@
 Cliente::Cliente(string nombre, string ip){
 
 	TIEMPO_MAX_ESPERA = 2;
-
+	this->arrancarJuego = false;
     red = new ClienteRed(ip);
 	this->username=nombre;
 	this->escenario = new EscenarioParseado();
@@ -174,6 +174,9 @@ bool Cliente::recibirDeServidor(){
 				 this->setTiempoActualDeJuego(StringUtil::str2int(paquete->getMensaje()));
 				break;
 
+			case paqueteArranque:
+				this->arrancarJuego = true;
+				break;
 
             default:
 

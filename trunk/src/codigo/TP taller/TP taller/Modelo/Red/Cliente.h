@@ -24,7 +24,7 @@ public:
 	string mensajeInfo;
 	bool nuevoMensaje;
 	//
-
+	bool arrancarJuego;
 	int timeServidor;
 
 private:
