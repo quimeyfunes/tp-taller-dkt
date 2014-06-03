@@ -619,8 +619,8 @@ void Escenario::explotar(float x, float y, int radio) {
 			}
 			fuerzaTotal = potenciaTotal / distancia;
 			angulo = atan2(distanciaV.y , distanciaV.x);
-			fuerza.x = fuerzaTotal * cos (angulo);
-			fuerza.y = fuerzaTotal * sin (angulo);
+			fuerza.x = fuerzaTotal * coseno[(int) (angulo * RADTODEG)];//os (angulo);
+			fuerza.y = fuerzaTotal * seno[(int) (angulo* RADTODEG)];//in (angulo);
 			(*it)->getBody()->ApplyForceToCenter(fuerza,true);
 			(*it)->explotar(fuerzaTotal);
 		}

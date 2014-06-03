@@ -1,7 +1,7 @@
 #ifndef TABLAS_H_
 #define TABLAS_H_
 
-float seno[] = { 
+static float seno[] = { 
 	0,
 	0.0174524,
 	0.0348995,
@@ -364,7 +364,7 @@ float seno[] = {
 	-0.0174526,
 };
 
-float coseno[] = { 
+static float coseno[] = { 
 	1,
 	0.999848,
 	0.999391,

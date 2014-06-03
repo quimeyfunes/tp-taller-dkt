@@ -8,7 +8,7 @@
 #include "../../constantes.h"
 #include "../../constantesFisicas.h"
 #include "../Reproductor.h"
-
+#include "../../tablas.h"
 
 using namespace std;
 

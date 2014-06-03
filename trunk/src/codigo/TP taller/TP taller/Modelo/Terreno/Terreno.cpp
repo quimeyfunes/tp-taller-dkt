@@ -116,11 +116,12 @@ void Terreno::destruirTerreno(float x, float y, int radio){
 	//Creo circulo. Aproximo lados = 40 para circulo 
 	int n = 40; 
 	PoligonoBoost circulo;
-	float angulo = (2 * b2_pi / n);
+	float angulo = 360 * 1.0 / n; //(2 * b2_pi / n);
 	for (int i = 0; i < n; i++) {
-		bg::append(circulo,Punto (radio * cos(angulo*i) + x, radio * sin(angulo*i) + y)); 
+		bg::append(circulo,Punto(radio * coseno[(int) angulo * i] + x, radio * seno[(int) angulo * i] + y));
+		//bg::append(circulo,Punto (radio * os(angulo*i) + x, radio * in(angulo*i) + y)); 
 	}
-	//bg::append(circulo,Punto (radio * cos(angulo) + x, radio * sin(angulo) + y)); 
+	//bg::append(circulo,Punto (radio * os(angulo) + x, radio * in(angulo) + y)); 
 	bg::correct(circulo);
 
 	int i = 0;
