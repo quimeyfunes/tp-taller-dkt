@@ -58,7 +58,7 @@ public:
     int getAnchoU();
     int getNivelAgua();
 	int getMaximosClientes();
-
+	void detenerMovimientos();
 	Gusano* getGusanoActivo();
 	list<Figura*>* getFiguras();
 	b2World* getWorld();

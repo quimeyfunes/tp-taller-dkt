@@ -6,7 +6,7 @@ Turno::Turno(void){
 	detenido = true;
 	this->tiempoPorTurno = tiempoTurno;
 	this->tiempoPorDisparo = tiempoDisparo;
-	this->tiempoActual = this->tiempoPorTurno;
+	this->tiempoActual = tiempoTurno;
 }
 
 
@@ -20,7 +20,7 @@ void Turno::reiniciar(){
 	terminado = false;
 	huboDisparo = false;
 	tiempoInicial = time(NULL);
-	tiempoActual = 0;
+	tiempoActual = tiempoTurno;
 }
 
 void Turno::detener(){
