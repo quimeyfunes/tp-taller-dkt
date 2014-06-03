@@ -164,9 +164,10 @@ void Gusano::PostSolve(float impulso){
 void Gusano::explotar(float fuerza) {
 	this->vida -= fuerza/200;
 	Reproductor::getReproductor()->reproducirSonido(OUCH);
-	if (this->vida < 0)
+	if (this->vida < 0){
 		this->vida = 0;
-		//this->setMuerto(true);
+		this->setMuerto(true);
+	}
 }
 
 int Gusano::getVida() {

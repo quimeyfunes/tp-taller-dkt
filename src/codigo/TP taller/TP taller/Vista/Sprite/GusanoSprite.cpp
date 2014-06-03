@@ -64,6 +64,14 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 		rectTnt[i].y = i*60;
 	}
 
+	this->rectGrave = new SDL_Rect[20];
+	for (int i= 0; i<20; i++){
+		rectGrave[i].h = 46;
+		rectGrave[i].w = 60;
+		rectGrave[i].x = 0;
+		rectGrave[i].y = i*60;
+	}
+
 	this->enUso = recCuadro;
 	this->imagen = IMG_LoadTexture(renderer, path.c_str());
 	this->cambiarImgDer = false;
@@ -107,6 +115,9 @@ GusanoSprite::~GusanoSprite(void)
 	if(this->recCuadro != NULL){
 		delete []this->recCuadro;
 	}
+	if(this->recCuadro != NULL){
+		delete []this->recCuadro;
+	}
 
 	if(this->cartel != NULL){
 		delete this->cartel;
@@ -129,9 +140,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->terminoIteracion = false;
 		//No se mueve
 		this->frameCrosshair = 0;
-
 		if ( !(fig->seMueveALaDer() ) && !(fig->seMueveALaIzq()) ) {
-			
 				this->contIzq = 0;
 				this->contDer = 0;
 				this->setCambiarImgDer(false);
@@ -200,9 +209,10 @@ void GusanoSprite::actualizar(Observable* observable) {
 		} else {
 			this->contMuerteVida = 0;
 			this->contMuerte++;
+			this->enUso = this->rectGrave;
 			this->velocidadRefresco = timeGrave;
 			this->muertePorDisparo = false;
-			this->enUso = recCuadro;
+			this->actualizarFrameGrave();
 		}
 		
 	}
@@ -258,11 +268,11 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 			flip = SDL_FLIP_HORIZONTAL;
 	}
 
-	if ((this->estado == MUERTO) && ((this->contMuerte == 1) || this->contMuerteVida == 1) ){
+	if ((this->estado == MUERTO) && ((this->contMuerte == 1) || this->contMuerteVida == 1)){
+		this->setFrame(0);
 		if(this->muertePorDisparo){
 			this->setImagen(renderer, rutaWormTnt);
 		} else {
-			this->setFrame(0);
 			this->setImagen(renderer, rutaGrave);
 		}
 	} else {
@@ -358,6 +368,16 @@ void GusanoSprite::actualizarFrameTnt(){
 	}
 }
 
+void GusanoSprite::actualizarFrameGrave(){
+	this->contador++;
+	if(this->contador >= this->velocidadRefresco){
+		this->frame++;
+			this->contador = 0;
+	}
+	if(this->frame >= 20) {
+		this->frame = 0;
+	}
+}
 void GusanoSprite::actualizarFrameDisparo(int angulo){
 
 	this->frame = (float)(15.5/90) * angulo + 15.5f;
