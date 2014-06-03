@@ -215,7 +215,9 @@ int Cliente::getId(){
 }
 
 int Cliente::getTiempoActualDeJuego(){
-	return this->tiempoActualDeJuego;
+	if( this->tiempoActualDeJuego > 0 && this->tiempoActualDeJuego <= tiempoTurno) return this->tiempoActualDeJuego;
+	else return tiempoTurno;
+	
 }
 
 void Cliente::setTiempoActualDeJuego(int tiempo){
