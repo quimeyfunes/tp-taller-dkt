@@ -614,6 +614,9 @@ void Escenario::explotar(float x, float y, int radio) {
 		distanciaV = b2Vec2(posicion.x - x, posicion.y - y );
 		distancia = distanciaV.Length();
 		if (distancia < radio ) {
+			if (distancia < anchoGusano) {
+				distancia = anchoGusano;
+			}
 			fuerzaTotal = potenciaTotal / distancia;
 			angulo = atan2(distanciaV.y , distanciaV.x);
 			fuerza.x = fuerzaTotal * cos (angulo);
