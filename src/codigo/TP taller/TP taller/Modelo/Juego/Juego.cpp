@@ -14,7 +14,7 @@ Juego::Juego(string texto){
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
 	this->vista = new Vista(e);
-	//SDL_HideWindow(this->vista->window);
+	SDL_HideWindow(this->vista->window);
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
@@ -23,7 +23,7 @@ Juego::Juego(string texto){
 	ResolverContacto* resolverContacto = new ResolverContacto();
 	this->mundo->SetContactListener(resolverContacto);
 	agregarTexturas(e);
-	agregarObjetos();
+	//agregarObjetos();
 	agregarAgua(e);
 
 
@@ -33,8 +33,8 @@ Juego::Juego(string texto){
 
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
-	Reproductor::getReproductor()->activar();
-	Reproductor::getReproductor()->enviar = false;	//setea si enviar o no los sonidos al cliente
+	Reproductor::getReproductor()->apagar();
+	Reproductor::getReproductor()->enviar = true;	//setea si enviar o no los sonidos al cliente
 
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 	servidor = new Servidor();
@@ -44,22 +44,22 @@ void Juego::ejecutar(){
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
 
-	//cout << "esperando a 2 jugadores..." << endl;
-	//	while( Servidor::getCantidadDeClientes()<2 ){
-	//		this->chequearNuevosJugadores();
-	//	}
-	//Servidor::darArranque();
+	cout << "esperando a 2 jugadores..." << endl;
+		while( Servidor::getCantidadDeClientes()<2 ){
+			this->chequearNuevosJugadores();
+		}
+	Servidor::darArranque();
 	
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
-		//this->turno->actualizar();
-		//Servidor::tiempo = this->turno->getTiempoActual();
-		//if( this->turno->estaTerminado() ){
-		//	this->escenario->detenerMovimientos();
-		//	Juego::cambiarJugador(Servidor::siguienteJugador());
-		//	cout << "Turno de: " <<Juego::getJugadorActual() << endl;
-		//	this->turno->comenzar();
-		//}
+		this->turno->actualizar();
+		Servidor::tiempo = this->turno->getTiempoActual();
+		if( this->turno->estaTerminado() ){
+			this->escenario->detenerMovimientos();
+			Juego::cambiarJugador(Servidor::siguienteJugador());
+			cout << "Turno de: " <<Juego::getJugadorActual() << endl;
+			this->turno->comenzar();
+		}
 
 		this->chequearNuevosJugadores();
 		this->leerEvento();
@@ -106,7 +106,7 @@ void Juego::ejecutar(){
 			}
 		} while (explosion.z >= 0);
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
-		this->vista->Dibujar();
+		//this->vista->Dibujar();
 
         next_game_tick += SKIP_TICKS;
         sleepTime = next_game_tick - GetTickCount();
