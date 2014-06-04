@@ -14,7 +14,7 @@ Juego::Juego(string texto){
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
 	this->vista = new Vista(e);
-	//SDL_HideWindow(this->vista->window);
+	SDL_HideWindow(this->vista->window);
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
@@ -23,7 +23,7 @@ Juego::Juego(string texto){
 	ResolverContacto* resolverContacto = new ResolverContacto();
 	this->mundo->SetContactListener(resolverContacto);
 	agregarTexturas(e);
-	agregarObjetos();
+	//agregarObjetos();
 	agregarAgua(e);
 
 
@@ -44,24 +44,23 @@ void Juego::ejecutar(){
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
 
-	/*cout << "esperando a 2 jugadores..." << endl;
+	cout << "esperando a 2 jugadores..." << endl;
 		while( Servidor::getCantidadDeClientes()<2 ){
 			this->chequearNuevosJugadores();
 		}
-	Servidor::darArranque();*/
+	Servidor::darArranque();
 	
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
-		/*this->turno->actualizar();
+		this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();
 		if( this->turno->estaTerminado() ){
 			this->escenario->detenerMovimientos();
 			Juego::cambiarJugador(Servidor::siguienteJugador());
 			cout << "Turno de: " <<Juego::getJugadorActual() << endl;
 			this->turno->comenzar();
-		}*/
+		}
 
-		this->chequearNuevosJugadores();
 		this->leerEvento();
 		
 		
