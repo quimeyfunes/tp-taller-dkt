@@ -1,12 +1,5 @@
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
 #include "../Dibujables/DibujableTextura.h"
-#include "../../constantes.h"
-#include "../../constantesArmas.h"
-#include "../../Modelo/Escenario/Escenario.h"
-#include "../../Parser/yaml/ParserYaml.h"
 #include "../../Observador/Observador.h"
-#include "../../Modelo/Figuras/Figura.h"
 #include <string>
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>

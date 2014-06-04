@@ -36,7 +36,7 @@ void Aleluya::BeginContact(){
 	Reproductor::getReproductor()->reproducirSonido(IMPACTOALELUYA);
 }
 
-bool Aleluya::getExplotar(){
+void Aleluya::actualizar(){
 	this->explota = false;
 
 	if(!aleluya){
@@ -49,5 +49,4 @@ bool Aleluya::getExplotar(){
 		else
 			this->explota=true;
 	}
-	return this->explota;
 }

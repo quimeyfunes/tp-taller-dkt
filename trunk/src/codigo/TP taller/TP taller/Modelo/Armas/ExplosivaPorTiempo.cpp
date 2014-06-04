@@ -12,12 +12,10 @@ ExplosivaPorTiempo::ExplosivaPorTiempo(float x, float y, short int rotacion, b2W
 
 }
 
-bool ExplosivaPorTiempo::getExplotar(){
+void ExplosivaPorTiempo::actualizar(){
 	if (time(NULL) - this->tiempoInicial >= this->tiempoExplosion){
 		this->explotar(true);
 	}else this->explotar(false);
-
-	return this->explota;
 }
 
 ExplosivaPorTiempo::~ExplosivaPorTiempo(void)
@@ -32,4 +30,8 @@ void ExplosivaPorTiempo::EndContact(){}
 void ExplosivaPorTiempo::disparar(bool sentido, float potencia, float angulo) {
 	Arma::disparar(sentido,potencia,angulo);
 	this->getBody()->SetAngularVelocity(2);
+}
+
+int ExplosivaPorTiempo::getTiempoRestante(){
+	return (this->tiempoExplosion - (time(NULL) - this->tiempoInicial));
 }

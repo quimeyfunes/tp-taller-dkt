@@ -48,7 +48,7 @@ const float altoMisiles = 1;
 const int masaMisiles = 30;
 
 //PARA EXPLOSIONES
-const float radioExplosionGusano = 2;
+const float radioExplosionGusano = 3;
 const float radioExplosionGranada = 4;
 const float radioExplosionBazooka = 5;
 const float radioExplosionDinamita = 6;

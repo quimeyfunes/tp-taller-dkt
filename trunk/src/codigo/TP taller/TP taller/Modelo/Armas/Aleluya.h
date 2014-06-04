@@ -14,7 +14,7 @@ public:
 	~Aleluya(void);
 	void disparar(bool sentido, float potencia, float angulo);
 	void BeginContact();
-	bool getExplotar();
+	void actualizar();
 };
 
 #endif

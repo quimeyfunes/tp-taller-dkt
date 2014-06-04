@@ -631,9 +631,16 @@ void Escenario::explotar(float x, float y, int radio) {
 				distancia = anchoGusano;
 			}
 			fuerzaTotal = potenciaTotal / distancia;
-			angulo = atan2(distanciaV.y , distanciaV.x);
-			fuerza.x = fuerzaTotal * coseno[(int) (angulo * RADTODEG)];//os (angulo);
-			fuerza.y = fuerzaTotal * seno[(int) (angulo* RADTODEG)];//in (angulo);
+			angulo = atan2(distanciaV.y , distanciaV.x) * RADTODEG;
+			if (angulo < 0) {
+				angulo += 360;
+			} else {
+				if (angulo > 360) {
+					angulo -= 360;
+				}
+			}
+			fuerza.x = fuerzaTotal * coseno[(int) (angulo)];
+			fuerza.y = fuerzaTotal * seno[(int) (angulo)];
 			(*it)->getBody()->ApplyForceToCenter(fuerza,true);
 			(*it)->explotar(fuerzaTotal);
 		}
