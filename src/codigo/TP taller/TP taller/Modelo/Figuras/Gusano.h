@@ -26,6 +26,7 @@ private:
 	bool choqueConArma;
 	b2Fixture* fixtureCuerpo;
 	int tiempoInicial;
+	bool explota;
 
 	typedef struct{
 		tipoArma armaTipo;
@@ -65,6 +66,8 @@ public:
 	int getVida();
 	void disparar();
 	void chequearChoqueConArma();
+	bool getExplota();
+	void setExplota(bool explota);
 };
 
 #endif
