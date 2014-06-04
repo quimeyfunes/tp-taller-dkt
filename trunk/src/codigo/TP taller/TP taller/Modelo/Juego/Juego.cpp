@@ -34,7 +34,7 @@ Juego::Juego(string texto){
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 	Reproductor::getReproductor()->activar();
-
+	Reproductor::getReproductor()->enviar = false;	//setea si enviar o no los sonidos al cliente
 
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 	servidor = new Servidor();
@@ -44,24 +44,24 @@ void Juego::ejecutar(){
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
 
-	/*cout << "esperando a 2 jugadores..." << endl;
-		while( Servidor::getCantidadDeClientes()<2 ){
-			this->chequearNuevosJugadores();
-		}
-	Servidor::darArranque();*/
+	//cout << "esperando a 2 jugadores..." << endl;
+	//	while( Servidor::getCantidadDeClientes()<2 ){
+	//		this->chequearNuevosJugadores();
+	//	}
+	//Servidor::darArranque();
 	
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
-		/*this->turno->actualizar();
-		Servidor::tiempo = this->turno->getTiempoActual();
-		if( this->turno->estaTerminado() ){
-			this->escenario->detenerMovimientos();
-			Juego::cambiarJugador(Servidor::siguienteJugador());
-			cout << "Turno de: " <<Juego::getJugadorActual() << endl;
-			this->turno->comenzar();
-		}
-*/
-		//this->chequearNuevosJugadores();
+		//this->turno->actualizar();
+		//Servidor::tiempo = this->turno->getTiempoActual();
+		//if( this->turno->estaTerminado() ){
+		//	this->escenario->detenerMovimientos();
+		//	Juego::cambiarJugador(Servidor::siguienteJugador());
+		//	cout << "Turno de: " <<Juego::getJugadorActual() << endl;
+		//	this->turno->comenzar();
+		//}
+
+		this->chequearNuevosJugadores();
 		this->leerEvento();
 		
 		
