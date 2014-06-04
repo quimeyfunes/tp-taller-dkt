@@ -15,6 +15,7 @@ public:
 	void disparar(bool sentido, float potencia, float angulo);
 	void BeginContact();
 	void actualizar();
+	int getTiempoRestante();
 };
 
 #endif

@@ -18,7 +18,7 @@ public:
 	void EndContact();
 	virtual void actualizar();
 	virtual void disparar(bool sentido, float potencia, float angulo);
-	int getTiempoRestante();
+	virtual int getTiempoRestante();
 	
 };
 
