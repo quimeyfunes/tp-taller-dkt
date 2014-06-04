@@ -1,6 +1,7 @@
 #include "ClienteRed.h"
 #include "../../Parser/yaml/ParserYaml.h"
 #include "../StringUtil.h"
+#include "../Reproductor.h"
 
 class Cliente
 {

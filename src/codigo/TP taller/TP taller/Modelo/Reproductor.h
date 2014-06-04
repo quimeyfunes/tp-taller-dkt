@@ -5,7 +5,10 @@
 #include <stdio.h>
 #include <windows.h>
 #include "../constantesAudio.h"
+#include "../Parser/yaml/ParserYaml.h"
 #include <vector>
+#include <queue>
+
 using namespace std;
 
 class Reproductor{
@@ -14,8 +17,12 @@ private:
 	static Reproductor* repInstancia;
 	Reproductor();
 	static audio* listaDeReproduccion;
+	static int numClientes;
+	static queue<audioEnCola>* colaDeEspera;
+	
 
 public:
+	static bool enviar;
 	static Reproductor* getReproductor();
 	~Reproductor();
 	static void activar();
@@ -23,6 +30,7 @@ public:
 	static void reproducirSonido(sonido aRep);
 	static void detenerSonido(sonido aRep);
 	static bool estaReproduciendo(sonido aRep);
+	static queue<audioEnCola>* getColaDeEspera();
 
 };
 

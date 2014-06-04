@@ -56,5 +56,10 @@ typedef struct{
 	bool activo;
 }audio;
 
+typedef struct{
+	bool reproducir;
+	sonido s;
+}audioEnCola;
+
 
 #endif

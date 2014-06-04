@@ -66,6 +66,9 @@ void Servidor::actualizar(void* clienteN)
 {
 	int id= (int)clienteN;
 	int contador=0;
+	queue<audioEnCola>* colaDeSonidos;
+	audioEnCola aMandar;
+
 	while(clientes[id].activo){
 
 		//recibe los mensajes que mandan otros clientes sin chocar en los threads
@@ -84,7 +87,7 @@ void Servidor::actualizar(void* clienteN)
 			contador++;
 		}
 		if(contador == Servidor::cliente_id){
-			Servidor::setTerrenoModificado(false);
+			Servidor::setTerrenoModificado(false);	//ARREGLAR ESTO!!!
 			contador=0;
 		}
 
@@ -92,10 +95,33 @@ void Servidor::actualizar(void* clienteN)
 		if(Servidor::tiempo != -1 && Servidor::tiempo <= tiempoTurno){ 
 			enviarCliente(&id,paqueteTiempo, StringUtil::int2string(Servidor::tiempo));
 		}
+
+
+/*		colaDeSonidos = Reproductor::getReproductor()->getColaDeEspera();
+		while( ! colaDeSonidos->empty() ){
+			//cout<<clientes[id].username + ""<<aMandar.s<<endl;
+			aMandar = colaDeSonidos[id].front();
+			colaDeSonidos[id].pop();
+			EnviarSonido(id, aMandar);
+		}
+*/
 		
 	}
 
 	//_endthread();
+}
+
+void Servidor::EnviarSonido(int id, audioEnCola aMandar){
+
+	string sonidoSerializado;
+	if(aMandar.reproducir) 
+		sonidoSerializado = "1";
+	else
+		sonidoSerializado = "0";
+
+	sonidoSerializado += separadorCamposArreglo;
+	sonidoSerializado += StringUtil::int2string((int)aMandar.s);
+	enviarPaquete(clientes[id].socket, paqueteSonido, sonidoSerializado);
 }
 
 void Servidor::enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje){

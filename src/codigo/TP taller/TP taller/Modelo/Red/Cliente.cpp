@@ -178,6 +178,17 @@ bool Cliente::recibirDeServidor(){
 				this->arrancarJuego = true;
 				break;
 
+			case paqueteSonido:
+				{
+					
+					vector<string> deserializado = StringUtil::split(paquete->getMensaje(), separadorCamposArreglo);
+					bool reproducir = (deserializado.at(0) == "1")? true:false;
+					int s = StringUtil::str2int(deserializado.at(1));
+					if(reproducir) Reproductor::getReproductor()->reproducirSonido((sonido)s);
+					else Reproductor::getReproductor()->detenerSonido((sonido)s);
+					break;
+
+				}
             default:
 
                 //printf("Error en el tipo de paquete.Tipo es %d\n",paquete->getTipo());

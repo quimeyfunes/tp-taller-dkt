@@ -3,11 +3,16 @@
 Reproductor* Reproductor::repInstancia = NULL;
 audio* Reproductor::listaDeReproduccion;
 bool Reproductor::activo = false;
+int Reproductor::numClientes;
+bool Reproductor::enviar=false;
+queue<audioEnCola>* Reproductor::colaDeEspera;
 
 Reproductor::Reproductor(){
 
-	Mix_OpenAudio( 44100, AUDIO_S16SYS, 2, 2048 );
+	numClientes = ParserYaml::getParser()->getEscenario()->maximosClientes;
+	colaDeEspera = new queue<audioEnCola>[numClientes];	//cola de reproduccion para el servidor
 
+	Mix_OpenAudio( 44100, AUDIO_S16SYS, 2, 2048 );
 	//no variar este valor
 	Mix_AllocateChannels(11);
 
@@ -48,7 +53,8 @@ Reproductor::Reproductor(){
 			listaDeReproduccion[i].loops = -1;
 		else
 			listaDeReproduccion[i].loops = 0; //reproduce una sola vez y corta.
-	}	
+	}
+
 }
 
 
@@ -70,6 +76,15 @@ Reproductor* Reproductor::getReproductor(){
 
 void Reproductor::reproducirSonido(sonido son){
 
+	if(enviar){
+		audioEnCola aMandar;
+		aMandar.reproducir=true;
+		aMandar.s = son;
+		for(int i=0; i< numClientes; i++){
+			colaDeEspera[i].push(aMandar);
+		}
+	}
+
 	if(activo){
 		if(listaDeReproduccion[son].loops == -1) detenerSonido(son); //si se quieren reproducir al mismo tiempo 2 sonidos con loops infinitos, hay q detener uno para q no se quede colgado
 		
@@ -77,28 +92,43 @@ void Reproductor::reproducirSonido(sonido son){
 			Mix_PlayChannel(listaDeReproduccion[son].canal, listaDeReproduccion[son].efecto, listaDeReproduccion[son].loops);
 		else
 			listaDeReproduccion[son].canal = Mix_PlayChannel(-1, listaDeReproduccion[son].efecto, listaDeReproduccion[son].loops);
-
 		listaDeReproduccion[son].activo = true;
 	}
 }
 
 void Reproductor::detenerSonido(sonido son){
 
-	if(listaDeReproduccion[son].activo){
-		if(Mix_Playing(listaDeReproduccion[son].canal) != 0){
-			Mix_HaltChannel(listaDeReproduccion[son].canal);
+	if(enviar){
+		audioEnCola aMandar;
+		aMandar.reproducir=false;
+		aMandar.s = son;
+		for(int i=0; i< numClientes; i++){
+			colaDeEspera[i].push(aMandar);
 		}
-		listaDeReproduccion[son].activo = false;
 	}
-	
+
+	if(activo){
+		if(listaDeReproduccion[son].activo){
+			if(Mix_Playing(listaDeReproduccion[son].canal) != 0){
+				Mix_HaltChannel(listaDeReproduccion[son].canal);
+			}
+			listaDeReproduccion[son].activo = false;
+		}
+	}
 }
 
 bool Reproductor::estaReproduciendo(sonido s){
 	
-	if(listaDeReproduccion[s].activo)
-		listaDeReproduccion[s].activo = (Mix_Playing(listaDeReproduccion[s].canal) != 0)? true:false;
-
+	if(activo){
+		if(listaDeReproduccion[s].activo)
+			listaDeReproduccion[s].activo = (Mix_Playing(listaDeReproduccion[s].canal) != 0)? true:false;
+	}
 	return listaDeReproduccion[s].activo;
+}
+
+queue<audioEnCola>* Reproductor::getColaDeEspera(){
+
+	return colaDeEspera;
 }
 
 void Reproductor::activar(){
