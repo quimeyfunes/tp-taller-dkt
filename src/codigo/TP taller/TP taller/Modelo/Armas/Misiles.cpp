@@ -27,7 +27,7 @@ Misiles::Misiles(float x, float y, short int rotacion, b2World* world, bool esta
 void Misiles::disparar(bool sentido, float potencia, float angulo){
 	//si hay tiempo agrego lo de elegir el sentido
 	float vX = 0;
-	float vY = 20;
+	float vY = 30;
 
 	this->getBody()->SetLinearVelocity(b2Vec2(vX, vY));
 	

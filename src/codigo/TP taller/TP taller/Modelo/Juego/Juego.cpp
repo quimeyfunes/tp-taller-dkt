@@ -218,7 +218,7 @@ void Juego::leerEvento(){
 								 for(int i=0;i<4;i++){
 
 									 x+=5;
-									this->escenario->getGusanoActivo()->setArma(new Misiles(x, -40, 0, this->escenario->getWorld(), false, anchoMisiles, altoMisiles, masaMisiles, radioExplosionMisiles ) );
+									this->escenario->getGusanoActivo()->setArma(new Misiles(x, -60, 0, this->escenario->getWorld(), false, anchoMisiles, altoMisiles, masaMisiles, radioExplosionMisiles ) );
 									this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
 									this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador( this->vista->crearArmaContactoDibujable(x, 0, anchoMisiles*relacionPPU,altoMisiles*relacionPPU,rutaMisil,rutaMisil) );
 									this->escenario->getGusanoActivo()->disparar();
@@ -388,11 +388,7 @@ void Juego::dispararArma(){
 			arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioBanana,relacionPPU * 2*radioBanana,rutaBanana,rutaBanana); 
 			break;	
 		case MISILES:
-			int x,y;
-			SDL_GetMouseState(&x,&y);
-				this->escenario->getGusanoActivo()->setArma(new Misiles(posD.x, 0, 0, this->escenario->getWorld(), false, anchoMisiles, altoMisiles, masaMisiles, radioExplosionMisiles ) );
-				arma = this->vista->crearArmaContactoDibujable(posD.x, 0, anchoMisiles*relacionPPU,altoMisiles*relacionPPU,rutaMisil,rutaMisil);		
-				
+			//el disparo del misil es con clic
 			break;
 			}
 			this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
