@@ -11,7 +11,7 @@ public:
 	Dinamita(float x, float y, short int rotacion, b2World* world, bool estatico, float radioExplosion, float ancho, float alto, float masa, int tiempoExplosion);
 	~Dinamita(void);
 	void disparar(bool sentido, float potencia, float angulo);
-	bool getExplotar();
+	void actualizar();
 };
 
 #endif
