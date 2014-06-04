@@ -50,7 +50,6 @@ private:
 	void dispararArmaCliente(int cliente);
 	//para setear el arma mas facil mientras se prueba
 	int NUMCLICKDERECHOS;
-	bool pedidoDeLanzamiento;
 
 public:
 	
