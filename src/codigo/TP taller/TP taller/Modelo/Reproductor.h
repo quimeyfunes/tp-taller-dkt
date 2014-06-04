@@ -18,7 +18,7 @@ private:
 	Reproductor();
 	static audio* listaDeReproduccion;
 	static int numClientes;
-	static queue<audioEnCola>* colaDeEspera;
+	static audioEnCola** colaDeEspera;
 	
 
 public:
@@ -30,7 +30,7 @@ public:
 	static void reproducirSonido(sonido aRep);
 	static void detenerSonido(sonido aRep);
 	static bool estaReproduciendo(sonido aRep);
-	static queue<audioEnCola>* getColaDeEspera();
+	static audioEnCola** getColaDeEspera();
 
 };
 

@@ -71,8 +71,7 @@ void Servidor::enviarTerreno(SOCKET sock){
 void Servidor::actualizar(void* clienteN) 
 {
 	int id= (int)clienteN;
-	queue<audioEnCola>* colaDeSonidos;
-	audioEnCola aMandar;
+	audioEnCola** colaDeSonidos;
 
 	while(clientes[id].activo){
 
@@ -101,13 +100,12 @@ void Servidor::actualizar(void* clienteN)
 
 
 		colaDeSonidos = Reproductor::getReproductor()->getColaDeEspera();
-		if( ! colaDeSonidos->empty() ){
-			aMandar = colaDeSonidos[id].back();
-			if(!aMandar.enviado){
-				EnviarSonido(id, aMandar);
-				colaDeSonidos[id].back().enviado = true;
+
+		for(int i=0; i< numSonidos; i++){
+			if(!colaDeSonidos[id][i].enviado){
+				EnviarSonido(id, colaDeSonidos[id][i]);
+				colaDeSonidos[id][i].enviado = true;
 			}
-			//(colaDeSonidos[id].pop();
 		}
 	}
 }

@@ -5,19 +5,32 @@ audio* Reproductor::listaDeReproduccion;
 bool Reproductor::activo = false;
 int Reproductor::numClientes;
 bool Reproductor::enviar=false;
-queue<audioEnCola>* Reproductor::colaDeEspera;
+audioEnCola** Reproductor::colaDeEspera;
 
 Reproductor::Reproductor(){
 
+	cout<<"num: "<<numSonidos<<endl;
 	numClientes = ParserYaml::getParser()->getEscenario()->maximosClientes;
-	colaDeEspera = new queue<audioEnCola>[numClientes];	//cola de reproduccion para el servidor
+	colaDeEspera = new audioEnCola*[numClientes];	//cola de reproduccion para el servidor
+
+	for(int i=0; i< numClientes; i++){
+		colaDeEspera[i] = new audioEnCola[numSonidos];
+	}
+
+	for(int i=0; i< numClientes; i++){
+		for(int j=0; j< numSonidos; j++){
+			colaDeEspera[i][j].enviado=true;
+			colaDeEspera[i][j].reproducir=false;
+			colaDeEspera[i][j].s = NINGUNO;
+		}
+	}
 
 	Mix_OpenAudio( 44100, AUDIO_S16SYS, 2, 2048 );
 	//no variar este valor
 	Mix_AllocateChannels(11);
 
 	//cargo todos los audios
-	listaDeReproduccion = new audio[21];
+	listaDeReproduccion = new audio[numSonidos];
 	listaDeReproduccion[MUSICAFONDO].efecto = Mix_LoadWAV(rutaMusicaFondo);
 	listaDeReproduccion[EXPLOSION].efecto = Mix_LoadWAV(rutaSonidoExplosion);
 	listaDeReproduccion[AGUA].efecto = Mix_LoadWAV(rutaSonidoAgua);
@@ -42,7 +55,7 @@ Reproductor::Reproductor(){
 	listaDeReproduccion[INCOMING].efecto = Mix_LoadWAV(rutaSonidoIncoming);
 	listaDeReproduccion[AVION].efecto = Mix_LoadWAV(rutaSonidoAvion);
 
-	for(int i=0; i < 21; i++){
+	for(int i=0; i < numSonidos; i++){
 
 		if(i == MECHA || i == SONIDOALELUYA || i == CAMINANDO)
 			listaDeReproduccion[i].canal = i;
@@ -79,12 +92,10 @@ Reproductor* Reproductor::getReproductor(){
 void Reproductor::reproducirSonido(sonido son){
 
 	if(enviar){
-		audioEnCola aMandar;
-		aMandar.reproducir=true;
-		aMandar.s = son;
-		aMandar.enviado=false;
 		for(int i=0; i< numClientes; i++){
-			colaDeEspera[i].push(aMandar);
+			colaDeEspera[i][son].reproducir=true;
+			colaDeEspera[i][son].enviado = false;
+			colaDeEspera[i][son].s = son;
 		}
 	}
 
@@ -102,11 +113,10 @@ void Reproductor::reproducirSonido(sonido son){
 void Reproductor::detenerSonido(sonido son){
 
 	if(enviar){
-		audioEnCola aMandar;
-		aMandar.reproducir=false;
-		aMandar.s = son;
 		for(int i=0; i< numClientes; i++){
-			colaDeEspera[i].push(aMandar);
+			colaDeEspera[i][son].reproducir=false;
+			colaDeEspera[i][son].enviado = false;
+			colaDeEspera[i][son].s = son;
 		}
 	}
 
@@ -129,7 +139,7 @@ bool Reproductor::estaReproduciendo(sonido s){
 	return listaDeReproduccion[s].activo;
 }
 
-queue<audioEnCola>* Reproductor::getColaDeEspera(){
+audioEnCola** Reproductor::getColaDeEspera(){
 
 	return colaDeEspera;
 }

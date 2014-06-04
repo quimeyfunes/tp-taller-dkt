@@ -52,6 +52,8 @@ typedef enum{
 	NINGUNO,
 }sonido;
 
+#define numSonidos 22
+
 typedef struct{
 	Mix_Chunk* efecto;
 	int canal;
@@ -61,8 +63,8 @@ typedef struct{
 
 typedef struct{
 	bool reproducir;
-	sonido s;
 	bool enviado;
+	sonido s;
 }audioEnCola;
 
 
