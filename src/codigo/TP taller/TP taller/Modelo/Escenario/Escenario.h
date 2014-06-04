@@ -60,6 +60,7 @@ public:
 	int getMaximosClientes();
 	void detenerMovimientos();
 	Gusano* getGusanoActivo();
+	void setGusanoActivo(Gusano* gusano);
 	list<Figura*>* getFiguras();
 	b2World* getWorld();
 	Poligono* crearPoligono(ObjetoParseado objeto);

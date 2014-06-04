@@ -21,6 +21,7 @@
 #define rutaSonidoMeMuero "audio/efectos/MeMuero.wav"
 #define rutaSonidoIncoming "audio/efectos/INCOMING.wav"
 #define rutaSonidoAvion "audio/efectos/airstrike.wav"
+#define rutaSonidoSeleccionarWorm "audio/efectos/WORMSELECT.wav"
 
 #define rutaMusicaFondo "audio/ingame-04-battlezone.wav"
 
@@ -49,10 +50,11 @@ typedef enum{
 	MEMUERO,
 	INCOMING,
 	AVION,
+	SELECCIONARWORM,
 	NINGUNO,
 }sonido;
 
-#define numSonidos 22
+#define numSonidos 23
 
 typedef struct{
 	Mix_Chunk* efecto;
