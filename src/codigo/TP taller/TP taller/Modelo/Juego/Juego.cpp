@@ -7,7 +7,6 @@ Juego::Juego(){
 }
 
 Juego::Juego(string texto){
-	this->pedidoDeLanzamiento = false;
 	this->turno = new Turno();
 	this->simulando = true;
 	this->estadoActual = JUGANDO;
@@ -189,11 +188,8 @@ void Juego::leerEvento(){
 										break;
 
 				case SOLTARESPACIO:
-										if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES){
+										if( !(this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES){
 											
-											pedidoDeLanzamiento = true;
-										}
-										else{
 											this->dispararArma();
 											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
 											//Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
@@ -210,10 +206,8 @@ void Juego::leerEvento(){
 							//Servidor::setTerrenoModificado(true);
 						//}
 
-						 if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES && pedidoDeLanzamiento ){
+						 if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES  ){
 							this->dispararArma();
-							Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
-							pedidoDeLanzamiento = false;
 							
 						}
 
