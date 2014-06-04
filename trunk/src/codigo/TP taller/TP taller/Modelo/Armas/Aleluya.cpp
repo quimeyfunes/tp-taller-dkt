@@ -50,3 +50,8 @@ void Aleluya::actualizar(){
 			this->explota=true;
 	}
 }
+
+int Aleluya::getTiempoRestante(){
+	return (this->tiempoExplosion - (time(NULL) - this->tiempoInicial) + 2);
+}
+
