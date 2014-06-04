@@ -91,7 +91,7 @@ void Servidor::actualizar(void* clienteN)
 			contador=0;
 		}
 
-		//envio el tiempo del reloj a los clientes:
+		//envio el tiempo del reloj a los clientes:5
 		if(Servidor::tiempo != -1 && Servidor::tiempo <= tiempoTurno){ 
 			enviarCliente(&id,paqueteTiempo, StringUtil::int2string(Servidor::tiempo));
 		}
@@ -99,9 +99,9 @@ void Servidor::actualizar(void* clienteN)
 
 		colaDeSonidos = Reproductor::getReproductor()->getColaDeEspera();
 		if( ! colaDeSonidos->empty() ){
-			aMandar = colaDeSonidos[id].front();
-			if(!colaDeSonidos->empty()) colaDeSonidos[id].pop();
+			aMandar = colaDeSonidos[id].back();
 			EnviarSonido(id, aMandar);
+			colaDeSonidos[id].pop();
 		}
 
 		
