@@ -18,6 +18,7 @@
 #define rutaSonidoImpactoBanana "audio/efectos/ImpactoBanana.wav"
 #define rutaSonidoEnemigoALas12 "audio/efectos/EnemigoALas12.wav"
 #define rutaSonidoTimerTick "audio/efectos/TIMERTICK.wav"
+#define rutaSonidoMeMuero "audio/efectos/MeMuero.wav"
 
 #define rutaMusicaFondo "audio/ingame-04-battlezone.wav"
 
@@ -26,21 +27,25 @@ typedef enum{
 	MUSICAFONDO,
 	EXPLOSION,
 	AGUA,
-	SONIDOALELUYA,
 	IMPACTOALELUYA,
 	IMPACTOGRANADA,
 	IMPACTOBANANA,
 	ENEMIGOALAS12,
 	CARGANDODISPARO,
+	CAMINANDO,
+
+	MECHA,	//ASEGURARSE QUE MECHA Y ALELUYA ESTEN EN LAS POS 9 Y 10 RESPECTIVAMENTE
+	SONIDOALELUYA,
+
+	
 	SOLTARDISPARO,
 	SOLTARGRANADA,
 	RISA,
-	MECHA,
 	ACUBIERTO,
-	CAMINANDO,
 	SALTO,
 	OUCH,
 	TIMERTICK,
+	MEMUERO,
 	NINGUNO,
 }sonido;
 

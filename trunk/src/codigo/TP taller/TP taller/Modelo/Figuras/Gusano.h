@@ -19,6 +19,7 @@ private:
 	int numContactos;
 	bool meClick;
 	vector<bool> meClickearon;
+	
 	bool congelado;
 	int maximosCLientes;
 	int vida;
@@ -37,6 +38,7 @@ private:
 
 
 public:
+	bool meMuevo; //para el sonido de caminar
 	Gusano();
 	Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa,int maximosClientes);
 	~Gusano(void);

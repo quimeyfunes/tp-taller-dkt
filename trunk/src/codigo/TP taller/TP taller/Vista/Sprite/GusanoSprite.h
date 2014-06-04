@@ -70,7 +70,7 @@ public:
 	tipoArma armaTipo;
 	ESTADO estado;
 	vector<bool> mostrarCartel;
-	int velocidadRefresco;
+	float velocidadRefresco;
 	int numCuadros;
 	int cliente;
 	int congelado;
