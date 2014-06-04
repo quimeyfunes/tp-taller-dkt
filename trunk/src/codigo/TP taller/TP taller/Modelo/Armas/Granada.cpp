@@ -28,12 +28,7 @@ Granada::~Granada(void)
 
 void Granada::disparar(bool sentido, float potencia, float angulo){
 
-	float vX = potencia*coseno[(int)angulo];//os(angulo*DEGTORAD);
-	float vY = -potencia*seno[(int)angulo];//in(angulo*DEGTORAD);
-
-	if(sentido) vX *= -1;
-	this->getBody()->SetLinearVelocity(b2Vec2(vX, vY));
-	this->getBody()->SetAngularVelocity(2);
+	ExplosivaPorTiempo::disparar(sentido,potencia,angulo);
 	Reproductor::getReproductor()->reproducirSonido(SOLTARGRANADA);
 
 }

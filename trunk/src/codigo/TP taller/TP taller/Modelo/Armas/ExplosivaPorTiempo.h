@@ -17,6 +17,7 @@ public:
 	void BeginContact();
 	void EndContact();
 	bool getExplotar();
+	virtual void disparar(bool sentido, float potencia, float angulo);
 	
 };
 

@@ -21,9 +21,6 @@ Dinamita::Dinamita(float x, float y, short int rotacion, b2World* world, bool es
 
 void Dinamita::disparar(bool sentido, float potencia, float angulo){
 
-	//float vX = 1;
-	//if(sentido) vX *= -1;
-	//this->getBody()->SetLinearVelocity(b2Vec2(vX, 0));
 	Reproductor::getReproductor()->reproducirSonido(RISA);
 	Reproductor::getReproductor()->reproducirSonido(MECHA);
 }

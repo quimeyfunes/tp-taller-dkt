@@ -25,12 +25,7 @@ Bazooka::Bazooka(float x, float y, short int rotacion, b2World* world, bool esta
 
 void Bazooka::disparar(bool sentido, float potencia, float angulo){
 
-	float vX = potencia*coseno[(int)angulo];//os(angulo*DEGTORAD);
-	float vY = -potencia*seno[(int)angulo];//in(angulo*DEGTORAD);
-
-	if(sentido) vX *= -1;
-
-	this->getBody()->SetLinearVelocity(b2Vec2(vX, vY));
+	Arma::disparar(sentido,potencia,angulo);
 	Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
 }
 
