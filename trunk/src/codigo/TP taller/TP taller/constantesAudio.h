@@ -19,6 +19,8 @@
 #define rutaSonidoEnemigoALas12 "audio/efectos/EnemigoALas12.wav"
 #define rutaSonidoTimerTick "audio/efectos/TIMERTICK.wav"
 #define rutaSonidoMeMuero "audio/efectos/MeMuero.wav"
+#define rutaSonidoIncoming "audio/efectos/INCOMING.wav"
+#define rutaSonidoAvion "audio/efectos/airstrike.wav"
 
 #define rutaMusicaFondo "audio/ingame-04-battlezone.wav"
 
@@ -46,6 +48,8 @@ typedef enum{
 	OUCH,
 	TIMERTICK,
 	MEMUERO,
+	INCOMING,
+	AVION,
 	NINGUNO,
 }sonido;
 

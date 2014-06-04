@@ -7,13 +7,13 @@
 #define rutaAleluya "imagenes/texturas/aleluya.png"
 #define rutaBanana "imagenes/texturas/banana.png"
 #define rutaDinamita "imagenes/texturas/dinamita.png"
-#define rutaMisilesIzq "imagenes/texturas/bazIzq.png"
+#define rutaMisil "imagenes/texturas/Misil.png"
 #define rutaWormBaz "imagenes/texturas/wormConBazookaIzq.png"
 #define rutaWormGran "imagenes/texturas/wormGran.png"
 #define rutaWormAle "imagenes/texturas/wormAleluya.png"
 #define rutaWormDin "imagenes/texturas/wormConDinamita.png"
 #define rutaWormBan "imagenes/texturas/wormConBanana.png"
-#define rutaWormMisiles "imagenes/texturas/wormConMisiles.png"
+#define rutaWormRadio "imagenes/texturas/wormConRadio.png"
 
 
 
@@ -43,8 +43,8 @@ const int masaBanana = 5;
 const int tiempoExplosionBanana = 5;
 const int tiempoExplosionMiniBanana = 3;
 
-const float anchoMisiles = 1.4;
-const float altoMisiles = 1;
+const float anchoMisiles = 3;
+const float altoMisiles = 2;
 const int masaMisiles = 30;
 
 //PARA EXPLOSIONES
