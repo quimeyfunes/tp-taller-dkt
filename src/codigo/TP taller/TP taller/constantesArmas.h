@@ -18,7 +18,7 @@
 
 
 const int POTENCIA_MAXIMA_DISPARO = 40;
-const float AUMENTO_POTENCIA = 0.5;
+const float AUMENTO_POTENCIA = 0.4;
 
 const float anchoBazooka = 1.4;
 const float altoBazooka = 1;

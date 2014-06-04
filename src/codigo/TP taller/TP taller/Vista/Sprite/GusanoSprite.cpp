@@ -141,6 +141,11 @@ void GusanoSprite::actualizar(Observable* observable) {
 		//No se mueve
 		this->frameCrosshair = 0;
 		if ( !(fig->seMueveALaDer() ) && !(fig->seMueveALaIzq()) ) {
+
+			if(fig->meMuevo){
+				Reproductor::getReproductor()->detenerSonido(CAMINANDO);
+				fig->meMuevo=false;
+			}
 				this->contIzq = 0;
 				this->contDer = 0;
 				this->setCambiarImgDer(false);
@@ -169,6 +174,10 @@ void GusanoSprite::actualizar(Observable* observable) {
 			}
 		} else {
 			this->velocidadRefresco = timeGusanoMovil;
+			if(!fig->meMuevo){
+				Reproductor::getReproductor()->reproducirSonido(CAMINANDO);
+				fig->meMuevo=true;
+			}
 			this->armaTipo = NINGUNA;
 			this->mostrarCrosshair = false;
 				if ((fig->seMueveALaDer())){	
@@ -200,6 +209,8 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->contFrent = 0;
 		this->estado = MUERTO;	
 		if ( (fig->getVida() == 0) && !(this->terminoIteracion)){
+
+			if(this->contMuerteVida == 40)	Reproductor::getReproductor()->reproducirSonido(MEMUERO);
 			this->contMuerte = 0;
 			this->contMuerteVida++;
 			this->enUso = this->rectTnt;
@@ -362,7 +373,7 @@ void GusanoSprite::actualizarFrameTnt(){
 	this->contador++;
 	if(this->contador >= this->velocidadRefresco){
 		this->frame++;
-			this->contador = 0;
+		this->contador = 0;
 	}
 	if(this->frame >= 60) {
 		this->frame = 0;

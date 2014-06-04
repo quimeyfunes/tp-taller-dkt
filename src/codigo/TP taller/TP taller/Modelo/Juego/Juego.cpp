@@ -188,13 +188,13 @@ void Juego::leerEvento(){
 										break;
 
 				case SOLTARESPACIO:
-										if( !(this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES){
+										if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
 											
 											this->dispararArma();
 											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
 											//Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
-											this->escenario->espacio(false);
 										}
+										this->escenario->espacio(false);
 										break;
 
 				case CLICK:     
@@ -205,12 +205,11 @@ void Juego::leerEvento(){
 							//aviso al servidor q se modifico el terreno
 							//Servidor::setTerrenoModificado(true);
 						//}
-
-						 if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES  ){
-							this->dispararArma();
-							
-						}
-
+						 if(this->escenario->getGusanoActivo() != NULL){
+							 if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES  ){
+								this->dispararArma();
+							}
+						 }
 
                         break;
 

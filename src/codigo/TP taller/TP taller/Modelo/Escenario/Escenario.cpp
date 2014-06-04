@@ -541,6 +541,7 @@ void Escenario::moverIzquierdaClientes(){
 }
 
 void Escenario::moverDerecha(){
+
 	if (this->puedeMoverseDerecha && !(this->gusanoActivo->estaMuerto())) {
 		b2Body* cuerpo = this->gusanoActivo->getBody();
 		cuerpo->SetLinearVelocity(b2Vec2(velocidadGusano,cuerpo->GetLinearVelocity().y));

@@ -17,7 +17,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	this->armaActual.sentidoDisparo = true;	//true = izq
 	this->armaActual.puedeCargarse = false;
 	
-
+	this->meMuevo=false;
 	b2PolygonShape rectanguloShape;
 	//Divido a la mitad el ancho y alto para que las medidas sean correctas
 	rectanguloShape.SetAsBox(ancho/2, alto/2);

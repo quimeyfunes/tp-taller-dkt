@@ -34,8 +34,8 @@
 	//a cuantos FPS correr el juego	
 	const int FPS = 60;
 
-	const int timeStepOlas = 5;
-	const int timeStepNubes = 6;
+	const int timeStepOlas = 4;
+	const int timeStepNubes = 4;
 	const int maxColumnasInvalidasMascara = 10;
 
 	const int alturaCartel = 8;
@@ -47,10 +47,10 @@
 
 	//Para gusanos
 	const int timeGusanoQuieto = 80;
-	const int timeGusanoMovil = 5;
-	const int timeGrave = 10;
+	const float timeGusanoMovil = 2;
+	const int timeGrave = 2;
 	const int gusanosPorPersonaje = 3;
-	const int timeGusanoTnt = 5;
+	const int timeGusanoTnt = 2;
 
 	//Relacion Pixel por Unidad
 	const float relacionPPU = 10;
