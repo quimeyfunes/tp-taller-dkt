@@ -44,6 +44,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 		this->meClickearon.push_back(false);
 	}
 	this->congelado = false;
+	this->explota = false;
 
 	this->vida = vidaGusano;
 	//this->armaSeleccionada = new Bazooka(x - (ancho/2), y, rotacion, world, estatico, ancho /4 ,alto /4, masa /2 );
@@ -224,4 +225,12 @@ void Gusano::chequearChoqueConArma() {
 			}
 		}
 	}	
+}
+
+bool Gusano::getExplota(){
+	return this->explota;
+}
+
+void Gusano::setExplota(bool explota) {
+	this->explota = explota;
 }

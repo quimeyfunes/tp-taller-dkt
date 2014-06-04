@@ -216,7 +216,9 @@ void GusanoSprite::actualizar(Observable* observable) {
 			this->enUso = this->rectTnt;
 			this->velocidadRefresco = timeGusanoTnt;
 			this->muertePorDisparo = true;
-			this->actualizarFrameTnt();
+			if (this->actualizarFrameTnt()) {
+				fig->setExplota(true);
+			}
 		} else {
 			this->contMuerteVida = 0;
 			this->contMuerte++;
@@ -369,7 +371,7 @@ void GusanoSprite::actualizarFrame(){
 	if(this->frame >= this->numCuadros) this->frame = 0;
 }
 
-void GusanoSprite::actualizarFrameTnt(){
+bool GusanoSprite::actualizarFrameTnt(){
 	this->contador++;
 	if(this->contador >= this->velocidadRefresco){
 		this->frame++;
@@ -378,7 +380,9 @@ void GusanoSprite::actualizarFrameTnt(){
 	if(this->frame >= 60) {
 		this->frame = 0;
 		this->terminoIteracion = true;
+		return true;
 	}
+	return false;
 }
 
 void GusanoSprite::actualizarFrameGrave(){

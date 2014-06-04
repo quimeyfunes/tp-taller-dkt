@@ -590,17 +590,29 @@ b2Vec3 Escenario::hayExplosion() {
 	while (it != this->listaArmas->end()) {
 		if ((*it)->getExplotar()) {
 			b2Vec2 pos = (*it)->getBody()->GetPosition();
-			this->explotar(pos.x,pos.y,(*it)->getRadio());
-			this->terreno->destruirTerreno(pos.x,pos.y,(*it)->getRadio());
 			float radio = (*it)->getRadio();
+			this->explotar(pos.x,pos.y,radio);
+			this->terreno->destruirTerreno(pos.x,pos.y,radio);
 			this->world->DestroyBody((*it)->getBody());
 			this->gusanoActivo->setArma(NULL);
 			delete (*it);
 			this->listaArmas->erase(it);
-			//printf("el radio es $i",radio);
 			return b2Vec3(pos.x,pos.y,radio);
 		} else {
 			++it;
+		}
+	}
+	list<Figura*>::iterator it2 = this->listaFiguras->begin();
+	while (it2 != this->listaFiguras->end()) {
+		Gusano* gusano = (Gusano*) (*it2);
+		if (gusano->getExplota()) {
+			b2Vec2 pos = (*it2)->getBody()->GetPosition();
+			this->explotar(pos.x,pos.y,radioExplosionGusano);
+			this->terreno->destruirTerreno(pos.x,pos.y,radioExplosionGusano);
+			gusano->setExplota(false);
+			return b2Vec3(pos.x,pos.y,radioExplosionGusano);
+		} else {
+			++it2;
 		}
 	}
 	return b2Vec3(0,0,-1);

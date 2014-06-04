@@ -50,7 +50,7 @@ public:
 	void actualizarFrame();
 	void actualizarFrameDisparo(int frame);
 	void actualizarFrameCrosshair(int potencia);
-	void actualizarFrameTnt();
+	bool actualizarFrameTnt();
 	void actualizarFrameGrave();
 	int getNumCuadros();
 	int getFrame();
