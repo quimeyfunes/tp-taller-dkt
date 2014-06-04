@@ -16,8 +16,9 @@ public:
 	~ExplosivaPorTiempo(void);
 	void BeginContact();
 	void EndContact();
-	bool getExplotar();
+	virtual void actualizar();
 	virtual void disparar(bool sentido, float potencia, float angulo);
+	int getTiempoRestante();
 	
 };
 
