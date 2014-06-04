@@ -288,6 +288,8 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 				case ALELUYA:	this->setImagen(renderer, rutaWormAle);		this->mostrarCrosshair = true;	 break;
 				case DINAMITA:	this->setImagen(renderer, rutaWormDin);		this->mostrarCrosshair = false;	 break;
 				case BANANA:	this->setImagen(renderer, rutaWormBan);		this->mostrarCrosshair = true;	 break;
+				case MISILES:	this->setImagen(renderer, rutaWormMisiles);	this->mostrarCrosshair = false;	 break;
+
 				}
 			}
 		} else {

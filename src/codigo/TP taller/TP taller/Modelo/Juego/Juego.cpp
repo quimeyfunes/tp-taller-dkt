@@ -7,6 +7,7 @@ Juego::Juego(){
 }
 
 Juego::Juego(string texto){
+	this->pedidoDeLanzamiento = false;
 	this->turno = new Turno();
 	this->simulando = true;
 	this->estadoActual = JUGANDO;
@@ -188,10 +189,16 @@ void Juego::leerEvento(){
 										break;
 
 				case SOLTARESPACIO:
-										this->dispararArma();
-										Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
-										//Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
-										this->escenario->espacio(false);
+										if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES){
+											
+											pedidoDeLanzamiento = true;
+										}
+										else{
+											this->dispararArma();
+											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
+											//Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
+											this->escenario->espacio(false);
+										}
 										break;
 
 				case CLICK:     
@@ -202,6 +209,15 @@ void Juego::leerEvento(){
 							//aviso al servidor q se modifico el terreno
 							//Servidor::setTerrenoModificado(true);
 						//}
+
+						 if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES && pedidoDeLanzamiento ){
+							this->dispararArma();
+							Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
+							pedidoDeLanzamiento = false;
+							
+						}
+
+
                         break;
 
 				case CLICKDERECHO:
@@ -209,7 +225,7 @@ void Juego::leerEvento(){
 							this->NUMCLICKDERECHOS++;
 						//	cout<<"tengo un arma"<<endl;
 
-							switch(NUMCLICKDERECHOS % 6){
+							switch(NUMCLICKDERECHOS % 7){
 
 							case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
@@ -227,6 +243,9 @@ void Juego::leerEvento(){
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
 									break;
 							case 5: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									break;
+							case 6:	this->escenario->getGusanoActivo()->armaActual.armaTipo = MISILES;
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
 									break;
 
@@ -269,9 +288,12 @@ void Juego::leerEvento(){
 									break;
 
 					case SOLTARESPACIO:
-										this->dispararArma();
-										Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
-										this->escenario->espacio(false);
+
+										
+											this->dispararArma();
+											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
+											this->escenario->espacio(false);
+										
 										break;
 
 					case CLICK:	{
@@ -282,6 +304,7 @@ void Juego::leerEvento(){
 							}
 						}
 						this->escenario->clickCliente(i,this->servidor->clientes[i].figuras,figurasOtrosClientes, evento->x, evento->y);
+
 						break;
 					}
 					case CLICKARMA:	{
@@ -322,6 +345,7 @@ void Juego::dispararArma(){
 	b2Vec2 posGusano;
 	b2Vec2 posD;
 	ArmaDibujable* arma;
+	
 
 	if((this->escenario->getGusanoActivo() != NULL)&&(this->escenario->getGusanoActivo()->armaActual.armaTipo != NINGUNA ) && !(this->escenario->getGusanoActivo()->estaMuerto())){
 		posGusano=this->escenario->getFiguraActiva()->getBody()->GetWorldCenter();
@@ -352,7 +376,14 @@ void Juego::dispararArma(){
 		case BANANA:
 			this->escenario->getGusanoActivo()->setArma(new Banana(posD.x, posD.y, 0, this->escenario->getWorld(), false, radioExplosionBanana, radioBanana, masaBanana, tiempoExplosionBanana ));
 			arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioBanana,relacionPPU * 2*radioBanana,rutaBanana,rutaBanana); 
-			break;		
+			break;	
+		case MISILES:
+			int x,y;
+			SDL_GetMouseState(&x,&y);
+				this->escenario->getGusanoActivo()->setArma(new Misiles(posD.x, 0, 0, this->escenario->getWorld(), false, anchoMisiles, altoMisiles, masaMisiles, radioExplosionMisiles ) );
+				arma = this->vista->crearArmaContactoDibujable(posD.x, 0, anchoMisiles*relacionPPU,altoMisiles*relacionPPU,rutaMisilesIzq,rutaMisilesIzq);		
+				
+			break;
 			}
 			this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
 			this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
