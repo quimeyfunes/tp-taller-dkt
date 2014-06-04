@@ -25,7 +25,7 @@ void Dinamita::disparar(bool sentido, float potencia, float angulo){
 	Reproductor::getReproductor()->reproducirSonido(MECHA);
 }
 
-bool Dinamita::getExplotar(){
+void Dinamita::actualizar(){
 	this->explota = false;
 
 	if(!aCubierto){
@@ -41,7 +41,6 @@ bool Dinamita::getExplotar(){
 		else
 			this->explota=false;
 	}
-	return this->explota;
 }
 
 Dinamita::~Dinamita(void)
