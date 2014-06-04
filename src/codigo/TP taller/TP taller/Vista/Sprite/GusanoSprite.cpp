@@ -164,7 +164,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 					//printf("HOLA\n");
 					this->enUso = rectApuntando;
 					this->armaTipo = fig->getTipoArma();
-					if(armaTipo == DINAMITA){
+					if((armaTipo == DINAMITA) || (armaTipo == MISILES)){
 						this->frame = 0;
 					}else{
 						this->actualizarFrameCrosshair(fig->armaActual.potenciaDisparo);
