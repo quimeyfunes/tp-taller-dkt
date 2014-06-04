@@ -657,3 +657,8 @@ void Escenario::detenerMovimientos(){
 	 puedeSaltar= false;
 
 }
+
+
+void Escenario::setGusanoActivo(Gusano* gusano){
+	this->gusanoActivo = gusano;
+}

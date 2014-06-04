@@ -45,7 +45,7 @@ private:
 	void agregarObjetos();
 	static void servidorLoop(void * arg);
 	static void clienteLoop(void * arg);
-	static string jugadorActual;
+	string jugadorActual;
 
 	void dispararArma();
 	void dispararArmaCliente(int cliente);
@@ -64,8 +64,8 @@ public:
 	void jugar();
 	void alternarPausa();
 	void esperar();
-	static string getJugadorActual();
-	static void cambiarJugador(string jugador);
+	string getJugadorActual();
+	void cambiarJugador(string jugador);
 	void agregarTexturas(EscenarioParseado* e);
 	void agregarAgua(EscenarioParseado* e);
 	void leerEvento();

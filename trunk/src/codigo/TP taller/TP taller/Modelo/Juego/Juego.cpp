@@ -1,7 +1,7 @@
 	#include "Juego.h"
 
 Servidor* Juego::servidor = NULL;
-string Juego::jugadorActual = "";
+//string Juego::jugadorActual = "";
 
 Juego::Juego(){
 }
@@ -54,8 +54,8 @@ void Juego::ejecutar(){
 		Servidor::tiempo = this->turno->getTiempoActual();
 		if( this->turno->estaTerminado() ){
 			this->escenario->detenerMovimientos();
-			Juego::cambiarJugador(Servidor::siguienteJugador());
-			cout << "Turno de: " <<Juego::getJugadorActual() << endl;
+			cambiarJugador(Servidor::siguienteJugador());
+			cout << "Turno de: " <<getJugadorActual() << endl;
 			this->turno->comenzar();
 		}
 
@@ -73,7 +73,7 @@ void Juego::ejecutar(){
 		escenario->notificar();
 		b2Vec3 explosion;
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
-		this->vista->Dibujar();
+		//this->vista->Dibujar();
 		do {
 			explosion = this->escenario->hayExplosion();
 		
@@ -596,12 +596,36 @@ Juego::~Juego(){
 
 
 string Juego::getJugadorActual(){
-	return Juego::jugadorActual;
+	return this->jugadorActual;
 }
 
 void Juego::cambiarJugador(string jugador){
-	Juego::jugadorActual = jugador;
+	this->jugadorActual = jugador;
 
 	//selecciono aleatoriamente un worms del cliente que le toca el turno:
-	//servidor->clientes[Servidor::buscarCliente(jugador)].figuras
+	int idCliente = Servidor::buscarCliente(jugador);
+	list<Gusano*> gusanos = servidor->clientes[idCliente].figuras;
+	list<Gusano*> gusanosVivos;
+	list<Gusano*>::iterator it;
+	for(it = gusanos.begin();it != gusanos.end();it++){
+		if(!(*it)->estaMuerto()) gusanosVivos.push_back(*it);
+	}
+
+	int gusanoRandom = 1+ rand()%(gusanosVivos.size());
+	cout <<"size listaVivos:  "<< gusanosVivos.size()<<endl;
+	cout <<"gusanoRandomdevivos:  "<< gusanoRandom<<endl;
+
+	int c= 1;
+	for(it = gusanosVivos.begin();it != gusanosVivos.end();it++){
+		if(c = gusanoRandom) {
+			(*it)->setMeClickearon(true);
+			this->escenario->setGusanoActivo(*it);
+			Reproductor::getReproductor()->reproducirSonido(SELECCIONARWORM);
+		}
+		c++;
+	}
+
+	
+
+	
 }

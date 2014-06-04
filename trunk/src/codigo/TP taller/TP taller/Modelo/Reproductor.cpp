@@ -54,6 +54,7 @@ Reproductor::Reproductor(){
 	listaDeReproduccion[MEMUERO].efecto = Mix_LoadWAV(rutaSonidoMeMuero);
 	listaDeReproduccion[INCOMING].efecto = Mix_LoadWAV(rutaSonidoIncoming);
 	listaDeReproduccion[AVION].efecto = Mix_LoadWAV(rutaSonidoAvion);
+	listaDeReproduccion[SELECCIONARWORM].efecto = Mix_LoadWAV(rutaSonidoSeleccionarWorm);
 
 	for(int i=0; i < numSonidos; i++){
 
