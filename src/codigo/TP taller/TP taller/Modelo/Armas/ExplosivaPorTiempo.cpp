@@ -28,3 +28,8 @@ void ExplosivaPorTiempo::BeginContact(){
 }
 
 void ExplosivaPorTiempo::EndContact(){}
+
+void ExplosivaPorTiempo::disparar(bool sentido, float potencia, float angulo) {
+	Arma::disparar(sentido,potencia,angulo);
+	this->getBody()->SetAngularVelocity(2);
+}

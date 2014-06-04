@@ -13,6 +13,22 @@ Arma::Arma(float x, float y, short int rotacion, b2World* world, bool estatico, 
 }
 
 void Arma::disparar(bool sentido, float potencia, float angulo){
+	
+	if (angulo < 0) {
+		angulo += 360;
+	} else {
+		if (angulo > 360) {
+			angulo -= 360;
+		}
+	}
+	cout<<angulo<<endl;
+	float vX = potencia*coseno[(int)angulo];//os(angulo*DEGTORAD);
+	float vY = -potencia*seno[(int)angulo];//in(angulo*DEGTORAD);
+
+	if(sentido) vX *= -1;
+
+	this->getBody()->SetLinearVelocity(b2Vec2(vX, vY));
+
 }
 
 void Arma::explotar(bool explotar){
