@@ -44,7 +44,7 @@ public:
 	static void enviarEscenario(int num_cliente);
 	static void enviarImagenes(SOCKET sock);
 	static cliente* clientes;
-	static bool terrenoModificado;
+	static bool* terrenoModificado;
 	static void setTerrenoModificado(bool estado);
 	static string siguienteJugador();
 	static unsigned int getCantidadDeClientes();
