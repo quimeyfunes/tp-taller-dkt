@@ -33,10 +33,8 @@ Juego::Juego(string texto){
 
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
-	Reproductor::getReproductor()->activar();
+	Reproductor::getReproductor()->apagar();
 	Reproductor::getReproductor()->enviar = true;	//setea si enviar o no los sonidos al cliente
-
-	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 	servidor = new Servidor();
 	int tamanio;
 
@@ -49,7 +47,7 @@ void Juego::ejecutar(){
 			this->chequearNuevosJugadores();
 		}
 	Servidor::darArranque();
-	
+	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
 		this->turno->actualizar();

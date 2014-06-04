@@ -34,12 +34,11 @@ typedef enum{
 	IMPACTOBANANA,
 	ENEMIGOALAS12,
 	CARGANDODISPARO,
-	CAMINANDO,
 
-	MECHA,	//ASEGURARSE QUE MECHA Y ALELUYA ESTEN EN LAS POS 9 Y 10 RESPECTIVAMENTE
+	CAMINANDO,
+	MECHA,
 	SONIDOALELUYA,
 
-	
 	SOLTARDISPARO,
 	SOLTARGRANADA,
 	RISA,
@@ -63,6 +62,7 @@ typedef struct{
 typedef struct{
 	bool reproducir;
 	sonido s;
+	bool enviado;
 }audioEnCola;
 
 

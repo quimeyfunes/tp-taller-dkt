@@ -26,8 +26,8 @@ Reproductor::Reproductor(){
 	listaDeReproduccion[IMPACTOBANANA].efecto = Mix_LoadWAV(rutaSonidoImpactoBanana);
 	listaDeReproduccion[ENEMIGOALAS12].efecto = Mix_LoadWAV(rutaSonidoEnemigoALas12);
 	listaDeReproduccion[CARGANDODISPARO].efecto = Mix_LoadWAV(rutaSonidoCargandoDisparo);
-	listaDeReproduccion[CAMINANDO].efecto = Mix_LoadWAV(rutaSonidoWalk);
 
+	listaDeReproduccion[CAMINANDO].efecto = Mix_LoadWAV(rutaSonidoWalk);
 	listaDeReproduccion[MECHA].efecto = Mix_LoadWAV(rutaSonidoMecha);
 	listaDeReproduccion[SONIDOALELUYA].efecto = Mix_LoadWAV(rutaSonidoAleluya);
 
@@ -44,7 +44,7 @@ Reproductor::Reproductor(){
 
 	for(int i=0; i < 21; i++){
 
-		if(i == MECHA || i == SONIDOALELUYA)
+		if(i == MECHA || i == SONIDOALELUYA || i == CAMINANDO)
 			listaDeReproduccion[i].canal = i;
 		else
 			listaDeReproduccion[i].canal = -1;
@@ -82,6 +82,7 @@ void Reproductor::reproducirSonido(sonido son){
 		audioEnCola aMandar;
 		aMandar.reproducir=true;
 		aMandar.s = son;
+		aMandar.enviado=false;
 		for(int i=0; i< numClientes; i++){
 			colaDeEspera[i].push(aMandar);
 		}
@@ -90,7 +91,7 @@ void Reproductor::reproducirSonido(sonido son){
 	if(activo){
 		if(listaDeReproduccion[son].loops == -1) detenerSonido(son); //si se quieren reproducir al mismo tiempo 2 sonidos con loops infinitos, hay q detener uno para q no se quede colgado
 		
-		if(son == MECHA || son == SONIDOALELUYA)
+		if(son == MECHA || son == SONIDOALELUYA || son == CAMINANDO)
 			Mix_PlayChannel(listaDeReproduccion[son].canal, listaDeReproduccion[son].efecto, listaDeReproduccion[son].loops);
 		else
 			listaDeReproduccion[son].canal = Mix_PlayChannel(-1, listaDeReproduccion[son].efecto, listaDeReproduccion[son].loops);

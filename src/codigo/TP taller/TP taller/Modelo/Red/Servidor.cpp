@@ -12,18 +12,24 @@ ServidorRed* Servidor::red;
 cliente* Servidor::clientes;
 EscenarioParseado* Servidor::escenario;
 mensajeStru Servidor::mensaje;
-bool  Servidor::terrenoModificado;
+bool*  Servidor::terrenoModificado;
 int Servidor::idJugando=0; //este es el id q va a arrancar a jugar.
 int Servidor::tiempo=-1;
 
 Servidor::Servidor(){
+
+	
+
     // id's to assign clients for our table
     cliente_id = 0;
 	clienteEnEspera = false;
 	this->escenario = ParserYaml::getParser()->getEscenario();
+	terrenoModificado= new bool[escenario->maximosClientes];
+	for(int i=0; i< escenario->maximosClientes; i++) terrenoModificado[i] = false;
+
 	this->mensaje.tiempoActivo=0;
-	this->clientes = new cliente[this->escenario->maximosClientes +1];
-	for(int i=0; i<this->escenario->maximosClientes +1; i++){
+	this->clientes = new cliente[escenario->maximosClientes +1];
+	for(int i=0; i< escenario->maximosClientes +1; i++){
 		this->clientes[i].activo=false;
 		this->clientes[i].time=0;
 		this->clientes[i].username= "";
@@ -34,7 +40,7 @@ Servidor::Servidor(){
     red = new ServidorRed(); 
 	
 	//creo un thread q se dedique a escuchar a los clientes entrantes
-	_beginthread(Servidor::aceptarClientes, 0, (void*)this->escenario->maximosClientes);
+	_beginthread(Servidor::aceptarClientes, 0, (void*)escenario->maximosClientes);
 
 }
 
@@ -65,7 +71,6 @@ void Servidor::enviarTerreno(SOCKET sock){
 void Servidor::actualizar(void* clienteN) 
 {
 	int id= (int)clienteN;
-	int contador=0;
 	queue<audioEnCola>* colaDeSonidos;
 	audioEnCola aMandar;
 
@@ -82,13 +87,11 @@ void Servidor::actualizar(void* clienteN)
 		recibirDeCliente(&id);
 		enviarCliente(&id, paqueteVista, dibujablesSerializados);
 		
-		if(Servidor::terrenoModificado){
-			if(clientes[id].socket != INVALID_SOCKET){ enviarTerreno(clientes[id].socket);}
-			contador++;
-		}
-		if(contador == Servidor::cliente_id){
-			Servidor::setTerrenoModificado(false);	//ARREGLAR ESTO!!!
-			contador=0;
+		if(Servidor::terrenoModificado[id]){
+			if(clientes[id].socket != INVALID_SOCKET){ 
+				enviarTerreno(clientes[id].socket);
+				terrenoModificado[id] = false;
+			}
 		}
 
 		//envio el tiempo del reloj a los clientes:5
@@ -100,14 +103,13 @@ void Servidor::actualizar(void* clienteN)
 		colaDeSonidos = Reproductor::getReproductor()->getColaDeEspera();
 		if( ! colaDeSonidos->empty() ){
 			aMandar = colaDeSonidos[id].back();
-			EnviarSonido(id, aMandar);
-			colaDeSonidos[id].pop();
+			if(!aMandar.enviado){
+				EnviarSonido(id, aMandar);
+				colaDeSonidos[id].back().enviado = true;
+			}
+			//(colaDeSonidos[id].pop();
 		}
-
-		
 	}
-
-	//_endthread();
 }
 
 void Servidor::EnviarSonido(int id, audioEnCola aMandar){
@@ -146,7 +148,7 @@ void Servidor::enviarCliente(int* clienteN, int tipoPaquete, string mensaje){
 }
 
 void Servidor::setTerrenoModificado(bool estado){
-	Servidor::terrenoModificado=estado;
+	for(int i=0; i< escenario->maximosClientes; i++) Servidor::terrenoModificado[i]=estado;
 }
 
 int Servidor::buscarCliente(string nombre){
