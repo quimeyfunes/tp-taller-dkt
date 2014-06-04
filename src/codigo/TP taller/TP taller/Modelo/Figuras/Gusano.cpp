@@ -234,3 +234,7 @@ bool Gusano::getExplota(){
 void Gusano::setExplota(bool explota) {
 	this->explota = explota;
 }
+
+void Gusano::setVida(int vida){
+	this->vida = vida;
+}

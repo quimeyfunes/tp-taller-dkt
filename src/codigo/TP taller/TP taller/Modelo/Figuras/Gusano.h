@@ -68,6 +68,7 @@ public:
 	void chequearChoqueConArma();
 	bool getExplota();
 	void setExplota(bool explota);
+	void setVida(int vida);
 };
 
 #endif

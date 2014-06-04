@@ -48,7 +48,7 @@
 	//Para gusanos
 	const int timeGusanoQuieto = 80;
 	const float timeGusanoMovil = 2;
-	const int timeGrave = 2;
+	const int timeGrave = 4;
 	const int gusanosPorPersonaje = 3;
 	const int timeGusanoTnt = 2;
 

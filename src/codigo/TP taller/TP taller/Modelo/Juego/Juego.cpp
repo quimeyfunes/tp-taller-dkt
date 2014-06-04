@@ -14,7 +14,7 @@ Juego::Juego(string texto){
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
 	this->vista = new Vista(e);
-	SDL_HideWindow(this->vista->window);
+	//SDL_HideWindow(this->vista->window);
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e->imagenTierra);
@@ -23,7 +23,7 @@ Juego::Juego(string texto){
 	ResolverContacto* resolverContacto = new ResolverContacto();
 	this->mundo->SetContactListener(resolverContacto);
 	agregarTexturas(e);
-	//agregarObjetos();
+	agregarObjetos();
 	agregarAgua(e);
 
 
@@ -42,22 +42,22 @@ void Juego::ejecutar(){
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
 
-	cout << "esperando a 2 jugadores..." << endl;
+	/*cout << "esperando a 2 jugadores..." << endl;
 		while( Servidor::getCantidadDeClientes()<2 ){
 			this->chequearNuevosJugadores();
 		}
-	Servidor::darArranque();
+	Servidor::darArranque();*/
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
-		this->turno->actualizar();
+		/*this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();
 		if( this->turno->estaTerminado() ){
 			this->escenario->detenerMovimientos();
 			Juego::cambiarJugador(Servidor::siguienteJugador());
 			cout << "Turno de: " <<Juego::getJugadorActual() << endl;
 			this->turno->comenzar();
-		}
+		}*/
 
 		this->leerEvento();
 		
@@ -186,12 +186,12 @@ void Juego::leerEvento(){
 										break;
 
 				case SOLTARESPACIO:
-										if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
+										//if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
 											
 											this->dispararArma();
 											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
 											//Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
-										}
+										//}
 										this->escenario->espacio(false);
 										break;
 
@@ -230,7 +230,7 @@ void Juego::leerEvento(){
 							this->NUMCLICKDERECHOS++;
 						//	cout<<"tengo un arma"<<endl;
 
-							switch(NUMCLICKDERECHOS % 7){
+							switch(NUMCLICKDERECHOS % 8){
 
 							case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
@@ -251,6 +251,9 @@ void Juego::leerEvento(){
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
 									break;
 							case 6:	this->escenario->getGusanoActivo()->armaActual.armaTipo = MISILES;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									break;
+							case 7: this->escenario->getGusanoActivo()->armaActual.armaTipo = SUICIDA;
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
 									break;
 
@@ -293,7 +296,7 @@ void Juego::leerEvento(){
 									break;
 
 					case SOLTARESPACIO:
-					
+		
 											if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
 												this->dispararArma();
 												Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
@@ -301,6 +304,7 @@ void Juego::leerEvento(){
 											this->escenario->espacio(false);
 										
 										break;
+
 
 					case CLICK:	{
 						list<Gusano*> figurasOtrosClientes;
@@ -354,6 +358,9 @@ void Juego::leerEvento(){
 							case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = BANANA; 
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
 									break;
+							/*case 5: this->escenario->getGusanoActivo()->armaActual.armaTipo = SUICIDA;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									break;*/
 							default: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA; 
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
 									break;
@@ -408,13 +415,22 @@ void Juego::dispararArma(){
 			arma = this->vista->crearArmaTiempoDibujable(posD.x, posD.y,  relacionPPU * 2*radioBanana,relacionPPU * 2*radioBanana,rutaBanana,rutaBanana); 
 			break;	
 		case MISILES:
-			//el disparo del misil es con clic
-			break;
+			int x,y;
+			SDL_GetMouseState(&x,&y);
+				this->escenario->getGusanoActivo()->setArma(new Misiles(posD.x, 0, 0, this->escenario->getWorld(), false, anchoMisiles, altoMisiles, masaMisiles, radioExplosionMisiles ) );
+				arma = this->vista->crearArmaContactoDibujable(posD.x, 0, anchoMisiles*relacionPPU,altoMisiles*relacionPPU,rutaMisil,rutaMisil);		
+				break;
+		case SUICIDA:
+				this->escenario->getGusanoActivo()->setVida(0);
+				this->escenario->getGusanoActivo()->setMuerto(true);
+				break;
 			}
+		if (!(this->escenario->getGusanoActivo()->armaActual.armaTipo == SUICIDA)){
 			this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
 			this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
 			this->escenario->getGusanoActivo()->disparar();
 			this->escenario->getGusanoActivo()->armaActual.potenciaDisparo = 0;
+		}
 	}
 }
 

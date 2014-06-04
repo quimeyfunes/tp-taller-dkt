@@ -14,7 +14,7 @@
 #define rutaWormDin "imagenes/texturas/wormConDinamita.png"
 #define rutaWormBan "imagenes/texturas/wormConBanana.png"
 #define rutaWormRadio "imagenes/texturas/wormConRadio.png"
-
+#define rutaWormSuicida "imagenes/texturas/wormSuicida.png"
 
 
 const int POTENCIA_MAXIMA_DISPARO = 40;
@@ -47,6 +47,8 @@ const float anchoMisiles = 3;
 const float altoMisiles = 2;
 const int masaMisiles = 30;
 
+const int tiempoExplosionSuicida = 5;
+
 //PARA EXPLOSIONES
 const float radioExplosionGusano = 3;
 const float radioExplosionGranada = 4;
@@ -56,6 +58,7 @@ const float radioExplosionAleluya = 7;
 const float radioExplosionBanana = 8;
 const float radioExplosionMiniBanana = 4;
 const float radioExplosionMisiles = 3;
+const float radioExplosionSuicida = 3;
 
 ////////// TIPOS DE ARMAS ////////////
 typedef enum{
@@ -66,6 +69,7 @@ typedef enum{
 	DINAMITA,
 	BANANA,
 	MISILES,
+	SUICIDA,
 }tipoArma;
 //////////////////////////////////////
 

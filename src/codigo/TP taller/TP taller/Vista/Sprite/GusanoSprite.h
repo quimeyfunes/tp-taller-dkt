@@ -51,6 +51,7 @@ public:
 	void actualizarFrameDisparo(int frame);
 	void actualizarFrameCrosshair(int potencia);
 	bool actualizarFrameTnt();
+	bool actualizarFrameSuicida();
 	void actualizarFrameGrave();
 	int getNumCuadros();
 	int getFrame();
@@ -83,6 +84,7 @@ public:
 	SDL_Rect* recCuadro;
 	SDL_Rect* rectTnt;
 	SDL_Rect* rectGrave;
+	SDL_Rect* rectSuicida;
 };
 
 #endif
