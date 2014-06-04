@@ -20,6 +20,7 @@
 #include "../Armas/Aleluya.h"
 #include "../Armas/Dinamita.h"
 #include "../Armas/Banana.h"
+#include "../Armas/Misiles.h"
 #include "Turno.h"
 
 #include "../Reproductor.h"
@@ -49,6 +50,7 @@ private:
 	void dispararArmaCliente(int cliente);
 	//para setear el arma mas facil mientras se prueba
 	int NUMCLICKDERECHOS;
+	bool pedidoDeLanzamiento;
 
 public:
 	
