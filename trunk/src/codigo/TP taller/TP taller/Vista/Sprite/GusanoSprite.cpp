@@ -72,6 +72,14 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 		rectGrave[i].y = i*60;
 	}
 
+	this->rectSuicida = new SDL_Rect[20];
+	for (int i= 0; i<20; i++){
+		rectSuicida[i].h = 60;
+		rectSuicida[i].w = 60;
+		rectSuicida[i].x = 0;
+		rectSuicida[i].y = i*60;
+	}
+
 	this->enUso = recCuadro;
 	this->imagen = IMG_LoadTexture(renderer, path.c_str());
 	this->cambiarImgDer = false;
@@ -152,7 +160,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 				this->setCambiarImgIzq(false);
 			if(!fig->tieneUnArma()){
 				this->mostrarCrosshair = false;
-				this->contArma =0;
+				this->contArma = 0;
 				this->contFrent++;
 				this->enUso = recCuadro;
 				this->armaTipo = NINGUNA;
@@ -161,14 +169,17 @@ void GusanoSprite::actualizar(Observable* observable) {
 			}else{
 				this->contFrent = 0;
 				this->contArma++;
-					//printf("HOLA\n");
 					this->enUso = rectApuntando;
 					this->armaTipo = fig->getTipoArma();
-					if((armaTipo == DINAMITA) || (armaTipo == MISILES)){
+					if ((armaTipo == SUICIDA) && !(fig->getVida() == 0)){
 						this->frame = 0;
-					}else{
-						this->actualizarFrameCrosshair(fig->armaActual.potenciaDisparo);
-						this->actualizarFrameDisparo(fig->armaActual.anguloDisparo);
+					} else {
+						if((armaTipo == DINAMITA) || (armaTipo == MISILES)){
+							this->frame = 0;
+						}else{
+							this->actualizarFrameCrosshair(fig->armaActual.potenciaDisparo);
+							this->actualizarFrameDisparo(fig->armaActual.anguloDisparo);
+						}
 					}
 					//cout<<this->frameDisparo<<endl;
 			}
@@ -207,17 +218,24 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->contIzq = 0;
 		this->contDer = 0;
 		this->contFrent = 0;
-		this->estado = MUERTO;	
-		if ( (fig->getVida() == 0) && !(this->terminoIteracion)){
-
-			if(this->contMuerteVida == 40)	Reproductor::getReproductor()->reproducirSonido(MEMUERO);
-			this->contMuerte = 0;
-			this->contMuerteVida++;
-			this->enUso = this->rectTnt;
-			this->velocidadRefresco = timeGusanoTnt;
-			this->muertePorDisparo = true;
-			if (this->actualizarFrameTnt()) {
-				fig->setExplota(true);
+		this->estado = MUERTO;
+		if ((fig->getVida() == 0) && !(this->terminoIteracion)){
+			if (fig->getTipoArma() == SUICIDA) {
+				this->velocidadRefresco = tiempoExplosionSuicida;
+				this->enUso = rectSuicida;
+				if(this->actualizarFrameSuicida()) {
+					fig->setExplota(true);
+				}
+			} else {
+				if(this->contMuerteVida == 40)	Reproductor::getReproductor()->reproducirSonido(MEMUERO);
+				this->contMuerte = 0;
+				this->contMuerteVida++;
+				this->enUso = this->rectTnt;
+				this->velocidadRefresco = timeGusanoTnt;
+				this->muertePorDisparo = true;
+				if (this->actualizarFrameTnt()) {
+					fig->setExplota(true);
+				}
 			}
 		} else {
 			this->contMuerteVida = 0;
@@ -302,6 +320,7 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 				case DINAMITA:	this->setImagen(renderer, rutaWormDin);		this->mostrarCrosshair = false;	 break;
 				case BANANA:	this->setImagen(renderer, rutaWormBan);		this->mostrarCrosshair = true;	 break;
 				case MISILES:	this->setImagen(renderer, rutaWormRadio);	this->mostrarCrosshair = false;	 break;
+				case SUICIDA:	this->setImagen(renderer, rutaWormSuicida); this->mostrarCrosshair = false;	 break;
 
 				}
 			}
@@ -378,6 +397,20 @@ bool GusanoSprite::actualizarFrameTnt(){
 		this->contador = 0;
 	}
 	if(this->frame >= 60) {
+		this->frame = 0;
+		this->terminoIteracion = true;
+		return true;
+	}
+	return false;
+}
+
+bool GusanoSprite::actualizarFrameSuicida(){
+	this->contador++;
+	if(this->contador >= this->velocidadRefresco){
+		this->frame++;
+		this->contador = 0;
+	}
+	if(this->frame >= 20) {
 		this->frame = 0;
 		this->terminoIteracion = true;
 		return true;
