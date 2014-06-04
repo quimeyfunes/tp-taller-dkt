@@ -97,14 +97,13 @@ void Servidor::actualizar(void* clienteN)
 		}
 
 
-/*		colaDeSonidos = Reproductor::getReproductor()->getColaDeEspera();
+		colaDeSonidos = Reproductor::getReproductor()->getColaDeEspera();
 		while( ! colaDeSonidos->empty() ){
-			//cout<<clientes[id].username + ""<<aMandar.s<<endl;
 			aMandar = colaDeSonidos[id].front();
 			colaDeSonidos[id].pop();
 			EnviarSonido(id, aMandar);
 		}
-*/
+
 		
 	}
 
