@@ -49,13 +49,14 @@ public:
 	static string siguienteJugador();
 	static unsigned int getCantidadDeClientes();
 	static void darArranque();
+	static int buscarCliente(string nombre);
 	
 
 private:
 
    // IDs for the clients connecting for table in ServerNetwork 
     static unsigned int cliente_id;
-   static int buscarCliente(string nombre);
+
    static void EnviarSonido(int id, audioEnCola aMandar);
    static void enviarPaquete(SOCKET sock, int tipoPaquete, string mensaje);
    bool clienteEnEspera;

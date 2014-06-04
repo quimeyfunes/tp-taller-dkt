@@ -17,7 +17,7 @@ Reproductor::Reproductor(){
 	Mix_AllocateChannels(11);
 
 	//cargo todos los audios
-	listaDeReproduccion = new audio[19];
+	listaDeReproduccion = new audio[21];
 	listaDeReproduccion[MUSICAFONDO].efecto = Mix_LoadWAV(rutaMusicaFondo);
 	listaDeReproduccion[EXPLOSION].efecto = Mix_LoadWAV(rutaSonidoExplosion);
 	listaDeReproduccion[AGUA].efecto = Mix_LoadWAV(rutaSonidoAgua);
@@ -39,8 +39,10 @@ Reproductor::Reproductor(){
 	listaDeReproduccion[OUCH].efecto = Mix_LoadWAV(rutaSonidoOuch);
 	listaDeReproduccion[TIMERTICK].efecto = Mix_LoadWAV(rutaSonidoTimerTick);
 	listaDeReproduccion[MEMUERO].efecto = Mix_LoadWAV(rutaSonidoMeMuero);
+	listaDeReproduccion[INCOMING].efecto = Mix_LoadWAV(rutaSonidoIncoming);
+	listaDeReproduccion[AVION].efecto = Mix_LoadWAV(rutaSonidoAvion);
 
-	for(int i=0; i < 19; i++){
+	for(int i=0; i < 21; i++){
 
 		if(i == MECHA || i == SONIDOALELUYA)
 			listaDeReproduccion[i].canal = i;

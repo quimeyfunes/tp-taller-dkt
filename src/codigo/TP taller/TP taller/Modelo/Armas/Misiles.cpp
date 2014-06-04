@@ -25,14 +25,12 @@ Misiles::Misiles(float x, float y, short int rotacion, b2World* world, bool esta
 }
 
 void Misiles::disparar(bool sentido, float potencia, float angulo){
-
-	float vX = 0;//os(angulo*DEGTORAD);
-	float vY = 20;//in(angulo*DEGTORAD);
-
-	if(sentido) vX *= -1;
+	//si hay tiempo agrego lo de elegir el sentido
+	float vX = 0;
+	float vY = 20;
 
 	this->getBody()->SetLinearVelocity(b2Vec2(vX, vY));
-	Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
+	
 }
 
 

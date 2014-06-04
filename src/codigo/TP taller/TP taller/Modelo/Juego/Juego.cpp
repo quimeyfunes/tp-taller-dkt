@@ -33,7 +33,7 @@ Juego::Juego(string texto){
 
 void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
-	Reproductor::getReproductor()->apagar();
+	Reproductor::getReproductor()->activar();
 	Reproductor::getReproductor()->enviar = true;	//setea si enviar o no los sonidos al cliente
 
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
@@ -208,7 +208,23 @@ void Juego::leerEvento(){
 						//}
 						 if(this->escenario->getGusanoActivo() != NULL){
 							 if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES  ){
-								this->dispararArma();
+
+								 int x,y;
+								 SDL_GetMouseState(&x,&y);
+								 x= ( x + this->vista->getCorrimientoX() ) / (relacionPPU * this->vista->getZoom())  ;
+								 x -=12;
+								 Reproductor::getReproductor()->reproducirSonido(INCOMING);
+								 Reproductor::getReproductor()->reproducirSonido(AVION);
+								 for(int i=0;i<4;i++){
+
+									 x+=5;
+									this->escenario->getGusanoActivo()->setArma(new Misiles(x, -40, 0, this->escenario->getWorld(), false, anchoMisiles, altoMisiles, masaMisiles, radioExplosionMisiles ) );
+									this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
+									this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador( this->vista->crearArmaContactoDibujable(x, 0, anchoMisiles*relacionPPU,altoMisiles*relacionPPU,rutaMisil,rutaMisil) );
+									this->escenario->getGusanoActivo()->disparar();
+						
+								}
+								this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
 							}
 						 }
 
@@ -282,7 +298,7 @@ void Juego::leerEvento(){
 									break;
 
 					case SOLTARESPACIO:
-
+					
 										
 											this->dispararArma();
 											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
@@ -375,7 +391,7 @@ void Juego::dispararArma(){
 			int x,y;
 			SDL_GetMouseState(&x,&y);
 				this->escenario->getGusanoActivo()->setArma(new Misiles(posD.x, 0, 0, this->escenario->getWorld(), false, anchoMisiles, altoMisiles, masaMisiles, radioExplosionMisiles ) );
-				arma = this->vista->crearArmaContactoDibujable(posD.x, 0, anchoMisiles*relacionPPU,altoMisiles*relacionPPU,rutaMisilesIzq,rutaMisilesIzq);		
+				arma = this->vista->crearArmaContactoDibujable(posD.x, 0, anchoMisiles*relacionPPU,altoMisiles*relacionPPU,rutaMisil,rutaMisil);		
 				
 			break;
 			}
@@ -553,4 +569,7 @@ string Juego::getJugadorActual(){
 
 void Juego::cambiarJugador(string jugador){
 	Juego::jugadorActual = jugador;
+
+	//selecciono aleatoriamente un worms del cliente que le toca el turno:
+	//servidor->clientes[Servidor::buscarCliente(jugador)].figuras
 }
