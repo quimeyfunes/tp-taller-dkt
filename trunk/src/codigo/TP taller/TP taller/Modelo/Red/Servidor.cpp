@@ -98,9 +98,9 @@ void Servidor::actualizar(void* clienteN)
 
 
 		colaDeSonidos = Reproductor::getReproductor()->getColaDeEspera();
-		while( ! colaDeSonidos->empty() ){
+		if( ! colaDeSonidos->empty() ){
 			aMandar = colaDeSonidos[id].front();
-			colaDeSonidos[id].pop();
+			if(!colaDeSonidos->empty()) colaDeSonidos[id].pop();
 			EnviarSonido(id, aMandar);
 		}
 
