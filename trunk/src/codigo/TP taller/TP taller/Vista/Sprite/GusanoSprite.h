@@ -31,7 +31,6 @@ private:
 	bool cambiarImgDer;
 	bool cambiarImgIzq;
 	bool muertePorDisparo;
-	bool terminoIteracion;
 	CartelDibujable* cartel;
 	DibujableTextura* vida;
 	string nombre;
@@ -61,6 +60,7 @@ public:
 	CartelDibujable* getCartel();
 	DibujableTextura* getVida();
 	string getNombre();
+	void copiarGusano(GusanoSprite* gusano2, bool nuevo);
 	int contador;
 	int contIzq;
 	int contDer;
@@ -85,6 +85,7 @@ public:
 	SDL_Rect* rectTnt;
 	SDL_Rect* rectGrave;
 	SDL_Rect* rectSuicida;
+	bool terminoIteracion;
 };
 
 #endif

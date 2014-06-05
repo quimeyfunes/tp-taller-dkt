@@ -229,57 +229,23 @@ void JuegoCliente::crearLista(string vistaSerializada){
 				GusanoSprite* gusano = new GusanoSprite();
 				gusano->deserealizar(entidadSerializada);				
 				GusanoSprite* gusano2;
+				bool nuevo = false;
 				if(vecAux.size() + 5 - this->dibujablesBase->size() < cantidadGusanosTotales){
 					//Si no estaba lo creo
 					gusano2 = new GusanoSprite(this->vista->renderer, gusano->getRect(),spriteWormIzq, 1, 10, 60, 600, gusano->getNombre(),this->esc->maximosClientes);
-					//gusano2->deserealizar(entidadSerializada);	
+					nuevo = true;
 				}else{
 					gusano2 = (GusanoSprite*)vecAux[this->dibujablesBase->size() - 5 + i];
-					//gusano2->deserealizar(entidadSerializada);	
-					gusano2->setRect(gusano->getRect());
-                    SDL_Rect rectCart = gusano->getRect();
-                    rectCart.h = gusano->getRect().h / 4;
-                    rectCart.x = gusano->getRect().x + gusano->getRect().w/2;
-                    rectCart.w = gusano2->getCartel()->texto.length() * 7;
-                    gusano2->getCartel()->setRect(rectCart);
-
-					SDL_Rect rectVida = gusano->getRect();
-					rectVida.h = 5;
-					rectVida.w = pxPorVida * vidaGusano;
-					gusano2->getVida()->setRect(rectVida);
 				}
 
-				gusano2->setFrame(gusano->getFrame());
-				gusano2->setCambiarImgIzq(gusano->hayCambioImgIzq());
-				gusano2->setCambiarImgDer(gusano->hayCambioImgDer());
-				gusano2->contDer = gusano->contDer;
-				gusano2->contIzq = gusano->contIzq;
-				gusano2->contFrent = gusano->contFrent;
-				gusano2->contMuerte = gusano->contMuerte;
-				gusano2->contador = gusano->contador;
-				gusano2->estado = gusano->estado;
-				gusano2->mostrarCartel = gusano->mostrarCartel;
-				gusano2->velocidadRefresco = gusano->velocidadRefresco;
-				gusano2->numCuadros = gusano->numCuadros;
-				gusano2->congelado = gusano->congelado;
+				gusano->copiarGusano(gusano2, nuevo);
 				gusano2->cliente = this->cliente->getId();
-				gusano2->armaTipo = gusano->armaTipo;
 
-				if(gusano2->armaTipo != NINGUNA){
-					gusano2->enUso = gusano2->rectApuntando;
-				}else{
-					gusano2->enUso = gusano2->recCuadro;
-				}
-
-				gusano2->contArma = gusano->contArma;
-				gusano2->anguloDisparo = gusano->anguloDisparo;
-				gusano2->anguloRotacion = gusano->anguloRotacion;
-				gusano2->mostrarCrosshair = gusano->mostrarCrosshair;
-				gusano2->frameCrosshair = gusano->frameCrosshair;
-				gusano2->cliente = this->cliente->getId();
 				if(vecAux.size() + 5 - this->dibujablesBase->size() < cantidadGusanosTotales){
 					vecAux.push_back(gusano2);
 				}
+
+				//printf("mostrar: %d\n", gusano2->mostrarCrosshair);
 				delete gusano;
 				break;
 			}
