@@ -294,21 +294,21 @@ void GusanoSprite::actualizar(Observable* observable) {
 void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
 	SDL_Rect rect = this->rect;
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
-	
+	int rangoMax = 8;
 	if (this->estado == DER) {
 			flip = SDL_FLIP_HORIZONTAL;
 	}
 
-	if ((this->estado == MUERTO) && ((this->contMuerte == 1) || this->contMuerteVida == 1)){
-		this->setFrame(0);
+	if ((this->estado == MUERTO) && (((this->contMuerte >= 1 && this->contMuerte <= rangoMax)) || (this->contMuerteVida >= 1 && this->contMuerteVida <= rangoMax))){
+		//this->setFrame(0);
 		if(this->muertePorDisparo){
 			this->setImagen(renderer, rutaWormTnt);
 		} else {
 			this->setImagen(renderer, rutaGrave);
 		}
 	} else {
-		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && ((this->contFrent == 1) || this->contArma == 1) ){ //Esta quieto
-			this->setFrame(0);
+		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && ((this->contFrent >= 1 && this->contFrent <= rangoMax) || (this->contArma >= 1 && this->contArma <= rangoMax)) ){ //Esta quieto
+			//this->setFrame(0);
 			if(this->congelado){
 				this->setImagen(renderer, rutaWormGrisIzq);
 			}else{
@@ -325,7 +325,7 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 				}
 			}
 		} else {
-			if ((this->hayCambioImgDer() && this->contDer == 1) || (this->hayCambioImgIzq() && this->contIzq == 1)) {
+			if ((this->hayCambioImgDer() && (this->contDer >= 1 && this->contDer <= rangoMax)) || (this->hayCambioImgIzq() && (this->contIzq >= 1 && this->contIzq <= rangoMax))) {
 				this->setImagen(renderer, rutaGusanoIzq);
 				
 			}
@@ -518,6 +518,8 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::int2string(this->mostrarCrosshair);
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->frameCrosshair);
+	/*serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->contMuerteVida);*/
 
 	/*serializado += separadorCamposEntidades;    
 	serializado += StringUtil::int2string(this->recPotencia->x);
@@ -600,6 +602,7 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->anguloRotacion = StringUtil::str2int(atributos.at(21));
 	this->mostrarCrosshair = StringUtil::str2int(atributos.at(22));
 	this->frameCrosshair = StringUtil::str2int(atributos.at(23));
+	//this->contMuerteVida = StringUtil::str2int(atributos.at(24));
 
 	/*SDL_Rect* rectAux2 = new SDL_Rect();
 	rectAux2->x = StringUtil::str2int(atributos.at(24));
