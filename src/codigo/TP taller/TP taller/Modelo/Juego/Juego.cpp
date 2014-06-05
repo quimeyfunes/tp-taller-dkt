@@ -344,7 +344,7 @@ void Juego::leerEvento(){
 					case CLICKARMA:	{
 						switch(evento->x){
 							case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
 									break;
 							case 1: this->escenario->getGusanoActivo()->armaActual.armaTipo = GRANADA; 
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;

@@ -10,8 +10,6 @@ GusanoSprite::GusanoSprite(void)
 }
 
 GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex, string nombre,int maximosCLientes): DibujableTextura(){
-	
-	
 	this->armaTipo = NINGUNA;
 	this->numCuadros = col*fil;
 	this->velocidadRefresco = timeGusanoQuieto;
@@ -158,6 +156,9 @@ void GusanoSprite::actualizar(Observable* observable) {
 				this->contDer = 0;
 				this->setCambiarImgDer(false);
 				this->setCambiarImgIzq(false);
+				if(fig->armaActual.puedeCargarse){
+					this->mostrarCrosshair = true;
+				}
 			if(!fig->tieneUnArma()){
 				this->mostrarCrosshair = false;
 				this->contArma = 0;
