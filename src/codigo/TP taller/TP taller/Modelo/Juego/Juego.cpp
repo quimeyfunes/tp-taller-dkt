@@ -600,6 +600,7 @@ string Juego::getJugadorActual(){
 }
 
 void Juego::cambiarJugador(string jugador){
+	
 	this->jugadorActual = jugador;
 
 	//selecciono aleatoriamente un worms del cliente que le toca el turno:
@@ -612,20 +613,25 @@ void Juego::cambiarJugador(string jugador){
 	}
 
 	int gusanoRandom = 1+ rand()%(gusanosVivos.size());
-	cout <<"size listaVivos:  "<< gusanosVivos.size()<<endl;
-	cout <<"gusanoRandomdevivos:  "<< gusanoRandom<<endl;
 
 	int c= 1;
 	for(it = gusanosVivos.begin();it != gusanosVivos.end();it++){
-		if(c = gusanoRandom) {
-			(*it)->setMeClickearon(true);
+
+		//(*it)->setMeClickearon(false);
+
+		if(c == gusanoRandom) {
 			this->escenario->setGusanoActivo(*it);
+			(*it)->setMeClickearon(true,idCliente);
 			Reproductor::getReproductor()->reproducirSonido(SELECCIONARWORM);
 		}
 		c++;
 	}
 
-	
+	c= 1;
+	for(it = gusanosVivos.begin();it != gusanosVivos.end();it++){
 
+		if(c != gusanoRandom) (*it)->setMeClickearon(false);
+		c++;
+	}
 	
 }
