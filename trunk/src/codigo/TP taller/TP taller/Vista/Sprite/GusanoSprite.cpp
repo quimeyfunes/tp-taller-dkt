@@ -283,6 +283,8 @@ void GusanoSprite::actualizar(Observable* observable) {
 	}
 	rectVida.x = this->rect.x + this->rect.w/2 - rectVida.w/2;
 	this->vida->setRect(rectVida);
+	this->vidaValor = vida;
+	this->fraccionVidaValor = fraccion;
 	/*if (fig->getMeClickearon()) {
 		this->mostrarCartel = true;
 	} else {
@@ -525,6 +527,10 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::int2string(this->terminoIteracion);
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->muertePorDisparo);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->vidaValor);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::float2string(this->fraccionVidaValor);
 	return serializado;
 }
 
@@ -591,6 +597,8 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->contMuerteVida = StringUtil::str2int(atributos.at(24));
 	this->terminoIteracion = StringUtil::str2int(atributos.at(25));
 	this->muertePorDisparo = StringUtil::str2int(atributos.at(26));
+	this->vidaValor = StringUtil::str2int(atributos.at(27));
+	this->fraccionVidaValor = StringUtil::str2float(atributos.at(28).c_str());
 
 	this->recCuadro = NULL;
 	this->cartel = NULL;
@@ -647,6 +655,26 @@ void GusanoSprite::copiarGusano(GusanoSprite* gusano2, bool nuevo){
 	gusano2->contMuerteVida = this->contMuerteVida;
 	gusano2->terminoIteracion = this->terminoIteracion;
 	gusano2->muertePorDisparo = this->muertePorDisparo;
+
+	
+	int vida = this->vidaValor;
+	float fraccion = this->fraccionVidaValor;
+	if (vida != gusano2->vida->getRect().w) {
+		SDL_Rect rectActual = gusano2->vida->getRect();
+		rectActual.w = vida;
+		gusano2->vida->setRect(rectActual);
+
+		int rgb[3];
+		rgb[0] = (1 - fraccion) * 255 / 0.5;
+		if (rgb[0] > 255) rgb[0] = 255;
+		if (fraccion < 0.5) {
+			rgb[1] = fraccion / 2 * 255;
+		} else {
+			rgb[1] = 255;
+		}
+		rgb[2] = 0;
+		gusano2->vida->setColor(rgb);
+	}
 
 
 	if(gusano2->armaTipo != NINGUNA){

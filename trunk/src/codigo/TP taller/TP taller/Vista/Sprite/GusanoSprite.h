@@ -86,6 +86,8 @@ public:
 	SDL_Rect* rectGrave;
 	SDL_Rect* rectSuicida;
 	bool terminoIteracion;
+	int vidaValor;
+	float fraccionVidaValor;
 };
 
 #endif
