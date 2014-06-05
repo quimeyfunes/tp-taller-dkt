@@ -685,8 +685,7 @@ void GusanoSprite::copiarGusano(GusanoSprite* gusano2, bool nuevo){
 	}else{
 		gusano2->enUso = gusano2->recCuadro;
 	}
-
-	if(gusano2->contMuerte > 0){
+	if(gusano2->contMuerte > 0 || gusano2->muertePorDisparo){
 		//Esta muerto
 		if (this->vidaValor == 0 && !gusano2->terminoIteracion){
 			if(gusano2->armaTipo == SUICIDA){
