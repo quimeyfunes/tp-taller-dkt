@@ -658,6 +658,9 @@ void GusanoSprite::copiarGusano(GusanoSprite* gusano2, bool nuevo){
 
 	
 	int vida = this->vidaValor;
+	if(gusano2->contMuerte > 0){
+		vida = 0;
+	}
 	float fraccion = this->fraccionVidaValor;
 	if (vida != gusano2->vida->getRect().w) {
 		SDL_Rect rectActual = gusano2->vida->getRect();
@@ -685,7 +688,7 @@ void GusanoSprite::copiarGusano(GusanoSprite* gusano2, bool nuevo){
 
 	if(gusano2->contMuerte > 0){
 		//Esta muerto
-		if (!gusano2->terminoIteracion){
+		if (this->vidaValor == 0 && !gusano2->terminoIteracion){
 			if(gusano2->armaTipo == SUICIDA){
 				gusano2->enUso = gusano2->rectSuicida;
 			}else{
