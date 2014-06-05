@@ -518,27 +518,12 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::int2string(this->mostrarCrosshair);
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->frameCrosshair);
-	/*serializado += separadorCamposEntidades;
-	serializado += StringUtil::int2string(this->contMuerteVida);*/
-
-	/*serializado += separadorCamposEntidades;    
-	serializado += StringUtil::int2string(this->recPotencia->x);
 	serializado += separadorCamposEntidades;
-	serializado += StringUtil::int2string(this->recPotencia->y);
-    serializado += separadorCamposEntidades;
-    serializado += StringUtil::int2string(this->recPotencia->w);
+	serializado += StringUtil::int2string(this->contMuerteVida);
 	serializado += separadorCamposEntidades;
-    serializado += StringUtil::int2string(this->recPotencia->h);
-
-	serializado += separadorCamposEntidades;    
-	serializado += StringUtil::int2string(this->enUso->x);
+	serializado += StringUtil::int2string(this->terminoIteracion);
 	serializado += separadorCamposEntidades;
-	serializado += StringUtil::int2string(this->enUso->y);
-    serializado += separadorCamposEntidades;
-    serializado += StringUtil::int2string(this->enUso->w);
-	serializado += separadorCamposEntidades;
-    serializado += StringUtil::int2string(this->enUso->h);*/
-	
+	serializado += StringUtil::int2string(this->muertePorDisparo);
 	return serializado;
 }
 
@@ -602,21 +587,9 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->anguloRotacion = StringUtil::str2int(atributos.at(21));
 	this->mostrarCrosshair = StringUtil::str2int(atributos.at(22));
 	this->frameCrosshair = StringUtil::str2int(atributos.at(23));
-	//this->contMuerteVida = StringUtil::str2int(atributos.at(24));
-
-	/*SDL_Rect* rectAux2 = new SDL_Rect();
-	rectAux2->x = StringUtil::str2int(atributos.at(24));
-	rectAux2->y = StringUtil::str2int(atributos.at(25));
-	rectAux2->w = StringUtil::str2int(atributos.at(26));
-	rectAux2->h = StringUtil::str2int(atributos.at(27));
-	this->recPotencia = rectAux2;
-
-	SDL_Rect* rectAux3 = new SDL_Rect();
-	rectAux3->x = StringUtil::str2int(atributos.at(28));
-	rectAux3->y = StringUtil::str2int(atributos.at(29));
-	rectAux3->w = StringUtil::str2int(atributos.at(30));
-	rectAux3->h = StringUtil::str2int(atributos.at(31));
-	this->enUso = rectAux3;*/
+	this->contMuerteVida = StringUtil::str2int(atributos.at(24));
+	this->terminoIteracion = StringUtil::str2int(atributos.at(25));
+	this->muertePorDisparo = StringUtil::str2int(atributos.at(26));
 
 	this->recCuadro = NULL;
 	this->cartel = NULL;
@@ -633,4 +606,64 @@ string GusanoSprite::getNombre(){
 
 DibujableTextura*  GusanoSprite::getVida(){
 	return this->vida;
+}
+
+void GusanoSprite::copiarGusano(GusanoSprite* gusano2, bool nuevo){
+	if(!nuevo){
+		gusano2->setRect(this->getRect());
+        SDL_Rect rectCart = this->getRect();
+        rectCart.h = this->getRect().h / 4;
+        rectCart.x = this->getRect().x + this->getRect().w/2;
+        rectCart.w = gusano2->getCartel()->texto.length() * 7;
+        gusano2->getCartel()->setRect(rectCart);
+
+		SDL_Rect rectVida = this->getRect();
+		rectVida.h = 5;
+		rectVida.w = pxPorVida * vidaGusano;
+		gusano2->getVida()->setRect(rectVida);
+	}
+
+
+	gusano2->setFrame(this->getFrame());
+	gusano2->setCambiarImgIzq(this->hayCambioImgIzq());
+	gusano2->setCambiarImgDer(this->hayCambioImgDer());
+	gusano2->contDer = this->contDer;
+	gusano2->contIzq = this->contIzq;
+	gusano2->contFrent = this->contFrent;
+	gusano2->contMuerte = this->contMuerte;
+	gusano2->contador = this->contador;
+	gusano2->estado = this->estado;
+	gusano2->mostrarCartel = this->mostrarCartel;
+	gusano2->velocidadRefresco = this->velocidadRefresco;
+	gusano2->numCuadros = this->numCuadros;
+	gusano2->congelado = this->congelado;
+	gusano2->armaTipo = this->armaTipo;
+	gusano2->contArma = this->contArma;
+	gusano2->anguloDisparo = this->anguloDisparo;
+	gusano2->anguloRotacion = this->anguloRotacion;
+	gusano2->mostrarCrosshair = this->mostrarCrosshair;
+	gusano2->frameCrosshair = this->frameCrosshair;
+	gusano2->contMuerteVida = this->contMuerteVida;
+	gusano2->terminoIteracion = this->terminoIteracion;
+	gusano2->muertePorDisparo = this->muertePorDisparo;
+
+
+	if(gusano2->armaTipo != NINGUNA){
+		gusano2->enUso = gusano2->rectApuntando;
+	}else{
+		gusano2->enUso = gusano2->recCuadro;
+	}
+
+	if(gusano2->contMuerte > 0){
+		//Esta muerto
+		if (!gusano2->terminoIteracion){
+			if(gusano2->armaTipo == SUICIDA){
+				gusano2->enUso = gusano2->rectSuicida;
+			}else{
+				gusano2->enUso = gusano2->rectTnt;
+			}
+		}else{
+			gusano2->enUso = gusano2->rectGrave;
+		}
+	}
 }
