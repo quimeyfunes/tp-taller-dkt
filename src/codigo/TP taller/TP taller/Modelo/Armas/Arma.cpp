@@ -65,6 +65,8 @@ void Arma::simularAgua(int nivelAgua){
 	}
 }
 
+void Arma::actualizar(int i, int j){}
+
 Arma::~Arma(void)
 {
 }
