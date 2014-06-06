@@ -12,7 +12,7 @@ ServidorRed* Servidor::red;
 cliente* Servidor::clientes;
 EscenarioParseado* Servidor::escenario;
 mensajeStru Servidor::mensaje;
-bool*  Servidor::terrenoModificado;
+explosion* Servidor::exp;
 int Servidor::idJugando=0; //este es el id q va a arrancar a jugar.
 int Servidor::tiempo=-1;
 
@@ -24,8 +24,12 @@ Servidor::Servidor(){
     cliente_id = 0;
 	clienteEnEspera = false;
 	this->escenario = ParserYaml::getParser()->getEscenario();
-	terrenoModificado= new bool[escenario->maximosClientes];
-	for(int i=0; i< escenario->maximosClientes; i++) terrenoModificado[i] = false;
+
+	exp = new explosion[escenario->maximosClientes];
+	for(int i=0; i< escenario->maximosClientes; i++){
+		exp[i].radio = -1;
+	}
+
 
 	this->mensaje.tiempoActivo=0;
 	this->clientes = new cliente[escenario->maximosClientes +1];
@@ -64,10 +68,6 @@ void Servidor::aceptarClientes(void* arg){
 	}
 }
 
-void Servidor::enviarTerreno(SOCKET sock){
-	enviarImagen(sock, texturaTerreno,paqueteTextura);
-}
-
 void Servidor::actualizar(void* clienteN) 
 {
 	int id= (int)clienteN;
@@ -86,13 +86,14 @@ void Servidor::actualizar(void* clienteN)
 		recibirDeCliente(&id);
 		enviarCliente(&id, paqueteVista, dibujablesSerializados);
 		
-		if(Servidor::terrenoModificado[id]){
+
+		if(exp[id].radio >= 0){
 			if(clientes[id].socket != INVALID_SOCKET){ 
-				enviarTerreno(clientes[id].socket);
-				terrenoModificado[id] = false;
+				enviarExplosion(clientes[id].socket, exp[id]);
+				exp[id].radio = -1;
 			}
 		}
-
+	
 		//envio el tiempo del reloj a los clientes:5
 		if(Servidor::tiempo != -1 && Servidor::tiempo <= tiempoTurno){ 
 			enviarCliente(&id,paqueteTiempo, StringUtil::int2string(Servidor::tiempo));
@@ -108,6 +109,19 @@ void Servidor::actualizar(void* clienteN)
 			}
 		}
 	}
+}
+
+void Servidor::enviarExplosion(SOCKET s, explosion e){
+
+	string expSerializado;
+
+	expSerializado = StringUtil::int2string((int)e.x);
+	expSerializado += separadorCamposArreglo;
+	expSerializado += StringUtil::int2string((int)e.y);
+	expSerializado += separadorCamposArreglo;
+	expSerializado += StringUtil::int2string((int)e.radio);
+
+	enviarPaquete(s, paqueteExplosion, expSerializado);
 }
 
 void Servidor::EnviarSonido(int id, audioEnCola aMandar){
@@ -145,8 +159,13 @@ void Servidor::enviarCliente(int* clienteN, int tipoPaquete, string mensaje){
 
 }
 
-void Servidor::setTerrenoModificado(bool estado){
-	for(int i=0; i< escenario->maximosClientes; i++) Servidor::terrenoModificado[i]=estado;
+void Servidor::setTerrenoModificado(explosion e){
+	
+	for(int i=0; i< escenario->maximosClientes; i++){
+		exp[i].radio = e.radio;
+		exp[i].x = e.x;
+		exp[i].y = e.y;
+	}
 }
 
 int Servidor::buscarCliente(string nombre){
@@ -159,14 +178,18 @@ int Servidor::buscarCliente(string nombre){
 
 void Servidor::enviarEscenario(int num_cliente){
 
-		//envio [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE | MAX_CLIENTES ]
+		//envio [ TIPO | LARGO RUTA MASCARA | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE | MAX_CLIENTES | STRING RUTA MASCARA ]
 	int tipoPaquete = 1;
-	int peso = ((4*sizeof(int)) + (4*sizeof(double)));
+	string rutaMascara = escenario->imagenTierra;
+	int tamanoRutaMascara = rutaMascara.size()+1;
+	int peso = ((5*sizeof(int)) + (4*sizeof(double)) + tamanoRutaMascara);
 	char *data = new char[peso];
 	//cout<<peso<<endl;
 	int offset = 0;
 	memcpy(data+offset, &tipoPaquete, sizeof(tipoPaquete)); //TIPO
 	offset = sizeof(tipoPaquete);
+	memcpy(data+offset, &tamanoRutaMascara, sizeof(tamanoRutaMascara));
+	offset += sizeof(tamanoRutaMascara);
 	memcpy(data+offset, &escenario->altoPx, sizeof(escenario->altoPx));	//altopx
 	offset += sizeof(escenario->altoPx);
 	memcpy(data+offset, &escenario->anchoPx, sizeof(escenario->anchoPx)); //anchopx
@@ -180,6 +203,8 @@ void Servidor::enviarEscenario(int num_cliente){
 	memcpy(data+offset, &num_cliente, sizeof(num_cliente));			//ID_CLIENTE
 	offset += sizeof(num_cliente);
 	memcpy(data+offset, &escenario->maximosClientes, sizeof(escenario->maximosClientes)); //MAXIMOS_CLIENTES
+	offset += sizeof(escenario->maximosClientes);
+	strcpy(data+offset, rutaMascara.c_str());
 							
 	if(clientes[num_cliente].socket != INVALID_SOCKET) Servicio::enviarMensaje(clientes[num_cliente].socket, data, peso);
 	Sleep(10);

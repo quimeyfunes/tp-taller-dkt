@@ -10,7 +10,6 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	this->evento = new SDL_Event();
 	this->cartelInfo = NULL;
 	while(this->cliente->recibirDeServidor());	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
-	
 	bool a = true;
 	//espero que el servidor me diga q arranque...
 	while(this->cliente->arrancarJuego == false){
@@ -21,10 +20,12 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 		this->cliente->actualizar();
 	};
 
-
-	this->esc = cliente->getEscenarioActual();
 	//this->armas = cliente->getArmasActual();
+	this->esc = cliente->getEscenarioActual();
+	this->lector = new LectorTerreno(this->esc->imagenTierra);
+	
 	this->vista = new Vista(esc);
+	
 	agregarTexturas(esc);
 	agregarAgua(esc);
 	this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
@@ -33,7 +34,6 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	for (int i = 0; i < teclas; i++) {
 		eventos[i] = false;
 	}
-	
 }
 
 void JuegoCliente::ejecutar(){
@@ -51,6 +51,7 @@ void JuegoCliente::ejecutar(){
 		
 		this->leerEvento();
 		this->cliente->actualizar();
+
 		this->reloj->setTiempoActual(this->cliente->getTiempoActualDeJuego());
 		
 		this->crearLista(this->cliente->vistaSerializada);
@@ -60,6 +61,12 @@ void JuegoCliente::ejecutar(){
 			this->cliente->nuevoMensaje = false;
 		}
 
+		if(this->cliente->exp.radio >= 0){
+			this->vista->destruir(cliente->exp.x, cliente->exp.y, cliente->exp.radio, this->lector);
+			this->cliente->exp.radio = -1;
+			cout<<"BAM"<<endl;
+		}
+
 		if(simulando){
 			switch(estadoActual){
 
@@ -67,7 +74,6 @@ void JuegoCliente::ejecutar(){
 				case PAUSADO:		esperar();	break;
 			}
 		}
-
 
 		vista->Dibujar();
 
@@ -179,7 +185,7 @@ void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 	vista->crearScrollingSprite( e->anchoU*relacionPPU/2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
 
 	//le seteo el terreno q se va a ir actualizando
-	vista->crearDibujableTerreno(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenTierra, "");
+	vista->crearDibujableTerreno(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, this->lector->getRutaTexturaActualizada(), "");
 	
 	//agrego el reloj
 	this->reloj = vista->crearRelojSprite(0,0,3*relacionPPU,4*relacionPPU,spriteReloj,1,10,42,560);
@@ -321,7 +327,7 @@ int JuegoCliente::getArmaSeleccionada(int x, int y){
 
 JuegoCliente::~JuegoCliente(){
 
-	delete this->esc;
+	//delete this->esc;
 	delete this->reloj;
 	//delete this->evento;
 	delete Logger::getLogger();

@@ -54,6 +54,7 @@ bool Cliente::recibirDeServidor(){
 	
 	bool retorno=true;
 	int offset;
+	int tamanoRutaMascara = 0;
 	Paquete* paquete = new Paquete();
     // get data from server
     int data_length = red->recibirData(network_data);
@@ -79,7 +80,8 @@ bool Cliente::recibirDeServidor(){
 		switch (tipoPaquete) {
 
 			case paqueteInicial:
-				 i+= (4*sizeof(int)) + (4*sizeof(double));
+				memcpy(&tamanoRutaMascara, &network_data[i] + sizeof(int), sizeof(int));
+				 i+= (5*sizeof(int)) + (4*sizeof(double)) + tamanoRutaMascara;
 				 break;
 
 			case paqueteTextura:
@@ -106,10 +108,10 @@ bool Cliente::recibirDeServidor(){
 		switch (tipoPaquete) {
 
             case paqueteInicial:
+				{
+				//recibo [ TIPO | LARGO RUTA MASCARA | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE | MAX_CLIENTES | STRING RUTA MASCARA ]
 
-				//recibo [ TIPO | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE | MAX_CLIENTES]
-
-				offset = sizeof(tipoPaquete);
+				offset = sizeof(tipoPaquete) + sizeof(tamanoRutaMascara);
 				memcpy(&escenario->altoPx, network_data+offset, sizeof(escenario->altoPx));	//altopx
 				offset += sizeof(escenario->altoPx);
 				memcpy(&escenario->anchoPx, network_data+offset, sizeof(escenario->anchoPx)); //anchopx
@@ -123,8 +125,14 @@ bool Cliente::recibirDeServidor(){
 				memcpy(&cliente_id, network_data+offset, sizeof(cliente_id));	//cliente_id
 				offset += sizeof(cliente_id);
 				memcpy(&escenario->maximosClientes, network_data+offset, sizeof(escenario->maximosClientes)); //MAX_clientes
+				offset += sizeof(escenario->maximosClientes);
+				char* buff = new char[tamanoRutaMascara];
+				strcpy(buff, network_data+offset);
+				string s(buff);
+				escenario->imagenTierra = s;
+				delete buff;
 				break;
-
+				}
 			case paqueteTextura:
 				//RECIBE TODAS LAS TEXTURAS
 				memcpy(&tamanioImagen, &network_data[i]+sizeof(int), sizeof(int));
@@ -143,7 +151,7 @@ bool Cliente::recibirDeServidor(){
 
 			case paqueteDescargaLista:
 				//ya termino de recibir las texturas
-				this->escenario->imagenTierra = texturaTerreno;
+				//this->escenario->imagenTierra = texturaTerreno;
 				this->escenario->imagenCielo = texturaCielo;
 				this->activo = true;
 				retorno=false;
@@ -188,6 +196,16 @@ bool Cliente::recibirDeServidor(){
 					else Reproductor::getReproductor()->detenerSonido((sonido)s);
 					break;
 
+				}
+
+			case paqueteExplosion:
+				{
+					vector<string> deserializado = StringUtil::split(paquete->getMensaje(), separadorCamposArreglo);
+					exp.x = StringUtil::str2int(deserializado.at(0));
+					exp.y = StringUtil::str2int(deserializado.at(1));
+					exp.radio = StringUtil::str2int(deserializado.at(2));
+
+					break;
 				}
             default:
 
