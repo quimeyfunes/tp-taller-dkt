@@ -301,6 +301,7 @@ void Juego::leerEvento(){
 												this->dispararArma();
 												Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
 											}
+
 											this->escenario->espacio(false);
 										
 										break;
@@ -433,6 +434,7 @@ void Juego::dispararArma(){
 			this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
 			this->escenario->getGusanoActivo()->disparar();
 			this->escenario->getGusanoActivo()->armaActual.potenciaDisparo = 0;
+			this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
 		}
 	}
 }

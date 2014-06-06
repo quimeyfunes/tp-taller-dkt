@@ -129,7 +129,7 @@ void JuegoCliente::leerEvento(){
 			int x,y;
 			SDL_GetMouseState(&x,&y);
 			int armaSeleccionada = this->getArmaSeleccionada(x,y);
-			if(armaSeleccionada >= 0){
+			if(armaSeleccionada >= 0 && this->panelArmas->proyectilRestante(armaSeleccionada)){
 				this->panelArmas->seleccionarArma(armaSeleccionada);
 
 				//Notifico al servidor el arma seleccionada
@@ -141,7 +141,6 @@ void JuegoCliente::leerEvento(){
 				e->accion = accion;
 				e->x = (x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom());
 				e->y = (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom());
-				
 			}
 			
 			this->cliente->enviarEvento(e->serializar());
