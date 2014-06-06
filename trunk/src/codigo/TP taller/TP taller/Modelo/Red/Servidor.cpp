@@ -188,10 +188,17 @@ void Servidor::enviarEscenario(int num_cliente){
 
 void Servidor::enviarImagenes(SOCKET sock){
 	
-	BuscadorArchivos *buscador = new BuscadorArchivos("imagenes/texturas/","*.png");
-	vector<archivo*>* imagenes = buscador->buscarTodos();
-	for(int i=0;i<imagenes->size(); i++){
-		enviarImagen(sock, imagenes->at(i)->rutaCompleta, paqueteTextura );
+	BuscadorArchivos *mascaras = new BuscadorArchivos("imagenes/mascaras/","*.png");
+	vector<archivo*>* mascarasImgs = mascaras->buscarTodos();
+	for(int i=0;i<mascarasImgs->size(); i++){
+		enviarImagen(sock, mascarasImgs->at(i)->rutaCompleta, paqueteTextura );
+		Sleep(40);
+	}
+
+	BuscadorArchivos *texturas = new BuscadorArchivos("imagenes/texturas/","*.png");
+	vector<archivo*>* texImgs = texturas->buscarTodos();
+	for(int i=0;i<texImgs->size(); i++){
+		enviarImagen(sock, texImgs->at(i)->rutaCompleta, paqueteTextura );
 		Sleep(40);
 	}
 
@@ -203,7 +210,8 @@ void Servidor::enviarImagenes(SOCKET sock){
 		Sleep(40);
 	}
 
-	delete buscador;
+	delete mascaras;
+	delete texturas;
 	delete buscadorICO;
 }
 
