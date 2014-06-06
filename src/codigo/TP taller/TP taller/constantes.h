@@ -8,6 +8,7 @@
 	#define texturaAguaDEF "imagenes/texturas/aguaDefault.png"
 	#define texturaTerreno "imagenes/texturas/terrenoActual"
 	#define texturaFondo "imagenes/fondo.png"
+	#define texturaFondoMenu "imagenes/fondoMenu.png"
 	#define texturaAgua "imagenes/texturas/agua.png"
 	#define spriteOlas "imagenes/texturas/olas.png"
 	#define spriteReloj "imagenes/texturas/reloj.png"

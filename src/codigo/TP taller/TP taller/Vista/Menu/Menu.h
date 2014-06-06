@@ -25,6 +25,7 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	list<Boton*>* listaDibujables;
+	DibujableTextura* fondo;
 	SDL_Event* evento;
 	int ancho;
 	int alto;
