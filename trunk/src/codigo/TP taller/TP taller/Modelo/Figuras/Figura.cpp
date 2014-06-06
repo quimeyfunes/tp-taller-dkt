@@ -8,6 +8,7 @@ Figura::Figura()
 
 Figura::Figura(float x, float y, short int rotacion, b2World* world, bool estatico, bool rotacionFija)
 {
+
 	b2BodyDef myBodyDef;
 	if (estatico){
 	myBodyDef.type = b2_staticBody;
@@ -89,19 +90,6 @@ bool Figura::meClickeo(float x,float y) {
 }
 
 void Figura::simularAgua(int nivelAgua){
-
-	if (this->getPosicion().y > nivelAgua){
-		b2Vec2 velocidad = this->getBody()->GetLinearVelocity();
-		float velocidadY = velocidad.y;
-		if (velocidadY > velocidadAgua) {
-			if (velocidadY * desaceleracionAgua < velocidadAgua)  {
-				velocidadY = velocidadAgua;
-			} else {
-				velocidadY = velocidadY * desaceleracionAgua;
-			}
-		}
-		this->getBody()->SetLinearVelocity(b2Vec2(velocidad.x * desaceleracionAgua,velocidadY));
-	}
 }
 
 bool Figura::estaMuerto(){

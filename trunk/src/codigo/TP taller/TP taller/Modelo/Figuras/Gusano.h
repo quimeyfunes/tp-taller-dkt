@@ -27,6 +27,7 @@ private:
 	b2Fixture* fixtureCuerpo;
 	int tiempoInicial;
 	bool explota;
+	bool ahogado;
 
 	typedef struct{
 		tipoArma armaTipo;
