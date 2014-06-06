@@ -41,7 +41,7 @@
 	const int alturaCartel = 8;
 
 	//Turno
-	const int tiempoTurno = 15;
+	const int tiempoTurno = 20;
 	const int tiempoDisparo = 5;
 	const int tiempoCritico = 3;
 

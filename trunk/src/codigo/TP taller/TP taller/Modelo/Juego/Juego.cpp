@@ -60,7 +60,13 @@ void Juego::ejecutar(){
 		}
 
 		this->leerEvento();
-		
+
+		if(this->turno->estaDetenido() && !(escenario->getPuedeDisparar()) ){
+			if(escenario->getHuboDisparo() && !(escenario->hayExposionPendiente() ) ){
+				this->turno->esperarDisparo();
+				escenario->setHuboDisparo(false);
+			}
+		}
 		
 
 		if(simulando){
@@ -293,12 +299,15 @@ void Juego::leerEvento(){
 										this->escenario->reiniciarTeclas();		break; 
 
 				case ESPACIO: 			this->escenario->espacio(true); 
-										this->turno->esperarDisparo();
+										//detengo el turno hasta que explote todo
+										this->turno->detener();
+										
 										break;
 
 				case SOLTARESPACIO:
 		
 										if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
+											this->escenario->setHuboDisparo(true);
 											this->dispararArma();
 											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
 										}
@@ -319,6 +328,9 @@ void Juego::leerEvento(){
 
 						if(this->escenario->getGusanoActivo() != NULL){
 							 if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES  ){
+	
+								 //detengo el turno hasta que explote todo
+								 this->turno->detener();
 
 								 int x,y;
 								 x = evento->x;
