@@ -60,7 +60,7 @@ void Juego::ejecutar(){
 		}
 		
 		this->leerEvento();
-
+		//si el turno esta detenido es porque alguien disparo entonces le pregunto al escenario si ya terminaron los disparos.
 		if(this->turno->estaDetenido() && !(escenario->getPuedeDisparar()) ){
 			if(escenario->getHuboDisparo() && !(escenario->hayExposionPendiente() ) ){
 				this->turno->esperarDisparo();
