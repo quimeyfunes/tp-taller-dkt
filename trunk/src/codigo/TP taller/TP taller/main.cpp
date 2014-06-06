@@ -32,7 +32,7 @@ void inicializarSDL(SDL_Window** window,SDL_Renderer** renderer) {
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 	SDL_Init( SDL_INIT_EVERYTHING );
 	*window = SDL_CreateWindow("Worms!", 25, 25, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN);
-	//SDL_HideWindow(*window);
+	SDL_HideWindow(*window);
 	*renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_SetWindowIcon(*window, IMG_Load(rutaIcono));
 	TTF_Init();
@@ -45,11 +45,11 @@ int main(int argc, char* argv[]){
 		SDL_Window* window = NULL;
 		SDL_Renderer* renderer = NULL;
 		inicializarSDL(&window,&renderer);
-		Menu* menu = new Menu(window,renderer);
-		while (true) {
-			//menu->dibujar();
-			menu->escribir();
-		}
+		//Menu* menu = new Menu(window,renderer);
+		//while (true) {
+		//	//menu->dibujar();
+		//	menu->escribir();
+		//}
 		printf("Ingrese 1 para ser cliente, 2 para ser servidor.\n");
 		std::string argumento;
 		std::cin >> argumento;
