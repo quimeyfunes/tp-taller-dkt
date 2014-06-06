@@ -285,6 +285,27 @@ void JuegoCliente::crearLista(string vistaSerializada){
 				delete arma;
 				break;
 			}
+			case serializadoATiempoDibujable:{
+				ATiempoDibujable* timer = new ATiempoDibujable();
+				timer->deserealizar(entidadSerializada);
+
+				ATiempoDibujable* timer2 = new ATiempoDibujable(this->vista->renderer, timer->getRect(),timer->rutaImagen,"");
+				timer2->anguloRotacion = timer->anguloRotacion;
+				timer2->setDestruido(timer->getDestruido());
+				timer2->reloj->frame = timer->reloj->frame;
+				timer2->reloj->numCuadros = timer->reloj->numCuadros;
+				timer2->reloj->tiempoActual = timer->reloj->tiempoActual;
+
+				SDL_Rect rectReloj = timer->reloj->getRect();
+				rectReloj.x = timer->getRect().x;
+				rectReloj.y = timer->getRect().y - 5;
+				timer2->reloj->setRect(rectReloj);
+
+				lista->push_back(timer2);
+
+				delete timer;
+				break;
+			}
 		default:
 			{
 				break;
