@@ -666,7 +666,13 @@ void Escenario::setGusanoActivo(Gusano* gusano){
 }
 
 bool Escenario::hayExposionPendiente(){
-	return !this->listaArmas->empty();
+
+	//si puedeDisparar esta true es porq estan cargando la potencia con la barra.
+	if(puedeDisparar == true)  return true;
+	else{
+		if(listaArmas->empty()) return false; //lista de arma vacia
+		else return true;
+	}
 }
 
 bool Escenario::getHuboDisparo(){
