@@ -12,6 +12,7 @@ class Turno
 
 private:
 	int tiempoInicial;
+	int tiempoDiferido;
 	int tiempoPorTurno;
 	int tiempoPorDisparo;
 	string jugadorActual;

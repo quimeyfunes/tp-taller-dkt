@@ -64,7 +64,12 @@ void Turno::actualizar(){
 	}
 	else{
 		if(huboDisparo){
-			if( (time(NULL) - tiempoInicial - tiempoActual) >= tiempoPorDisparo ) terminar();
+			//espero tiempoPorDisparo:
+			if( (time(NULL) - tiempoDiferido) >= tiempoPorDisparo ) {
+				terminar();
+				huboDisparo = false;
+				tiempoDiferido = 0;
+			}
 		}
 	}
 }
@@ -75,6 +80,7 @@ void Turno::comenzar(){
 	huboDisparo = false;
 	tiempoInicial = time(NULL);
 	tiempoActual = 0;
+	tiempoDiferido = 0;
 	
 }
 
@@ -85,5 +91,7 @@ int Turno::getTiempoActual(){
 void Turno::esperarDisparo(){
 	detener();
 	huboDisparo=true;
+	tiempoDiferido = time(NULL);
+
 	
 }
