@@ -61,8 +61,8 @@ void Juego::ejecutar(){
 		
 		this->leerEvento();
 		//si el turno esta detenido es porque alguien disparo entonces le pregunto al escenario si ya terminaron los disparos.
-		if(this->turno->estaDetenido() && !(escenario->hayExposionPendiente() ) ){
-
+		if(this->turno->estaDetenido() && escenario->getHuboDisparo() && !( escenario->hayExposionPendiente() ) ){
+				cout << "esperar Disparo..."<<endl;
 				this->turno->esperarDisparo();
 				escenario->setHuboDisparo(false);
 		}
@@ -645,6 +645,7 @@ void Juego::cambiarJugador(string jugador){
 		for(it = gusanosVivos.begin();it != gusanosVivos.end();it++){
 
 			if(i == gusanoRandom) {
+
 				this->escenario->setGusanoActivo(*it);
 				(*it)->setMeClickearon(true,idCliente);
 				(*it)->setActivo(true);
