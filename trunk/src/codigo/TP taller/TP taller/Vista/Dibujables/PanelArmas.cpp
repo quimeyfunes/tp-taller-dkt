@@ -75,13 +75,13 @@ void PanelArmas::agregarArma(SDL_Renderer* renderer, string nombreArmaSelecciona
 	this->armasTexturas.push_back(arma);
 
 	SDL_Rect rectCantidadProyectiles;
-	rectCantidadProyectiles.x = rect.x;
-	rectCantidadProyectiles.y = rect.y;
+	rectCantidadProyectiles.x = rect.x + tamanoCuadradoX - 20;
+	rectCantidadProyectiles.y = rect.y + tamanoCuadradoY - 20;
 	rectCantidadProyectiles.w = rect.w/3;
 	rectCantidadProyectiles.h = (rect.h/3);
 	
 
-	DibujableTextura* cantidadProyectilesTextura = new DibujableTextura(renderer, rectCantidadProyectiles, "imagenes/texturas/cantidadProyectiles.png", "");
+	DibujableTextura* cantidadProyectilesTextura = new DibujableTextura(renderer, rectCantidadProyectiles, "imagenes/texturas/cantidadProyectilesBlanco.png", "");
 	this->cantidadProyectilesTexturas.push_back(cantidadProyectilesTextura);
 
 	this->nombresArmasSeleccionada.push_back(nombreArmaSeleccionada);
