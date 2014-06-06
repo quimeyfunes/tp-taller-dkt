@@ -24,15 +24,13 @@ void TextInput::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimiento
 {
 
 	SDL_Rect rect = this->rect;
-	rect.x -= corrimientoX;
-	rect.y -= corrimientoY;
+	rect.x = corrimientoX;
+	rect.y = corrimientoY;
+	rect.w = 500;
+	rect.h = 60;
 
-	if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
-		rect = realizarZoom(this->rect, corrimientoX, corrimientoY, escalaZoom);
-		SDL_RenderCopyEx(renderer,this->imagen, NULL , &rect, this->anguloRotacion ,NULL,SDL_FLIP_NONE);
-	} else {
-		SDL_RenderCopyEx(renderer,this->imagen, NULL, &rect, this->anguloRotacion,NULL,SDL_FLIP_NONE);
-	}
+	SDL_RenderCopyEx(renderer,this->imagen, NULL, &rect, this->anguloRotacion,NULL,SDL_FLIP_NONE);
+	
 }
 
 bool TextInput::loadFromRenderedText(SDL_Renderer* renderer, string textureText, SDL_Color textColor )
