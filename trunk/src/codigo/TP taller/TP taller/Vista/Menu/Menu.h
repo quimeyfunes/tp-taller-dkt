@@ -18,7 +18,7 @@ private:
 	TextInput* textInput;
 public:
 	Menu(SDL_Window* window, SDL_Renderer* renderer);
-	void escribir(SDL_Renderer* renderer);
+	void escribir();
 	Menu();
 	~Menu();
 
