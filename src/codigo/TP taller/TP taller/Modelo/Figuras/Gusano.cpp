@@ -143,6 +143,11 @@ tipoArma Gusano::getTipoArma(){
 	return this->armaActual.armaTipo;
 }
 
+void Gusano::setTipoArma(tipoArma tipo){
+	this->armaActual.armaTipo = tipo;
+}
+
+
 void Gusano::BeginContact() {
 	this->agregarContacto();
 }

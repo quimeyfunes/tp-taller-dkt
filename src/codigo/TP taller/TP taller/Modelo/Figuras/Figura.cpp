@@ -56,9 +56,9 @@ float Figura::getAngulo()
 }
 
 void Figura::reiniciar(){
-	this->setPosicion(this->posicionInicial.x,this->posicionInicial.y,this->anguloInicial);
-	this->body->SetAngularVelocity(0);
-	this->body->SetLinearVelocity(b2Vec2(0,0));
+	//this->setPosicion(this->posicionInicial.x,this->posicionInicial.y,this->anguloInicial);
+	//this->body->SetAngularVelocity(0);
+	//this->body->SetLinearVelocity(b2Vec2(0,0));
 	this->body->SetAwake(true);
 	this->setMovimientoIzq(false);
 	this->setMovimientoDer(false);

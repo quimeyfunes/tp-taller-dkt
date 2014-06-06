@@ -59,6 +59,7 @@ public:
 	void setArma(Arma* nuevaArma);
 	bool tieneUnArma();
 	tipoArma getTipoArma();
+	void setTipoArma(tipoArma tipo);
 	void BeginContact();
 	void EndContact();
 	void PostSolve(float impulso);

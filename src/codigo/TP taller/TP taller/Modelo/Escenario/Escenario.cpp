@@ -669,6 +669,13 @@ void Escenario::detenerMovimientos(){
 
 
 void Escenario::setGusanoActivo(Gusano* gusano){
+	//el gusano q era activo antes tiene q volver a ser normal
+	if(this->gusanoActivo != NULL){
+		this->gusanoActivo->setActivo(false);
+		this->gusanoActivo->setTipoArma(NINGUNA);
+		this->gusanoActivo->reiniciar();
+	}
+
 	this->gusanoActivo = gusano;
 }
 
