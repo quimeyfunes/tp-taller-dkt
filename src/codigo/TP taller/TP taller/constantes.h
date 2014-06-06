@@ -148,5 +148,7 @@
 	#define serializadoRectanguloDibujable 5
 	#define serializadoGusanoSprite 6
 	#define serializadoArmaDibujable 7
+	#define serializadoATiempoDibujable 8
+	#define serializadoRelogArmaSprite 9
 
 #endif

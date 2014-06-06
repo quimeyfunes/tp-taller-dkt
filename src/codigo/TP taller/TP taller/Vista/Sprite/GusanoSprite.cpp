@@ -543,6 +543,8 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::int2string(this->vidaValor);
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::float2string(this->fraccionVidaValor);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->activo);
 	return serializado;
 }
 
@@ -611,6 +613,7 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->muertePorDisparo = StringUtil::str2int(atributos.at(26));
 	this->vidaValor = StringUtil::str2int(atributos.at(27));
 	this->fraccionVidaValor = StringUtil::str2float(atributos.at(28).c_str());
+	this->activo = StringUtil::str2float(atributos.at(29).c_str());
 
 	this->recCuadro = NULL;
 	this->cartel = NULL;
@@ -644,6 +647,7 @@ void GusanoSprite::copiarGusano(GusanoSprite* gusano2, bool nuevo){
 		rectVida.w = pxPorVida * vidaGusano;
 		rectVida.y = this->getRect().y + 5;
 		gusano2->getVida()->setRect(rectVida);
+
 	}
 
 
@@ -669,6 +673,12 @@ void GusanoSprite::copiarGusano(GusanoSprite* gusano2, bool nuevo){
 	gusano2->contMuerteVida = this->contMuerteVida;
 	gusano2->terminoIteracion = this->terminoIteracion;
 	gusano2->muertePorDisparo = this->muertePorDisparo;
+	gusano2->activo = this->activo;
+
+	SDL_Rect rectFlecha = gusano2->getCartel()->getRect();
+	rectFlecha.x = this->rect.x;
+	rectFlecha.y = this->rect.y - 35;
+	gusano2->flecha->setRect(rectFlecha);
 
 	
 	int vida = this->vidaValor;
