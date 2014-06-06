@@ -45,7 +45,7 @@ const int tiempoExplosionMiniBanana = 3;
 
 const float anchoMisiles = 3;
 const float altoMisiles = 2;
-const int masaMisiles = 30;
+const int masaMisiles = 10;
 
 const int tiempoExplosionSuicida = 5;
 

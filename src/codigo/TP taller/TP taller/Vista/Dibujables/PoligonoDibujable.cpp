@@ -27,7 +27,7 @@ void PoligonoDibujable::actualizar(Observable* observable) {
 	float escalaAncho = relacionPPU;
 	float escalaAlto = relacionPPU;
 	b2Vec2 posicion = b2Vec2(fig->getPosicion().x * escalaAncho, fig->getPosicion().y * escalaAlto);
-	cout<<fig->getAngulo()<<endl;
+	//cout<<fig->getAngulo()<<endl;
 	for (int i = 0; i < this->n; i++) {
 		b2Vec2 vertice = shape->GetVertex(i);
 		float anguloNuevo = atan2(vertice.y*1.0,vertice.x*1.0) + fig->getAngulo();

@@ -21,7 +21,7 @@ void Arma::disparar(bool sentido, float potencia, float angulo){
 			angulo -= 360;
 		}
 	}
-	cout<<angulo<<endl;
+	//cout<<angulo<<endl;
 	float vX = potencia*coseno[(int)angulo];//os(angulo*DEGTORAD);
 	float vY = -potencia*seno[(int)angulo];//in(angulo*DEGTORAD);
 

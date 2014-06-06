@@ -9,7 +9,7 @@ audioEnCola** Reproductor::colaDeEspera;
 
 Reproductor::Reproductor(){
 
-	cout<<"num: "<<numSonidos<<endl;
+	//cout<<"num: "<<numSonidos<<endl;
 	numClientes = ParserYaml::getParser()->getEscenario()->maximosClientes;
 	colaDeEspera = new audioEnCola*[numClientes];	//cola de reproduccion para el servidor
 
