@@ -24,6 +24,7 @@ public:
 	virtual void explotar(bool explotar);
 	virtual bool getExplotar();
 	void simularAgua(int nivelAgua);
+	virtual void actualizar(int anchoU, int altoU);
 	float getRadio();
 	tipoArma getArmaTipo();
 	virtual ~Arma(void);

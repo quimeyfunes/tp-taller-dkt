@@ -16,6 +16,13 @@ void ExplosivaPorContacto::BeginContact() {
 	
 }
 
+void ExplosivaPorContacto::actualizar(int anchoU, int altoU) {
+	b2Vec2 pos = this->getPosicion();
+	if (pos.x < -0.5 * anchoU || pos.x > 1.5 * anchoU || pos.y > 1.5 * altoU){
+		this->explota = true;
+	}
+}
+
 ExplosivaPorContacto::~ExplosivaPorContacto(void)
 {
 }

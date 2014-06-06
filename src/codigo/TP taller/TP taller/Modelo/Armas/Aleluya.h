@@ -14,7 +14,7 @@ public:
 	~Aleluya(void);
 	void disparar(bool sentido, float potencia, float angulo);
 	void BeginContact();
-	void actualizar();
+	void actualizar(int anchoU, int altoU);
 	int getTiempoRestante();
 };
 
