@@ -1,5 +1,6 @@
 #include "Modelo/Juego/JuegoCliente.h"
 #include "Modelo/Juego/Turno.h"
+#include "Vista\Menu\Menu.h"
 #include <process.h>
 #include <winsock2.h>
 #include <stdlib.h>
@@ -27,10 +28,27 @@ string obtenerAnteriorIP(){
 	return "";
 }
 
+void inicializarSDL(SDL_Window** window,SDL_Renderer** renderer) {
+	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
+	SDL_Init( SDL_INIT_EVERYTHING );
+	*window = SDL_CreateWindow("Worms!", 25, 25, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN);
+	SDL_HideWindow(*window);
+	*renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_SetWindowIcon(*window, IMG_Load(rutaIcono));
+	TTF_Init();
+}
+
 int main(int argc, char* argv[]){
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	ParserYaml::setConfigPath("config/config.yaml");
 	try{
+		SDL_Window* window = NULL;
+		SDL_Renderer* renderer = NULL;
+		inicializarSDL(&window,&renderer);
+		/*Menu* menu = new Menu(window,renderer);
+		while (true) {
+			menu->dibujar();
+		}*/
 		printf("Ingrese 1 para ser cliente, 2 para ser servidor.\n");
 		std::string argumento;
 		std::cin >> argumento;
@@ -63,8 +81,8 @@ int main(int argc, char* argv[]){
 				}
 			}
 
-			JuegoCliente* juego = new JuegoCliente(nombre, ip);
-			juego->ejecutar();
+			JuegoCliente* juego = new JuegoCliente(nombre, ip, window, renderer);
+			juego->ejecutar(); 
 			delete juego;
 		}else if(argumento == "2"){
 			//Servidor
@@ -72,7 +90,7 @@ int main(int argc, char* argv[]){
 			printf("Soy Servidor!\n");
 			char* ip = obtenerIPMaquina();
 			printf("Mi direccion IP es: %s\n", ip);
-			Juego* juego = new Juego("a");
+			Juego* juego = new Juego("a",window,renderer);
 			juego->ejecutar();
 			delete juego;
 		}

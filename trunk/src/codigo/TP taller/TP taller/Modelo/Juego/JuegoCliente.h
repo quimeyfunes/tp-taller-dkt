@@ -49,7 +49,7 @@ private:
 
 public:
 	JuegoCliente();
-	JuegoCliente(string nombreCliente, string ip);
+	JuegoCliente(string nombreCliente, string ip,SDL_Window* window, SDL_Renderer* renderer);
 	void ejecutar();
 	~JuegoCliente();
 	void actualizarDibujables(Paquete* paqueteVista);

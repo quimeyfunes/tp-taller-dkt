@@ -2,7 +2,7 @@
 
 Cliente* JuegoCliente::cliente = NULL;
 
-JuegoCliente::JuegoCliente(string nombreCliente, string ip){
+JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, SDL_Renderer* renderer){
 	
 	cliente = new Cliente(nombreCliente, ip);
 	this->simulando = false;
@@ -25,7 +25,7 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 	cout<<"cliente "<<cliente->getId()<<endl;
 	this->lector = new LectorTerreno(this->esc->imagenTierra, this->cliente->getId());
 	
-	this->vista = new Vista(esc);
+	this->vista = new Vista(esc,window,renderer);
 	
 	agregarTexturas(esc);
 	agregarAgua(esc);
