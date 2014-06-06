@@ -25,7 +25,7 @@ public:
 	//cambiar esto por una lista de mensajes (talvez)
 	string mensajeInfo;
 	bool nuevoMensaje;
-	explosion exp;
+	explosion* exp;
 	//
 	bool arrancarJuego;
 	int timeServidor;

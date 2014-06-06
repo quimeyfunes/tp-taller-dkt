@@ -73,6 +73,8 @@ typedef enum{
 }tipoArma;
 //////////////////////////////////////
 
+const int maxExplosionesPorTurno = 6;
+
 typedef struct{
 	int x;
 	int y; 

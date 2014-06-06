@@ -2,8 +2,11 @@
 #include "generador\GeneradorFunciones.h"
 #include <string>
 
-LectorTerreno::LectorTerreno(string nombreArchivo){
+LectorTerreno::LectorTerreno(string nombreArchivo, int id){
 
+	string ruta = texturaTerreno + StringUtil::int2string(id) + ".png";
+	this->rutaCompleta = new char[ruta.size()+1];
+	strcpy(this->rutaCompleta, ruta.c_str());
 	logError = Logger::getLogger();
 	imagen = IMG_Load(nombreArchivo.c_str());
 	//asigno valores de alto y ancho
@@ -224,8 +227,9 @@ int LectorTerreno::getHipotenusa(int x, int y, int i, int j){
 
 char* LectorTerreno::getRutaTexturaActualizada(){
 
-	this->guardarMatrizEnPNG(texturaTerreno);
-	return texturaTerreno;
+
+	this->guardarMatrizEnPNG(this->rutaCompleta);
+	return rutaCompleta;
 }
 
 void LectorTerreno::loguearErroresMatriz(vector<int> columnas){
@@ -269,4 +273,6 @@ LectorTerreno::~LectorTerreno(){
 		delete[] matrizTerreno[j];
 
 	delete[] this->matrizTerreno;
+
+	delete[] this->rutaCompleta;
 }
