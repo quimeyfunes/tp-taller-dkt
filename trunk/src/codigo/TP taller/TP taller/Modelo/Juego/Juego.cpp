@@ -305,13 +305,12 @@ void Juego::leerEvento(){
 				case ESPACIO: 			this->escenario->espacio(true); 
 										//detengo el turno hasta que explote todo
 										this->turno->detener();
-										
+										this->escenario->setHuboDisparo(true);
 										break;
 
 				case SOLTARESPACIO:
 		
 										if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
-											this->escenario->setHuboDisparo(true);
 											this->dispararArma();
 											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
 										}
