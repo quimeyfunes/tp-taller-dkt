@@ -276,34 +276,34 @@ void Juego::leerEvento(){
 				evento->deserealizar(ultimoEvento);
 				switch(evento->accion){
 
-					case SALIR:			salir();						break;
-					case JUGAR:			reiniciar();					break;
-					case PAUSAR:		alternarPausa();				break;
-					case ARRIBA:		this->escenario->arriba(true);		break;
-					case ABAJO:			this->escenario->abajo(true);		break;
-					case IZQUIERDA:		this->escenario->izquierda(true);	break;
-					case DERECHA:		this->escenario->derecha(true);		break; 
-					case SOLTARARRIBA:		this->escenario->arriba(false);		break;
-					case SOLTARIZQUIERDA:	{this->escenario->izquierda(false);
-											 this->escenario->reiniciarTeclas();}	break;
-					case SOLTARDERECHA:		{this->escenario->derecha(false);
-											 this->escenario->reiniciarTeclas();}	break; 
-					case SOLTARABAJO:		{this->escenario->abajo(false);
-											 this->escenario->reiniciarTeclas();}	break; 
+                case SALIR:				salir();                                break;
+                case JUGAR:             reiniciar();                            break;
+                case PAUSAR:            alternarPausa();                        break;
+				case ARRIBA:            this->escenario->arriba(true);			break;
+				case ABAJO:				this->escenario->abajo(true);			break;
+                case IZQUIERDA:         this->escenario->izquierda(true);       break;
+                case DERECHA:           this->escenario->derecha(true);         break; 
+				case ENTER:				this->escenario->enter(true);			break;
+				case SOLTARENTER:		this->escenario->enter(false);			break;
+                case SOLTARARRIBA:		this->escenario->arriba(false);         break;
+				case SOLTARABAJO:		this->escenario->abajo(false);			break;
+                case SOLTARIZQUIERDA:   this->escenario->izquierda(false);	
+                                        this->escenario->reiniciarTeclas();		break;
+				case SOLTARDERECHA:		this->escenario->derecha(false);
+										this->escenario->reiniciarTeclas();		break; 
 
-					case ESPACIO:	this->escenario->espacio(true); 
-									this->turno->esperarDisparo();
-									break;
+				case ESPACIO: 			this->escenario->espacio(true); 
+										this->turno->esperarDisparo();
+										break;
 
-					case SOLTARESPACIO:
+				case SOLTARESPACIO:
 		
-											if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
-												this->dispararArma();
-												Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
-											}
+										if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
+											this->dispararArma();
+											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
+										}
 
-											this->escenario->espacio(false);
-										
+										this->escenario->espacio(false);
 										break;
 
 
