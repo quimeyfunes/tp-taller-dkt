@@ -421,12 +421,14 @@ void Escenario::moverse(){
 void Escenario::cargarDisparo(){
 	if((puedeDisparar)&&(this->gusanoActivo != NULL)&&(this->gusanoActivo->armaActual.armaTipo != NINGUNA)){ 
 		if(this->gusanoActivo->armaActual.puedeCargarse){
-			if(this->gusanoActivo->armaActual.armaTipo == BAZOOKA && this->gusanoActivo->armaActual.potenciaDisparo == 0)
-				Reproductor::getReproductor()->reproducirSonido(ENEMIGOALAS12);
+			if(this->gusanoActivo->armaActual.potenciaDisparo == 0){
+				Reproductor::getReproductor()->reproducirSonido(CARGANDODISPARO);
+				if(this->gusanoActivo->armaActual.armaTipo == BAZOOKA){
+					Reproductor::getReproductor()->reproducirSonido(ENEMIGOALAS12);
+				}
+			}
 			if(this->gusanoActivo->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO){
 				this->gusanoActivo->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
-				if(!Reproductor::getReproductor()->estaReproduciendo(CARGANDODISPARO))
-					Reproductor::getReproductor()->reproducirSonido(CARGANDODISPARO);
 			}
 		}
 		//cout<<this->getGusanoActivo()->armaActual.potenciaDisparo<<endl;
@@ -441,10 +443,14 @@ void Escenario::cargarDisparoClientes(){
 	for(int i=0; i < this->maximosClientes; i++){
 		if ((this->figurasActivas[i] != NULL) && (this->puedeDispararClientes[i]) && (this->figurasActivas[i]->armaActual.armaTipo != NINGUNA) &&!(this->figurasActivas[i]->estaMuerto())) {
 			if(this->figurasActivas[i]->armaActual.puedeCargarse){
+				if(this->figurasActivas[i]->armaActual.potenciaDisparo == 0){
+					Reproductor::getReproductor()->reproducirSonido(CARGANDODISPARO);
+					if(this->figurasActivas[i]->armaActual.armaTipo == BAZOOKA){
+						Reproductor::getReproductor()->reproducirSonido(ENEMIGOALAS12);
+					}
+				}
 				if(this->figurasActivas[i]->armaActual.potenciaDisparo < POTENCIA_MAXIMA_DISPARO){
 					this->figurasActivas[i]->armaActual.potenciaDisparo += AUMENTO_POTENCIA;
-					if(!Reproductor::getReproductor()->estaReproduciendo(CARGANDODISPARO))
-						Reproductor::getReproductor()->reproducirSonido(CARGANDODISPARO);
 				}
 			}
 		}else{
