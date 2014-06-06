@@ -16,7 +16,6 @@ ATiempoDibujable::ATiempoDibujable(SDL_Renderer* renderer, SDL_Rect rect, string
 
 void ATiempoDibujable::actualizar(Observable* observable){
 	ExplosivaPorTiempo* fig = (ExplosivaPorTiempo*)observable;
-	fig->actualizar();
 	if (fig->getExplotar()) {
 		this->destruido = true;
 	} else {

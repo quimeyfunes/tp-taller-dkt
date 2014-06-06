@@ -12,7 +12,7 @@ ExplosivaPorTiempo::ExplosivaPorTiempo(float x, float y, short int rotacion, b2W
 
 }
 
-void ExplosivaPorTiempo::actualizar(){
+void ExplosivaPorTiempo::actualizar(int anchoU, int altoU){
 	if (time(NULL) - this->tiempoInicial >= this->tiempoExplosion){
 		this->explotar(true);
 	}else this->explotar(false);

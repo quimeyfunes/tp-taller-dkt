@@ -16,7 +16,7 @@ public:
 	~ExplosivaPorTiempo(void);
 	void BeginContact();
 	void EndContact();
-	virtual void actualizar();
+	virtual void actualizar(int anchoU,int altoU);
 	virtual void disparar(bool sentido, float potencia, float angulo);
 	virtual int getTiempoRestante();
 	

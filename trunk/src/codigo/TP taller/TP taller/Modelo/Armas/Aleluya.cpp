@@ -36,7 +36,7 @@ void Aleluya::BeginContact(){
 	Reproductor::getReproductor()->reproducirSonido(IMPACTOALELUYA);
 }
 
-void Aleluya::actualizar(){
+void Aleluya::actualizar(int anchoU, int altoU){
 	this->explota = false;
 
 	if(!aleluya){

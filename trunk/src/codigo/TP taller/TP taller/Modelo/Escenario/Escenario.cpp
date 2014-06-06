@@ -83,6 +83,7 @@ void Escenario::notificar() {
 	}
 
 	for (list<Arma*>::iterator it = this->listaArmas->begin(); it != this->listaArmas->end(); it++) {
+		(*it)->actualizar(this->anchoU,this->altoU);
 		(*it)->notificar();
 	}
 
