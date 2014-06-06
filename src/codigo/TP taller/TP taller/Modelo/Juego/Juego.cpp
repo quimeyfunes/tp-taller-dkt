@@ -358,9 +358,12 @@ void Juego::leerEvento(){
 							case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = BANANA; 
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
 									break;
-							/*case 5: this->escenario->getGusanoActivo()->armaActual.armaTipo = SUICIDA;
+							case 5: this->escenario->getGusanoActivo()->armaActual.armaTipo = MISILES;
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
-									break;*/
+									break;
+							case 6: this->escenario->getGusanoActivo()->armaActual.armaTipo = SUICIDA;
+									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+									break;
 							default: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA; 
 									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
 									break;
