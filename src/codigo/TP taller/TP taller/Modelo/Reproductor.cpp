@@ -100,15 +100,14 @@ void Reproductor::reproducirSonido(sonido son){
 		}
 	}
 
-	if(activo){
-		if(listaDeReproduccion[son].loops == -1) detenerSonido(son); //si se quieren reproducir al mismo tiempo 2 sonidos con loops infinitos, hay q detener uno para q no se quede colgado
+	if(!activo)	Mix_Volume(-1, 0);
 		
-		if(son == MECHA || son == SONIDOALELUYA || son == CAMINANDO)
-			Mix_PlayChannel(listaDeReproduccion[son].canal, listaDeReproduccion[son].efecto, listaDeReproduccion[son].loops);
-		else
-			listaDeReproduccion[son].canal = Mix_PlayChannel(-1, listaDeReproduccion[son].efecto, listaDeReproduccion[son].loops);
-		listaDeReproduccion[son].activo = true;
-	}
+	if(son == MECHA || son == SONIDOALELUYA || son == CAMINANDO)
+		Mix_PlayChannel(listaDeReproduccion[son].canal, listaDeReproduccion[son].efecto, listaDeReproduccion[son].loops);
+	else
+		listaDeReproduccion[son].canal = Mix_PlayChannel(-1, listaDeReproduccion[son].efecto, listaDeReproduccion[son].loops);
+
+	listaDeReproduccion[son].activo = true;
 }
 
 void Reproductor::detenerSonido(sonido son){
@@ -121,22 +120,20 @@ void Reproductor::detenerSonido(sonido son){
 		}
 	}
 
-	if(activo){
-		if(listaDeReproduccion[son].activo){
-			if(Mix_Playing(listaDeReproduccion[son].canal) != 0){
-				Mix_HaltChannel(listaDeReproduccion[son].canal);
-			}
-			listaDeReproduccion[son].activo = false;
+	if(listaDeReproduccion[son].activo){
+		if(Mix_Playing(listaDeReproduccion[son].canal) != 0){
+			Mix_HaltChannel(listaDeReproduccion[son].canal);
 		}
 	}
+
+	listaDeReproduccion[son].activo = false;
 }
 
 bool Reproductor::estaReproduciendo(sonido s){
 	
-	if(activo){
-		if(listaDeReproduccion[s].activo)
-			listaDeReproduccion[s].activo = (Mix_Playing(listaDeReproduccion[s].canal) != 0)? true:false;
-	}
+	if(listaDeReproduccion[s].activo)
+		listaDeReproduccion[s].activo = (Mix_Playing(listaDeReproduccion[s].canal) != 0)? true:false;
+
 	return listaDeReproduccion[s].activo;
 }
 
