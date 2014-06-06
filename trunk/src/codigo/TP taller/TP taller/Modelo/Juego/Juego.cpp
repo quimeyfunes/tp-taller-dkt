@@ -37,7 +37,7 @@ void Juego::ejecutar(){
 	Reproductor::getReproductor()->enviar = true;	//setea si enviar o no los sonidos al cliente
 	servidor = new Servidor();
 	int tamanio;
-
+	explosion exp;
     const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
@@ -105,8 +105,13 @@ void Juego::ejecutar(){
 				explosion *= relacionPPU;
 				this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
 				//aviso al servidor q se modifico el terreno
+				exp.radio = explosion.z;
+				exp.x = explosion.x;
+				exp.y = explosion.y;
 				Reproductor::getReproductor()->reproducirSonido(EXPLOSION);
-				Servidor::setTerrenoModificado(true);
+				Servidor::setTerrenoModificado(exp);
+				
+				
 			}
 		} while (explosion.z >= 0);
 		

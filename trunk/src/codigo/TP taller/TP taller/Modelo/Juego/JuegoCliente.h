@@ -11,6 +11,7 @@
 #include "../Red/Cliente.h"
 #include "../StringUtil.h"
 #include "../../Vista/Dibujables/CartelInfo.h"
+#include "../../Parser/mascara/LectorTerreno.h"
 
 
 using namespace std;
@@ -25,7 +26,7 @@ private:
 	/*Vista* vista;
 	Escenario* escenario;
 	SDL_Event* evento;*/
-
+	LectorTerreno* lector;
 	EscenarioParseado* esc;
 	CartelInfo* cartelInfo;
 	PanelArmas* panelArmas;

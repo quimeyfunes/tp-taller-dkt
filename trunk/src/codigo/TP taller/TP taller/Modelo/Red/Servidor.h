@@ -2,6 +2,7 @@
 #include "../Figuras/Gusano.h"
 #include "../../Parser/yaml/ParserYaml.h"
 #include "../../constantes.h"
+#include "../../constantesArmas.h"
 #include "../StringUtil.h"
 #include "../Reproductor.h"
 
@@ -36,16 +37,15 @@ public:
 	static void recibirDeCliente(int* clienteN);
 	static void enviarCliente(int* clienteN, int tipoPaquete, string mensaje);
 	static string dibujablesSerializados;
-	static void enviarTerreno(SOCKET sock);
-
+	static explosion* exp;
 	static void enviarImagen(SOCKET sock, string direccion, int tipoPaquete);
 	static ServidorRed* red;
 	static void aceptarClientes(void* arg);
 	static void enviarEscenario(int num_cliente);
 	static void enviarImagenes(SOCKET sock);
+	static void enviarExplosion(SOCKET sock, explosion e);
 	static cliente* clientes;
-	static bool* terrenoModificado;
-	static void setTerrenoModificado(bool estado);
+	static void setTerrenoModificado(explosion e);
 	static string siguienteJugador();
 	static unsigned int getCantidadDeClientes();
 	static void darArranque();

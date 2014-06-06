@@ -1,4 +1,5 @@
 #include "ClienteRed.h"
+#include "../../constantesArmas.h"
 #include "../../Parser/yaml/ParserYaml.h"
 #include "../StringUtil.h"
 #include "../Reproductor.h"
@@ -24,6 +25,7 @@ public:
 	//cambiar esto por una lista de mensajes (talvez)
 	string mensajeInfo;
 	bool nuevoMensaje;
+	explosion exp;
 	//
 	bool arrancarJuego;
 	int timeServidor;

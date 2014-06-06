@@ -73,4 +73,10 @@ typedef enum{
 }tipoArma;
 //////////////////////////////////////
 
+typedef struct{
+	int x;
+	int y; 
+	int radio;
+}explosion;
+
 #endif
