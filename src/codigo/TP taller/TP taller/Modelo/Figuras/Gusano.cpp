@@ -39,13 +39,13 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	this->numContactos = 0;
 	this->maximosCLientes = maximosCLientes;
 
-	this->meClick = false;
+	//this->meClick = false;
 	for(int i=0; i < this->maximosCLientes; i++){
 		this->meClickearon.push_back(false);
 	}
 	this->congelado = false;
 	this->explota = false;
-
+	this->activo = false;
 	this->vida = vidaGusano;
 	//this->armaSeleccionada = new Bazooka(x - (ancho/2), y, rotacion, world, estatico, ancho /4 ,alto /4, masa /2 );
 }
@@ -102,8 +102,8 @@ void Gusano::reiniciar(){
 	this->vida = vidaGusano;
 }
 
-bool Gusano::getMeClickearon(int cliente) {
-	return this->meClickearon[cliente];
+bool Gusano::getActivo() {
+	return this->activo;
 }
 
 void Gusano::setMeClickearon(bool meClickearon, int cliente){
@@ -118,8 +118,8 @@ void Gusano::setCongelado(bool congelado){
 	this->congelado = congelado;
 }
 
-void Gusano::setMeClickearon(bool d){
-	this->meClick = d;
+void Gusano::setActivo(bool activo){
+	this->activo = activo;
 }
 
 Arma* Gusano::getArmaSeleccionada(){

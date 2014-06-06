@@ -23,6 +23,7 @@
 	#define rutaGusanoDEF "imagenes/texturas/wormDefault.png"
 	#define rutaCartel "imagenes/texturas/cartel.png"
 	#define rutaCartelDEF "imagenes/texturas/cartelDefault.png"
+	#define rutaFlecha "imagenes/texturas/flecha.png"
 	#define rutaFuente "fuentes/acme.ttf"
 	#define rutaGrave "imagenes/texturas/grave1.png"
 	#define rutaWormGrisIzq "imagenes/texturas/wormGrisFrentIzq.png"
