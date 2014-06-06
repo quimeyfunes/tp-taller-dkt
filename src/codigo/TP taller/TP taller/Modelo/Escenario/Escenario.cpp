@@ -30,6 +30,7 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 		this->puedeSaltarClientes.push_back(false);
 		this->puedeDispararClientes.push_back(false);
 		this->puedeMoverseAbajoClientes.push_back(false);
+		this->huboDisparo = false;
 	}
 }
 
@@ -664,3 +665,18 @@ void Escenario::setGusanoActivo(Gusano* gusano){
 	this->gusanoActivo = gusano;
 }
 
+bool Escenario::hayExposionPendiente(){
+	return !this->listaArmas->empty();
+}
+
+bool Escenario::getHuboDisparo(){
+	return this->huboDisparo;
+}
+
+void Escenario::setHuboDisparo(bool b){ 
+	this->huboDisparo = b;
+}
+
+bool Escenario::getPuedeDisparar(){
+	return this->puedeDisparar;
+}

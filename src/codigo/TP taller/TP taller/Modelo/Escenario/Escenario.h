@@ -115,6 +115,11 @@ public:
 	void explotar(float x, float y, int radio);
 	void disparar(bool disparo);
 	void realizarDisparo();
+	bool hayExposionPendiente();
+	bool huboDisparo;
+	bool getHuboDisparo();
+	void setHuboDisparo(bool b);
+	bool getPuedeDisparar();
 };
 
 
