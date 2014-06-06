@@ -636,11 +636,13 @@ void GusanoSprite::copiarGusano(GusanoSprite* gusano2, bool nuevo){
         rectCart.h = this->getRect().h / 4;
 		rectCart.w = gusano2->getCartel()->texto.length() * 7;
         rectCart.x = this->getRect().x + this->getRect().w/2 - rectCart.w/2;
+		rectCart.y = this->getRect().y - alturaCartel + 3;
 		gusano2->getCartel()->setRect(rectCart);
 
 		SDL_Rect rectVida = this->getRect();
 		rectVida.h = 5;
 		rectVida.w = pxPorVida * vidaGusano;
+		rectVida.y = this->getRect().y + 5;
 		gusano2->getVida()->setRect(rectVida);
 	}
 
