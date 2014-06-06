@@ -4,15 +4,28 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_ttf.h"
-#include "../Dibujables/CartelDibujable.h"
+#include "Botones\BotonCliente.h"
+#include "Botones\BotonServidor.h"
 #include "TextInput.h"
+
+
+namespace nameMenu {
+	
+	typedef enum{
+		SALIR = 1,
+		SERVIDOR = 2,
+		CLIENTE = 3,
+	}ACCION_REALIZADA;
+}
+
 
 class Menu {
 
 private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	list<DibujableTextura*>* listaDibujables;
+	list<Boton*>* listaDibujables;
+	SDL_Event* evento;
 	int ancho;
 	int alto;
 	TextInput* textInput;
@@ -21,7 +34,9 @@ public:
 	void escribir();
 	Menu();
 	~Menu();
-
+	int leerEvento();
+	int clickServidor();
+	int clickCliente();
 	void dibujar();
 };
 
