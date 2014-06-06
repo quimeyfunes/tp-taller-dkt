@@ -16,7 +16,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	this->armaActual.armaTipo = NINGUNA;
 	this->armaActual.sentidoDisparo = true;	//true = izq
 	this->armaActual.puedeCargarse = false;
-	
+	ahogado=false;
 	this->meMuevo=false;
 	b2PolygonShape rectanguloShape;
 	//Divido a la mitad el ancho y alto para que las medidas sean correctas
@@ -79,7 +79,12 @@ bool Gusano::puedeSaltar(){
 }
 
 void Gusano::simularAgua(int nivelAgua){
+
 	if (this->getPosicion().y - altoGusano / 2 > nivelAgua){
+		if(!ahogado){
+			Reproductor::getReproductor()->reproducirSonido(AGUA);
+			ahogado=true;
+		}
 		b2Vec2 velocidad = this->getBody()->GetLinearVelocity();
 		float velocidadY = velocidad.y;
 		if (velocidadY > velocidadAgua) {
