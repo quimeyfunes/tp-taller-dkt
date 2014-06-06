@@ -13,9 +13,9 @@ Terreno::Terreno(b2World* world){
 }
 
 
-void Terreno::generarTerreno(string nombreArchivo){
+void Terreno::generarTerreno(EscenarioParseado* e){
 
-	this->lectorTerreno = new LectorTerreno(nombreArchivo, 99);
+	this->lectorTerreno = new LectorTerreno(e, e->imagenTierra, 99);
 	pixel** matrizTerreno = lectorTerreno->getMatrizTerreno();
 	int anchoMatriz = lectorTerreno->getAnchoMatriz();
 	int altoMatriz = lectorTerreno->getAltoMatriz();
