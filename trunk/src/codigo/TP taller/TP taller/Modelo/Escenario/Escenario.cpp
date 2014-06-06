@@ -663,6 +663,7 @@ void Escenario::detenerMovimientos(){
 	 puedeMoverseDerecha = false;
 	 puedeDisparar = false;
 	 puedeSaltar= false;
+	 Reproductor::getReproductor()->detenerSonido(CAMINANDO);
 
 }
 
