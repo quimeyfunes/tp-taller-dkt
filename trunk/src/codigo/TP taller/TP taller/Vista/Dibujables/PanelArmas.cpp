@@ -23,16 +23,7 @@ PanelArmas::~PanelArmas(){
 void PanelArmas::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx)
 {
 	if(this->visible){
-		SDL_Rect rect = this->rect;
-	
-		if ((escalaZoom != escalaZoomDefault) && (escalaZoom <= zoomMax)) {
-			//rect = this->realizarZoom(this->rect, corrimientoX, corrimientoY, escalaZoom);
-			SDL_RenderCopyEx(renderer,this->imagen, NULL , &rect,this->anguloRotacion,NULL,SDL_FLIP_NONE);
-		} else {
-			rect.x -= corrimientoX;
-			rect.y -= corrimientoY;
-			SDL_RenderCopyEx(renderer,this->imagen,NULL, &rect,this->anguloRotacion,NULL,SDL_FLIP_NONE);
-		}
+		SDL_RenderCopyEx(renderer,this->imagen, NULL , &this->rect,this->anguloRotacion,NULL,SDL_FLIP_NONE);
 
 		for(int i=0; i<this->armasTexturas.size(); i++){
 			if(i==this->armaSeleccionada){
