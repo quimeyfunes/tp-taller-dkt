@@ -73,7 +73,7 @@ public:
 	bool simulando;
 	ESTADO_JUEGO estadoActual;
 	Juego();
-	Juego(string texto);
+	Juego(string texto,SDL_Window* window, SDL_Renderer* renderer);
 	void ejecutar();
 	~Juego();
 };

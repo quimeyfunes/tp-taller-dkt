@@ -1,20 +1,18 @@
 #include "Vista.h"
 
-Vista::Vista(EscenarioParseado* e){
-	SDL_Init( SDL_INIT_EVERYTHING );
+Vista::Vista(EscenarioParseado* e,SDL_Window* window, SDL_Renderer* renderer){
 	this->anchoPx = e->anchoPx;
 	this->altoPx = e->altoPx;
 	this->anchoPxTot = e->anchoU * relacionPPU;
 	this->altoPxTot = e->altoU * relacionPPU;
-	this->window = SDL_CreateWindow("Worms!", 25, 25, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN);
-	this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	this->window = window;
+	this->renderer = renderer;
+	SDL_ShowWindow(window);
 	this->listaDibujables = new list<Dibujable*>;
 	this->corrimientoX = 0;
 	this->corrimientoY = 0;
-	SDL_SetWindowIcon(this->window, IMG_Load(rutaIcono));
 	this->accion = JUGAR;
 	this->setZoom(escalaZoomDefault);
-	TTF_Init();
 }
 
 Vista::Vista() {

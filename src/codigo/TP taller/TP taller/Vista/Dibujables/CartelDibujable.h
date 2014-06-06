@@ -23,6 +23,7 @@ protected:
 public:
 	CartelDibujable(void);
 	CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF, string nombre);
+	CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b);
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	~CartelDibujable(void);
 	string texto;

@@ -6,14 +6,14 @@ Servidor* Juego::servidor = NULL;
 Juego::Juego(){
 }
 
-Juego::Juego(string texto){
+Juego::Juego(string texto,SDL_Window* window, SDL_Renderer* renderer){
 	this->turno = new Turno();
 	this->simulando = true;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
-	this->vista = new Vista(e);
+	this->vista = new Vista(e,window,renderer);
 	SDL_HideWindow(this->vista->window);
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());

@@ -62,7 +62,7 @@ private:
 public:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	Vista(EscenarioParseado* e);
+	Vista(EscenarioParseado* e,SDL_Window* window, SDL_Renderer* renderer);
 	Vista();
 	~Vista();
 	SDL_Renderer* getRenderer();
