@@ -12,7 +12,7 @@ ServidorRed* Servidor::red;
 cliente* Servidor::clientes;
 EscenarioParseado* Servidor::escenario;
 mensajeStru Servidor::mensaje;
-explosion* Servidor::exp;
+explosion** Servidor::exp;
 int Servidor::idJugando=0; //este es el id q va a arrancar a jugar.
 int Servidor::tiempo=-1;
 
@@ -24,10 +24,19 @@ Servidor::Servidor(){
     cliente_id = 0;
 	clienteEnEspera = false;
 	this->escenario = ParserYaml::getParser()->getEscenario();
-
-	exp = new explosion[escenario->maximosClientes];
+	
+	exp = new explosion*[escenario->maximosClientes];
 	for(int i=0; i< escenario->maximosClientes; i++){
-		exp[i].radio = -1;
+		exp[i] = new explosion[maxExplosionesPorTurno];
+	}
+
+	for(int i=0; i< escenario->maximosClientes; i++){
+		for(int j=0; j < maxExplosionesPorTurno; j++){
+
+			exp[i][j].radio = -1;
+			exp[i][j].x = 0;
+			exp[i][j].y = 0;
+		}
 	}
 
 
@@ -72,7 +81,7 @@ void Servidor::actualizar(void* clienteN)
 {
 	int id= (int)clienteN;
 	audioEnCola** colaDeSonidos;
-
+	int tiempo = 0;
 	while(clientes[id].activo){
 
 		//recibe los mensajes que mandan otros clientes sin chocar en los threads
@@ -86,11 +95,12 @@ void Servidor::actualizar(void* clienteN)
 		recibirDeCliente(&id);
 		enviarCliente(&id, paqueteVista, dibujablesSerializados);
 		
-
-		if(exp[id].radio >= 0){
-			if(clientes[id].socket != INVALID_SOCKET){ 
-				enviarExplosion(clientes[id].socket, exp[id]);
-				exp[id].radio = -1;
+		for(int i=0; i< maxExplosionesPorTurno; i++){
+			if(exp[id][i].radio >= 0){
+				if(clientes[id].socket != INVALID_SOCKET){
+					enviarExplosion(clientes[id].socket, exp[id][i]);
+					exp[id][i].radio = -1;
+				}
 			}
 		}
 	
@@ -99,9 +109,7 @@ void Servidor::actualizar(void* clienteN)
 			enviarCliente(&id,paqueteTiempo, StringUtil::int2string(Servidor::tiempo));
 		}
 
-
 		colaDeSonidos = Reproductor::getReproductor()->getColaDeEspera();
-
 		for(int i=0; i< numSonidos; i++){
 			if(!colaDeSonidos[id][i].enviado){
 				EnviarSonido(id, colaDeSonidos[id][i]);
@@ -162,9 +170,14 @@ void Servidor::enviarCliente(int* clienteN, int tipoPaquete, string mensaje){
 void Servidor::setTerrenoModificado(explosion e){
 	
 	for(int i=0; i< escenario->maximosClientes; i++){
-		exp[i].radio = e.radio;
-		exp[i].x = e.x;
-		exp[i].y = e.y;
+		for(int j=0; j < maxExplosionesPorTurno; j++){
+			if(exp[i][j].radio == -1){
+				exp[i][j].radio = e.radio;
+				exp[i][j].x = e.x;
+				exp[i][j].y = e.y;
+				break;
+			}
+		}
 	}
 }
 

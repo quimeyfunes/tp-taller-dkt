@@ -5,6 +5,14 @@
 Cliente::Cliente(string nombre, string ip){
 
 	TIEMPO_MAX_ESPERA = 2;
+
+	this->exp = new explosion[maxExplosionesPorTurno];
+	for(int i=0; i< maxExplosionesPorTurno; i++){
+		exp[i].radio = -1;
+		exp[i].x=0;
+		exp[i].y=0;
+	}
+
 	this->arrancarJuego = false;
     red = new ClienteRed(ip);
 	this->username=nombre;
@@ -201,10 +209,15 @@ bool Cliente::recibirDeServidor(){
 			case paqueteExplosion:
 				{
 					vector<string> deserializado = StringUtil::split(paquete->getMensaje(), separadorCamposArreglo);
-					exp.x = StringUtil::str2int(deserializado.at(0));
-					exp.y = StringUtil::str2int(deserializado.at(1));
-					exp.radio = StringUtil::str2int(deserializado.at(2));
-
+					for(int i=0; i< maxExplosionesPorTurno; i++){
+						if(exp[i].radio == -1){
+							exp[i].x = StringUtil::str2int(deserializado.at(0));
+							exp[i].y = StringUtil::str2int(deserializado.at(1));
+							exp[i].radio = StringUtil::str2int(deserializado.at(2));
+							break;
+						}
+					}
+					//cout<<"me llego explosion"<<endl;
 					break;
 				}
             default:

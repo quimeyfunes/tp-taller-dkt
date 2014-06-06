@@ -37,7 +37,7 @@ public:
 	static void recibirDeCliente(int* clienteN);
 	static void enviarCliente(int* clienteN, int tipoPaquete, string mensaje);
 	static string dibujablesSerializados;
-	static explosion* exp;
+	static explosion** exp;
 	static void enviarImagen(SOCKET sock, string direccion, int tipoPaquete);
 	static ServidorRed* red;
 	static void aceptarClientes(void* arg);

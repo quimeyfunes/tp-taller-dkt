@@ -3,6 +3,7 @@
 
 #include "../../constantes.h"
 #include "../../Logger/Logger.h"
+#include "../../Modelo/StringUtil.h"
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "../yaml/ParserYaml.h"
@@ -31,6 +32,7 @@ private:
 	SDL_Surface* imagen;
 	int anchoMatriz;
 	int altoMatriz;
+	char* rutaCompleta;
 
 	pixel boolAPixel(bool b);
 
@@ -55,7 +57,7 @@ public:
 	
 	/*se le pasa por parametro el nombre del archivo, si no existe o no es formato PNG
 	se informa en el log y se genera un PNG aleatorio con ese nombre*/
-	LectorTerreno(string nombreArchivo);
+	LectorTerreno(string nombreArchivo, int id);
 	bool esTierra(pixel p);
 	/*genera una imagen PNG de terreno aleatorio valido, con los parametros nombre, alto y ancho (en pixeles)*/
 	void generarTerrenoAleatorio(string nombreArchivo);

@@ -25,6 +25,6 @@ void DibujableTerreno::dibujar(SDL_Renderer* renderer, int corrimientoX,int corr
 		rect.y -= corrimientoY;
 		SDL_RenderCopyEx(renderer,this->imagen,NULL, &rect,this->anguloRotacion,NULL,SDL_FLIP_NONE);
 	}
-	this->setImagen(renderer,texturaTerreno);
+	//this->setImagen(renderer,texturaTerreno);
 	
 }

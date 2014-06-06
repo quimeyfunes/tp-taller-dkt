@@ -22,7 +22,8 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip){
 
 	//this->armas = cliente->getArmasActual();
 	this->esc = cliente->getEscenarioActual();
-	this->lector = new LectorTerreno(this->esc->imagenTierra);
+	cout<<"cliente "<<cliente->getId()<<endl;
+	this->lector = new LectorTerreno(this->esc->imagenTierra, this->cliente->getId());
 	
 	this->vista = new Vista(esc);
 	
@@ -61,10 +62,11 @@ void JuegoCliente::ejecutar(){
 			this->cliente->nuevoMensaje = false;
 		}
 
-		if(this->cliente->exp.radio >= 0){
-			this->vista->destruir(cliente->exp.x, cliente->exp.y, cliente->exp.radio, this->lector);
-			this->cliente->exp.radio = -1;
-			cout<<"BAM"<<endl;
+		for(int i=0; i< maxExplosionesPorTurno; i++){
+			if(this->cliente->exp[i].radio >= 0){
+				this->vista->destruir(cliente->exp[i].x, cliente->exp[i].y, cliente->exp[i].radio, this->lector);
+				this->cliente->exp[i].radio = -1;
+			}
 		}
 
 		if(simulando){
@@ -77,11 +79,11 @@ void JuegoCliente::ejecutar(){
 
 		vista->Dibujar();
 
-		//next_game_tick += SKIP_TICKS;
-  //      sleepTime = next_game_tick - GetTickCount();
-  //      if( sleepTime >= 0 ) {
-  //          Sleep( sleepTime );
-  //      }
+		next_game_tick += SKIP_TICKS;
+        sleepTime = next_game_tick - GetTickCount();
+        if( sleepTime >= 0 ) {
+            Sleep( sleepTime );
+        }
 	}
 }
 
