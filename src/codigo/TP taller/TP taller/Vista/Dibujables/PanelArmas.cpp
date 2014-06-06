@@ -99,6 +99,7 @@ int PanelArmas::getArmaSeleccionada(){
 
 void PanelArmas::descontarArma(int numeroArma){
 	this->cantidadProyectiles[numeroArma]--;
+	this->armaSeleccionada = -1;
 }
 
 bool PanelArmas::proyectilRestante(int numeroArma){
