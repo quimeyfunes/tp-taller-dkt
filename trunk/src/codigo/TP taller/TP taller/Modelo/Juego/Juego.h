@@ -75,6 +75,7 @@ public:
 	Juego();
 	Juego(string texto,SDL_Window* window, SDL_Renderer* renderer);
 	void ejecutar();
+	void comprobarGanador();
 	~Juego();
 };
 

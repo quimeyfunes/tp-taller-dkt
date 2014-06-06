@@ -48,6 +48,7 @@ void Juego::ejecutar(){
 		}
 	Servidor::darArranque();
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
+
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
 		this->turno->actualizar();
@@ -67,12 +68,14 @@ void Juego::ejecutar(){
 				escenario->setHuboDisparo(false);
 		}
 		
+		//this->comprobarGanador();
 
 		if(simulando){
 			switch(estadoActual){
 
 				case JUGANDO:		jugar();	break;
 				case PAUSADO:		esperar();	break;
+				
 			}
 		}
 		escenario->notificar();
@@ -535,7 +538,9 @@ void Juego::alternarPausa(){
 	if(this->estadoActual != PAUSADO) this->estadoActual = PAUSADO;	else this->estadoActual = JUGANDO;
 }
 
-void Juego::esperar(){}
+void Juego::esperar(){
+	while(true)	this->jugar();
+}
 
 void Juego::agregarTexturas(EscenarioParseado* e){
 
@@ -663,6 +668,35 @@ void Juego::cambiarJugador(string jugador){
 	else{
 		//se murieron todos los gusanitos de este cliente, lo pongo como inactivo:
 		servidor->clientes[idCliente].activo = false;
+		//cambio recursivamente de jugador: (Extreme Programing: ON)
+		this->cambiarJugador(Servidor::siguienteJugador());
 	}
-		
+	
+	this->comprobarGanador();
+}
+
+void Juego::comprobarGanador(){
+
+	int ganador = -1;
+	int contador = 0; //contador de clientes activos
+	for(int i=0;i<Servidor::getCantidadDeClientes();i++){
+
+		if( servidor->clientes[i].activo == true ){
+			//si tiene gusanos vivos incremento el contador, sino es inactivo
+			if(servidor->tieneGusanosVivos(i)){
+				contador++;
+				ganador = i;
+			}
+			else{
+				servidor->clientes[i].activo = false;
+			}
+		}
+	}
+
+	if(contador == 1){
+		this->turno->detener();
+		this->estadoActual = PAUSADO;
+		cout << "Felicitaciones " << servidor->clientes[ganador].username << " te ganaste un viaje a la concha de tu hermana. puto" << endl;
+	}
+
 }
