@@ -1,10 +1,9 @@
 #ifndef BOTON_H
 #define BOTON_H
 
-
 #include "../../Dibujables/CartelDibujable.h"
 
-class Boton : public CartelDibujable {
+class Boton : public CartelDibujable{
 	
 private:
 

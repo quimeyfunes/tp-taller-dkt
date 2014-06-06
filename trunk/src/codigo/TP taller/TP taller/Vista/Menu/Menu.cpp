@@ -11,19 +11,19 @@ Menu::Menu(SDL_Window* window,SDL_Renderer* renderer){
 	Boton* dib;
 	SDL_Rect rect;	
 	
-	/*rect.x = 0;
+	rect.x = 0;
 	rect.y = 0;
 	rect.w = this->ancho;
 	rect.h = this->alto;
-	dib = new DibujableTextura(this->renderer,rect,texturaCielo,texturaCielo);
-	this->listaDibujables->push_back(dib);*/
+	this->fondo = new DibujableTextura(this->renderer,rect,texturaFondoMenu,texturaFondoMenu);
+	
 	
 	rect.x = this->ancho / 2 - 50;
 	rect.y = this->alto * 1 / 3 - 25;
 	rect.w = 100;
 	rect.h = 50;
 	dib = new BotonServidor(this->renderer,rect,"Servidor",50,255,0,0);
-	this->textInput = new TextInput(renderer, rect, "..", "..", "Servidor");
+	//this->textInput = new TextInput(renderer, rect, "..", "..", "Servidor");
 	this->textInput = new TextInput(renderer, rect, rutaCartel, rutaCartel, "Servidor");
 	this->listaDibujables->push_back(dib);
 
@@ -38,8 +38,8 @@ Menu::Menu(SDL_Window* window,SDL_Renderer* renderer){
 
 void Menu::dibujar(){
 	SDL_RenderClear(this->renderer);
+	this->fondo->dibujar(renderer,0,0,1,this->ancho,this->alto);
 	list<Boton*>::iterator it = this->listaDibujables->begin();
-	
 	while (it != this->listaDibujables->end())
 	{
 		(*it)->dibujar(this->renderer, 0, 0, 1, this->ancho, this->alto);
