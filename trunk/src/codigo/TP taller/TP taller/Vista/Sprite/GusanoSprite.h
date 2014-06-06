@@ -33,6 +33,8 @@ private:
 	bool muertePorDisparo;
 	CartelDibujable* cartel;
 	DibujableTextura* vida;
+	DibujableTextura* flecha;
+	bool activo;
 	string nombre;
 	int maximosCLientes;
 public:

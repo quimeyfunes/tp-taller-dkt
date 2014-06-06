@@ -311,10 +311,10 @@ bool Escenario::click(float x, float y){
 	for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		if ((*it)->meClickeo(x,y) && !(*it)->estaMuerto()) {
 			if (this->gusanoActivo != NULL) {
-				this->gusanoActivo->setMeClickearon(false);
+				this->gusanoActivo->setActivo(false);
 			}
 			this->gusanoActivo = (Gusano*)(*it);
-			this->gusanoActivo->setMeClickearon(true);
+			this->gusanoActivo->setActivo(true);
 			return true;
 		}
 	}

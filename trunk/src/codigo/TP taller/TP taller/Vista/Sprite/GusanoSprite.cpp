@@ -99,7 +99,9 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	
 	//this->cartel = NULL;
 	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF, this->nombre);
-	
+	rectCart.w = this->rect.w;
+	rectCart.h = this->rect.h * 2/3;
+	this->flecha = new DibujableTextura(renderer,rectCart, rutaFlecha,rutaFlecha); 
 	//this->mostrarCartel = false;
 	for(int i=0; i < this->maximosCLientes; i++){
 		this->mostrarCartel.push_back(false);
@@ -114,6 +116,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	rgb[1] = 255;
 	rgb[2] = 0;
 	this->vida->setColor(rgb);
+	this->activo = false;
 }
 
 GusanoSprite::~GusanoSprite(void)
@@ -256,16 +259,16 @@ void GusanoSprite::actualizar(Observable* observable) {
 
 	SDL_Rect rectCartel = this->cartel->getRect();
 	rectCartel.x = (fig->getPosicion().x * relacionPPU) - rectCartel.w / 2;
-	rectCartel.y = ((fig->getPosicion().y * relacionPPU) - rect.h / 2) - alturaCartel;
+	rectCartel.y = ((fig->getPosicion().y * relacionPPU) - rect.h / 2) - alturaCartel + 3;
 	this->cartel->setRect(rectCartel);
 
-	for(int i=0; i < this->maximosCLientes; i++){
+	/*for(int i=0; i < this->maximosCLientes; i++){
 		this->mostrarCartel[i] = fig->getMeClickearon(i);
-	}
+	}*/
 
 	SDL_Rect rectVida = this->vida->getRect();
 	
-	rectVida.y = this->rect.y - 10;
+	rectVida.y = this->rect.y + 5;
 	int vida = fig->getVida() * pxPorVida;
 	float fraccion = fig->getVida() * 1.0 / vidaGusano;
 	if (vida != rectVida.w) {
@@ -285,11 +288,15 @@ void GusanoSprite::actualizar(Observable* observable) {
 	this->vida->setRect(rectVida);
 	this->vidaValor = vida;
 	this->fraccionVidaValor = fraccion;
-	/*if (fig->getMeClickearon()) {
-		this->mostrarCartel = true;
+	if (fig->getActivo()) {
+		this->activo = true;
+		SDL_Rect rectFlecha = this->flecha->getRect();
+		rectFlecha.x = this->rect.x;
+		rectFlecha.y = this->rect.y - 35;
+		this->flecha->setRect(rectFlecha);
 	} else {
-		this->mostrarCartel = false;
-	}*/
+		this->activo = false;
+	}
 
 	this->congelado = fig->getCongelado();
 }
@@ -343,7 +350,14 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 	}
 
 	SDL_RenderCopyEx(renderer, this->imagen, &this->enUso[frame], &rect,0,NULL,flip);
-		if(this->mostrarCrosshair && this->estado != MUERTO){
+	this->cartel->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
+	//}
+	if (this->activo) {
+		this->flecha->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
+	}
+	this->vida->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
+
+	if(this->mostrarCrosshair && this->estado != MUERTO){
 			SDL_Rect aux = this->rect;
 			aux.w = 244;
 			aux.h = 28;
@@ -357,10 +371,8 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 		}
 
 
-	if (this->mostrarCartel[this->cliente] && this->estado != MUERTO) {
-		this->cartel->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
-	}
-	this->vida->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
+	//if (this->mostrarCartel[this->cliente] && this->estado != MUERTO) {
+	
 }
 
 

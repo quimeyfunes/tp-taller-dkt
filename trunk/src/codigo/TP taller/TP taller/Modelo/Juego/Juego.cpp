@@ -41,7 +41,7 @@ void Juego::ejecutar(){
     const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
-
+	
 	cout << "esperando a 2 jugadores..." << endl;
 		while( Servidor::getCantidadDeClientes()<2 ){
 			this->chequearNuevosJugadores();
@@ -58,7 +58,7 @@ void Juego::ejecutar(){
 			cout << "Turno de: " <<getJugadorActual() << endl;
 			this->turno->comenzar();
 		}
-
+		
 		this->leerEvento();
 
 		if(this->turno->estaDetenido() && !(escenario->getPuedeDisparar()) ){
@@ -79,7 +79,7 @@ void Juego::ejecutar(){
 		escenario->notificar();
 		b2Vec3 explosion;
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
-		//this->vista->Dibujar();
+		this->vista->Dibujar();
 		do {
 			explosion = this->escenario->hayExplosion();
 		
@@ -651,7 +651,7 @@ void Juego::cambiarJugador(string jugador){
 	c= 1;
 	for(it = gusanosVivos.begin();it != gusanosVivos.end();it++){
 
-		if(c != gusanoRandom) (*it)->setMeClickearon(false);
+		if(c != gusanoRandom) (*it)->setActivo(false);
 		c++;
 	}
 	
