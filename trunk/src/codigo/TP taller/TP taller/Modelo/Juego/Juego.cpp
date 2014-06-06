@@ -321,8 +321,8 @@ void Juego::leerEvento(){
 							 if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES  ){
 
 								 int x,y;
-								 SDL_GetMouseState(&x,&y);
-								 x= ( x + this->vista->getCorrimientoX() ) / (relacionPPU * this->vista->getZoom())  ;
+								 x = evento->x;
+								 y = evento->y;
 								 x -=12;
 								 Reproductor::getReproductor()->reproducirSonido(INCOMING);
 								 Reproductor::getReproductor()->reproducirSonido(AVION);
