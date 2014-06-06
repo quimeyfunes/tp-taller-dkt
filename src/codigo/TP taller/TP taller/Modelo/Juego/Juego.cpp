@@ -331,6 +331,7 @@ void Juego::leerEvento(){
 	
 								 //detengo el turno hasta que explote todo
 								 this->turno->detener();
+								 this->escenario->setHuboDisparo(true);
 
 								 int x,y;
 								 x = evento->x;
