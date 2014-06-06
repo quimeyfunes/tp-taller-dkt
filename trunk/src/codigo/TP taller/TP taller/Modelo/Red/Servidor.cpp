@@ -411,7 +411,6 @@ void Servidor::darArranque(){
 
 			if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) ){	
 				enviarPaquete(clientes[id].socket,paqueteArranque,"dale q va");
-				cout << "ACA ESTA EL NOMBRE: "<< clientes[id].username << endl;
 			}
 	}
 }

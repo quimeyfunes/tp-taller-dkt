@@ -55,7 +55,7 @@ void Juego::ejecutar(){
 		if( this->turno->estaTerminado() ){
 			this->escenario->detenerMovimientos();
 			cambiarJugador(Servidor::siguienteJugador());
-			cout << "Turno de: " <<getJugadorActual() << endl;
+			//cout << "Turno de: " <<getJugadorActual() << endl;
 			this->turno->comenzar();
 		}
 		
@@ -635,24 +635,18 @@ void Juego::cambiarJugador(string jugador){
 
 	int gusanoRandom = 1+ rand()%(gusanosVivos.size());
 
-	int c= 1;
+	int i= 1;
+	//itero hasta el gusano Random, como es una lista es un acceso secuencial.
 	for(it = gusanosVivos.begin();it != gusanosVivos.end();it++){
 
-		//(*it)->setMeClickearon(false);
-
-		if(c == gusanoRandom) {
+		if(i == gusanoRandom) {
 			this->escenario->setGusanoActivo(*it);
 			(*it)->setMeClickearon(true,idCliente);
+			(*it)->setActivo(true);
 			Reproductor::getReproductor()->reproducirSonido(SELECCIONARWORM);
 		}
-		c++;
+		i++;
 	}
 
-	c= 1;
-	for(it = gusanosVivos.begin();it != gusanosVivos.end();it++){
 
-		if(c != gusanoRandom) (*it)->setActivo(false);
-		c++;
-	}
-	
 }
