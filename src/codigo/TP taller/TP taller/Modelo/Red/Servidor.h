@@ -50,7 +50,7 @@ public:
 	static unsigned int getCantidadDeClientes();
 	static void darArranque();
 	static int buscarCliente(string nombre);
-	
+	bool tieneGusanosVivos(int idCliente);
 
 private:
 

@@ -452,3 +452,18 @@ void Servidor::darArranque(){
 			}
 	}
 }
+
+
+
+bool Servidor::tieneGusanosVivos(int idCliente){
+
+	list<Gusano*> gusanos = clientes[idCliente].figuras;
+	list<Gusano*> gusanosVivos;
+	list<Gusano*>::iterator it;
+	for(it = gusanos.begin();it != gusanos.end();it++){
+		if(!(*it)->estaMuerto()) gusanosVivos.push_back(*it);
+	}
+	if(gusanosVivos.size() > 0 ) return true;
+	else return false;
+
+}
