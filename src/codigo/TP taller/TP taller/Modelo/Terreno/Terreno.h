@@ -28,7 +28,7 @@ private:
 	LectorTerreno* lectorTerreno;
 public:
 	Terreno(b2World* world);
-	void generarTerreno(string nombre);
+	void generarTerreno(EscenarioParseado* e);
 	b2ChainShape* generarBorde(b2Vec2 borde); 
 	void destruirTerreno(float x, float y,int radio);
 	~Terreno();

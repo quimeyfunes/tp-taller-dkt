@@ -17,7 +17,7 @@ Juego::Juego(string texto,SDL_Window* window, SDL_Renderer* renderer){
 	SDL_HideWindow(this->vista->window);
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
-	this->terreno->generarTerreno(e->imagenTierra);
+	this->terreno->generarTerreno(e);
 	this->escenario->setTerreno(this->terreno);
 	this->mundo = escenario->getWorld();
 	ResolverContacto* resolverContacto = new ResolverContacto();

@@ -33,7 +33,7 @@ private:
 	int anchoMatriz;
 	int altoMatriz;
 	char* rutaCompleta;
-
+	EscenarioParseado* escenario;
 	pixel boolAPixel(bool b);
 
 	bool sonIgualesAlpha(pixel p1, pixel p2);
@@ -57,7 +57,7 @@ public:
 	
 	/*se le pasa por parametro el nombre del archivo, si no existe o no es formato PNG
 	se informa en el log y se genera un PNG aleatorio con ese nombre*/
-	LectorTerreno(string nombreArchivo, int id);
+	LectorTerreno(EscenarioParseado* e, string nombreArchivo, int id);
 	bool esTierra(pixel p);
 	/*genera una imagen PNG de terreno aleatorio valido, con los parametros nombre, alto y ancho (en pixeles)*/
 	void generarTerrenoAleatorio(string nombreArchivo);

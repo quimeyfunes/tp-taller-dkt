@@ -2,13 +2,16 @@
 #include "generador\GeneradorFunciones.h"
 #include <string>
 
-LectorTerreno::LectorTerreno(string nombreArchivo, int id){
+LectorTerreno::LectorTerreno(EscenarioParseado* e, string nombreArchivo, int id){
 
 	string ruta = texturaTerreno + StringUtil::int2string(id) + ".png";
 	this->rutaCompleta = new char[ruta.size()+1];
 	strcpy(this->rutaCompleta, ruta.c_str());
 	logError = Logger::getLogger();
 	imagen = IMG_Load(nombreArchivo.c_str());
+
+	this->escenario = e;
+
 	//asigno valores de alto y ancho
 	this->anchoMatriz = (!imagen)? anchoPxDEF : imagen->w;
 	this->altoMatriz =  (!imagen)? altoPxDEF  : imagen->h;
@@ -157,9 +160,8 @@ int LectorTerreno::getTamanoBorde(){
 
 void LectorTerreno::escalarMatrizAEscenario(){
 
-	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
-	int altoEscenario = e->altoU * relacionPPU;
-	int anchoEscenario = e->anchoU * relacionPPU;
+	int altoEscenario = escenario->altoU * relacionPPU;
+	int anchoEscenario = escenario->anchoU * relacionPPU;
 	double escalaX = (double)anchoEscenario/(double)this->anchoMatriz;
 	double escalaY = (double)altoEscenario/(double)this->altoMatriz;	
 

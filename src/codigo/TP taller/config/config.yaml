@@ -2,7 +2,7 @@ escenario:
     altopx: 600
     anchopx: 800
     altoun: 60
-    anchoun: 80
+    anchoun: 120
     nivel_agua: 5
     maximosclientes: 2
     imagen_tierra: imagenes/mascaras/mascara1.png

@@ -23,7 +23,7 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 	//this->armas = cliente->getArmasActual();
 	this->esc = cliente->getEscenarioActual();
 	cout<<"cliente "<<cliente->getId()<<endl;
-	this->lector = new LectorTerreno(this->esc->imagenTierra, this->cliente->getId());
+	this->lector = new LectorTerreno(this->esc, this->esc->imagenTierra, this->cliente->getId());
 	
 	this->vista = new Vista(esc,window,renderer);
 	
