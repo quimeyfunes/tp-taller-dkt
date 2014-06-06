@@ -667,12 +667,17 @@ void Escenario::setGusanoActivo(Gusano* gusano){
 
 bool Escenario::hayExposionPendiente(){
 
+	if(!huboDisparo) return false;
+	//si hubo disparo chequeo q no se este cargando la barrita, y tambien si hay explosiones pendientes:
+
 	//si puedeDisparar esta true es porq estan cargando la potencia con la barra.
-	if(puedeDisparar == true)  return true;
-	else{
-		if(listaArmas->empty()) return false; //lista de arma vacia
-		else return true;
-	}
+	else if(puedeDisparar == true)  return true;
+
+	//si la lista de armas no esta vacia, hay explosiones pendientes
+	else if (!listaArmas->empty()) return true;
+
+	else return false;
+
 }
 
 bool Escenario::getHuboDisparo(){
