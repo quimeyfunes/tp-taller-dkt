@@ -314,7 +314,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 					clientes[*clienteN].ultimoEventoSerializado = paquete->getMensaje();
 				}
 				else{
-					cout << "espere su turno, ahora esta jugando " << clientes[Servidor::idJugando].username <<endl;
+					//cout << "espere su turno, ahora esta jugando " << clientes[Servidor::idJugando].username <<endl;
 					//clientes[*clienteN].ultimoEventoSerializado = paquete->getMensaje();
 				}
                 break;
@@ -384,11 +384,18 @@ void Servidor::enviarImagen(SOCKET sock, string direccion, int tipoPaquete){
 }
 
 string Servidor::siguienteJugador(){
+	bool b = false;
+	//entra hasta el siguiente jugador activo.
+	while(b == false){
 
 	if(Servidor::idJugando+1 == Servidor::cliente_id)		Servidor::idJugando = 0;
-	else												Servidor::idJugando++;
-	return clientes[Servidor::idJugando].username;
+	else													Servidor::idJugando++;
 
+	if(clientes[Servidor::idJugando].activo == true) b = true;	
+	
+	}
+
+	return clientes[Servidor::idJugando].username;
 	
 	
 }
