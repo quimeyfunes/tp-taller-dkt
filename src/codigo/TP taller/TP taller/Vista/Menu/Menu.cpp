@@ -12,7 +12,7 @@ Menu::Menu(SDL_Window* window,SDL_Renderer* renderer){
 	rect.y = this->alto * 1 / 3;
 	rect.w = 100;
 	rect.h = 50;
-	this->textInput = new TextInput(renderer, rect, "..", "..", "Servidor");
+	this->textInput = new TextInput(renderer, rect, rutaCartel, rutaCartel, "Servidor");
 	dib = new CartelDibujable(this->renderer,rect,"Servidor",50,255,0,0);
 	this->listaDibujables->push_back(dib);
 }
@@ -32,7 +32,7 @@ void Menu::dibujar(){
 	SDL_RenderPresent(this->renderer);
 }
 
-void Menu::escribir(SDL_Renderer* renderer){
+void Menu::escribir(){
 
 	bool quit = false;
 
@@ -45,7 +45,7 @@ void Menu::escribir(SDL_Renderer* renderer){
 			//The current input text.
 			std::string inputText = "Some Text";
 			//gInputTextTexture.loadFromRenderedText( inputText.c_str(), textColor );
-			this->textInput->loadFromRenderedText(renderer, inputText.c_str(), textColor);
+			this->textInput->loadFromRenderedText(this->renderer, inputText.c_str(), textColor);
 
 			//Enable text input
 			SDL_StartTextInput();
@@ -107,14 +107,14 @@ void Menu::escribir(SDL_Renderer* renderer){
 					{
 						//Render new text
 						//gInputTextTexture.loadFromRenderedText( inputText.c_str(), textColor );
-						this->textInput->loadFromRenderedText(renderer, inputText.c_str(), textColor );
+						this->textInput->loadFromRenderedText(this->renderer, inputText.c_str(), textColor );
 					}
 					//Text is empty
 					else
 					{
 						//Render space texture
 						//gInputTextTexture.loadFromRenderedText( " ", textColor );
-						this->textInput->loadFromRenderedText(renderer, inputText.c_str(), textColor);
+						this->textInput->loadFromRenderedText(this->renderer, inputText.c_str(), textColor);
 					}
 				}
 
@@ -123,8 +123,7 @@ void Menu::escribir(SDL_Renderer* renderer){
 				SDL_RenderClear( this->renderer );
 
 				//ACA VAN LAS POSICIONES DE DONDE SE VA A ESCRIBIR
-				//gPromptTextTexture.render( ( SCREEN_WIDTH - gPromptTextTexture.getWidth() ) / 2, 0 );
-				//gInputTextTexture.render( ( 500 - gInputTextTexture.getWidth() ) / 2, gPromptTextTexture.getHeight() );
+				this->textInput->dibujar(this->renderer, 50, 50, 0, 100, 100);
 
 				//Update screen
 				SDL_RenderPresent( this->renderer);
