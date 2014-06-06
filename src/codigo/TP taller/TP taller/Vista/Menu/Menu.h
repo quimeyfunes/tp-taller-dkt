@@ -5,6 +5,7 @@
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_ttf.h"
 #include "../Dibujables/CartelDibujable.h"
+#include "TextInput.h"
 
 class Menu {
 
@@ -14,8 +15,10 @@ private:
 	list<DibujableTextura*>* listaDibujables;
 	int ancho;
 	int alto;
+	TextInput* textInput;
 public:
 	Menu(SDL_Window* window, SDL_Renderer* renderer);
+	void escribir(SDL_Renderer* renderer);
 	Menu();
 	~Menu();
 
