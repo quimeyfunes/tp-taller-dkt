@@ -94,5 +94,8 @@ void PanelArmas::descontarArma(int numeroArma){
 }
 
 bool PanelArmas::proyectilRestante(int numeroArma){
+
+	if(numeroArma >= cantidadProyectiles.size()) return false;
+
 	return this->cantidadProyectiles[numeroArma] > 0;
 }
