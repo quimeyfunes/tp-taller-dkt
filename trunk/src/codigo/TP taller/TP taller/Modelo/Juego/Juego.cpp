@@ -636,20 +636,32 @@ void Juego::cambiarJugador(string jugador){
 		if(!(*it)->estaMuerto()) gusanosVivos.push_back(*it);
 	}
 
-	int gusanoRandom = 1+ rand()%(gusanosVivos.size());
 
-	int i= 1;
-	//itero hasta el gusano Random, como es una lista es un acceso secuencial.
-	for(it = gusanosVivos.begin();it != gusanosVivos.end();it++){
+	if( (gusanosVivos.size() > 1) ){
 
-		if(i == gusanoRandom) {
-			this->escenario->setGusanoActivo(*it);
-			(*it)->setMeClickearon(true,idCliente);
-			(*it)->setActivo(true);
-			Reproductor::getReproductor()->reproducirSonido(SELECCIONARWORM);
+		int gusanoRandom = 1+ rand()%(gusanosVivos.size());
+		int i= 1;
+		//itero hasta el gusano Random, como es una lista es un acceso secuencial.
+		for(it = gusanosVivos.begin();it != gusanosVivos.end();it++){
+
+			if(i == gusanoRandom) {
+				this->escenario->setGusanoActivo(*it);
+				(*it)->setMeClickearon(true,idCliente);
+				(*it)->setActivo(true);
+				Reproductor::getReproductor()->reproducirSonido(SELECCIONARWORM);
+			}
+			i++;
 		}
-		i++;
 	}
-
-
+	else if (gusanosVivos.size() == 1 ) {
+		this->escenario->setGusanoActivo(gusanosVivos.front());
+		gusanosVivos.front()->setMeClickearon(true,idCliente);
+		gusanosVivos.front()->setActivo(true);
+		Reproductor::getReproductor()->reproducirSonido(SELECCIONARWORM);
+	}
+	else{
+		//se murieron todos los gusanitos de este cliente, lo pongo como inactivo:
+		servidor->clientes[idCliente].activo = false;
+	}
+		
 }
