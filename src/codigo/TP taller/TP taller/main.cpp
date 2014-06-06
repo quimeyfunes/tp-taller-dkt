@@ -32,7 +32,7 @@ void inicializarSDL(SDL_Window** window,SDL_Renderer** renderer) {
 	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
 	SDL_Init( SDL_INIT_EVERYTHING );
 	*window = SDL_CreateWindow("Worms!", 25, 25, e->anchoPx, e->altoPx,  SDL_WINDOW_SHOWN);
-	SDL_HideWindow(*window);
+	
 	*renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_SetWindowIcon(*window, IMG_Load(rutaIcono));
 	TTF_Init();
@@ -45,20 +45,25 @@ int main(int argc, char* argv[]){
 		SDL_Window* window = NULL;
 		SDL_Renderer* renderer = NULL;
 		inicializarSDL(&window,&renderer);
-		//Menu* menu = new Menu(window,renderer);
-		//while (true) {
-		//	//menu->dibujar();
-		//	menu->escribir();
-		//}
-		printf("Ingrese 1 para ser cliente, 2 para ser servidor.\n");
+		Menu* menu = new Menu(window,renderer);
+		int accion = 0;
+		//SDL_HideWindow(window);
+		while (accion == 0) {
+			menu->dibujar();
+			accion = menu->leerEvento();
+			
+		}
+		/*printf("Ingrese 1 para ser cliente, 2 para ser servidor.\n");
 		std::string argumento;
-		std::cin >> argumento;
-		if(argumento == "1"){
+		std::cin >> argumento;*/
+		SDL_HideWindow(window);
+		if (accion == nameMenu::CLIENTE) { 
+			//(argumento == "1"){
 			bool listo = false;
 			printf("Soy Cliente.\n");
 			printf("Ingrese su nombre de usuario: ");
 			string nombre;
-			cin.ignore();
+			//cin.ignore();
 			getline(cin, nombre);
 			string ip = obtenerAnteriorIP();
 			while(!listo){
@@ -85,7 +90,8 @@ int main(int argc, char* argv[]){
 			JuegoCliente* juego = new JuegoCliente(nombre, ip, window, renderer);
 			juego->ejecutar(); 
 			delete juego;
-		}else if(argumento == "2"){
+		}else if (accion == nameMenu::SERVIDOR) {
+			//if(argumento == "2"){
 			//Servidor
 			system("cls");
 			printf("Soy Servidor!\n");
