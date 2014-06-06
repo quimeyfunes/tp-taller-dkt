@@ -78,7 +78,7 @@ void Juego::ejecutar(){
 		escenario->notificar();
 		b2Vec3 explosion;
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
-		this->vista->Dibujar();
+		//this->vista->Dibujar();
 		do {
 			explosion = this->escenario->hayExplosion();
 		
@@ -103,7 +103,7 @@ void Juego::ejecutar(){
 					this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
 				}
 				explosion *= relacionPPU;
-				this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
+				//this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
 				//aviso al servidor q se modifico el terreno
 				exp.radio = explosion.z;
 				exp.x = explosion.x;
@@ -171,108 +171,108 @@ void Juego::leerEvento(){
 	if(this->escenario->getGusanoActivo() != NULL)
 		if( this->escenario->getGusanoActivo()->armaActual.potenciaDisparo >= POTENCIA_MAXIMA_DISPARO) dispararArma();
 
-	 if (this->vista->leerEvento(evento)){
-		 int x, y;
-				
-			switch(this->vista->getAccion()){
+	 //if (this->vista->leerEvento(evento)){
+		// int x, y;
+		//		
+		//	switch(this->vista->getAccion()){
 
-                case SALIR:				salir();                                break;
-                case JUGAR:             reiniciar();                            break;
-                case PAUSAR:            alternarPausa();                        break;
-				case ARRIBA:            this->escenario->arriba(true);			break;
-				case ABAJO:				this->escenario->abajo(true);			break;
-                case IZQUIERDA:         this->escenario->izquierda(true);       break;
-                case DERECHA:           this->escenario->derecha(true);         break; 
-				case ENTER:				this->escenario->enter(true);			break;
-				case SOLTARENTER:		this->escenario->enter(false);			break;
-                case SOLTARARRIBA:		this->escenario->arriba(false);         break;
-				case SOLTARABAJO:		this->escenario->abajo(false);			break;
-                case SOLTARIZQUIERDA:   this->escenario->izquierda(false);	
-                                        this->escenario->reiniciarTeclas();		break;
-				case SOLTARDERECHA:		this->escenario->derecha(false);
-										this->escenario->reiniciarTeclas();		break; 
+  //              case SALIR:				salir();                                break;
+  //              case JUGAR:             reiniciar();                            break;
+  //              case PAUSAR:            alternarPausa();                        break;
+		//		case ARRIBA:            this->escenario->arriba(true);			break;
+		//		case ABAJO:				this->escenario->abajo(true);			break;
+  //              case IZQUIERDA:         this->escenario->izquierda(true);       break;
+  //              case DERECHA:           this->escenario->derecha(true);         break; 
+		//		case ENTER:				this->escenario->enter(true);			break;
+		//		case SOLTARENTER:		this->escenario->enter(false);			break;
+  //              case SOLTARARRIBA:		this->escenario->arriba(false);         break;
+		//		case SOLTARABAJO:		this->escenario->abajo(false);			break;
+  //              case SOLTARIZQUIERDA:   this->escenario->izquierda(false);	
+  //                                      this->escenario->reiniciarTeclas();		break;
+		//		case SOLTARDERECHA:		this->escenario->derecha(false);
+		//								this->escenario->reiniciarTeclas();		break; 
 
-				case ESPACIO: 			this->escenario->espacio(true); 		
-										break;
+		//		case ESPACIO: 			this->escenario->espacio(true); 		
+		//								break;
 
-				case SOLTARESPACIO:
-										//if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
-											
-											this->dispararArma();
-											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
-											//Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
-										//}
-										this->escenario->espacio(false);
-										break;
+		//		case SOLTARESPACIO:
+		//								//if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
+		//									
+		//									this->dispararArma();
+		//									Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
+		//									//Reproductor::getReproductor()->reproducirSonido(SOLTARDISPARO);
+		//								//}
+		//								this->escenario->espacio(false);
+		//								break;
 
-				case CLICK:     
-						 SDL_GetMouseState(&x,&y);
-						 this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
-						// if (!(this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom())))) {
-							//this->vista->destruir((x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),5 * relacionPPU,this->terreno->getLector());
-							//aviso al servidor q se modifico el terreno
-							//Servidor::setTerrenoModificado(true);
-						//}
-						 if(this->escenario->getGusanoActivo() != NULL){
-							 if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES  ){
+		//		case CLICK:     
+		//				 SDL_GetMouseState(&x,&y);
+		//				 this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom()));
+		//				// if (!(this->escenario->click((x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom()) ,  (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom())))) {
+		//					//this->vista->destruir((x + this->vista->getCorrimientoX()) / (this->vista->getZoom()),(y + this->vista->getCorrimientoY()) / (this->vista->getZoom()),5 * relacionPPU,this->terreno->getLector());
+		//					//aviso al servidor q se modifico el terreno
+		//					//Servidor::setTerrenoModificado(true);
+		//				//}
+		//				 if(this->escenario->getGusanoActivo() != NULL){
+		//					 if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) == MISILES  ){
 
-								 x= ( x + this->vista->getCorrimientoX() ) / (relacionPPU * this->vista->getZoom())  ;
-								 x -=12;
-								 Reproductor::getReproductor()->reproducirSonido(INCOMING);
-								 Reproductor::getReproductor()->reproducirSonido(AVION);
-								 for(int i=0;i<4;i++){
+		//						 x= ( x + this->vista->getCorrimientoX() ) / (relacionPPU * this->vista->getZoom())  ;
+		//						 x -=12;
+		//						 Reproductor::getReproductor()->reproducirSonido(INCOMING);
+		//						 Reproductor::getReproductor()->reproducirSonido(AVION);
+		//						 for(int i=0;i<4;i++){
 
-									 x+=5;
-									this->escenario->getGusanoActivo()->setArma(new Misiles(x, -60, 0, this->escenario->getWorld(), false, anchoMisiles, altoMisiles, masaMisiles, radioExplosionMisiles ) );
-									this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
-									this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador( this->vista->crearArmaContactoDibujable(x, 0, anchoMisiles*relacionPPU,altoMisiles*relacionPPU,rutaMisil,rutaMisil) );
-									this->escenario->getGusanoActivo()->disparar();
-						
-								}
-								this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
-							}
-						 }
+		//							 x+=5;
+		//							this->escenario->getGusanoActivo()->setArma(new Misiles(x, -60, 0, this->escenario->getWorld(), false, anchoMisiles, altoMisiles, masaMisiles, radioExplosionMisiles ) );
+		//							this->escenario->agregarArma(this->escenario->getGusanoActivo()->getArmaSeleccionada());
+		//							this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador( this->vista->crearArmaContactoDibujable(x, 0, anchoMisiles*relacionPPU,altoMisiles*relacionPPU,rutaMisil,rutaMisil) );
+		//							this->escenario->getGusanoActivo()->disparar();
+		//				
+		//						}
+		//						this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
+		//					}
+		//				 }
 
-                        break;
+  //                      break;
 
-				case CLICKDERECHO:
-						if(this->escenario->getGusanoActivo() != NULL){
-							this->NUMCLICKDERECHOS++;
-						//	cout<<"tengo un arma"<<endl;
+		//		case CLICKDERECHO:
+		//				if(this->escenario->getGusanoActivo() != NULL){
+		//					this->NUMCLICKDERECHOS++;
+		//				//	cout<<"tengo un arma"<<endl;
 
-							switch(NUMCLICKDERECHOS % 8){
+		//					switch(NUMCLICKDERECHOS % 8){
 
-							case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
-									break;
-							case 1: this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
-									break;
-							case 2: this->escenario->getGusanoActivo()->armaActual.armaTipo = GRANADA;			
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
-									break;
-							case 3: this->escenario->getGusanoActivo()->armaActual.armaTipo = ALELUYA;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
-									break;
-							case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = BANANA;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
-									break;
-							case 5: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
-									break;
-							case 6:	this->escenario->getGusanoActivo()->armaActual.armaTipo = MISILES;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
-									break;
-							case 7: this->escenario->getGusanoActivo()->armaActual.armaTipo = SUICIDA;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
-									break;
+		//					case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
+		//							this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+		//							break;
+		//					case 1: this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
+		//							this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+		//							break;
+		//					case 2: this->escenario->getGusanoActivo()->armaActual.armaTipo = GRANADA;			
+		//							this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+		//							break;
+		//					case 3: this->escenario->getGusanoActivo()->armaActual.armaTipo = ALELUYA;
+		//							this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+		//							break;
+		//					case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = BANANA;
+		//							this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+		//							break;
+		//					case 5: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA;
+		//							this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+		//							break;
+		//					case 6:	this->escenario->getGusanoActivo()->armaActual.armaTipo = MISILES;
+		//							this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+		//							break;
+		//					case 7: this->escenario->getGusanoActivo()->armaActual.armaTipo = SUICIDA;
+		//							this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+		//							break;
 
-							}
+		//					}
 
-						}
-							break;
-                }
-       }
+		//				}
+		//					break;
+  //              }
+  //     }
 		
 	
 	
