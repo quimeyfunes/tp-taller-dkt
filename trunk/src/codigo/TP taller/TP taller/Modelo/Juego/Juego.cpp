@@ -446,6 +446,9 @@ void Juego::dispararArma(){
 			this->escenario->getGusanoActivo()->getArmaSeleccionada()->agregarObservador(arma);
 			this->escenario->getGusanoActivo()->disparar();
 			this->escenario->getGusanoActivo()->armaActual.potenciaDisparo = 0;
+		}
+
+		if (!(this->escenario->getGusanoActivo()->armaActual.armaTipo == SUICIDA) && !(this->escenario->getGusanoActivo()->armaActual.armaTipo == BANANA)){
 			this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
 		}
 	}
