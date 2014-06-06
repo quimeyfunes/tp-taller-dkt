@@ -153,7 +153,9 @@ void Gusano::EndContact(){
 
 void Gusano::PostSolve(float impulso){
 	if (impulso > impulsoCaida) {
-		Reproductor::getReproductor()->reproducirSonido(OUCH);
+		if(this->vida > 0)
+			Reproductor::getReproductor()->reproducirSonido(OUCH);
+
 		this->vida -= impulso / 10;
 	}
 	if (this->vida < 0){
@@ -164,7 +166,8 @@ void Gusano::PostSolve(float impulso){
 
 void Gusano::explotar(float fuerza) {
 	this->vida -= fuerza/200;
-	Reproductor::getReproductor()->reproducirSonido(OUCH);
+	if(this->vida > 0) 
+		Reproductor::getReproductor()->reproducirSonido(OUCH);
 	if (this->vida < 0){
 		this->vida = 0;
 		this->setMuerto(true);
