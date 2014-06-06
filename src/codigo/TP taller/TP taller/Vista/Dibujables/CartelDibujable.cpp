@@ -8,6 +8,7 @@ CartelDibujable::CartelDibujable(void)
 CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF, string nombre)
 	: DibujableTextura(renderer, rect, pathImagen, pathDEF)
 {
+
 	this->texto = nombre;
 	this->font = TTF_OpenFont(rutaFuente , 25);
 	this->textColor.b = 0;
@@ -24,6 +25,9 @@ CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string p
 
 CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string nombre,int tamanioTexto, int r, int g, int b)
 {
+	this->rect = rect;
+	this->anguloRotacion = 0;
+	this->destruido = false;
 	this->texto = nombre;
 	this->font = TTF_OpenFont(rutaFuente , tamanioTexto);
 	this->textColor.b = b;
