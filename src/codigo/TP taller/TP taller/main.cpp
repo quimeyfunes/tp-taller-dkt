@@ -48,11 +48,14 @@ int main(int argc, char* argv[]){
 		Menu* menu = new Menu(window,renderer);
 		int accion = 0;
 		//SDL_HideWindow(window);
+		SDL_StartTextInput();
+		string ip = obtenerAnteriorIP();
+		menu->setIP(ip);
 		while (accion == 0) {
 			menu->dibujar();
 			accion = menu->leerEvento();
-			
 		}
+		SDL_StopTextInput();
 		/*printf("Ingrese 1 para ser cliente, 2 para ser servidor.\n");
 		std::string argumento;
 		std::cin >> argumento;*/
@@ -60,12 +63,14 @@ int main(int argc, char* argv[]){
 		if (accion == nameMenu::CLIENTE) { 
 			//(argumento == "1"){
 			bool listo = false;
-			printf("Soy Cliente.\n");
+			/*printf("Soy Cliente.\n");
 			printf("Ingrese su nombre de usuario: ");
 			string nombre;
 			//cin.ignore();
-			getline(cin, nombre);
-			string ip = obtenerAnteriorIP();
+			getline(cin, nombre);*/
+			string nombre = menu->getNombre();
+			string ip2 = menu->getIP();
+			/*string ip = obtenerAnteriorIP();
 			while(!listo){
 				if(ip == ""){
 					ofstream archivoIP;
@@ -85,9 +90,8 @@ int main(int argc, char* argv[]){
 					if(respuesta == "s") listo= true;
 					else ip = "";
 				}
-			}
-
-			JuegoCliente* juego = new JuegoCliente(nombre, ip, window, renderer);
+			}*/
+			JuegoCliente* juego = new JuegoCliente(nombre, ip2, window, renderer);
 			juego->ejecutar(); 
 			delete juego;
 		}else if (accion == nameMenu::SERVIDOR) {
