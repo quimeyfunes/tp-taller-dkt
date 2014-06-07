@@ -43,7 +43,7 @@ void ATiempoDibujable::dibujar(SDL_Renderer* renderer, int corrimientoX,int corr
 
 ATiempoDibujable::~ATiempoDibujable(void)
 {
-	printf("entro antes de reloj");
+	//printf("entro antes de reloj");
 	delete this->reloj;
 }
 
