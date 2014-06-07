@@ -674,7 +674,7 @@ void Juego::cambiarJugador(string jugador){
 		this->cambiarJugador(Servidor::siguienteJugador());
 	}
 	
-	this->comprobarGanador();
+	//this->comprobarGanador();
 }
 
 void Juego::comprobarGanador(){
