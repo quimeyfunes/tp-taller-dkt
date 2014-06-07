@@ -16,6 +16,9 @@
 #define rutaWormRadio "imagenes/texturas/wormConRadio.png"
 #define rutaWormSuicida "imagenes/texturas/wormSuicida.png"
 
+#define rutaDiamante "imagenes/texturas/diamante.png"
+#define rutaEstrella "imagenes/texturas/estrella.png"
+#define rutaCirculo "imagenes/texturas/circulo.png"
 
 const int POTENCIA_MAXIMA_DISPARO = 40;
 const float AUMENTO_POTENCIA = 0.4;
