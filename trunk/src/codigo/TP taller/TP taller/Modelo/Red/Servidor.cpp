@@ -301,6 +301,8 @@ void Servidor::recibirDeCliente(int* clienteN)
 						mensaje.msj = clientes[*clienteN].username +" se ha reconectado.";
 						mensaje.tiempoActivo=time(NULL);
 
+						enviarPaquete(clientes[*clienteN].socket,paqueteArranque,"dale q va");
+
 						for (std::list<Gusano*>::const_iterator it = clientes[*clienteN].figuras.begin(); it != clientes[*clienteN].figuras.end(); it++) {
 							(*it)->setCongelado(false);
 						}
