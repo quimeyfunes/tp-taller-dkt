@@ -376,12 +376,6 @@ void Servidor::recibirDeCliente(int* clienteN)
 			clientes[*clienteN].socket = INVALID_SOCKET;
 			cout<<clientes[*clienteN].username<<" se ha desconectado."<<endl;
 
-			////hago que el resto sepa que se desconectó el cliente
-			//for(int cont=0; cont < escenario->maximosClientes; cont++){
-			//	if(clientes[cont].username != clientes[*clienteN].username){
-			//		if(clientes[cont].socket != INVALID_SOCKET) enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[*clienteN].username +" se ha desconectado.");
-			//	}
-			//}
 			mensaje.emisor=clientes[*clienteN].socket;
 			mensaje.msj = clientes[*clienteN].username +" se ha desconectado.";
 			mensaje.tiempoActivo=time(NULL);

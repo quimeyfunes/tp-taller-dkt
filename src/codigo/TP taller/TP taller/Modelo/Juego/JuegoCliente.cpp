@@ -107,7 +107,7 @@ void JuegoCliente::leerEvento(){
 				this->eventos[accion] = true;
 				enviar = true;
 				if(accion == ESPACIO && !this->panelArmas->proyectilRestante(this->panelArmas->getArmaSeleccionada())){
-					//Si no me quedan mas proyectiles no envio el evento
+					//Si no me quedan mas proyectiles no en7vio el evento
 					enviar = false;
 				}
 			}		
