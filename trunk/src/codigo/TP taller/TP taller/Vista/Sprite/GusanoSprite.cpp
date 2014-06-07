@@ -14,6 +14,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	this->numCuadros = col*fil;
 	this->velocidadRefresco = timeGusanoQuieto;
 	this->contador = 0;
+	this->congelado = 0;
 	this->crosshair = IMG_LoadTexture(renderer, rutaCrosshair);
 	this->mostrarCrosshair = false;
 	this->frameCrosshair = 0;
@@ -298,7 +299,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->activo = false;
 	}
 
-	this->congelado = fig->getCongelado();
+	this->congelado = fig->getCongelado()? 1:0;
 }
 
 void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
@@ -319,7 +320,8 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 	} else {
 		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && ((this->contFrent >= 1 && this->contFrent <= rangoMax) || (this->contArma >= 1 && this->contArma <= rangoMax)) ){ //Esta quieto
 			//this->setFrame(0);
-			if(this->congelado){
+			if(this->congelado == 1){
+				cout<<"esta congelado!"<<" ruta: "<<rutaWormGrisIzq<<endl;
 				this->setImagen(renderer, rutaWormGrisIzq);
 			}else{
 				switch(this->armaTipo){
