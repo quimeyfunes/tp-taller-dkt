@@ -6,7 +6,7 @@
 #include "SDL/SDL_ttf.h"
 #include "Botones\BotonCliente.h"
 #include "Botones\BotonServidor.h"
-#include "TextInput.h"
+#include "Botones\textinput.h"
 
 
 namespace nameMenu {
@@ -27,18 +27,23 @@ private:
 	list<Boton*>* listaDibujables;
 	DibujableTextura* fondo;
 	SDL_Event* evento;
+	bool menuCliente;
 	int ancho;
 	int alto;
-	TextInput* textInput;
+	TextInput* textInputNombre;
+	TextInput* textInputIP;
 public:
-	Menu(SDL_Window* window, SDL_Renderer* renderer);
-	void escribir();
 	Menu();
-	~Menu();
+	Menu(SDL_Window* window, SDL_Renderer* renderer);
+	void escribir(SDL_Event* evento);
+	
 	int leerEvento();
-	int clickServidor();
-	int clickCliente();
 	void dibujar();
+	
+	string getNombre();
+	string getIP();
+	void setIP(string ip);
+	~Menu();
 };
 
 	

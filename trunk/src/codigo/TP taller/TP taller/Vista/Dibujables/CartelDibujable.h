@@ -25,6 +25,7 @@ public:
 	CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF, string nombre);
 	CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b);
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
+	virtual bool loadFromRenderedText(SDL_Renderer* renderer, string textureText);
 	~CartelDibujable(void);
 	string texto;
 };

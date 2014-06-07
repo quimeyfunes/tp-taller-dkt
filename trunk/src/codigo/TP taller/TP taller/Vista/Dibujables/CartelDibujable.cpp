@@ -29,13 +29,21 @@ CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string n
 	this->anguloRotacion = 0;
 	this->destruido = false;
 	this->texto = nombre;
-	this->font = TTF_OpenFont(rutaFuente , tamanioTexto);
 	this->textColor.b = b;
 	this->textColor.g = g;
 	this->textColor.r = r;
-	this->surf =  TTF_RenderText_Solid(this->font, this->texto.c_str() , this->textColor);
+	this->font = TTF_OpenFont(rutaFuente , tamanioTexto);
+	if (nombre.size() == 0) {
+		nombre = " ";
+	}
+	this->surf =  TTF_RenderText_Solid(this->font, nombre.c_str() , this->textColor);
 	this->imagen = SDL_CreateTextureFromSurface( renderer, this->surf );
+	this->rect.w = this->surf->w;
+	this->rect.h = this->surf->h;
+	this->rect.x -= this->rect.w/2;
+	this->rect.y -= this->rect.h/2;
 	SDL_FreeSurface(this->surf);
+
 }
 
 
@@ -66,4 +74,23 @@ CartelDibujable::~CartelDibujable(void)
 		SDL_DestroyTexture(this->imagen);
 		this->imagen = NULL;
 	}
+}
+
+bool CartelDibujable::loadFromRenderedText(SDL_Renderer* renderer, string textureText){
+	this->texto = textureText;
+	if (textureText.size() == 0) {
+		textureText = " ";
+	}
+	if( this->imagen != NULL )
+	{
+		SDL_DestroyTexture( this->imagen );
+		this->imagen = NULL;
+	}
+	SDL_Surface* textSurface = TTF_RenderText_Solid( this->font, textureText.c_str(), this->textColor );
+	
+	this->imagen = SDL_CreateTextureFromSurface( renderer, textSurface );
+	this->rect.w = textSurface->w;
+	this->rect.h = textSurface->h;
+	SDL_FreeSurface( textSurface );
+	return this->imagen != NULL;
 }
