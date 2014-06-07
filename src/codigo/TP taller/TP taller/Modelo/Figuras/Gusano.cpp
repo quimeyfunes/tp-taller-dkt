@@ -17,6 +17,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	this->armaActual.sentidoDisparo = true;	//true = izq
 	this->armaActual.puedeCargarse = false;
 	ahogado=false;
+	this->congelado = false;
 	this->meMuevo=false;
 	b2PolygonShape rectanguloShape;
 	//Divido a la mitad el ancho y alto para que las medidas sean correctas
