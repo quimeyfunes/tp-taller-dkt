@@ -298,8 +298,9 @@ void GusanoSprite::actualizar(Observable* observable) {
 	} else {
 		this->activo = false;
 	}
-
+	
 	this->congelado = fig->getCongelado()? 1:0;
+
 }
 
 void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimientoY, float escalaZoom,int anchoPx, int altoPx){
@@ -321,7 +322,6 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && ((this->contFrent >= 1 && this->contFrent <= rangoMax) || (this->contArma >= 1 && this->contArma <= rangoMax)) ){ //Esta quieto
 			//this->setFrame(0);
 			if(this->congelado == 1){
-				cout<<"esta congelado!"<<" ruta: "<<rutaWormGrisIzq<<endl;
 				this->setImagen(renderer, rutaWormGrisIzq);
 			}else{
 				switch(this->armaTipo){
@@ -374,7 +374,8 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 
 
 	//if (this->mostrarCartel[this->cliente] && this->estado != MUERTO) {
-	
+				if(this->congelado == 1) this->setImagen(renderer, rutaWormGrisIzq);
+
 }
 
 
