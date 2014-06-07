@@ -43,7 +43,7 @@ void Juego::ejecutar(){
     DWORD next_game_tick = GetTickCount();
 	
 	cout << "esperando a 2 jugadores..." << endl;
-		while( Servidor::getCantidadDeClientes()<2 ){
+	while( Servidor::getCantidadDeClientes()< ParserYaml::getParser()->getEscenario()->maximosClientes ){
 			this->chequearNuevosJugadores();
 		}
 	Sleep(100); //este sleep es para darle tiempo al ultimo q se conecto.
@@ -307,10 +307,12 @@ void Juego::leerEvento(){
 				case SOLTARDERECHA:		this->escenario->derecha(false);
 										this->escenario->reiniciarTeclas();		break; 
 
-				case ESPACIO: 			this->escenario->espacio(true); 
-										//detengo el turno hasta que explote todo
-										this->turno->detener();
-										this->escenario->setHuboDisparo(true);
+				case ESPACIO: 			if(this->escenario->getGusanoActivo()->armaActual.armaTipo != NINGUNA){
+											this->escenario->espacio(true); 
+											//detengo el turno hasta que explote todo
+											this->turno->detener();
+											this->escenario->setHuboDisparo(true);
+										}
 										break;
 
 				case SOLTARESPACIO:

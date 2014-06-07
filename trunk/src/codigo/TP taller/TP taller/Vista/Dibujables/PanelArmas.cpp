@@ -3,6 +3,7 @@
 PanelArmas::PanelArmas(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen, string pathDEF):DibujableTextura(renderer, rect, pathImagen, pathDEF)
 {
 	this->visible = false;
+	this->armaSeleccionada = -1;
 
 	int tamanoCuadradoX = (this->getRect().w/3 - 20)/3;
 	int tamanoCuadradoY = (this->getRect().h/3 - 20)/3;
@@ -89,13 +90,16 @@ int PanelArmas::getArmaSeleccionada(){
 }
 
 void PanelArmas::descontarArma(int numeroArma){
-	this->cantidadProyectiles[numeroArma]--;
-	this->armaSeleccionada = -1;
+
+	if(numeroArma >= 0){
+		this->cantidadProyectiles[numeroArma]--;
+		this->armaSeleccionada = -1;
+	}
 }
 
 bool PanelArmas::proyectilRestante(int numeroArma){
-
 	if(numeroArma >= cantidadProyectiles.size()) return false;
+	if(numeroArma == -1) return false;
 
 	return this->cantidadProyectiles[numeroArma] > 0;
 }
