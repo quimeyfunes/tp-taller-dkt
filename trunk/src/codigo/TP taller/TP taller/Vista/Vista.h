@@ -18,6 +18,7 @@
 #include "Dibujables\AContactoDibujable.h"
 #include "Dibujables\ATiempoDibujable.h"
 #include "Sprite\RelojSprite.h"
+#include "../Modelo/MotorParticulas/MotorParticulas.h"
 using namespace std;
 
 typedef enum{
@@ -65,6 +66,7 @@ public:
 	Vista(EscenarioParseado* e,SDL_Window* window, SDL_Renderer* renderer);
 	Vista();
 	~Vista();
+	MotorParticulas* motor;
 	SDL_Renderer* getRenderer();
 	DibujableTextura* crearDibujableTextura(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF);
 	Sprite* crearSprite(int x, int y, int anchoFrame, int altoFrame, string path, int col, int fil, int anchoTex, int altoTex);

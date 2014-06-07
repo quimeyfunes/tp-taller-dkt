@@ -1,4 +1,5 @@
 #include "JuegoCliente.h"
+#include "../MotorParticulas/MotorParticulas.h"
 
 Cliente* JuegoCliente::cliente = NULL;
 
@@ -38,12 +39,11 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 }
 
 void JuegoCliente::ejecutar(){
-
 	Reproductor::getReproductor()->activar();
 	Logger::getLogger()->guardarEstado();
 	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 	//game loop
-
+	
 	const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
@@ -52,7 +52,7 @@ void JuegoCliente::ejecutar(){
 		
 		this->leerEvento();
 		this->cliente->actualizar();
-
+		
 		this->reloj->setTiempoActual(this->cliente->getTiempoActualDeJuego());
 		
 		this->crearLista(this->cliente->vistaSerializada);
@@ -65,9 +65,12 @@ void JuegoCliente::ejecutar(){
 		for(int i=0; i< maxExplosionesPorTurno; i++){
 			if(this->cliente->exp[i].radio >= 0){
 				this->vista->destruir(cliente->exp[i].x, cliente->exp[i].y, cliente->exp[i].radio, this->lector);
+				this->vista->motor->generarExplosion(cliente->exp[i].x, cliente->exp[i].y);
 				this->cliente->exp[i].radio = -1;
 			}
 		}
+
+		this->vista->motor->actualizar();
 
 		if(simulando){
 			switch(estadoActual){
@@ -76,7 +79,7 @@ void JuegoCliente::ejecutar(){
 				case PAUSADO:		esperar();	break;
 			}
 		}
-
+		
 		vista->Dibujar();
 
 		next_game_tick += SKIP_TICKS;
