@@ -48,6 +48,7 @@ Servidor::Servidor(){
 		this->clientes[i].username= "";
 		this->clientes[i].socket = INVALID_SOCKET;
 		this->clientes[i].enviandoData = false;
+		this->clientes[i].muerto = false;
 	}
     // set up the server network to listen 
     red = new ServidorRed(); 
@@ -431,7 +432,7 @@ string Servidor::siguienteJugador(){
 	if(Servidor::idJugando+1 == Servidor::cliente_id)		Servidor::idJugando = 0;
 	else													Servidor::idJugando++;
 
-	if(clientes[Servidor::idJugando].activo == true) b = true;	
+	if(clientes[Servidor::idJugando].activo == true && !clientes[Servidor::idJugando].muerto ) b = true;	
 	
 	}
 

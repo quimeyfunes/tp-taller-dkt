@@ -46,7 +46,9 @@ void Juego::ejecutar(){
 		while( Servidor::getCantidadDeClientes()<2 ){
 			this->chequearNuevosJugadores();
 		}
+	Sleep(100); //este sleep es para darle tiempo al ultimo q se conecto.
 	Servidor::darArranque();
+	Sleep(300);
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
@@ -666,8 +668,8 @@ void Juego::cambiarJugador(string jugador){
 		Reproductor::getReproductor()->reproducirSonido(SELECCIONARWORM);
 	}
 	else{
-		//se murieron todos los gusanitos de este cliente, lo pongo como inactivo:
-		servidor->clientes[idCliente].activo = false;
+		//se murieron todos los gusanitos de este cliente, lo pongo como muerto:
+		servidor->clientes[idCliente].muerto = true;
 		//cambio recursivamente de jugador: (Extreme Programing: ON)
 		this->cambiarJugador(Servidor::siguienteJugador());
 	}
@@ -688,7 +690,7 @@ void Juego::comprobarGanador(){
 				ganador = i;
 			}
 			else{
-				servidor->clientes[i].activo = false;
+				servidor->clientes[i].muerto = true;
 			}
 		}
 	}
