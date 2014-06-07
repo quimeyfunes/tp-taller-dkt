@@ -12,6 +12,7 @@ typedef struct structCliente{
 	SOCKET socket;
 	bool enviandoData;
 	bool activo;
+	bool muerto;
 	list<Gusano*> figuras;
 	string ultimoEventoSerializado;
 	//Sesion* sesion;
