@@ -190,3 +190,10 @@ void Menu::agregarMensaje(string nombre, int tamanioTexto, int r, int g, int b){
 	Boton* boton = new Boton(this->renderer,rect,nombre,tamanioTexto,r,g,b,false);
 	this->listaDibujables->push_back(boton);
 }
+
+void Menu::limpiar(){
+	SDL_DestroyTexture(this->fondo->getImagen());
+	SDL_DestroyTexture(this->textInputNombre->getImagen());
+	SDL_DestroyTexture(this->textInputIP->getImagen());
+	this->listaDibujables->clear();
+}

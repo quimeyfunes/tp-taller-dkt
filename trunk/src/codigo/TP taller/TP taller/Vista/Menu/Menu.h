@@ -45,6 +45,8 @@ public:
 	string getIP();
 	void setIP(string ip);
 	void agregarMensaje(string nombre, int tamanioTexto, int r, int g, int b);
+
+	void limpiar();
 	~Menu();
 };
 
