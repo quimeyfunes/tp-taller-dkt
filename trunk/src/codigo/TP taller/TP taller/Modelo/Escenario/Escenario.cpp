@@ -702,3 +702,21 @@ void Escenario::setHuboDisparo(bool b){
 bool Escenario::getPuedeDisparar(){
 	return this->puedeDisparar;
 }
+
+void Escenario::restarVidaGusanos(){
+
+	for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+		
+		Gusano* gus = (Gusano*)(*it);
+		if(gus->bufferVida > 0){
+			if (gus->vida > 0) gus->vida--;
+			gus->bufferVida--;
+		}
+
+		if ((gus->vida <= 0)&& gus->getBody()->GetLinearVelocity().x == 0 && gus->getBody()->GetLinearVelocity().y == 0){
+			gus->vida = 0;
+			gus->setMuerto(true);
+		}
+	}
+	
+}

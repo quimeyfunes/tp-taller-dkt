@@ -22,7 +22,7 @@ private:
 	
 	bool congelado;
 	int maximosCLientes;
-	int vida;
+	
 	bool choqueConArma;
 	b2Fixture* fixtureCuerpo;
 	int tiempoInicial;
@@ -72,6 +72,8 @@ public:
 	bool getExplota();
 	void setExplota(bool explota);
 	void setVida(int vida);
+	int vida;
+	int bufferVida;
 };
 
 #endif

@@ -76,6 +76,8 @@ void Juego::ejecutar(){
 		
 		//this->comprobarGanador();
 
+		this->escenario->restarVidaGusanos();
+
 		if(simulando){
 			switch(estadoActual){
 
