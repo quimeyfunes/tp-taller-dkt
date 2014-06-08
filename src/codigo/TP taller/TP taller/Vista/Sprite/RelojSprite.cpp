@@ -8,6 +8,7 @@ RelojSprite::RelojSprite(void)
 
 RelojSprite::RelojSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string path, int col, int fil, int anchoTex, int altoTex): DibujableTextura(){
 
+	this->quedaPoco = false;
 	this->tiempoActual = 0;
 	this->frame1 = 0;
 	this->frame2 = 0;
@@ -41,6 +42,9 @@ RelojSprite::~RelojSprite(void)
 }
 
 void RelojSprite::setTiempoActual(int tiempo){
+
+	if(tiempo == tiempoTurno) quedaPoco = false;
+
 	this->tiempoActual = tiempo;
 }
 
@@ -59,6 +63,10 @@ void RelojSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimien
 	
 	if(tiempoActual <= tiempoCritico && frame2 == contadorDePitidos) {
 		Reproductor::getReproductor()->reproducirSonido(TIMERTICK);
+		if(!quedaPoco){
+			Reproductor::getReproductor()->reproducirSonido(RAPIDO);
+			quedaPoco=true;
+		}
 		contadorDePitidos--;
 	}
 

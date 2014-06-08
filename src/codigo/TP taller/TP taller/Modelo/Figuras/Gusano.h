@@ -16,7 +16,7 @@
 class Gusano: public Figura
 {
 private:
-	int numContactos;
+	
 	bool activo;
 	vector<bool> meClickearon;
 	
@@ -40,6 +40,7 @@ private:
 
 
 public:
+	int numContactos;
 	bool meMuevo; //para el sonido de caminar
 	Gusano();
 	Gusano(float x, float y, short int rotacion, b2World* world, bool estatico, float ancho, float alto, float masa,int maximosClientes);

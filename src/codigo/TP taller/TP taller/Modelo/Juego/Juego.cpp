@@ -38,6 +38,7 @@ void Juego::ejecutar(){
 	Reproductor::getReproductor()->enviar = true;	//setea si enviar o no los sonidos al cliente
 	servidor = new Servidor();
 	int tamanio;
+	int vidaRestada = -1;
 	explosion exp;
     const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
@@ -63,6 +64,9 @@ void Juego::ejecutar(){
 			this->escenario->detenerMovimientos();
 			cambiarJugador(Servidor::siguienteJugador());
 			//cout << "Turno de: " <<getJugadorActual() << endl;
+			reproducirSonidosFinTurno(vidaRestada);
+			vidaRestada = 0;
+			cout<<"vida restante: "<<this->escenario->getGusanoActivo()->getVida()<<endl;
 			this->turno->comenzar();
 		}
 		
@@ -76,7 +80,7 @@ void Juego::ejecutar(){
 		
 		//this->comprobarGanador();
 
-		this->escenario->restarVidaGusanos();
+		vidaRestada += this->escenario->restarVidaGusanos();
 
 		if(simulando){
 			switch(estadoActual){
@@ -711,4 +715,17 @@ void Juego::comprobarGanador(){
 		cout << "Felicitaciones " << servidor->clientes[ganador].username << " te ganaste un viaje a la concha de tu hermana. puto" << endl;
 	}
 
+}
+
+void Juego::reproducirSonidosFinTurno(int vidaRestada){
+
+	if(vidaRestada != -1){
+		if(vidaRestada == 0){
+			Reproductor::getReproductor()->reproducirSonido(FALLASTE);
+		}else{
+		
+			int reproducir = 24 + rand()%3;
+			Reproductor::getReproductor()->reproducirSonido((sonido)reproducir);
+		}
+	}
 }

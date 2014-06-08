@@ -121,7 +121,7 @@ public:
 	void setHuboDisparo(bool b);
 	bool getPuedeDisparar();
 
-	void restarVidaGusanos();
+	int restarVidaGusanos();
 };
 
 
