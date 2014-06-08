@@ -48,7 +48,7 @@ void JuegoCliente::ejecutar(){
 		Sleep(20);
 		this->cliente->actualizar();
 	};
-
+	this->menu->limpiar();
 	const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
