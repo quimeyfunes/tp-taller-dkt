@@ -57,7 +57,6 @@ void Juego::ejecutar(){
 
 	this->menu->dibujar();
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
-		
 		this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();
 		if( this->turno->estaTerminado() ){
@@ -68,6 +67,7 @@ void Juego::ejecutar(){
 			vidaRestada = 0;
 			cout<<"vida restante: "<<this->escenario->getGusanoActivo()->getVida()<<endl;
 			this->turno->comenzar();
+			this->accionRealizada = false;
 		}
 		
 		this->leerEvento();
@@ -330,6 +330,7 @@ void Juego::leerEvento(){
 				case SOLTARESPACIO:
 		
 										if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
+											this->accionRealizada = true;
 											this->dispararArma();
 											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
 										}
@@ -354,7 +355,7 @@ void Juego::leerEvento(){
 								 //detengo el turno hasta que explote todo
 								 this->turno->detener();
 								 this->escenario->setHuboDisparo(true);
-
+								 this->accionRealizada = true;
 								 int x,y;
 								 x = evento->x;
 								 y = evento->y;
@@ -378,31 +379,33 @@ void Juego::leerEvento(){
 						break;
 					}
 					case CLICKARMA:	{
-						switch(evento->x){
-							case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
-									break;
-							case 1: this->escenario->getGusanoActivo()->armaActual.armaTipo = GRANADA; 
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
-									break;
-							case 2: this->escenario->getGusanoActivo()->armaActual.armaTipo = ALELUYA; 
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
-									break;
-							case 3: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA; 
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
-									break;
-							case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = BANANA; 
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
-									break;
-							case 5: this->escenario->getGusanoActivo()->armaActual.armaTipo = MISILES;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
-									break;
-							case 6: this->escenario->getGusanoActivo()->armaActual.armaTipo = SUICIDA;
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
-									break;
-							default: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA; 
-									this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
-									break;
+						if(!this->accionRealizada){
+							switch(evento->x){
+								case 0: this->escenario->getGusanoActivo()->armaActual.armaTipo = BAZOOKA;
+										this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+										break;
+								case 1: this->escenario->getGusanoActivo()->armaActual.armaTipo = GRANADA; 
+										this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+										break;
+								case 2: this->escenario->getGusanoActivo()->armaActual.armaTipo = ALELUYA; 
+										this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+										break;
+								case 3: this->escenario->getGusanoActivo()->armaActual.armaTipo = DINAMITA; 
+										this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+										break;
+								case 4: this->escenario->getGusanoActivo()->armaActual.armaTipo = BANANA; 
+										this->escenario->getGusanoActivo()->armaActual.puedeCargarse = true;
+										break;
+								case 5: this->escenario->getGusanoActivo()->armaActual.armaTipo = MISILES;
+										this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+										break;
+								case 6: this->escenario->getGusanoActivo()->armaActual.armaTipo = SUICIDA;
+										this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+										break;
+								default: this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA; 
+										this->escenario->getGusanoActivo()->armaActual.puedeCargarse = false;
+										break;
+							}
 						}
 					}
 
