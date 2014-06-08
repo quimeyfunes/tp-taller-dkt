@@ -99,7 +99,7 @@ int main(int argc, char* argv[]){
 			system("cls");
 			printf("Soy Servidor!\n");
 			char* ip = obtenerIPMaquina();
-			//printf("Mi direccion IP es: %s\n", ip);
+			printf("Mi direccion IP es: %s\n", ip);
 			menu->agregarMensaje(string("Mi direccion IP es: " + string(ip)),30,255,0,0);
 			Juego* juego = new Juego("a",window,renderer,menu);
 			juego->ejecutar();
