@@ -311,6 +311,8 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 			flip = SDL_FLIP_HORIZONTAL;
 	}
 
+
+
 	if ((this->estado == MUERTO) && (((this->contMuerte >= 1 && this->contMuerte <= rangoMax)) || (this->contMuerteVida >= 1 && this->contMuerteVida <= rangoMax))){
 		//this->setFrame(0);
 		if(this->muertePorDisparo){
