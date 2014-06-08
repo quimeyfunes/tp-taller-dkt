@@ -299,7 +299,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->activo = false;
 	}
 	
-	this->congelado = fig->getCongelado()? 1:0;
+	this->congelado = (fig->getCongelado() && fig->getVida() > 0)? 1:0;
 
 }
 
@@ -376,7 +376,7 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 
 
 	//if (this->mostrarCartel[this->cliente] && this->estado != MUERTO) {
-				if(this->congelado == 1) this->setImagen(renderer, rutaWormGrisIzq);
+	if(this->congelado == 1) this->setImagen(renderer, rutaWormGrisIzq);
 
 }
 
