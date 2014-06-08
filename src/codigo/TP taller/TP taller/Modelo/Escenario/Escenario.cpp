@@ -670,7 +670,7 @@ void Escenario::setGusanoActivo(Gusano* gusano){
 	if(this->gusanoActivo != NULL){
 		this->gusanoActivo->setActivo(false);
 		this->gusanoActivo->setTipoArma(NINGUNA);
-		this->gusanoActivo->reiniciar();
+		this->gusanoActivo->quedateQuietoWachin();
 	}
 
 	this->gusanoActivo = gusano;

@@ -252,3 +252,7 @@ void Gusano::setExplota(bool explota) {
 void Gusano::setVida(int vida){
 	this->vida = vida;
 }
+
+void Gusano::quedateQuietoWachin(){
+	Figura::reiniciar();
+}
