@@ -78,6 +78,9 @@ void PanelArmas::agregarArma(SDL_Renderer* renderer, string nombreArmaSelecciona
 
 	this->nombresArmasSeleccionada.push_back(nombreArmaSeleccionada);
 	this->nombresArmasDeseleccionada.push_back(nombreArmaDeseleccionada);
+	if(cantidadProyectiles == -1){
+		cantidadProyectiles = 10;
+	}
 	this->cantidadProyectiles.push_back(cantidadProyectiles);
 }
 
@@ -92,8 +95,10 @@ int PanelArmas::getArmaSeleccionada(){
 void PanelArmas::descontarArma(int numeroArma){
 
 	if(numeroArma >= 0){
-		this->cantidadProyectiles[numeroArma]--;
-		this->armaSeleccionada = -1;
+		if(this->cantidadProyectiles[numeroArma] > 0 && this->cantidadProyectiles[numeroArma] < 10){
+			this->cantidadProyectiles[numeroArma]--;
+			this->armaSeleccionada = -1;
+		}
 	}
 }
 
@@ -101,5 +106,5 @@ bool PanelArmas::proyectilRestante(int numeroArma){
 	if(numeroArma >= cantidadProyectiles.size()) return false;
 	if(numeroArma == -1) return false;
 
-	return this->cantidadProyectiles[numeroArma] > 0;
+	return (this->cantidadProyectiles[numeroArma] > 0 || this->cantidadProyectiles[numeroArma] == 10);
 }
