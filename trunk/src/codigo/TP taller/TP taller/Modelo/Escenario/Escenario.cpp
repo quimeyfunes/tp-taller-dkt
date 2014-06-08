@@ -703,20 +703,26 @@ bool Escenario::getPuedeDisparar(){
 	return this->puedeDisparar;
 }
 
-void Escenario::restarVidaGusanos(){
+int Escenario::restarVidaGusanos(){
+
+	int restado = 0;
 
 	for (std::list<Figura*>::const_iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		
 		Gusano* gus = (Gusano*)(*it);
+
 		if(gus->bufferVida > 0){
-			if (gus->vida > 0) gus->vida--;
+			if(gus->vida > 0){
+				gus->vida--;
+				restado++;	
+			}
 			gus->bufferVida--;
+						
 		}
 
-		if ((gus->vida <= 0)&& gus->getBody()->GetLinearVelocity().x == 0 && gus->getBody()->GetLinearVelocity().y == 0){
-			gus->vida = 0;
+		if (gus->getVida()<=0 && gus->numContactos > 0){
 			gus->setMuerto(true);
 		}
 	}
-	
+	return restado;
 }

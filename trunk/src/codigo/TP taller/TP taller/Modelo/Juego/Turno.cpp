@@ -57,6 +57,7 @@ void Turno::actualizar(){
 	if(!detenido){
 		//Juego::tiempo = tiempoActual;
 		int tiempo = time(NULL) - tiempoInicial - tiempoActual;
+
 		if (tiempo != 0){
 			if ( tiempoActual >= tiempoPorTurno )	terminar();
 			else									tiempoActual++;

@@ -55,6 +55,11 @@ Reproductor::Reproductor(){
 	listaDeReproduccion[INCOMING].efecto = Mix_LoadWAV(rutaSonidoIncoming);
 	listaDeReproduccion[AVION].efecto = Mix_LoadWAV(rutaSonidoAvion);
 	listaDeReproduccion[SELECCIONARWORM].efecto = Mix_LoadWAV(rutaSonidoSeleccionarWorm);
+	listaDeReproduccion[RAPIDO].efecto = Mix_LoadWAV(rutaSonidoRapido);
+	listaDeReproduccion[FALLASTE].efecto = Mix_LoadWAV(rutaSonidoFallaste);
+	listaDeReproduccion[ESPERAYVERAS].efecto = Mix_LoadWAV(rutaSonidoEsperaYVeras);
+	listaDeReproduccion[VENGANZA].efecto = Mix_LoadWAV(rutaSonidoVenganza);
+	listaDeReproduccion[YATEPILLARE].efecto = Mix_LoadWAV(rutaSonidoYaTePillareYo);
 
 	for(int i=0; i < numSonidos; i++){
 

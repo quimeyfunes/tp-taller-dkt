@@ -224,7 +224,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->contDer = 0;
 		this->contFrent = 0;
 		this->estado = MUERTO;
-		if ((fig->getVida() == 0) && !(this->terminoIteracion)){
+		if ((fig->getVida() <= 0) && !(this->terminoIteracion)){
 			if (fig->getTipoArma() == SUICIDA) {
 				this->velocidadRefresco = tiempoExplosionSuicida;
 				this->enUso = rectSuicida;

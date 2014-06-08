@@ -79,6 +79,7 @@ public:
 	Juego(string texto,SDL_Window* window, SDL_Renderer* renderer,Menu* menu);
 	void ejecutar();
 	void comprobarGanador();
+	void reproducirSonidosFinTurno(int vidaRestada);
 	~Juego();
 };
 

@@ -22,6 +22,12 @@
 #define rutaSonidoIncoming "audio/efectos/INCOMING.wav"
 #define rutaSonidoAvion "audio/efectos/airstrike.wav"
 #define rutaSonidoSeleccionarWorm "audio/efectos/WORMSELECT.wav"
+#define rutaSonidoRapido "audio/efectos/Rapido.wav"
+
+#define rutaSonidoEsperaYVeras "audio/efectos/EsperaYVeras.wav"
+#define rutaSonidoFallaste "audio/efectos/Fallaste.wav"
+#define rutaSonidoVenganza "audio/efectos/Venganza.wav"
+#define rutaSonidoYaTePillareYo "audio/efectos/YaTePillareYo.wav"
 
 #define rutaMusicaFondo "audio/ingame-04-battlezone.wav"
 
@@ -51,10 +57,15 @@ typedef enum{
 	INCOMING,
 	AVION,
 	SELECCIONARWORM,
+	RAPIDO,
+	FALLASTE,
+	ESPERAYVERAS,
+	VENGANZA,
+	YATEPILLARE,
 	NINGUNO,
 }sonido;
 
-#define numSonidos 23
+#define numSonidos 28
 
 typedef struct{
 	Mix_Chunk* efecto;
