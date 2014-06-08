@@ -56,6 +56,7 @@ void Menu::dibujar(){
 		} 
 	} 
 	SDL_RenderPresent(this->renderer);
+	SDL_Delay(10);
 }
 
 int Menu::leerEvento(){
