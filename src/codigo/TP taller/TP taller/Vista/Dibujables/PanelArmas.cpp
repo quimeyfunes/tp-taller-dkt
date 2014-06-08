@@ -8,8 +8,8 @@ PanelArmas::PanelArmas(SDL_Renderer* renderer, SDL_Rect rect, string pathImagen,
 	int tamanoCuadradoX = (this->getRect().w/3 - 20)/3;
 	int tamanoCuadradoY = (this->getRect().h/3 - 20)/3;
 
-	this->recCuadroProyectiles = new SDL_Rect[10];
-	for(int i=0; i<10; i++){
+	this->recCuadroProyectiles = new SDL_Rect[11];
+	for(int i=0; i<11; i++){
 			recCuadroProyectiles[i].h =  46;
 			recCuadroProyectiles[i].w = 46;
 			recCuadroProyectiles[i].x = 0;
