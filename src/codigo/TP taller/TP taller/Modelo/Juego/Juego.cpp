@@ -15,7 +15,7 @@ Juego::Juego(string texto,SDL_Window* window, SDL_Renderer* renderer,Menu* menu)
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
 	this->vista = new Vista(e,window,renderer);
-	SDL_HideWindow(this->vista->window);
+	//SDL_HideWindow(this->vista->window);
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e);
@@ -44,11 +44,10 @@ void Juego::ejecutar(){
     DWORD next_game_tick = GetTickCount();
 	
 	this->menu->agregarMensaje(string("Esperando a 2 jugadores"),30,255,0,0);//cout << "esperando a 2 jugadores..." << endl;
+	this->menu->dibujar();
 	while( Servidor::getCantidadDeClientes()< ParserYaml::getParser()->getEscenario()->maximosClientes ){
 			this->chequearNuevosJugadores();
-			/*this->menu->dibujar();
 			if (this->menu->leerEvento() == nameMenu::SALIR) return;
-			Sleep(20);*/
 		}
 	Sleep(100); //este sleep es para darle tiempo al ultimo q se conecto.
 	Servidor::darArranque();
