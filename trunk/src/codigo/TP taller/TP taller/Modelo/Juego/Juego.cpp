@@ -54,6 +54,7 @@ void Juego::ejecutar(){
 	Sleep(300);
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 
+	this->menu->dibujar();
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
 		this->turno->actualizar();
@@ -86,7 +87,7 @@ void Juego::ejecutar(){
 		escenario->notificar();
 		b2Vec3 explosion;
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
-		this->menu->dibujar();
+		
 		if (this->menu->leerEvento() == nameMenu::SALIR) return;
 		//this->vista->Dibujar();
 		do {
