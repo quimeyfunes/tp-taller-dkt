@@ -154,6 +154,8 @@ bool Cliente::recibirDeServidor(){
 				archTerreno.write(&network_data[i]+offset, tamanioImagen);
 				archTerreno.close();
 				i+= offset+tamanioImagen;
+
+				enviarEstado();
 				break;
 
 

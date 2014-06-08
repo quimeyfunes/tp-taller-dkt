@@ -371,7 +371,7 @@ void Servidor::recibirDeCliente(int* clienteN)
     
 
 	if(clientes[*clienteN].activo){
-		if(time(NULL) - clientes[*clienteN].time > 2){	//2 segundos de espera
+		if(time(NULL) - clientes[*clienteN].time > 3){	//2 segundos de espera
 			
 			clientes[*clienteN].socket = INVALID_SOCKET;
 			cout<<clientes[*clienteN].username<<" se ha desconectado."<<endl;
