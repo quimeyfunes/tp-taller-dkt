@@ -51,7 +51,7 @@ void PanelArmas::alternarVisibilidad(){
 }
 
 
-void PanelArmas::agregarArma(SDL_Renderer* renderer, string nombreArmaSeleccionada, string nombreArmaDeseleccionada, int cantidadProyectiles){
+void PanelArmas::agregarArma(SDL_Renderer* renderer, string nombreArmaSeleccionada, string nombreArmaDeseleccionada, int cantidadProyectiles, bool seDisparaConClick){
 	SDL_Rect rect;
 	int tamanoCuadradoX = this->getRect().w/3;
 	int tamanoCuadradoY = this->getRect().h/3;
@@ -78,10 +78,12 @@ void PanelArmas::agregarArma(SDL_Renderer* renderer, string nombreArmaSelecciona
 
 	this->nombresArmasSeleccionada.push_back(nombreArmaSeleccionada);
 	this->nombresArmasDeseleccionada.push_back(nombreArmaDeseleccionada);
+
 	if(cantidadProyectiles == -1){
 		cantidadProyectiles = 10;
 	}
 	this->cantidadProyectiles.push_back(cantidadProyectiles);
+	this->seDisparaConClick.push_back(seDisparaConClick);
 }
 
 void PanelArmas::seleccionarArma(int numeroArma){
@@ -93,12 +95,23 @@ int PanelArmas::getArmaSeleccionada(){
 }
 
 void PanelArmas::descontarArma(int numeroArma){
-
 	if(numeroArma >= 0){
 		if(this->cantidadProyectiles[numeroArma] > 0 && this->cantidadProyectiles[numeroArma] < 10){
 			this->cantidadProyectiles[numeroArma]--;
 			this->armaSeleccionada = -1;
 		}
+	}
+}
+
+void PanelArmas::descontarArmaEspacio(int numeroArma){
+	if(numeroArma >= 0 && !this->seDisparaConClick[numeroArma]){
+		this->descontarArma(numeroArma);
+	}
+}
+
+void PanelArmas::descontarArmaClick(int numeroArma){
+	if(numeroArma >= 0 && this->seDisparaConClick[numeroArma]){
+		this->descontarArma(numeroArma);
 	}
 }
 

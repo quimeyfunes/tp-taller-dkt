@@ -124,7 +124,7 @@ void JuegoCliente::leerEvento(){
 				enviar = true;
 				if(accion == SOLTARESPACIO){
 					//Descuento un proyectil
-					this->panelArmas->descontarArma(this->panelArmas->getArmaSeleccionada());
+					this->panelArmas->descontarArmaEspacio(this->panelArmas->getArmaSeleccionada());
 				}
 			}
 		}
@@ -147,15 +147,18 @@ void JuegoCliente::leerEvento(){
 			int x,y;
 			SDL_GetMouseState(&x,&y);
 			int armaSeleccionada = this->getArmaSeleccionada(x,y);
+			printf("1");
 			if(armaSeleccionada >= 0 && this->panelArmas->proyectilRestante(armaSeleccionada)){
+				printf("2");
 				this->panelArmas->seleccionarArma(armaSeleccionada);
-
+				printf("3");
 				//Notifico al servidor el arma seleccionada
 				e->accion = CLICKARMA;
 				e->x = armaSeleccionada;
 				e->y = armaSeleccionada;
 			}else{
 				//Envio el click al servidor para que lo procese
+				this->panelArmas->descontarArmaClick(this->panelArmas->getArmaSeleccionada());
 				e->accion = accion;
 				e->x = (x + this->vista->getCorrimientoX()) / (relacionPPU * this->vista->getZoom());
 				e->y = (y + this->vista->getCorrimientoY()) / (relacionPPU * this->vista->getZoom());
