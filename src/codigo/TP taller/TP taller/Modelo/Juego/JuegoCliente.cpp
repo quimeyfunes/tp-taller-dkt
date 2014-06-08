@@ -47,12 +47,12 @@ void JuegoCliente::ejecutar(){
 		if (this->menu->leerEvento() == nameMenu::SALIR) return;
 		Sleep(20);
 		this->cliente->actualizar();
+
 	};
 	this->menu->limpiar();
 	const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
-
 
 
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
