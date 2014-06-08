@@ -51,6 +51,7 @@ public:
 	bool puedeSaltar();
 	void simularAgua(int nivelAgua);
 	void reiniciar();
+	void quedateQuietoWachin();
 	bool getActivo();
 	void setActivo(bool activo);
 	void setMeClickearon(bool meClickearon, int cliente);
