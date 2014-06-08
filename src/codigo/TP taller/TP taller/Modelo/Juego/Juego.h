@@ -22,7 +22,7 @@
 #include "../Armas/Banana.h"
 #include "../Armas/Misiles.h"
 #include "Turno.h"
-
+#include "../../Vista/Menu/Menu.h"
 
 #include "../Reproductor.h"
 
@@ -36,11 +36,14 @@ typedef enum{
 
 class Juego{
 
+protected:
+	Menu* menu;
 private:
 	static Servidor* servidor;
 	//list<DibujableSerializado> Juego::crearLista(int &tamanio);
 	b2World* mundo;
 	Turno* turno;
+	
 	b2Vec2 getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, double separacion);
 	void agregarObjetos();
 	static void servidorLoop(void * arg);
@@ -73,7 +76,7 @@ public:
 	bool simulando;
 	ESTADO_JUEGO estadoActual;
 	Juego();
-	Juego(string texto,SDL_Window* window, SDL_Renderer* renderer);
+	Juego(string texto,SDL_Window* window, SDL_Renderer* renderer,Menu* menu);
 	void ejecutar();
 	void comprobarGanador();
 	~Juego();

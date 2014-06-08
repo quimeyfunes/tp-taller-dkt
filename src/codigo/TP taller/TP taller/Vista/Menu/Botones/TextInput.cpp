@@ -5,14 +5,14 @@ TextInput::TextInput(void)
 {
 }
 
-TextInput::TextInput(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b)
-: Boton(renderer, rect, nombre, tamanioTexto,r,g,b){
+TextInput::TextInput(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b, bool centrado)
+: Boton(renderer, rect, nombre, tamanioTexto,r,g,b,centrado){
 	this->activo = false;
 	this->texto = texto;
 	SDL_Rect rectInput = this->rect;
 	rectInput.x += this->rect.w;
 	rectInput.y += this->rect.h/2;
-	this->input = new CartelDibujable(renderer,rectInput,"",tamanioTexto,r,g,b);
+	this->input = new CartelDibujable(renderer,rectInput,"",tamanioTexto,r,g,b,centrado);
 }
 
 void TextInput::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx)
@@ -44,10 +44,3 @@ TextInput::~TextInput(void)
 	}
 }
 
-void TextInput::setActivo(bool activo){
-	this->activo = activo;
-}
-
-bool TextInput::getActivo(){
-	return this->activo;
-}

@@ -27,6 +27,7 @@ private:
 	list<Boton*>* listaDibujables;
 	DibujableTextura* fondo;
 	SDL_Event* evento;
+	bool menuPrincipal;
 	bool menuCliente;
 	int ancho;
 	int alto;
@@ -43,6 +44,7 @@ public:
 	string getNombre();
 	string getIP();
 	void setIP(string ip);
+	void agregarMensaje(string nombre, int tamanioTexto, int r, int g, int b);
 	~Menu();
 };
 

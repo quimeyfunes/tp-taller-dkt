@@ -47,7 +47,6 @@ int main(int argc, char* argv[]){
 		inicializarSDL(&window,&renderer);
 		Menu* menu = new Menu(window,renderer);
 		int accion = 0;
-		//SDL_HideWindow(window);
 		SDL_StartTextInput();
 		string ip = obtenerAnteriorIP();
 		menu->setIP(ip);
@@ -59,7 +58,7 @@ int main(int argc, char* argv[]){
 		/*printf("Ingrese 1 para ser cliente, 2 para ser servidor.\n");
 		std::string argumento;
 		std::cin >> argumento;*/
-		SDL_HideWindow(window);
+		//SDL_HideWindow(window);
 		if (accion == nameMenu::CLIENTE) { 
 			//(argumento == "1"){
 			bool listo = false;
@@ -91,7 +90,7 @@ int main(int argc, char* argv[]){
 					else ip = "";
 				}
 			}*/
-			JuegoCliente* juego = new JuegoCliente(nombre, ip2, window, renderer);
+			JuegoCliente* juego = new JuegoCliente(nombre, ip2, window, renderer,menu);
 			juego->ejecutar(); 
 			delete juego;
 		}else if (accion == nameMenu::SERVIDOR) {
@@ -100,8 +99,9 @@ int main(int argc, char* argv[]){
 			system("cls");
 			printf("Soy Servidor!\n");
 			char* ip = obtenerIPMaquina();
-			printf("Mi direccion IP es: %s\n", ip);
-			Juego* juego = new Juego("a",window,renderer);
+			//printf("Mi direccion IP es: %s\n", ip);
+			menu->agregarMensaje(string("Mi direccion IP es: " + string(ip)),30,255,0,0);
+			Juego* juego = new Juego("a",window,renderer,menu);
 			juego->ejecutar();
 			delete juego;
 		}

@@ -3,24 +3,15 @@
 
 Cliente* JuegoCliente::cliente = NULL;
 
-JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, SDL_Renderer* renderer){
-	
+JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, SDL_Renderer* renderer,Menu* menu){
+	this->menu = menu; 
 	cliente = new Cliente(nombreCliente, ip);
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
 	this->cartelInfo = NULL;
 	while(this->cliente->recibirDeServidor());	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
-	bool a = true;
-	//espero que el servidor me diga q arranque...
-	while(this->cliente->arrancarJuego == false){
-		if(a){
-			cout <<"esperando a los demas jugadores..."<<endl;
-			a = false;
-		}
-		this->cliente->actualizar();
-	};
-
+	
 	//this->armas = cliente->getArmasActual();
 	this->esc = cliente->getEscenarioActual();
 	//cout<<"cliente "<<cliente->getId()<<endl;
@@ -44,9 +35,25 @@ void JuegoCliente::ejecutar(){
 	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 	//game loop
 	
+	bool a = true;
+	//espero que el servidor me diga q arranque...
+	this->menu->agregarMensaje(string("Esperando a los demas jugadores"),30,0,255,0);
+	while(this->cliente->arrancarJuego == false){
+		if(a){
+			
+			a = false;
+		}
+		this->menu->dibujar();
+		if (this->menu->leerEvento() == nameMenu::SALIR) return;
+		Sleep(20);
+		this->cliente->actualizar();
+	};
+
 	const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
+
+
 
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		

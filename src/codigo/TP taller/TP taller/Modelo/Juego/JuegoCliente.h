@@ -46,10 +46,9 @@ private:
 	int getArmaSeleccionada(int x, int y);
 	RelojSprite* reloj;
 
-
 public:
 	JuegoCliente();
-	JuegoCliente(string nombreCliente, string ip,SDL_Window* window, SDL_Renderer* renderer);
+	JuegoCliente(string nombreCliente, string ip,SDL_Window* window, SDL_Renderer* renderer, Menu* menu);
 	void ejecutar();
 	~JuegoCliente();
 	void actualizarDibujables(Paquete* paqueteVista);
