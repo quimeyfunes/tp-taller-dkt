@@ -13,12 +13,10 @@ private:
 	CartelDibujable* input;
 public:
 	TextInput(void);
-	TextInput(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b);
+	TextInput(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b,bool centrado);
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx); 
 	bool loadFromRenderedText(SDL_Renderer* renderer, string textureText);
 	string getTexto();
-	void setActivo(bool activo);
-	bool getActivo();
 	~TextInput(void);
 };
 

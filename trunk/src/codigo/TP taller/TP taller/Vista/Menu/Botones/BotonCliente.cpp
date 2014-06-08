@@ -2,7 +2,7 @@
 
 
 BotonCliente::BotonCliente(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b) :
-Boton(renderer,rect,nombre,tamanioTexto,r,g,b)
+Boton(renderer,rect,nombre,tamanioTexto,r,g,b,true)
 {
 
 }

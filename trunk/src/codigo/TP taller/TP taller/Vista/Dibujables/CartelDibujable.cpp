@@ -23,7 +23,7 @@ CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string p
 
 }
 
-CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string nombre,int tamanioTexto, int r, int g, int b)
+CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string nombre,int tamanioTexto, int r, int g, int b, bool centrado)
 {
 	this->rect = rect;
 	this->anguloRotacion = 0;
@@ -40,8 +40,10 @@ CartelDibujable::CartelDibujable(SDL_Renderer* renderer, SDL_Rect rect, string n
 	this->imagen = SDL_CreateTextureFromSurface( renderer, this->surf );
 	this->rect.w = this->surf->w;
 	this->rect.h = this->surf->h;
-	this->rect.x -= this->rect.w/2;
-	this->rect.y -= this->rect.h/2;
+	if (centrado) {
+		this->rect.x -= this->rect.w/2;
+		this->rect.y -= this->rect.h/2;
+	}
 	SDL_FreeSurface(this->surf);
 
 }

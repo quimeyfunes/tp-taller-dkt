@@ -1,4 +1,4 @@
-	#include "Juego.h"
+#include "Juego.h"
 
 Servidor* Juego::servidor = NULL;
 //string Juego::jugadorActual = "";
@@ -6,7 +6,8 @@ Servidor* Juego::servidor = NULL;
 Juego::Juego(){
 }
 
-Juego::Juego(string texto,SDL_Window* window, SDL_Renderer* renderer){
+Juego::Juego(string texto,SDL_Window* window, SDL_Renderer* renderer,Menu* menu){
+	this->menu = menu;
 	this->turno = new Turno();
 	this->simulando = true;
 	this->estadoActual = JUGANDO;
@@ -14,7 +15,7 @@ Juego::Juego(string texto,SDL_Window* window, SDL_Renderer* renderer){
 	ParserYaml* parser = ParserYaml::getParser();
 	EscenarioParseado* e = parser->getEscenario();
 	this->vista = new Vista(e,window,renderer);
-	SDL_HideWindow(this->vista->window);
+	//SDL_HideWindow(this->vista->window);
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
 	this->terreno->generarTerreno(e);
@@ -42,9 +43,12 @@ void Juego::ejecutar(){
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
 	
-	cout << "esperando a 2 jugadores..." << endl;
+	this->menu->agregarMensaje(string("Esperando a 2 jugadores"),30,255,0,0);//cout << "esperando a 2 jugadores..." << endl;
 	while( Servidor::getCantidadDeClientes()< ParserYaml::getParser()->getEscenario()->maximosClientes ){
 			this->chequearNuevosJugadores();
+			this->menu->dibujar();
+			if (this->menu->leerEvento() == nameMenu::SALIR) return;
+			Sleep(20);
 		}
 	Sleep(100); //este sleep es para darle tiempo al ultimo q se conecto.
 	Servidor::darArranque();
@@ -83,6 +87,8 @@ void Juego::ejecutar(){
 		escenario->notificar();
 		b2Vec3 explosion;
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
+		this->menu->dibujar();
+		if (this->menu->leerEvento() == nameMenu::SALIR) return;
 		//this->vista->Dibujar();
 		do {
 			explosion = this->escenario->hayExplosion();

@@ -4,9 +4,10 @@ Boton::Boton() {
 
 }
 
-Boton::Boton(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b) :
-CartelDibujable(renderer,rect,nombre,tamanioTexto,r,g,b)
+Boton::Boton(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b, bool centrado) :
+CartelDibujable(renderer,rect,nombre,tamanioTexto,r,g,b,centrado)
 {
+	this->activo = false;
 }
 
 
@@ -25,3 +26,10 @@ void Boton::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, f
 	SDL_RenderCopy(renderer,this->imagen,NULL,&this->rect);
 }
 
+void Boton::setActivo(bool activo){
+	this->activo = activo;
+}
+
+bool Boton::getActivo(){
+	return this->activo;
+}
