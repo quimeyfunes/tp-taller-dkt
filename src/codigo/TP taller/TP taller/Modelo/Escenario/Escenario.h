@@ -120,6 +120,8 @@ public:
 	bool getHuboDisparo();
 	void setHuboDisparo(bool b);
 	bool getPuedeDisparar();
+
+	void restarVidaGusanos();
 };
 
 

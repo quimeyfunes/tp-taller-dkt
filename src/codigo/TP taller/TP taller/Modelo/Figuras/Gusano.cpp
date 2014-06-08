@@ -48,6 +48,7 @@ Gusano::Gusano(float x, float y, short int rotacion, b2World* world, bool estati
 	this->explota = false;
 	this->activo = false;
 	this->vida = vidaGusano;
+	this->bufferVida = 0;
 	//this->armaSeleccionada = new Bazooka(x - (ancho/2), y, rotacion, world, estatico, ancho /4 ,alto /4, masa /2 );
 }
 
@@ -164,25 +165,25 @@ void Gusano::EndContact(){
 
 void Gusano::PostSolve(float impulso){
 	if (impulso > impulsoCaida) {
-		if(this->vida > 0)
+		if((this->vida > 0) && (!this->ahogado))
 			Reproductor::getReproductor()->reproducirSonido(OUCH);
 
-		this->vida -= impulso / 10;
+		this->bufferVida += impulso / 10;
 	}
-	if (this->vida < 0){
-		this->vida = 0;
-		this->setMuerto(true);
-	}
+	//if (this->vida < 0){
+	//	this->vida = 0;
+	//	this->setMuerto(true);
+	//}
 }
 
 void Gusano::explotar(float fuerza) {
-	this->vida -= fuerza/200;
-	if(this->vida > 0) 
+	this->bufferVida += fuerza/200;
+	if((this->vida > 0) && (!this->ahogado))
 		Reproductor::getReproductor()->reproducirSonido(OUCH);
-	if (this->vida < 0){
-		this->vida = 0;
-		this->setMuerto(true);
-	}
+	//if (this->vida < 0){
+	//	this->vida = 0;
+	//	this->setMuerto(true);
+	//}
 }
 
 int Gusano::getVida() {
