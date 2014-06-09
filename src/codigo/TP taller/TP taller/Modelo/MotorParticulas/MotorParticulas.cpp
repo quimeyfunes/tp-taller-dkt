@@ -59,7 +59,7 @@ void MotorParticulas::actualizar(){
     }
 }
 
-void MotorParticulas::dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, int escalaZoom, int anchoPx, int altoPx){
+void MotorParticulas::dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, float escalaZoom, int anchoPx, int altoPx){
 	for (int index = 0; index < particulas->size(); index++){
 		particulas->at(index)->dibujar(renderer, corrimientoX, corrimientoY, escalaZoom, anchoPx, altoPx);
     }

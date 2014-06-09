@@ -680,9 +680,12 @@ void GusanoSprite::copiarGusano(GusanoSprite* gusano2, bool nuevo){
 	gusano2->muertePorDisparo = this->muertePorDisparo;
 	gusano2->activo = this->activo;
 
-	SDL_Rect rectFlecha = gusano2->getCartel()->getRect();
-	rectFlecha.x = this->rect.x;
+	SDL_Rect rectFlecha = gusano2->getRect();
+	rectFlecha.w = this->rect.w * 2/3;
+	rectFlecha.x = this->rect.x + this->rect.w / 2 - rectFlecha.w / 2;
 	rectFlecha.y = this->rect.y - 35;
+	rectFlecha.h = this->rect.h / 2;
+	
 	gusano2->flecha->setRect(rectFlecha);
 
 	

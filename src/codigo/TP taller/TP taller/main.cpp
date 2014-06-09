@@ -69,6 +69,10 @@ int main(int argc, char* argv[]){
 			getline(cin, nombre);*/
 			string nombre = menu->getNombre();
 			string ip2 = menu->getIP();
+			ofstream archivoIP;
+			archivoIP.open(rutaArchivoIP, ios::trunc);
+			archivoIP<<ip2;
+			archivoIP.close();
 			/*string ip = obtenerAnteriorIP();
 			while(!listo){
 				if(ip == ""){
