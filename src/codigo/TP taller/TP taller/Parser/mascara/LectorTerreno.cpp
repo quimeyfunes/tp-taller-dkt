@@ -41,8 +41,8 @@ LectorTerreno::LectorTerreno(EscenarioParseado* e, string nombreArchivo, int id)
 void LectorTerreno::crearMatrizRGBA(){
 
 	pixel pixActual;
-	vector<int> columnasInvalidas;
-	int cantErrores = 0;
+	//vector<int> columnasInvalidas;
+	//int cantErrores = 0;
 
 	Uint32* vectorPixeles = (Uint32*)imagen->pixels;
 
@@ -55,14 +55,14 @@ void LectorTerreno::crearMatrizRGBA(){
 	}
 	//hago una pasada columna por columna para chequear TCT
 	//de haber errores, devuelvo las columnas
-	columnasInvalidas = chequearTCT(cantErrores);
+	//columnasInvalidas = chequearTCT(cantErrores);
 
-	//si hubo algun tipo de error con la imagen, lo logueo y genero matriz de terreno aleatorio.
-	if(cantErrores > 0){
+	////si hubo algun tipo de error con la imagen, lo logueo y genero matriz de terreno aleatorio.
+	//if(cantErrores > 0){
 
-		loguearErroresMatriz(columnasInvalidas);
-		generarTerrenoAleatorio(mascaraTerrenoDEF);
-	}
+	//	loguearErroresMatriz(columnasInvalidas);
+	//	generarTerrenoAleatorio(mascaraTerrenoDEF);
+	//}
 }
 
 void LectorTerreno::generarMatrizAleatoria(){
