@@ -20,7 +20,7 @@ MotorParticulas::~MotorParticulas()
 
 void MotorParticulas::generarExplosion(int x, int y){
 
-	int particulasPorExplosion = 50;
+	int particulasPorExplosion = 30;
 
 	for(int i=0; i< particulasPorExplosion; i++){
 		this->particulas->push_back(generarParticula(x, y));

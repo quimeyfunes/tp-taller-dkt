@@ -100,7 +100,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	
 	//this->cartel = NULL;
 	this->cartel = new CartelDibujable(renderer, rectCart, rutaCartel, rutaCartelDEF, this->nombre);
-	rectCart.w = this->rect.w;
+	rectCart.w = this->rect.w/2;
 	rectCart.h = this->rect.h * 2/3;
 	this->flecha = new DibujableTextura(renderer,rectCart, rutaFlecha,rutaFlecha); 
 	//this->mostrarCartel = false;
