@@ -196,7 +196,7 @@ void Servidor::enviarEscenario(int num_cliente, bool reconectado){
 	int tipoPaquete = 1;
 	string rutaMascara;
 
-	if(reconectado) rutaMascara = texturaTerreno + StringUtil::int2string(99);	//99 es el numero que usa el servidor para su terrenoActual
+	if(reconectado) rutaMascara = texturaTerreno + StringUtil::int2string(99) + ".png";	//99 es el numero que usa el servidor para su terrenoActual
 	else rutaMascara = escenario->imagenTierra;
 
 	int tamanoRutaMascara = rutaMascara.size()+1;
