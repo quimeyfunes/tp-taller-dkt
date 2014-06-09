@@ -11,7 +11,8 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 	this->evento = new SDL_Event();
 	this->cartelInfo = NULL;
 	while(this->cliente->recibirDeServidor());	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
-	
+
+	Sleep(200);
 	//this->armas = cliente->getArmasActual();
 	this->esc = cliente->getEscenarioActual();
 	//cout<<"cliente "<<cliente->getId()<<endl;

@@ -42,7 +42,7 @@ public:
 	static void enviarImagen(SOCKET sock, string direccion, int tipoPaquete);
 	static ServidorRed* red;
 	static void aceptarClientes(void* arg);
-	static void enviarEscenario(int num_cliente);
+	static void enviarEscenario(int num_cliente, bool reconectado);
 	static void enviarImagenes(SOCKET sock);
 	static void enviarExplosion(SOCKET sock, explosion e);
 	static cliente* clientes;
