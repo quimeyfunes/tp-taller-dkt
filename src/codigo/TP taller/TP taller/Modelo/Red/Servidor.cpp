@@ -190,12 +190,17 @@ int Servidor::buscarCliente(string nombre){
 	return -1;
 }
 
-void Servidor::enviarEscenario(int num_cliente){
+void Servidor::enviarEscenario(int num_cliente, bool reconectado){
 
 		//envio [ TIPO | LARGO RUTA MASCARA | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE | MAX_CLIENTES | STRING RUTA MASCARA ]
 	int tipoPaquete = 1;
-	string rutaMascara = escenario->imagenTierra;
+	string rutaMascara;
+
+	if(reconectado) rutaMascara = texturaTerreno + StringUtil::int2string(99);	//99 es el numero que usa el servidor para su terrenoActual
+	else rutaMascara = escenario->imagenTierra;
+
 	int tamanoRutaMascara = rutaMascara.size()+1;
+
 	int peso = ((5*sizeof(int)) + (4*sizeof(double)) + tamanoRutaMascara);
 	char *data = new char[peso];
 	//cout<<peso<<endl;
@@ -285,8 +290,10 @@ void Servidor::recibirDeCliente(int* clienteN)
 						cliente_id--;
 
 						//le vuelvo a enviar todas las cosas, por si se reconecta en otra pc
-						enviarEscenario(*clienteN);
+
 						enviarImagenes(clientes[*clienteN].socket);
+						enviarEscenario(*clienteN, true);
+						
 						enviarPaquete(clientes[*clienteN].socket, paqueteDescargaLista, "");
 						cout<<clientes[*clienteN].username<<" se ha reconectado."<<endl;
 
@@ -324,8 +331,9 @@ void Servidor::recibirDeCliente(int* clienteN)
 									//le asigno un espacio y doy la bienvenida
 						clientes[*clienteN].time = time(NULL);
 
-						enviarEscenario(*clienteN);
 						enviarImagenes(clientes[*clienteN].socket);
+						enviarEscenario(*clienteN, false);
+						
 						enviarPaquete(clientes[*clienteN].socket, paqueteDescargaLista, "");
 						cout<<clientes[*clienteN].username<<" se ha conectado."<<endl;
 						mensaje.tiempoActivo=time(NULL);

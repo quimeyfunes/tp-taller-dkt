@@ -119,7 +119,7 @@ void Juego::ejecutar(){
 					this->escenario->getGusanoActivo()->armaActual.armaTipo = NINGUNA;
 				}
 				explosion *= relacionPPU;
-				//this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
+				this->vista->destruir((explosion.x ),(explosion.y ),explosion.z,this->terreno->getLector());
 				//aviso al servidor q se modifico el terreno
 				exp.radio = explosion.z;
 				exp.x = explosion.x;
