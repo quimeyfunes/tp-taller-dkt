@@ -50,12 +50,13 @@ void Juego::ejecutar(){
 			this->chequearNuevosJugadores();
 			if (this->menu->leerEvento() == nameMenu::SALIR) return;
 		}
-	Sleep(100); //este sleep es para darle tiempo al ultimo q se conecto.
+	Sleep(300); //este sleep es para darle tiempo al ultimo q se conecto.
 	Servidor::darArranque();
 	Sleep(300);
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 
 	this->menu->dibujar();
+
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();
@@ -164,17 +165,18 @@ void Juego::chequearNuevosJugadores(){
 		if(this->servidor->clientes[i].activo){
 			if(this->servidor->clientes[i].figuras.size() == 0){
 				//Si el cliente esta activo y no tiene figuras es porque acaba de conectarse. Le asigno gusanos
+				Sleep(100);
 				for(int j=0; j< gusanosPorPersonaje; j++){
 					float escalaAncho = relacionPPU;
 					float escalaAlto = relacionPPU;
 					Gusano* worm = escenario->crearGusanoParaJugador();
 					if (worm){
-						string nombreGusano = this->servidor->clientes[i].username + " "+StringUtil::int2string(j);
+						string nombreGusano = this->servidor->clientes[i].username + " " + StringUtil::int2string(j);
 						GusanoSprite* gusano = vista->crearGusanoSprite( worm->getPosicion().x * escalaAncho, worm->getPosicion().y * escalaAlto , anchoGusano * relacionPPU*2.5, altoGusano * relacionPPU*2.5, spriteWormIzq, 1, 10, 60, 600,nombreGusano,this->escenario->getMaximosClientes());
 						worm->agregarObservador(gusano);
 						this->servidor->clientes[i].figuras.push_back(worm);
 					} 
-					this->escenario->inicializarCliente(i);
+					//this->escenario->inicializarCliente(i);
 				}
 			}
 		}

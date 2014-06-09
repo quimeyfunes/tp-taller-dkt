@@ -276,7 +276,8 @@ void Servidor::recibirDeCliente(int* clienteN)
 				if(id != -1){										//si existe el username
 					if(!clientes[id].activo){						//si ese username esta congelado
 
-						clientes[id].activo=true;					//descongelo y doy bienvenida
+											//descongelo y doy bienvenida
+						clientes[id].activo=true;
 						clientes[id].time=time(NULL);
 						clientes[id].socket = clientes[*clienteN].socket;
 						*clienteN = id;
@@ -308,6 +309,8 @@ void Servidor::recibirDeCliente(int* clienteN)
 							(*it)->setCongelado(false);
 						}
 
+						
+
 					}else{										//si no esta congelado, es xq ya existe un usuario con ese nombre
 						enviarPaquete(clientes[*clienteN].socket, paqueteFinal, "Ya existe otro usuario con su nombre.");
 						cliente_id--;
@@ -316,8 +319,9 @@ void Servidor::recibirDeCliente(int* clienteN)
 				}else{											//si no existe username, tengo que ver si hay lugar para uno nuevo
 					if(cliente_id <= escenario->maximosClientes){				//si hay lugar 
 							
-						clientes[*clienteN].activo=true;			//le asigno un espacio y doy la bienvenida
 						clientes[*clienteN].username = paquete->getMensaje();
+						clientes[*clienteN].activo=true;
+									//le asigno un espacio y doy la bienvenida
 						clientes[*clienteN].time = time(NULL);
 
 						enviarEscenario(*clienteN);
@@ -338,6 +342,8 @@ void Servidor::recibirDeCliente(int* clienteN)
 						mensaje.emisor=clientes[*clienteN].socket;
 						mensaje.msj = clientes[*clienteN].username +" se ha conectado.";
 						mensaje.tiempoActivo=time(NULL);
+
+						
 						
 						//cliente_id++;
 
