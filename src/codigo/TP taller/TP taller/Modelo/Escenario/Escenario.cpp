@@ -482,7 +482,8 @@ void Escenario::saltar(){
 	if (this->puedeSaltar) {
 		if (this->gusanoActivo->puedeSaltar()) {
 			b2Body* cuerpo = this->gusanoActivo->getBody();
-			Reproductor::getReproductor()->reproducirSonido(SALTO);
+			if(!Reproductor::getReproductor()->estaReproduciendo(SALTO))
+				Reproductor::getReproductor()->reproducirSonido(SALTO);
 			cuerpo->SetLinearVelocity(b2Vec2(0,saltoGusano));
 		}
 		//cuerpo->ApplyLinearImpulse(b2Vec2(0,-100),this->figuraActiva->getPosicion(),true);
@@ -610,9 +611,9 @@ b2Vec3 Escenario::hayExplosion() {
 	list<Figura*>::iterator it2 = this->listaFiguras->begin();
 	while (it2 != this->listaFiguras->end()) {
 		Gusano* gusano = (Gusano*) (*it2);
-		if (gusano->getExplota()) {
-			b2Vec2 pos = (*it2)->getBody()->GetPosition();
-			this->explotar(pos.x,pos.y,radioExplosionGusano);
+		if (gusano->getExplota()){
+			b2Vec2 pos = gusano->getBody()->GetPosition();
+			this->explotar(pos.x ,pos.y,radioExplosionGusano);
 			this->terreno->destruirTerreno(pos.x,pos.y,radioExplosionGusano);
 			gusano->setExplota(false);
 			return b2Vec3(pos.x,pos.y,radioExplosionGusano);

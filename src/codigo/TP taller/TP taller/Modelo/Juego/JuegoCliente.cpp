@@ -204,7 +204,7 @@ void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 	//agrego el reloj
 	this->reloj = vista->crearRelojSprite(0,0,3*relacionPPU,4*relacionPPU,spriteReloj,1,10,42,560);
 	this->reloj->setTiempoActual(tiempoTurno);
-	this->cartelInfo = vista->crearCartelInfo(e->anchoPx/2, 10, 0, 20);
+	this->cartelInfo = vista->crearCartelInfo(10*relacionPPU, 10, 0, 20);
 	this->cartelInfo->setColor(255,0,255,100);
 	//Las armas vienen en el paquete inicial
 	vector<int> armas;
