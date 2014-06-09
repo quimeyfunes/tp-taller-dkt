@@ -17,6 +17,6 @@ public:
 
 	void generarExplosion(int x, int y);
 	void actualizar();
-	void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, int escalaZoom, int anchoPx, int altoPx);
+	void dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 };
 
