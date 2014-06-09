@@ -65,7 +65,6 @@ void Juego::ejecutar(){
 			//cout << "Turno de: " <<getJugadorActual() << endl;
 			reproducirSonidosFinTurno(vidaRestada);
 			vidaRestada = 0;
-			cout<<"vida restante: "<<this->escenario->getGusanoActivo()->getVida()<<endl;
 			this->turno->comenzar();
 			this->accionRealizada = false;
 		}
@@ -73,7 +72,6 @@ void Juego::ejecutar(){
 		this->leerEvento();
 		//si el turno esta detenido es porque alguien disparo entonces le pregunto al escenario si ya terminaron los disparos.
 		if(this->turno->estaDetenido() && escenario->getHuboDisparo() && !( escenario->hayExposionPendiente() ) ){
-				cout << "esperar Disparo..."<<endl;
 				this->turno->esperarDisparo();
 				escenario->setHuboDisparo(false);
 		}
