@@ -12,7 +12,7 @@ Particula::Particula(SDL_Renderer* renderer, SDL_Rect pos, int vX, int vY, float
 }
 
 void Particula::actualizar(){
-	this->setColor(ParserDeHexARgb::parsearDeHexARgb("#A4A4A4"));
+	this->setColor(ParserDeHexARgb::parsearDeHexARgb("#A30000"));
 	this->tiempoDeVida --;
 	this->rect.x += this->vX;
 	this->rect.y += this->vY;

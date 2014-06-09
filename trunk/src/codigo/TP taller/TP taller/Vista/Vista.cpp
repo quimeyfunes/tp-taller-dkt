@@ -6,6 +6,7 @@ Vista::Vista(EscenarioParseado* e,SDL_Window* window, SDL_Renderer* renderer){
 	this->anchoPxTot = e->anchoU * relacionPPU;
 	this->altoPxTot = e->altoU * relacionPPU;
 	this->window = window;
+	SDL_SetWindowSize(this->window, this->anchoPx, this->altoPx);
 	this->renderer = renderer;
 	SDL_ShowWindow(window);
 	this->listaDibujables = new list<Dibujable*>;

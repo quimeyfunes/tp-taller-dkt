@@ -123,7 +123,7 @@ Gusano* Escenario::crearGusanoParaJugador(){
 		int x = vec.x;
 		int y = vec.y - altoGusano;
 	
-		Gusano* gusano = new Gusano(x,y,0,this->world,false,anchoGusano,altoGusano,10,this->maximosClientes);
+		Gusano* gusano = new Gusano(x,y,0,this->world,false,anchoGusano,altoGusano,masaGusano,this->maximosClientes);
 		if (this->haySuperposicion(gusano) || this->haySuperposicionConTerreno(gusano) ||  vec.y + altoGusano > this->nivelAgua){
 			//Si hay superposicion o esta al nivel del agua creo en otra posicion;
 			this->world->DestroyBody(gusano->getBody());
