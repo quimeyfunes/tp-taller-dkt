@@ -32,6 +32,7 @@ typedef enum{
 	PAUSADO,
 	JUGANDO,
 	SALIDA,
+	GANADO,
 }ESTADO_JUEGO;
 
 class Juego{
