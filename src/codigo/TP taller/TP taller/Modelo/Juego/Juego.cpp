@@ -168,7 +168,7 @@ void Juego::chequearNuevosJugadores(){
 		if(this->servidor->clientes[i].activo){
 			if(this->servidor->clientes[i].figuras.size() == 0){
 				//Si el cliente esta activo y no tiene figuras es porque acaba de conectarse. Le asigno gusanos
-				Sleep(100);
+				Sleep(300);
 				for(int j=0; j< gusanosPorPersonaje; j++){
 					float escalaAncho = relacionPPU;
 					float escalaAlto = relacionPPU;

@@ -54,7 +54,7 @@
 	const int gusanosPorPersonaje = 5;
 	const int timeGusanoTnt = 2;
 
-	const int masaGusano = 20;
+	const int masaGusano = 15;
 
 	//Relacion Pixel por Unidad
 	const float relacionPPU = 10;
