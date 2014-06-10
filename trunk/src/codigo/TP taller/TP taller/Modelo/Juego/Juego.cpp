@@ -84,15 +84,16 @@ void Juego::ejecutar(){
 		//this->comprobarGanador();
 		vidaRestada += this->escenario->restarVidaGusanos();
 
-		//si el gusano pierde vida, se cambia de jugador
+		//si el gusano que esta jugando pierde vida, pierde el turno
 		if( (contador == 0) && vidaGusanoActivo != this->escenario->getGusanoActivo()->getVida()){
 			this->escenario->setBloquearTeclas(true);
 			this->escenario->detenerMovimientos();
 			this->turno->esperarDisparo();
 			contador++;
-			cout<<"entre ";
 		}
 
+		//si se desconecta cuando esta jugando, se cambia de jugador
+		if(this->escenario->getGusanoActivo()->getCongelado()) this->turno->terminar();
 	
 
 		if(simulando){
@@ -707,7 +708,7 @@ void Juego::cambiarJugador(string jugador){
 		this->cambiarJugador(Servidor::siguienteJugador());
 	}
 	
-	this->comprobarGanador();
+	//this->comprobarGanador();
 }
 
 void Juego::comprobarGanador(){
