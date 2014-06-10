@@ -61,6 +61,7 @@ void Juego::ejecutar(){
 		this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();
 		if( this->turno->estaTerminado() ){
+			this->escenario->setBloquearTeclas(false);
 			this->escenario->detenerMovimientos();
 			cambiarJugador(Servidor::siguienteJugador());
 			//cout << "Turno de: " <<getJugadorActual() << endl;
@@ -99,6 +100,7 @@ void Juego::ejecutar(){
 			explosion = this->escenario->hayExplosion();
 		
 			if ( explosion.z >= 0){
+				this->escenario->setBloquearTeclas(true);
 				if (this->escenario->getGusanoActivo()->armaActual.armaTipo == BANANA){
 					for (int i = 0; i <5; i++) {
 						//Tiempo random para la explosion de la mini banana entre 1 y 3 segundos
