@@ -5,13 +5,28 @@ Cliente* JuegoCliente::cliente = NULL;
 
 JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, SDL_Renderer* renderer,Menu* menu){
 	this->menu = menu; 
-	cliente = new Cliente(nombreCliente, ip);
+	string error="";
+	cliente = new Cliente(nombreCliente, ip, error);
+	if(error != ""){
+		menu->agregarMensaje(error, 30, 0 , 255, 0); 
+		menu->dibujar();
+		Sleep(3000);
+		exit(1);
+	} 
+
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
 	this->cartelInfo = NULL;
-	while(this->cliente->recibirDeServidor());	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
 
+	
+	while(this->cliente->recibirDeServidor(error));	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
+	if(error != ""){
+		menu->agregarMensaje(error, 30, 0 , 255, 0); 
+		menu->dibujar();
+		Sleep(3000);
+		exit(1);
+	} 
 	Sleep(200);
 	//this->armas = cliente->getArmasActual();
 	this->esc = cliente->getEscenarioActual();
@@ -38,7 +53,7 @@ void JuegoCliente::ejecutar(){
 	
 	bool a = true;
 	//espero que el servidor me diga q arranque...
-	this->menu->agregarMensaje(string("Esperando a los demas jugadores"),30,0,255,0);
+	this->menu->agregarMensaje(string("Esperando a los demas jugadores..."),30,0,255,0);
 	this->menu->dibujar();
 	while(this->cliente->arrancarJuego == false){
 		if(a){

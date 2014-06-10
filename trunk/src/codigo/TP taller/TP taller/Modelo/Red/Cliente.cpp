@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-Cliente::Cliente(string nombre, string ip){
+Cliente::Cliente(string nombre, string ip, string &msjError){
 
 	TIEMPO_MAX_ESPERA = 2;
 
@@ -14,11 +14,11 @@ Cliente::Cliente(string nombre, string ip){
 	}
 
 	this->arrancarJuego = false;
-    red = new ClienteRed(ip);
+    red = new ClienteRed(ip, msjError);
 	this->username=nombre;
 	this->escenario = new EscenarioParseado();
 	this->activo = false;
-	enviarPaquete(red->socketCliente, paqueteInicial, this->username);
+	if ( msjError == "") enviarPaquete(red->socketCliente, paqueteInicial, this->username);
 	this->mensajeInfo = "";
 	this->nuevoMensaje = false;
 	this->timeServidor = time(NULL);
@@ -58,7 +58,7 @@ EscenarioParseado* Cliente::getEscenarioActual(){
 	return this->escenario;
 }
 
-bool Cliente::recibirDeServidor(){
+bool Cliente::recibirDeServidor(string &msjError){
 	
 	bool retorno=true;
 	int offset;
@@ -184,8 +184,9 @@ bool Cliente::recibirDeServidor(){
 				break;
 
 			case paqueteFinal:
-				cout<<paquete->getMensaje();
 				this->activo=false;
+				msjError = paquete->getMensaje();
+				retorno=false;
 				break;
 
 			case paqueteTiempo:
@@ -246,7 +247,8 @@ return retorno;
 
 void Cliente::actualizar() 
 {
-		recibirDeServidor();
+	string mensajeError="";
+		recibirDeServidor(mensajeError);
 		if(activo)enviarEstado();
 }
 
