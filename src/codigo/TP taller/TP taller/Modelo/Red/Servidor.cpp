@@ -83,7 +83,7 @@ void Servidor::actualizar(void* clienteN)
 	int id= (int)clienteN;
 	audioEnCola** colaDeSonidos;
 	int tiempo = 0;
-	while(clientes[id].activo){
+	while(true){
 
 		//recibe los mensajes que mandan otros clientes sin chocar en los threads
 		if(time(NULL) - mensaje.tiempoActivo == 0){
@@ -327,7 +327,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 					if(cliente_id <= escenario->maximosClientes){				//si hay lugar 
 							
 						clientes[*clienteN].username = paquete->getMensaje();
-						clientes[*clienteN].activo=true;
+						
 									//le asigno un espacio y doy la bienvenida
 						clientes[*clienteN].time = time(NULL);
 
@@ -352,7 +352,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 						mensaje.tiempoActivo=time(NULL);
 
 						
-						
+						clientes[*clienteN].activo=true;
 						//cliente_id++;
 
 					}else{
