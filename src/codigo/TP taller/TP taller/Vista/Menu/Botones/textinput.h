@@ -9,8 +9,8 @@ using namespace std;
 class TextInput: public Boton
 {
 private:
-	bool activo;
 	CartelDibujable* input;
+	DibujableTextura* gusano;
 public:
 	TextInput(void);
 	TextInput(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b,bool centrado);
