@@ -60,7 +60,7 @@ void Menu::dibujar(){
 }
 
 int Menu::leerEvento(){
-	if (SDL_PollEvent(this->evento) != 0) {
+	while(SDL_PollEvent(this->evento)) {
 		
 		if (evento->type == SDL_QUIT){
 			return nameMenu::SALIR;
