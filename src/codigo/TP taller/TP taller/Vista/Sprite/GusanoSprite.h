@@ -90,6 +90,7 @@ public:
 	bool terminoIteracion;
 	int vidaValor;
 	float fraccionVidaValor;
+	bool huboCambioArma;
 };
 
 #endif
