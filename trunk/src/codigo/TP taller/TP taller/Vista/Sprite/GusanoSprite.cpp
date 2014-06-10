@@ -143,6 +143,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 	Gusano* fig = (Gusano*)observable;
 	this->posFigura->x = fig->getBody()->GetPosition().x;
 	this->posFigura->y = fig->getBody()->GetPosition().y;
+	this->huboCambioArma = false;
 
 	if (!(fig->estaMuerto())){
 		this->contMuerte = 0;
@@ -175,6 +176,9 @@ void GusanoSprite::actualizar(Observable* observable) {
 				this->contFrent = 0;
 				this->contArma++;
 					this->enUso = rectApuntando;
+					if(this->armaTipo != fig->getTipoArma()){
+						this->huboCambioArma = true;
+					}
 					this->armaTipo = fig->getTipoArma();
 					if ((armaTipo == SUICIDA) && !(fig->getVida() == 0)){
 						this->frame = 0;
@@ -321,7 +325,7 @@ void GusanoSprite::dibujar(SDL_Renderer *renderer, int corrimientoX,int corrimie
 			this->setImagen(renderer, rutaGrave);
 		}
 	} else {
-		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && ((this->contFrent >= 1 && this->contFrent <= rangoMax) || (this->contArma >= 1 && this->contArma <= rangoMax)) ){ //Esta quieto
+		if ( !(this->hayCambioImgDer()) && !(this->hayCambioImgIzq()) && ((this->contFrent >= 1 && this->contFrent <= rangoMax) || (this->contArma >= 1 && this->contArma <= rangoMax) || this->huboCambioArma) ){ //Esta quieto
 			//this->setFrame(0);
 			if(this->congelado == 1){
 				this->setImagen(renderer, rutaWormGrisIzq);
@@ -550,6 +554,8 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::float2string(this->fraccionVidaValor);
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->activo);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->huboCambioArma);
 	return serializado;
 }
 
@@ -619,6 +625,7 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->vidaValor = StringUtil::str2int(atributos.at(27));
 	this->fraccionVidaValor = StringUtil::str2float(atributos.at(28).c_str());
 	this->activo = StringUtil::str2float(atributos.at(29).c_str());
+	this->huboCambioArma = StringUtil::str2float(atributos.at(30).c_str());
 
 	this->recCuadro = NULL;
 	this->cartel = NULL;
