@@ -111,7 +111,7 @@
 	//el tiempo q tarda en desaparecer el cartel de info 
 	const int TIEMPO_CARTEL_INFO = 5;
 
-	const float porcentajeScroll = 0.075;
+	const float porcentajeScroll = 0.110;
 	const float velocidadScroll = 1/20.0;
 
 	//Para Zoom
