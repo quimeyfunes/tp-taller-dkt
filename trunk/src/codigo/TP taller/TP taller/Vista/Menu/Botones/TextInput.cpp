@@ -13,12 +13,19 @@ TextInput::TextInput(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int t
 	rectInput.x += this->rect.w;
 	rectInput.y += this->rect.h/2;
 	this->input = new CartelDibujable(renderer,rectInput,"",tamanioTexto,r,g,b,centrado);
+	rectInput.x = this->rect.x - 60;
+	rectInput.y = this->rect.y;
+	rectInput.h = this->rect.h;
+	rectInput.w = 75;
+	this->gusano = new DibujableTextura(renderer,rectInput,"imagenes/texturas/grave.png","imagenes/texturas/grave.png");
 }
 
 void TextInput::dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx)
 {
 	SDL_RenderCopy(renderer,this->imagen, NULL, &rect);
 	this->input->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
+	if (this->activo)
+		this->gusano->dibujar(renderer,corrimientoX,corrimientoY,escalaZoom,anchoPx,altoPx);
 }
 
 bool TextInput::loadFromRenderedText(SDL_Renderer* renderer, string textureText )
