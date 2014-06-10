@@ -84,6 +84,7 @@ void Gusano::simularAgua(int nivelAgua){
 
 	if (this->getPosicion().y - altoGusano / 2 > nivelAgua){
 		if(!ahogado){
+			Reproductor::getReproductor()->detenerSonido(CAMINANDO);
 			Reproductor::getReproductor()->reproducirSonido(AGUA);
 			ahogado=true;
 		}
@@ -98,7 +99,6 @@ void Gusano::simularAgua(int nivelAgua){
 		}
 		this->getBody()->SetLinearVelocity(b2Vec2(0,velocidadY));
 		this->setMuerto(true);
-		Reproductor::getReproductor()->detenerSonido(CAMINANDO);
 		//this->getBody()->SetType(b2_staticBody);
 	}
 }
