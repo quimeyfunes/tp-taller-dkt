@@ -37,23 +37,30 @@ void Juego::ejecutar(){
 	Reproductor::getReproductor()->apagar();
 	Reproductor::getReproductor()->enviar = true;	//setea si enviar o no los sonidos al cliente
 	servidor = new Servidor();
-
 	int tamanio;
 	int vidaRestada = -1;
 	explosion exp;
     const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
-	
-	this->menu->agregarMensaje("Esperando a "+ StringUtil::int2string(ParserYaml::getParser()->getEscenario()->maximosClientes) +" jugadores...",30,255,0,0);//cout << "esperando a 2 jugadores..." << endl;
-	this->menu->dibujar();
-	while( Servidor::getCantidadDeClientes()< ParserYaml::getParser()->getEscenario()->maximosClientes ){
+	bool arrancoElJuego = false;
+
+	if(!arrancoElJuego){
+		this->menu->agregarMensaje("Esperando a 2 jugadores...",30,255,0,0);//cout << "esperando a 2 jugadores..." << endl;
+		this->menu->dibujar();
+		while( Servidor::getCantidadDeClientes()< ParserYaml::getParser()->getEscenario()->maximosClientes ){
+			Sleep(100);
 			this->chequearNuevosJugadores();
 			if (this->menu->leerEvento() == nameMenu::SALIR) return;
+			Sleep(100);
 		}
-	Sleep(300); //este sleep es para darle tiempo al ultimo q se conecto.
-	Servidor::darArranque();
-	Sleep(300);
+		Sleep(300); //este sleep es para darle tiempo al ultimo q se conecto.
+		Servidor::darArranque();
+		Sleep(300);
+		arrancoElJuego = true;
+	}
+
+	Sleep(100);
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 
 	this->menu->dibujar();
@@ -178,12 +185,11 @@ string Juego::crearLista(int &tamanio){
 	return lista;
 }
 
-string Juego::chequearNuevosJugadores(){
+bool Juego::chequearNuevosJugadores(){
 	for(int i=0; i< this->escenario->getMaximosClientes(); i++){
-		if(this->servidor->clientes[i].activo){
+		if(this->servidor->clientes[i].puedeJugar){
 			if(this->servidor->clientes[i].figuras.size() == 0){
 				//Si el cliente esta activo y no tiene figuras es porque acaba de conectarse. Le asigno gusanos
-				Sleep(300);
 				for(int j=0; j< gusanosPorPersonaje; j++){
 					float escalaAncho = relacionPPU;
 					float escalaAlto = relacionPPU;
@@ -196,11 +202,11 @@ string Juego::chequearNuevosJugadores(){
 					} 
 					//this->escenario->inicializarCliente(i);
 				}
-				return this->servidor->clientes[i].username;
+				return true;
 			}
 		}
 	}
-	return "";
+	return false;
 }
 
 void Juego::leerEvento(){
@@ -657,7 +663,7 @@ void Juego::agregarObjetos(){
 
 Juego::~Juego(){
 	Reproductor::getReproductor()->apagar();
-	delete Reproductor::getReproductor();
+	//delete Reproductor::getReproductor();
 	//delete this->evento;
 	//delete Logger::getLogger();
 }

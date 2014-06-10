@@ -25,12 +25,12 @@ Servidor::Servidor(){
 	clienteEnEspera = false;
 	this->escenario = ParserYaml::getParser()->getEscenario();
 	
-	exp = new explosion*[escenario->maximosClientes];
-	for(int i=0; i< escenario->maximosClientes; i++){
+	exp = new explosion*[escenario->maximosClientes +1];
+	for(int i=0; i< escenario->maximosClientes+1; i++){
 		exp[i] = new explosion[maxExplosionesPorTurno];
 	}
 
-	for(int i=0; i< escenario->maximosClientes; i++){
+	for(int i=0; i< escenario->maximosClientes +1; i++){
 		for(int j=0; j < maxExplosionesPorTurno; j++){
 
 			exp[i][j].radio = -1;
@@ -49,6 +49,7 @@ Servidor::Servidor(){
 		this->clientes[i].socket = INVALID_SOCKET;
 		this->clientes[i].enviandoData = false;
 		this->clientes[i].muerto = false;
+		this->clientes[i].puedeJugar = false;
 	}
     // set up the server network to listen 
     red = new ServidorRed(); 
@@ -70,10 +71,10 @@ void Servidor::aceptarClientes(void* arg){
 
 			//seteo el socket en espera en el espacio N
 			
-			clientes[cliente_id].socket = red->sockNuevo;
-			clientes[cliente_id].activo = true;
-			_beginthread(Servidor::actualizar, 0, (void*)cliente_id);
-			cliente_id++;
+			clientes[escenario->maximosClientes].socket = red->sockNuevo;
+			clientes[escenario->maximosClientes].activo = true;
+			_beginthread(Servidor::actualizar, 0, (void*)escenario->maximosClientes);
+			//cliente_id++;
 		}
 	}
 }
@@ -83,8 +84,9 @@ void Servidor::actualizar(void* clienteN)
 	int id= (int)clienteN;
 	audioEnCola** colaDeSonidos;
 	int tiempo = 0;
-	while(true){
 
+	while(clientes[id].activo){
+			
 		//recibe los mensajes que mandan otros clientes sin chocar en los threads
 		if(time(NULL) - mensaje.tiempoActivo == 0){
 			if(mensaje.emisor != clientes[id].socket)
@@ -287,14 +289,14 @@ void Servidor::recibirDeCliente(int* clienteN)
 						clientes[id].socket = clientes[*clienteN].socket;
 						*clienteN = id;
 
-						cliente_id--;
+						//cliente_id--;
 
 						//le vuelvo a enviar todas las cosas, por si se reconecta en otra pc
 
 						enviarImagenes(clientes[*clienteN].socket);
 						enviarEscenario(*clienteN, true);
-						
 						enviarPaquete(clientes[*clienteN].socket, paqueteDescargaLista, "");
+						
 						cout<<clientes[*clienteN].username<<" se ha reconectado."<<endl;
 
 						//hago que el bienvenido le aparezca en la vista al cliente
@@ -309,56 +311,55 @@ void Servidor::recibirDeCliente(int* clienteN)
 						mensaje.emisor=clientes[*clienteN].socket;
 						mensaje.msj = clientes[*clienteN].username +" se ha reconectado.";
 						mensaje.tiempoActivo=time(NULL);
-
 						enviarPaquete(clientes[*clienteN].socket,paqueteArranque,"dale q va");
 
 						for (std::list<Gusano*>::const_iterator it = clientes[*clienteN].figuras.begin(); it != clientes[*clienteN].figuras.end(); it++) {
 							(*it)->setCongelado(false);
 						}
-
+						Sleep(100);
 						
 
 					}else{										//si no esta congelado, es xq ya existe un usuario con ese nombre
 						enviarPaquete(clientes[*clienteN].socket, paqueteFinal, "Ya existe otro usuario con su nombre.");
-						cliente_id--;
+						//cliente_id--;
 						clientes[*clienteN].activo=false;
 					}
 				}else{											//si no existe username, tengo que ver si hay lugar para uno nuevo
-					if(cliente_id <= escenario->maximosClientes){				//si hay lugar 
-							
-						clientes[*clienteN].username = paquete->getMensaje();
+					if(cliente_id < escenario->maximosClientes){				//si hay lugar 
 						
-									//le asigno un espacio y doy la bienvenida
-						clientes[*clienteN].time = time(NULL);
+						for(int i=0; i<escenario->maximosClientes; i++){
+							if(clientes[i].username==""){
+								*clienteN = i;
+								break;
+							}
+						}
 
+						clientes[*clienteN].username = paquete->getMensaje();
+						clientes[*clienteN].socket = clientes[escenario->maximosClientes].socket;
+						
+						//le asigno un espacio y doy la bienvenida
+						
 						enviarImagenes(clientes[*clienteN].socket);
 						enviarEscenario(*clienteN, false);
-						
+						clientes[*clienteN].time = time(NULL);
 						enviarPaquete(clientes[*clienteN].socket, paqueteDescargaLista, "");
 						cout<<clientes[*clienteN].username<<" se ha conectado."<<endl;
 						mensaje.tiempoActivo=time(NULL);
 
-						//hago que el bienvenido le aparezca en la vista al cliente
-						enviarPaquete(clientes[*clienteN].socket, paqueteMensajeInfo, "Bienvenido, "+clientes[*clienteN].username + ".");
-
-						//hago que el resto sepa que se conectó el cliente
-						//for(int cont=0; cont < escenario->maximosClientes; cont++){
-						//	if(clientes[cont].username != clientes[*clienteN].username){
-						//		if(clientes[cont].socket != INVALID_SOCKET) enviarPaquete(clientes[cont].socket, paqueteMensajeInfo, clientes[*clienteN].username +" se ha conectado.");
-						//	}
-						//}
 						mensaje.emisor=clientes[*clienteN].socket;
 						mensaje.msj = clientes[*clienteN].username +" se ha conectado.";
 						mensaje.tiempoActivo=time(NULL);
 
-						
+						enviarPaquete(clientes[*clienteN].socket, paqueteMensajeInfo, "Bienvenido, "+clientes[*clienteN].username + ".");
+
 						clientes[*clienteN].activo=true;
-						//cliente_id++;
+						clientes[*clienteN].puedeJugar = true;
+						cliente_id++;
 
 					}else{
 																//si no hay lugar, lo saco
 						enviarPaquete(clientes[*clienteN].socket, paqueteFinal, "Ya se ha alcanzado la cantidad maxima de clientes.");
-						cliente_id--;
+						//cliente_id--;
 						clientes[*clienteN].activo=false;
 					}
 				}
@@ -385,7 +386,7 @@ void Servidor::recibirDeCliente(int* clienteN)
     
 
 	if(clientes[*clienteN].activo){
-		if(time(NULL) - clientes[*clienteN].time > 3){	//2 segundos de espera
+		if(time(NULL) - clientes[*clienteN].time > 3){	//3 segundos de espera
 			
 			clientes[*clienteN].socket = INVALID_SOCKET;
 			cout<<clientes[*clienteN].username<<" se ha desconectado."<<endl;
@@ -459,6 +460,8 @@ void Servidor::darArranque(){
 	for(int id=0; id < Servidor::cliente_id; id++ ){
 
 			if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) ){	
+				clientes[id].puedeJugar = true;
+				Sleep(100);
 				enviarPaquete(clientes[id].socket,paqueteArranque,"dale q va");
 			}
 	}
