@@ -87,6 +87,7 @@ void Juego::ejecutar(){
 
 				case JUGANDO:		jugar();	break;
 				case PAUSADO:		esperar();	break;
+				case GANADO:		esperar();	break; //hay q implementar q pregunte si se quiere volver a jugar...
 				
 			}
 		}
@@ -693,7 +694,7 @@ void Juego::cambiarJugador(string jugador){
 		this->cambiarJugador(Servidor::siguienteJugador());
 	}
 	
-	//this->comprobarGanador();
+	this->comprobarGanador();
 }
 
 void Juego::comprobarGanador(){
@@ -716,7 +717,7 @@ void Juego::comprobarGanador(){
 
 	if(contador == 1){
 		this->turno->detener();
-		this->estadoActual = PAUSADO;
+		this->estadoActual = GANADO;
 		cout << "Felicitaciones " << servidor->clientes[ganador].username << " te ganaste un viaje a la concha de tu hermana. puto" << endl;
 	}
 
