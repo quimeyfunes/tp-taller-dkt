@@ -37,6 +37,7 @@ void Juego::ejecutar(){
 	Reproductor::getReproductor()->apagar();
 	Reproductor::getReproductor()->enviar = true;	//setea si enviar o no los sonidos al cliente
 	servidor = new Servidor();
+
 	int tamanio;
 	int vidaRestada = -1;
 	explosion exp;
@@ -44,7 +45,7 @@ void Juego::ejecutar(){
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
 	
-	this->menu->agregarMensaje(string("Esperando a 2 jugadores"),30,255,0,0);//cout << "esperando a 2 jugadores..." << endl;
+	this->menu->agregarMensaje("Esperando a "+ StringUtil::int2string(ParserYaml::getParser()->getEscenario()->maximosClientes) +" jugadores...",30,255,0,0);//cout << "esperando a 2 jugadores..." << endl;
 	this->menu->dibujar();
 	while( Servidor::getCantidadDeClientes()< ParserYaml::getParser()->getEscenario()->maximosClientes ){
 			this->chequearNuevosJugadores();
@@ -177,7 +178,7 @@ string Juego::crearLista(int &tamanio){
 	return lista;
 }
 
-void Juego::chequearNuevosJugadores(){
+string Juego::chequearNuevosJugadores(){
 	for(int i=0; i< this->escenario->getMaximosClientes(); i++){
 		if(this->servidor->clientes[i].activo){
 			if(this->servidor->clientes[i].figuras.size() == 0){
@@ -195,9 +196,11 @@ void Juego::chequearNuevosJugadores(){
 					} 
 					//this->escenario->inicializarCliente(i);
 				}
+				return this->servidor->clientes[i].username;
 			}
 		}
 	}
+	return "";
 }
 
 void Juego::leerEvento(){

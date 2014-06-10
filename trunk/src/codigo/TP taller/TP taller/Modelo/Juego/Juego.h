@@ -73,7 +73,7 @@ public:
 	void agregarTexturas(EscenarioParseado* e);
 	void agregarAgua(EscenarioParseado* e);
 	void leerEvento();
-	void chequearNuevosJugadores();
+	string chequearNuevosJugadores();
 	bool simulando;
 	ESTADO_JUEGO estadoActual;
 	Juego();

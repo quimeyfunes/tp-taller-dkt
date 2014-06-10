@@ -54,7 +54,7 @@ const int tiempoExplosionSuicida = 5;
 
 //PARA EXPLOSIONES
 const float radioExplosionGusano = 3;
-const float radioExplosionGranada = 4;
+const float radioExplosionGranada = 5;
 const float radioExplosionBazooka = 5;
 const float radioExplosionDinamita = 6;
 const float radioExplosionAleluya = 7;
