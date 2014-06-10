@@ -96,8 +96,9 @@ void Gusano::simularAgua(int nivelAgua){
 				velocidadY = velocidadY * desaceleracionAgua;
 			}
 		}
-		this->getBody()->SetLinearVelocity(b2Vec2(velocidad.x * desaceleracionAgua,velocidadY));
+		this->getBody()->SetLinearVelocity(b2Vec2(0,velocidadY));
 		this->setMuerto(true);
+		Reproductor::getReproductor()->detenerSonido(CAMINANDO);
 		//this->getBody()->SetType(b2_staticBody);
 	}
 }

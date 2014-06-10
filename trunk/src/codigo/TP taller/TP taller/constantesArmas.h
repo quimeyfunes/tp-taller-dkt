@@ -59,9 +59,9 @@ const float radioExplosionBazooka = 5;
 const float radioExplosionDinamita = 6;
 const float radioExplosionAleluya = 7;
 const float radioExplosionBanana = 8;
-const float radioExplosionMiniBanana = 4;
-const float radioExplosionMisiles = 3;
-const float radioExplosionSuicida = 3;
+const float radioExplosionMiniBanana = 5;
+const float radioExplosionMisiles = 4;
+const float radioExplosionSuicida = 4;
 
 ////////// TIPOS DE ARMAS ////////////
 typedef enum{
