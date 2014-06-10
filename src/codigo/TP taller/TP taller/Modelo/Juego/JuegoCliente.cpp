@@ -39,14 +39,14 @@ void JuegoCliente::ejecutar(){
 	bool a = true;
 	//espero que el servidor me diga q arranque...
 	this->menu->agregarMensaje(string("Esperando a los demas jugadores"),30,0,255,0);
+	this->menu->dibujar();
 	while(this->cliente->arrancarJuego == false){
 		if(a){
 			
 			a = false;
 		}
-		this->menu->dibujar();
+		
 		if (this->menu->leerEvento() == nameMenu::SALIR) return;
-		Sleep(20);
 		this->cliente->actualizar();
 
 	};

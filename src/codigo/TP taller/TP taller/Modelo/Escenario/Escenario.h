@@ -34,6 +34,8 @@ private:
 	//Es la del servidor
 	Gusano* gusanoActivo;
 	vector<Gusano*> figurasActivas;
+	bool bloquearTeclas;
+	
 	bool puedeMoverseArriba; 
 	bool puedeMoverseAbajo;
 	bool puedeMoverseIzquierda;
@@ -120,6 +122,8 @@ public:
 	bool getHuboDisparo();
 	void setHuboDisparo(bool b);
 	bool getPuedeDisparar();
+
+	void setBloquearTeclas(bool bloquear);
 
 	int restarVidaGusanos();
 };

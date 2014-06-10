@@ -15,6 +15,8 @@ Escenario::Escenario(int altoU,int anchoU,int nivelAgua, float relacionAncho, fl
 	this->world = new b2World(*gravity);
 
 	this->gusanoActivo = NULL;
+	this->bloquearTeclas = false;
+
 	this->puedeMoverseArriba = false;
 	this->puedeMoverseDerecha = false;
 	this->puedeMoverseIzquierda = false;
@@ -404,14 +406,16 @@ void Escenario::derechaCliente(int cliente,bool derecha){
 }
 
 void Escenario::moverse(){
-	if ((this->gusanoActivo != NULL) && !(this->gusanoActivo->estaMuerto())) {
-		this->saltar();
-		this->bajar();
-		this->subir();
-		this->moverDerecha();
-		this->moverIzquierda();
-		this->cargarDisparo();
-		this->gusanoActivo->chequearChoqueConArma();
+	if (!this->bloquearTeclas) {
+		if ((this->gusanoActivo != NULL) && !(this->gusanoActivo->estaMuerto())) {
+			this->saltar();
+			this->bajar();
+			this->subir();
+			this->moverDerecha();
+			this->moverIzquierda();
+			this->cargarDisparo();
+			this->gusanoActivo->chequearChoqueConArma();
+		}
 	}
 }
 
@@ -728,4 +732,8 @@ int Escenario::restarVidaGusanos(){
 
 	}
 	return restado;
+}
+
+void Escenario::setBloquearTeclas(bool bloquear){
+	this->bloquearTeclas = bloquear;
 }
