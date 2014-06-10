@@ -143,7 +143,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 	Gusano* fig = (Gusano*)observable;
 	this->posFigura->x = fig->getBody()->GetPosition().x;
 	this->posFigura->y = fig->getBody()->GetPosition().y;
-	this->huboCambioArma = false;
+	//this->huboCambioArma = false;
 
 	if (!(fig->estaMuerto())){
 		this->contMuerte = 0;
@@ -165,6 +165,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 					this->mostrarCrosshair = true;
 				}
 			if(!fig->tieneUnArma()){
+				this->huboCambioArma = false;
 				this->mostrarCrosshair = false;
 				this->contArma = 0;
 				this->contFrent++;
@@ -193,6 +194,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 					//cout<<this->frameDisparo<<endl;
 			}
 		} else {
+			this->huboCambioArma = false;
 			this->velocidadRefresco = timeGusanoMovil;
 			if(!fig->meMuevo){
 				Reproductor::getReproductor()->reproducirSonido(CAMINANDO);
@@ -223,6 +225,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 			}
 	} else {
 		//Aca se murio, me fijo porque murio
+		this->huboCambioArma = false;
 		this->mostrarCrosshair=false;
 		this->contIzq = 0;
 		this->contDer = 0;
@@ -556,6 +559,7 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::int2string(this->activo);
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->huboCambioArma);
+
 	return serializado;
 }
 
@@ -624,9 +628,11 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->muertePorDisparo = StringUtil::str2int(atributos.at(26));
 	this->vidaValor = StringUtil::str2int(atributos.at(27));
 	this->fraccionVidaValor = StringUtil::str2float(atributos.at(28).c_str());
-	this->activo = StringUtil::str2float(atributos.at(29).c_str());
-	this->huboCambioArma = StringUtil::str2float(atributos.at(30).c_str());
-
+	this->activo = StringUtil::str2int(atributos.at(29).c_str());
+	this->huboCambioArma = StringUtil::str2int(atributos.at(30).c_str());
+	if(this->huboCambioArma){
+		printf("BBB\n");
+	}
 	this->recCuadro = NULL;
 	this->cartel = NULL;
 	this->imagen = NULL;
@@ -686,6 +692,7 @@ void GusanoSprite::copiarGusano(GusanoSprite* gusano2, bool nuevo){
 	gusano2->terminoIteracion = this->terminoIteracion;
 	gusano2->muertePorDisparo = this->muertePorDisparo;
 	gusano2->activo = this->activo;
+	gusano2->huboCambioArma = this->huboCambioArma;
 
 	SDL_Rect rectFlecha = gusano2->getRect();
 	rectFlecha.w = this->rect.w * 2/3;
