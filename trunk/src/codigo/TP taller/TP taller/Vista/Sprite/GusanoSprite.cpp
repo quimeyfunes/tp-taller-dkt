@@ -630,9 +630,7 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->fraccionVidaValor = StringUtil::str2float(atributos.at(28).c_str());
 	this->activo = StringUtil::str2int(atributos.at(29).c_str());
 	this->huboCambioArma = StringUtil::str2int(atributos.at(30).c_str());
-	if(this->huboCambioArma){
-		printf("BBB\n");
-	}
+
 	this->recCuadro = NULL;
 	this->cartel = NULL;
 	this->imagen = NULL;
