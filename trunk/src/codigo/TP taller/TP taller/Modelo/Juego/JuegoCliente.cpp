@@ -211,8 +211,8 @@ void JuegoCliente::agregarTexturas(EscenarioParseado* e){
 
 	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, texturaFondo, "");
 	vista->crearDibujableTextura(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, e->imagenCielo, texturaCieloDEF);
-	vista->crearScrollingSprite(0, 10,  e->anchoPx/ 5, e->altoPx /10, rutaNube1);
-	vista->crearScrollingSprite( e->anchoU*relacionPPU/2, 30, e->anchoPx / 5, e->altoPx / 10, rutaNube2);
+	vista->crearScrollingSprite(0, 10,  160, 60, rutaNube1);
+	vista->crearScrollingSprite( e->anchoU*relacionPPU/2, 30, 160, 60, rutaNube2);
 
 	//le seteo el terreno q se va a ir actualizando
 	vista->crearDibujableTerreno(0, 0, e->anchoU*relacionPPU, e->altoU*relacionPPU, this->lector->getRutaTexturaActualizada(), "");
