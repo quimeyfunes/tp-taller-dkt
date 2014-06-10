@@ -3,6 +3,7 @@
 #include "Servicio.h"
 #include <ws2tcpip.h>
 #include <stdio.h> 
+#include "../StringUtil.h"
 
 // size of our buffer
 #define DEFAULT_BUFLEN 512
@@ -25,7 +26,7 @@ public:
     SOCKET socketCliente;
 
     // ctor/dtor
-    ClienteRed(string ip);
+    ClienteRed(string ip, string &msjError);
     ~ClienteRed(void);
 	int recibirData( char * recvbuf);
 };

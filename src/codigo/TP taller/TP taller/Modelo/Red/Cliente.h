@@ -8,11 +8,11 @@ class Cliente
 {
 
 public:
-    Cliente(string nombre, string ip);
+    Cliente(string nombre, string ip, string &msgError);
     ~Cliente();
 	string username;
     ClienteRed* red; 
-	bool recibirDeServidor();
+	bool recibirDeServidor(string &msjError);
 	void enviarEstado();
 	void enviarEvento(string eventoSerializado);
 	void actualizar();
