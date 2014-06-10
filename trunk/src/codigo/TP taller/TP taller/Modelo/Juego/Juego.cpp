@@ -56,7 +56,8 @@ void Juego::ejecutar(){
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 
 	this->menu->dibujar();
-
+	int vidaGusanoActivo;
+	int contador;
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();
@@ -67,6 +68,8 @@ void Juego::ejecutar(){
 			//cout << "Turno de: " <<getJugadorActual() << endl;
 			reproducirSonidosFinTurno(vidaRestada);
 			vidaRestada = 0;
+			vidaGusanoActivo=this->escenario->getGusanoActivo()->getVida();
+			contador=0;
 			this->turno->comenzar();
 			this->accionRealizada = false;
 		}
@@ -79,8 +82,18 @@ void Juego::ejecutar(){
 		}
 		
 		//this->comprobarGanador();
-
 		vidaRestada += this->escenario->restarVidaGusanos();
+
+		//si el gusano pierde vida, se cambia de jugador
+		if( (contador == 0) && vidaGusanoActivo != this->escenario->getGusanoActivo()->getVida()){
+			this->escenario->setBloquearTeclas(true);
+			this->escenario->detenerMovimientos();
+			this->turno->esperarDisparo();
+			contador++;
+			cout<<"entre ";
+		}
+
+	
 
 		if(simulando){
 			switch(estadoActual){
