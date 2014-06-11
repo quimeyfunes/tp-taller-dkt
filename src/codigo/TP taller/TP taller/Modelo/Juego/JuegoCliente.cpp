@@ -19,7 +19,7 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 	this->evento = new SDL_Event();
 	this->cartelInfo = NULL;
 
-	
+	this->cliente->enviarQuieroJugar();
 	while(this->cliente->recibirDeServidor(error));	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
 	if(error != ""){
 		menu->agregarMensaje(error, 30, 0 , 255, 0); 
@@ -396,7 +396,8 @@ void JuegoCliente::volverAjugarCliente(){
 		accion = menu->leerEvento();
 	}
 
-	if (accion == nameMenu::SI){ 
+	if (accion == nameMenu::SI){
+		this->cliente->enviarQuieroJugar();
 		this->cliente->partidaTerminada = false;
 		this->cliente->arrancarJuego = false; //hay q esperar q el server de arranque.
 		this->ejecutar();

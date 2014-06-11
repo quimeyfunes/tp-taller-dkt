@@ -30,6 +30,7 @@ public:
 	bool arrancarJuego;
 	int timeServidor;
 	bool partidaTerminada;
+	void enviarQuieroJugar();
 
 private:
 	int tiempoActualDeJuego;

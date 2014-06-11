@@ -54,6 +54,8 @@ public:
 	static int buscarCliente(string nombre);
 	bool tieneGusanosVivos(int idCliente);
 	static void avisarPartidaTerminada();
+	static bool esperarA(int cantidadDeJugadores); //devuelve true cuando se conectaron todos
+	
 
 private:
 
@@ -67,6 +69,5 @@ private:
 
    // The ServerNetwork object 
 
-   
     
 };
