@@ -126,9 +126,6 @@ GusanoSprite::~GusanoSprite(void)
 	if(this->recCuadro != NULL){
 		delete []this->recCuadro;
 	}
-	if(this->recCuadro != NULL){
-		delete []this->recCuadro;
-	}
 
 	if(this->cartel != NULL){
 		delete this->cartel;
@@ -145,7 +142,9 @@ void GusanoSprite::actualizar(Observable* observable) {
 	this->posFigura->x = fig->getBody()->GetPosition().x;
 	this->posFigura->y = fig->getBody()->GetPosition().y;
 	//this->huboCambioArma = false;
-
+	if (fig->getDestruido()){
+		this->destruido = true;
+	}
 	if (!(fig->estaMuerto())){
 		this->contMuerte = 0;
 		this->contMuerteVida = 0;
