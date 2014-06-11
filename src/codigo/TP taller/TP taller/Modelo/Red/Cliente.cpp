@@ -5,7 +5,7 @@
 Cliente::Cliente(string nombre, string ip, string &msjError){
 
 	TIEMPO_MAX_ESPERA = 2;
-
+	
 	this->exp = new explosion[maxExplosionesPorTurno];
 	for(int i=0; i< maxExplosionesPorTurno; i++){
 		exp[i].radio = -1;

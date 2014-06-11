@@ -338,7 +338,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 
 						clientes[*clienteN].username = paquete->getMensaje();
 						clientes[*clienteN].socket = clientes[escenario->maximosClientes].socket;
-						
+						clientes[*clienteN].ultimoGusanoActivo=-1;
 						//le asigno un espacio y doy la bienvenida
 						
 						enviarImagenes(clientes[*clienteN].socket);

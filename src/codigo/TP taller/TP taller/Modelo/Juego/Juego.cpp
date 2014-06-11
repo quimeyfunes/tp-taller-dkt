@@ -91,12 +91,12 @@ void Juego::ejecutar(){
 		vidaRestada += this->escenario->restarVidaGusanos();
 
 		//si el gusano que esta jugando pierde vida o se ahoga, pierde el turno
-		if( (contador == 0) && (vidaGusanoActivo != escenario->getGusanoActivo()->getVida() || escenario->getGusanoActivo()->estaAhogado()) ){
-			this->escenario->setBloquearTeclas(true);
-			this->escenario->detenerMovimientos();
-			this->turno->esperarDisparo();
-			contador++;
-		}
+		//if( (contador == 0) && (vidaGusanoActivo != escenario->getGusanoActivo()->getVida() || escenario->getGusanoActivo()->estaAhogado()) ){
+		//	this->escenario->setBloquearTeclas(true);
+		//	this->escenario->detenerMovimientos();
+		//	this->turno->esperarDisparo();
+		//	contador++;
+		//}
 
 		//si se desconecta cuando esta jugando, se cambia de jugador
 		if(this->escenario->getGusanoActivo()->getCongelado()) this->turno->terminar();
@@ -112,6 +112,7 @@ void Juego::ejecutar(){
 		}
 		escenario->notificar();
 		b2Vec3 explosion;
+
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);
 		
 		if (this->menu->leerEvento() == nameMenu::SALIR) return;
@@ -689,6 +690,8 @@ void Juego::cambiarJugador(string jugador){
 	if( (gusanosVivos.size() > 1) ){
 
 		int gusanoRandom = 1+ rand()%(gusanosVivos.size());
+		while(servidor->clientes[idCliente].ultimoGusanoActivo == gusanoRandom) gusanoRandom = 1+ rand()%(gusanosVivos.size());
+		servidor->clientes[idCliente].ultimoGusanoActivo = gusanoRandom;
 		int i= 1;
 		//itero hasta el gusano Random, como es una lista es un acceso secuencial.
 		for(it = gusanosVivos.begin();it != gusanosVivos.end();it++){
