@@ -68,7 +68,7 @@ void Figura::comenzarOtraPartida(){
 
 void Figura::reiniciar(){
 
-	this->body->SetAwake(true);
+	//this->body->SetAwake(true);
 	this->setMovimientoIzq(false);
 	this->setMovimientoDer(false);
 }
