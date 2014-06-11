@@ -91,8 +91,8 @@ void Juego::ejecutar(){
 		//this->comprobarGanador();
 		vidaRestada += this->escenario->restarVidaGusanos();
 
-		//si el gusano que esta jugando pierde vida, pierde el turno
-		if( (contador == 0) && vidaGusanoActivo != this->escenario->getGusanoActivo()->getVida()){
+		//si el gusano que esta jugando pierde vida o se ahoga, pierde el turno
+		if( (contador == 0) && (vidaGusanoActivo != escenario->getGusanoActivo()->getVida() || escenario->getGusanoActivo()->estaAhogado()) ){
 			this->escenario->setBloquearTeclas(true);
 			this->escenario->detenerMovimientos();
 			this->turno->esperarDisparo();
