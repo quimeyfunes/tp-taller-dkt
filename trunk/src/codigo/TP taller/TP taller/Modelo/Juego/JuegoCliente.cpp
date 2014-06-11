@@ -52,21 +52,13 @@ void JuegoCliente::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 	//game loop
-	bool a = true;
 	//espero que el servidor me diga q arranque...
 	this->menu->agregarMensaje(string("Esperando a los demas jugadores..."),30,0,255,0);
 	this->menu->dibujar();
 	while(this->cliente->arrancarJuego == false){
-		if(a){
-			
-			a = false;
-		}
 		
 		if (this->menu->leerEvento() == nameMenu::SALIR) return;
 		this->cliente->actualizar();
-
-		
-
 	};
 	
 	const int SKIP_TICKS = 1000 / FPS;
@@ -400,6 +392,8 @@ void JuegoCliente::volverAjugarCliente(){
 		Sleep(20);
 	}
 
+	if (accion == nameMenu::NO || nameMenu::SALIR )	this->salir();
+
 	if (accion == nameMenu::SI){
 		
 		this->cliente->partidaTerminada = false;
@@ -407,7 +401,7 @@ void JuegoCliente::volverAjugarCliente(){
 		this->ejecutar();
 	}
 
-	if (accion == nameMenu::NO || nameMenu::SALIR )	this->salir();
+	
 	
 
 }
