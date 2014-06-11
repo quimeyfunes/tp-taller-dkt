@@ -91,12 +91,12 @@ void Juego::ejecutar(){
 		vidaRestada += this->escenario->restarVidaGusanos();
 
 		//si el gusano que esta jugando pierde vida o se ahoga, pierde el turno
-		//if( (contador == 0) && (vidaGusanoActivo != escenario->getGusanoActivo()->getVida() || escenario->getGusanoActivo()->estaAhogado()) ){
-		//	this->escenario->setBloquearTeclas(true);
-		//	this->escenario->detenerMovimientos();
-		//	this->turno->esperarDisparo();
-		//	contador++;
-		//}
+		if( (contador == 0) && (vidaGusanoActivo != escenario->getGusanoActivo()->getVida() || escenario->getGusanoActivo()->estaAhogado()) ){
+			this->escenario->setBloquearTeclas(true);
+			this->escenario->detenerMovimientos();
+			this->turno->esperarDisparo();
+			contador++;
+		}
 
 		//si se desconecta cuando esta jugando, se cambia de jugador
 		if(this->escenario->getGusanoActivo()->getCongelado()) this->turno->terminar();
