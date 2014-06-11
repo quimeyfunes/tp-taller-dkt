@@ -55,13 +55,11 @@ void Juego::ejecutar(){
 		}
 
 		this->chequearNuevosJugadores();
-		Sleep(300); //este sleep es para darle tiempo al ultimo q se conecto.
 		Servidor::darArranque();
-		Sleep(300);
+
 		arrancoElJuego = true;
 	}
 
-	Sleep(100);
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 
 	//this->menu->dibujar();
@@ -157,11 +155,11 @@ void Juego::ejecutar(){
 		} while (explosion.z >= 0);
 		
 
-        next_game_tick += SKIP_TICKS;
-        sleepTime = next_game_tick - GetTickCount();
-        if( sleepTime >= 0 ) {
-            Sleep( sleepTime );
-        }
+        //next_game_tick += SKIP_TICKS;
+        //sleepTime = next_game_tick - GetTickCount();
+        //if( sleepTime >= 0 ) {
+            Sleep(12);
+        //}
 	}
 }
 

@@ -346,7 +346,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 						enviarImagenes(clientes[*clienteN].socket);
 						enviarEscenario(*clienteN, false);
 						clientes[*clienteN].time = time(NULL);
-						enviarPaquete(clientes[*clienteN].socket, paqueteDescargaLista, "");
+						
 						cout<<clientes[*clienteN].username<<" se ha conectado."<<endl;
 						mensaje.tiempoActivo=time(NULL);
 
@@ -354,8 +354,8 @@ void Servidor::recibirDeCliente(int* clienteN)
 						mensaje.msj = clientes[*clienteN].username +" se ha conectado.";
 						mensaje.tiempoActivo=time(NULL);
 
+						enviarPaquete(clientes[*clienteN].socket, paqueteDescargaLista, "");
 						enviarPaquete(clientes[*clienteN].socket, paqueteMensajeInfo, "Bienvenido, "+clientes[*clienteN].username + ".");
-
 						clientes[*clienteN].activo=true;
 						clientes[*clienteN].puedeJugar = true;
 						cliente_id++;
@@ -466,7 +466,6 @@ void Servidor::darArranque(){
 
 			if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) ){	
 				clientes[id].puedeJugar = true;
-				Sleep(100);
 				enviarPaquete(clientes[id].socket,paqueteArranque,"dale q va");
 			}
 	}
