@@ -9,7 +9,7 @@ MotorParticulas::MotorParticulas(SDL_Renderer* renderer){
 	this->texturas.push_back(rutaCirculo);
 	this->texturas.push_back(rutaEstrella);
 	this->texturas.push_back(rutaDiamante);
-
+	this->bufferParticulas.numPartic = 0;
 	this->particulas = new vector<Particula*>;
 }
 
@@ -20,11 +20,9 @@ MotorParticulas::~MotorParticulas()
 
 void MotorParticulas::generarExplosion(int x, int y){
 
-	int particulasPorExplosion = 30;
-
-	for(int i=0; i< particulasPorExplosion; i++){
-		this->particulas->push_back(generarParticula(x, y));
-	}
+	this->bufferParticulas.numPartic = 50;
+	this->bufferParticulas.x = x;
+	this->bufferParticulas.y = y;
 
 }
 
@@ -47,7 +45,16 @@ Particula* MotorParticulas::generarParticula(int x, int y){
 }
 
 void MotorParticulas::actualizar(){
- 
+
+
+	if(this->bufferParticulas.numPartic > 0){
+		for(int i=0; i< 5; i++ ) {
+			this->particulas->push_back(generarParticula(bufferParticulas.x, bufferParticulas.y));
+			this->bufferParticulas.numPartic--;
+		}
+	}
+
+
 	for (int particle = 0; particle < this->particulas->size(); particle++)
     {
 		this->particulas->at(particle)->actualizar();
