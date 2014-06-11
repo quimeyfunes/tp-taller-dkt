@@ -70,14 +70,6 @@ bool Cliente::recibirDeServidor(string &msjError){
 		
 	int tipoPaquete;
 	unsigned int tamanioImagen;
-	char* dir = new char[200];
-	
-
-    if (data_length <= 0) 
-    {
-        //no data recieved
-		//ver q hacerrrrrrrrrrrrr
-    }
 		
     int i = 0;
 	while (i < data_length) 
@@ -143,21 +135,24 @@ bool Cliente::recibirDeServidor(string &msjError){
 				}
 			case paqueteTextura:
 				//RECIBE TODAS LAS TEXTURAS
-				memcpy(&tamanioImagen, &network_data[i]+sizeof(int), sizeof(int));
-				offset = 2*sizeof(int); // TIPO_PAQUETE+TAMANIO
+				{
+					char* dir = new char[200];
+					memcpy(&tamanioImagen, &network_data[i]+sizeof(int), sizeof(int));
+					offset = 2*sizeof(int); // TIPO_PAQUETE+TAMANIO
 
-				strcpy(dir,&network_data[i]+offset);
-				offset += strlen(dir)+1;
+					strcpy(dir,&network_data[i]+offset);
+					offset += strlen(dir)+1;
 
-				archTerreno.open(dir, std::ofstream::binary);
-				archTerreno.seekp(0, ios::beg);
-				archTerreno.write(&network_data[i]+offset, tamanioImagen);
-				archTerreno.close();
-				i+= offset+tamanioImagen;
+					archTerreno.open(dir, std::ofstream::binary);
+					archTerreno.seekp(0, ios::beg);
+					archTerreno.write(&network_data[i]+offset, tamanioImagen);
+					archTerreno.close();
+					i+= offset+tamanioImagen;
 
-				enviarEstado();
-				break;
-
+					enviarEstado();
+					delete dir;
+					break;
+				}
 
 			case paqueteDescargaLista:
 				//ya termino de recibir las texturas

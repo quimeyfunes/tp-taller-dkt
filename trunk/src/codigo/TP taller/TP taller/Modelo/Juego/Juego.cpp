@@ -49,11 +49,12 @@ void Juego::ejecutar(){
 		this->menu->agregarMensaje("Esperando a 2 jugadores...",30,255,0,0);//cout << "esperando a 2 jugadores..." << endl;
 		this->menu->dibujar();
 		while( Servidor::getCantidadDeClientesConectados() < ParserYaml::getParser()->getEscenario()->maximosClientes ){
-			Sleep(100);
-			this->chequearNuevosJugadores();
+			
 			if (this->menu->leerEvento() == nameMenu::SALIR) return;
-			Sleep(100);
+
 		}
+
+		this->chequearNuevosJugadores();
 		Sleep(300); //este sleep es para darle tiempo al ultimo q se conecto.
 		Servidor::darArranque();
 		Sleep(300);
@@ -103,7 +104,6 @@ void Juego::ejecutar(){
 		//si se desconecta cuando esta jugando, se cambia de jugador
 		if(this->escenario->getGusanoActivo()->getCongelado()) this->turno->terminar();
 	
-
 		if(simulando){
 			switch(estadoActual){
 
@@ -185,7 +185,7 @@ string Juego::crearLista(int &tamanio){
 	return lista;
 }
 
-bool Juego::chequearNuevosJugadores(){
+void Juego::chequearNuevosJugadores(){
 	for(int i=0; i< this->escenario->getMaximosClientes(); i++){
 		if(this->servidor->clientes[i].puedeJugar){
 			if(this->servidor->clientes[i].figuras.size() == 0){
@@ -203,11 +203,9 @@ bool Juego::chequearNuevosJugadores(){
 					} 
 					//this->escenario->inicializarCliente(i);
 				}
-				return true;
 			}
 		}
 	}
-	return false;
 }
 
 void Juego::leerEvento(){
