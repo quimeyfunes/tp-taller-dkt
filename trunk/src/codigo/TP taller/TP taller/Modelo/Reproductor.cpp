@@ -160,3 +160,14 @@ void Reproductor::activar(){
 void Reproductor::apagar(){
 	activo=false;
 }
+
+void Reproductor::reiniciar(){
+
+	for(int i=0; i< numClientes; i++){
+		for(int j=0; j< numSonidos; j++){
+			colaDeEspera[i][j].enviado=true;
+			colaDeEspera[i][j].reproducir=false;
+			colaDeEspera[i][j].s = NINGUNO;
+		}
+	}
+}
