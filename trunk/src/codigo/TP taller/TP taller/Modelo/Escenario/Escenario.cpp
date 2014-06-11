@@ -739,3 +739,7 @@ int Escenario::restarVidaGusanos(){
 void Escenario::setBloquearTeclas(bool bloquear){
 	this->bloquearTeclas = bloquear;
 }
+
+bool Escenario::getBloquearTeclas(){
+	return this->bloquearTeclas;
+}

@@ -123,6 +123,7 @@ public:
 	void setHuboDisparo(bool b);
 	bool getPuedeDisparar();
 
+	bool getBloquearTeclas();
 	void setBloquearTeclas(bool bloquear);
 
 	int restarVidaGusanos();

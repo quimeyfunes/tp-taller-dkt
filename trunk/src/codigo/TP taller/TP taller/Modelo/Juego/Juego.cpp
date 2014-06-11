@@ -63,7 +63,7 @@ void Juego::ejecutar(){
 	Sleep(100);
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 
-	this->menu->dibujar();
+	//this->menu->dibujar();
 	int vidaGusanoActivo;
 	int contador;
 	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
@@ -350,16 +350,17 @@ void Juego::leerEvento(){
 											this->escenario->espacio(true); 
 											//detengo el turno hasta que explote todo
 											this->turno->detener();
-											this->escenario->setHuboDisparo(true);
+											
 										}
 										break;
 
 				case SOLTARESPACIO:
 		
-										if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES){
+					if( (this->escenario->getGusanoActivo()->armaActual.armaTipo) != MISILES && !this->escenario->getHuboDisparo()){
 											this->accionRealizada = true;
 											this->dispararArma();
 											Reproductor::getReproductor()->detenerSonido(CARGANDODISPARO);
+											this->escenario->setHuboDisparo(true);
 										}
 
 										this->escenario->espacio(false);
@@ -453,7 +454,7 @@ void Juego::dispararArma(){
 	ArmaDibujable* arma;
 	
 
-	if((this->escenario->getGusanoActivo() != NULL)&&(this->escenario->getGusanoActivo()->armaActual.armaTipo != NINGUNA ) && !(this->escenario->getGusanoActivo()->estaMuerto())){
+	if((this->escenario->getGusanoActivo() != NULL)&&(this->escenario->getGusanoActivo()->armaActual.armaTipo != NINGUNA ) && !(this->escenario->getGusanoActivo()->estaMuerto()) && !this->escenario->getBloquearTeclas()){
 		posGusano=this->escenario->getFiguraActiva()->getBody()->GetWorldCenter();
 		posD = posGusano; //getPosicionInicialDisparo(posGusano, this->escenario->getGusanoActivo()->armaActual.anguloDisparo, this->escenario->getGusanoActivo()->armaActual.sentidoDisparo, altoGusano/2 + 1.5);
 					
