@@ -462,7 +462,7 @@ unsigned int Servidor::getCantidadDeClientesConectados(){
 
 void Servidor::darArranque(){
 	
-	for(int id=0; id < Servidor::cliente_id; id++ ){
+	for(int id=0; id < Servidor::getCantidadDeClientesConectados(); id++ ){
 
 			if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) ){	
 				clientes[id].puedeJugar = true;
@@ -485,4 +485,16 @@ bool Servidor::tieneGusanosVivos(int idCliente){
 	if(gusanosVivos.size() > 0 ) return true;
 	else return false;
 
+}
+
+void Servidor::avisarPartidaTerminada(){
+
+	for(int id=0; id < Servidor::getCantidadDeClientesConectados(); id++ ){
+
+			if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) ){	
+				clientes[id].puedeJugar = true;
+				Sleep(100);
+				enviarPaquete(clientes[id].socket,paquetePartidaTerminada,"termino la partida");
+			}
+	}
 }

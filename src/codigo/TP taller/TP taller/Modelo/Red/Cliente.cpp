@@ -22,6 +22,7 @@ Cliente::Cliente(string nombre, string ip, string &msjError){
 	this->mensajeInfo = "";
 	this->nuevoMensaje = false;
 	this->timeServidor = time(NULL);
+	this->partidaTerminada = false;
 }
 
  Cliente::~Cliente(){
@@ -190,6 +191,11 @@ bool Cliente::recibirDeServidor(string &msjError){
 
 			case paqueteArranque:
 				this->arrancarJuego = true;
+				break;
+
+			case paquetePartidaTerminada:
+				this->arrancarJuego = false;
+				this->partidaTerminada = true;
 				break;
 
 			case paqueteSonido:

@@ -53,6 +53,7 @@ public:
 	static void darArranque();
 	static int buscarCliente(string nombre);
 	bool tieneGusanosVivos(int idCliente);
+	static void avisarPartidaTerminada();
 
 private:
 

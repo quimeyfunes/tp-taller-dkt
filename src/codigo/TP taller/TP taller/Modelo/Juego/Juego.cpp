@@ -109,7 +109,7 @@ void Juego::ejecutar(){
 
 				case JUGANDO:		jugar();	break;
 				case PAUSADO:		esperar();	break;
-				case GANADO:		esperar();	break; //hay q implementar q pregunte si se quiere volver a jugar...
+				case GANADO:		volverAjugarServidor();	break;
 				
 			}
 		}
@@ -717,17 +717,20 @@ void Juego::cambiarJugador(string jugador){
 		this->cambiarJugador(Servidor::siguienteJugador());
 	}
 	
-	//this->comprobarGanador();
+	//cout << Servidor::getCantidadDeClientesConectados() <<endl;
+	this->comprobarGanador();
 }
 
 void Juego::comprobarGanador(){
-
+	//gana el que mata a todos los gusanos de los demas jugadores y vive para contarlo, si hay un 
+	//jugador desconectado tiene los gusanos congelados pero igual hay q matarle los wachines para ganar.
+	
 	int ganador = -1;
-	int contador = 0; //contador de clientes activos
+	int contador = 0; //contador de clientes con gusanos vivos
 	for(int i=0;i<Servidor::getCantidadDeClientesConectados();i++){
 
-		if( servidor->clientes[i].activo == true ){
-			//si tiene gusanos vivos incremento el contador, sino es inactivo
+		if( servidor->clientes[i].muerto == false ){
+			//si tiene gusanos vivos incremento, no importa sin estan congelados
 			if(servidor->tieneGusanosVivos(i)){
 				contador++;
 				ganador = i;
@@ -741,7 +744,7 @@ void Juego::comprobarGanador(){
 	if(contador == 1){
 		this->turno->detener();
 		this->estadoActual = GANADO;
-		cout << "Felicitaciones " << servidor->clientes[ganador].username << " te ganaste un viaje a la concha de tu hermana. puto" << endl;
+		cout << "Felicitaciones " << servidor->clientes[ganador].username << " sos el ganador" << endl;
 	}
 
 }
@@ -757,4 +760,10 @@ void Juego::reproducirSonidosFinTurno(int vidaRestada){
 			Reproductor::getReproductor()->reproducirSonido((sonido)reproducir);
 		}
 	}
+}
+
+void Juego::volverAjugarServidor(){
+	this->reiniciar();
+	this->ejecutar();
+
 }

@@ -134,6 +134,7 @@
 	const unsigned paqueteArranque=12;
 	const unsigned paqueteSonido=13;
 	const unsigned paqueteExplosion=14;
+	const unsigned paquetePartidaTerminada=15;
 
 	#define MAX_PACKET_SIZE 1000000
 	#define MAXIMOS_CLIENTES 4

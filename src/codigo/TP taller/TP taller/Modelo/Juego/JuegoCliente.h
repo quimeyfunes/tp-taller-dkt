@@ -52,6 +52,7 @@ public:
 	void ejecutar();
 	~JuegoCliente();
 	void actualizarDibujables(Paquete* paqueteVista);
+	void volverAjugarCliente();
 	
 };
 
