@@ -27,6 +27,7 @@ Figura::Figura(float x, float y, short int rotacion, b2World* world, bool estati
 	this->movimientoDer = false;
 	this->movimientoIzq = false;
 	this->muerto = false;
+	this->ahogado = false;
 }
 
 void Figura::quieto(){
@@ -110,4 +111,12 @@ void Figura::PostSolve(float impulso){
 }
 
 void Figura::explotar(float fuerza) {
+}
+
+void Figura::setAhogado(bool estado){
+	this->ahogado = estado;
+}
+
+bool Figura::estaAhogado(){
+	return this->ahogado;
 }

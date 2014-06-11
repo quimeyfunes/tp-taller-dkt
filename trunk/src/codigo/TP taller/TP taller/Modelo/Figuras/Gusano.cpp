@@ -99,6 +99,8 @@ void Gusano::simularAgua(int nivelAgua){
 		}
 		this->getBody()->SetLinearVelocity(b2Vec2(0,velocidadY));
 		this->setMuerto(true);
+		this->setVida(0);
+		this->setAhogado(true);
 		//this->getBody()->SetType(b2_staticBody);
 	}
 }
