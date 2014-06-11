@@ -47,6 +47,8 @@ private:
 	RelojSprite* reloj;
 
 public:
+
+	bool puedoJugar;
 	JuegoCliente();
 	JuegoCliente(string nombreCliente, string ip,SDL_Window* window, SDL_Renderer* renderer, Menu* menu);
 	void ejecutar();

@@ -5,15 +5,16 @@ Cliente* JuegoCliente::cliente = NULL;
 
 JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, SDL_Renderer* renderer,Menu* menu){
 	this->menu = menu; 
+	this->puedoJugar = true;
 	string error="";
 	cliente = new Cliente(nombreCliente, ip, error);
 	if(error != ""){
 		menu->agregarMensaje(error, 30, 0 , 255, 0); 
 		menu->dibujar();
 		Sleep(3000);
-		exit(1);
+		puedoJugar=false;
 	} 
-
+	
 	this->simulando = false;
 	this->estadoActual = JUGANDO;
 	this->evento = new SDL_Event();
@@ -24,7 +25,7 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 		menu->agregarMensaje(error, 30, 0 , 255, 0); 
 		menu->dibujar();
 		Sleep(3000);
-		exit(1);
+		puedoJugar=false;
 	} 
 	Sleep(200);
 	//this->armas = cliente->getArmasActual();
@@ -47,75 +48,79 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 
 void JuegoCliente::ejecutar(){
 
-	this->lector = new LectorTerreno(this->esc, this->esc->imagenTierra, this->cliente->getId());
-	agregarTexturas(esc);
-	agregarAgua(esc);
-	this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
-	copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
+	if(puedoJugar){
+
+		this->lector = new LectorTerreno(this->esc, this->esc->imagenTierra, this->cliente->getId());
+		agregarTexturas(esc);
+		agregarAgua(esc);
+		this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
+		copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
 
 
-	this->cliente->enviarQuieroJugar();
+		this->cliente->enviarQuieroJugar();
 
-	Reproductor::getReproductor()->activar();
-	Logger::getLogger()->guardarEstado();
-	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
-	//game loop
-	//espero que el servidor me diga q arranque...
-	this->menu->agregarMensaje(string("Esperando a los demas jugadores..."),30,0,255,0);
-	this->menu->dibujar();
-	while(this->cliente->arrancarJuego == false){
+		Reproductor::getReproductor()->activar();
+		Logger::getLogger()->guardarEstado();
+		//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
+		//game loop
+		//espero que el servidor me diga q arranque...
+		this->menu->agregarMensaje(string("Esperando a los demas jugadores..."),30,0,255,0);
+		this->menu->dibujar();
+		while(this->cliente->arrancarJuego == false){
 		
-		if (this->menu->leerEvento() == nameMenu::SALIR) return;
-		this->cliente->actualizar();
-	};
+			if (this->menu->leerEvento() == nameMenu::SALIR) return;
+			this->cliente->actualizar();
+		};
 	
-	const int SKIP_TICKS = 1000 / FPS;
-	int sleepTime =0;
-    DWORD next_game_tick = GetTickCount();
+		const int SKIP_TICKS = 1000 / FPS;
+		int sleepTime =0;
+		DWORD next_game_tick = GetTickCount();
 
 
-	while(!this->cliente->partidaTerminada && this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
+		while(!this->cliente->partidaTerminada && this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
-		this->leerEvento();
-		this->cliente->actualizar();
+			this->leerEvento();
+			this->cliente->actualizar();
 		
-		this->reloj->setTiempoActual(this->cliente->getTiempoActualDeJuego());
+			this->reloj->setTiempoActual(this->cliente->getTiempoActualDeJuego());
 		
-		this->crearLista(this->cliente->vistaSerializada);
+			this->crearLista(this->cliente->vistaSerializada);
 
-		if(this->cliente->nuevoMensaje){
-			this->cartelInfo->setInfo(this->cliente->mensajeInfo);
-			this->cliente->nuevoMensaje = false;
-		}
+			if(this->cliente->nuevoMensaje){
+				this->cartelInfo->setInfo(this->cliente->mensajeInfo);
+				this->cliente->nuevoMensaje = false;
+			}
 
-		for(int i=0; i< maxExplosionesPorTurno; i++){
-			if(this->cliente->exp[i].radio >= 0){
-				this->vista->destruir(cliente->exp[i].x, cliente->exp[i].y, cliente->exp[i].radio, this->lector);
-				this->vista->motor->generarExplosion(cliente->exp[i].x, cliente->exp[i].y);
-				this->cliente->exp[i].radio = -1;
+			for(int i=0; i< maxExplosionesPorTurno; i++){
+				if(this->cliente->exp[i].radio >= 0){
+					this->vista->destruir(cliente->exp[i].x, cliente->exp[i].y, cliente->exp[i].radio, this->lector);
+					this->vista->motor->generarExplosion(cliente->exp[i].x, cliente->exp[i].y);
+					this->cliente->exp[i].radio = -1;
+				}
+			}
+
+			this->vista->motor->actualizar();
+
+			if(simulando){
+				switch(estadoActual){
+
+					case JUGANDO:		jugar();	break;
+					case PAUSADO:		esperar();	break;
+				}
+			}
+		
+			vista->Dibujar();
+
+			next_game_tick += SKIP_TICKS;
+			sleepTime = next_game_tick - GetTickCount();
+			if( sleepTime >= 0 ) {
+				Sleep( sleepTime );
 			}
 		}
 
-		this->vista->motor->actualizar();
+		if(this->cliente->partidaTerminada) this->volverAjugarCliente();
 
-		if(simulando){
-			switch(estadoActual){
-
-				case JUGANDO:		jugar();	break;
-				case PAUSADO:		esperar();	break;
-			}
-		}
-		
-		vista->Dibujar();
-
-		next_game_tick += SKIP_TICKS;
-        sleepTime = next_game_tick - GetTickCount();
-        if( sleepTime >= 0 ) {
-            Sleep( sleepTime );
-        }
 	}
-
-	if(this->cliente->partidaTerminada) this->volverAjugarCliente();
 }
 
 void JuegoCliente::leerEvento(){
