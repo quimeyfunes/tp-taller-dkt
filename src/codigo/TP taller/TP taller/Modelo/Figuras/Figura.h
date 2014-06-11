@@ -25,6 +25,7 @@ private:
 	bool muerto;
 	bool ahogado;
 
+	bool destruido;
 public:
 
 	Figura();
@@ -54,6 +55,9 @@ public:
 	virtual void PostSolve(float impulso);
 
 	void comenzarOtraPartida();
+
+	void setDestruido(bool destruido);
+	bool getDestruido();
 
 };
 

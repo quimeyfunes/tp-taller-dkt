@@ -217,7 +217,19 @@ void Escenario::simularAgua () {
 
 void Escenario::reiniciarJuego(){
 	
-	this->listaFiguras->clear();
+	/*for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+		(*it)->setDestruido(true);
+		(*it)->notificar();
+	}*/
+	list<Figura*>::iterator it = this->listaFiguras->begin();
+	while (it != this->listaFiguras->end())
+	{
+		(*it)->setDestruido(true);
+		(*it)->notificar();
+		this->world->DestroyBody((*it)->getBody());
+		delete (*it);
+		this->listaFiguras->erase(it++);  
+	}
 }
 
 void Escenario::reiniciar(){

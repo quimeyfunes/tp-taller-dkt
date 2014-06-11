@@ -8,7 +8,7 @@ Figura::Figura()
 
 Figura::Figura(float x, float y, short int rotacion, b2World* world, bool estatico, bool rotacionFija)
 {
-
+	this->destruido = false;
 	b2BodyDef myBodyDef;
 	if (estatico){
 	myBodyDef.type = b2_staticBody;
@@ -126,4 +126,12 @@ void Figura::setAhogado(bool estado){
 
 bool Figura::estaAhogado(){
 	return this->ahogado;
+}
+
+bool Figura::getDestruido(){
+	return this->destruido;
+}
+
+void Figura::setDestruido(bool destruido){
+	this->destruido = destruido;
 }

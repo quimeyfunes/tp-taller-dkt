@@ -550,7 +550,6 @@ void Juego::dispararArmaCliente(int cliente){
 	}
 }
 
-
 b2Vec2 Juego::getPosicionInicialDisparo(b2Vec2 posGusano, int angulo, bool sentido, double separacion){
 
 	b2Vec2 ret;
@@ -668,7 +667,6 @@ Juego::~Juego(){
 	//delete Logger::getLogger();
 }
 
-
 string Juego::getJugadorActual(){
 	return this->jugadorActual;
 }
@@ -768,6 +766,7 @@ void Juego::volverAjugarServidor(){
 
 	this->servidor->avisarPartidaTerminada();
 	this->escenario->reiniciarJuego();
+	this->vista->Dibujar();
 	this->ejecutar();
 
 }

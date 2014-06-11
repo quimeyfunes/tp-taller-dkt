@@ -398,6 +398,7 @@ void JuegoCliente::volverAjugarCliente(){
 		
 		this->cliente->partidaTerminada = false;
 		this->cliente->arrancarJuego = false; //hay q esperar q el server de arranque.
+		this->estadoActual = JUGANDO;
 		this->ejecutar();
 	}
 
