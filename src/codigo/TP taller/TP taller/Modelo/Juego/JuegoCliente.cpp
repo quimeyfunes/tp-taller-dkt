@@ -50,7 +50,6 @@ void JuegoCliente::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
 	//game loop
-	
 	bool a = true;
 	//espero que el servidor me diga q arranque...
 	this->menu->agregarMensaje(string("Esperando a los demas jugadores..."),30,0,255,0);
@@ -65,7 +64,7 @@ void JuegoCliente::ejecutar(){
 		this->cliente->actualizar();
 
 	};
-	this->menu->limpiar();
+	
 	const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();

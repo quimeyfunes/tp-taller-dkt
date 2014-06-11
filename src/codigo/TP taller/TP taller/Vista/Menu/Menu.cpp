@@ -23,7 +23,7 @@ Menu::Menu(SDL_Window* window,SDL_Renderer* renderer){
 	rect.y = this->alto * 1 / 3;
 	rect.w = 100;
 	rect.h = 50;
-	dib = new BotonServidor(this->renderer,rect,"Servidor",50,255,0,0);
+	dib = new Boton(this->renderer,rect,"Servidor",50,255,0,0,true,nameMenu::SERVIDOR);
 	rect.x = this->ancho / 4;
 	this->textInputNombre = new TextInput(this->renderer, rect,"Nombre: ",50,0,255,0,true);
 
@@ -33,7 +33,7 @@ Menu::Menu(SDL_Window* window,SDL_Renderer* renderer){
 	rect.y = this->alto * 2 / 3;
 	rect.w = 100;
 	rect.h = 50;
-	dib = new BotonCliente(this->renderer,rect,"Cliente",50,0,255,0);
+	dib = new Boton(this->renderer,rect,"Cliente",50,0,255,0,true,nameMenu::CLIENTE);
 	rect.x = this->ancho / 4;
 	this->textInputIP = new TextInput(renderer, rect, "IP: ", 50,0,255,0,true);
 	this->listaDibujables->push_back(dib);
@@ -91,6 +91,8 @@ int Menu::leerEvento(){
 					if (retorno != 0) {
 						switch (retorno){
 						case nameMenu::SERVIDOR:
+						case nameMenu::NO:
+						case nameMenu::SI:
 							this->listaDibujables->clear();
 							return retorno;
 							break;
@@ -188,13 +190,30 @@ void Menu::agregarMensaje(string nombre, int tamanioTexto, int r, int g, int b){
 		rect.y += (*it)->getRect().h + 5;
 	}
 	
-	Boton* boton = new Boton(this->renderer,rect,nombre,tamanioTexto,r,g,b,false);
+	Boton* boton = new Boton(this->renderer,rect,nombre,tamanioTexto,r,g,b,false,0);
 	this->listaDibujables->push_back(boton);
 }
 
-void Menu::limpiar(){
-	SDL_DestroyTexture(this->fondo->getImagen());
-	SDL_DestroyTexture(this->textInputNombre->getImagen());
-	SDL_DestroyTexture(this->textInputIP->getImagen());
-	this->listaDibujables->clear();
+void Menu::menuJugarDeNuevo(){
+	Boton* dib;
+	SDL_Rect rect;	
+			
+	rect.x = this->ancho / 2;
+	rect.y = this->alto * 1 / 3;
+	
+	dib = new Boton(this->renderer,rect,"Desea jugar de nuevo?",50,255,0,0,true,0);
+	
+	this->listaDibujables->push_back(dib);
+	rect.x = this->ancho  * 1 / 3;
+	rect.y = this->alto * 2/3;
+
+	dib = new Boton(this->renderer,rect,"Si",50,0,255,0,true,nameMenu::SI);
+	this->listaDibujables->push_back(dib);
+
+	rect.x = this->ancho * 2/3;
+	
+	dib = new Boton(this->renderer,rect,"No",50,255,0,0,true,nameMenu::NO);
+	this->listaDibujables->push_back(dib);
+
+	this->dibujar();
 }

@@ -6,11 +6,11 @@
 class Boton : public CartelDibujable{
 protected:
 	bool activo;
-
+	int id;
 public:
 
 	Boton();
-	Boton(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b, bool centrado);
+	Boton(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b, bool centrado,int id);
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);	
 	void setActivo(bool activo);
 	bool getActivo();	
