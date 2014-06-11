@@ -384,6 +384,11 @@ void Servidor::recibirDeCliente(int* clienteN)
 					clientes[*clienteN].time = time(NULL);
 				break;
 
+			case paqueteQuieroJugar:
+					Servidor::clientesConectados++;
+				break;
+
+
             default: break;
         }
 
@@ -496,4 +501,9 @@ void Servidor::avisarPartidaTerminada(){
 				enviarPaquete(clientes[id].socket,paquetePartidaTerminada,"termino la partida");
 			}
 	}
+}
+
+bool Servidor::esperarA(int cantidadDeJugadores){
+	if(Servidor::clientesConectados == cantidadDeJugadores) return true;
+	else return false;
 }

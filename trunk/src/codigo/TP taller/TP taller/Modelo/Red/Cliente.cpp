@@ -270,3 +270,8 @@ int Cliente::getTiempoActualDeJuego(){
 void Cliente::setTiempoActualDeJuego(int tiempo){
 	this->tiempoActualDeJuego = tiempo;
 }
+
+
+void Cliente::enviarQuieroJugar(){
+	enviarPaquete(red->socketCliente,paqueteQuieroJugar,"quiero jugar :D");
+}
