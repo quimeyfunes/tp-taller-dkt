@@ -736,14 +736,14 @@ int Escenario::restarVidaGusanos(){
 
 		if(gus->bufferVida > 0){
 			if(gus->vida > 0){
-				gus->vida--;
-				restado++;	
+				gus->vida-=2;
+				restado+=2;	
 			}
-			gus->bufferVida--;
+			gus->bufferVida-=2;
 						
 		}
 
-		if (gus->getVida()==0 && gus->bufferVida==0 && gus->numContactos > 0){
+		if (gus->getVida()<=0 && gus->bufferVida<=0 && gus->numContactos > 0){
 			gus->setMuerto(true);
 			Reproductor::getReproductor()->detenerSonido(CAMINANDO);
 
