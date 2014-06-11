@@ -18,15 +18,14 @@ Juego::Juego(string texto,SDL_Window* window, SDL_Renderer* renderer,Menu* menu)
 	//SDL_HideWindow(this->vista->window);
 	this->escenario = new Escenario(e->altoU ,e->anchoU, e->nivelAgua, relacionPPU, relacionPPU, e->maximosClientes);
 	this->terreno = new Terreno(this->escenario->getWorld());
-	this->terreno->generarTerreno(e);
-	this->escenario->setTerreno(this->terreno);
+
 	this->mundo = escenario->getWorld();
 	ResolverContacto* resolverContacto = new ResolverContacto();
 	this->mundo->SetContactListener(resolverContacto);
-	agregarTexturas(e);
-	//agregarObjetos();
-	agregarAgua(e);
 
+	//agregarTexturas(e);
+	////agregarObjetos();
+	//agregarAgua(e);
 
 	this->NUMCLICKDERECHOS=0;
 	servidor = new Servidor();
@@ -34,6 +33,14 @@ Juego::Juego(string texto,SDL_Window* window, SDL_Renderer* renderer,Menu* menu)
 
 
 void Juego::ejecutar(){
+	EscenarioParseado* e = ParserYaml::getParser()->getEscenario();
+	this->terreno->generarTerreno(e);
+	this->escenario->setTerreno(this->terreno);
+
+	agregarTexturas(e);
+	//agregarObjetos();
+	agregarAgua(e);
+
 	this->estadoActual = JUGANDO;
 	Logger::getLogger()->guardarEstado();
 	Reproductor::getReproductor()->apagar();
@@ -45,6 +52,8 @@ void Juego::ejecutar(){
     const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
+
+	bool empezo = true;
 
 	this->menu->agregarMensaje("Esperando a 2 jugadores...",30,255,0,0);//cout << "esperando a 2 jugadores..." << endl;
 	this->menu->dibujar();
@@ -774,7 +783,7 @@ void Juego::volverAjugarServidor(){
 		servidor->clientes[i].muerto = false;
 		cout<<servidor->clientes[i].figuras.size();
 	}
-
+	this->vista->listaDibujables->clear();
 	this->ejecutar();
 
 }

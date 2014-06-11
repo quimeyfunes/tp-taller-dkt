@@ -50,7 +50,7 @@ private:
 
 	
 	
-	list<Dibujable*>* listaDibujables;
+	
 	int anchoPx;
 	int altoPx;
 	int anchoPxTot;
@@ -61,6 +61,8 @@ private:
 	float escalaZoom;
 
 public:
+
+	list<Dibujable*>* listaDibujables;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	Vista(EscenarioParseado* e,SDL_Window* window, SDL_Renderer* renderer);

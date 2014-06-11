@@ -30,14 +30,15 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 	//this->armas = cliente->getArmasActual();
 	this->esc = cliente->getEscenarioActual();
 	//cout<<"cliente "<<cliente->getId()<<endl;
-	this->lector = new LectorTerreno(this->esc, this->esc->imagenTierra, this->cliente->getId());
+	
 	
 	this->vista = new Vista(esc,window,renderer);
-	
-	agregarTexturas(esc);
-	agregarAgua(esc);
-	this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
-	copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
+
+	//this->lector = new LectorTerreno(this->esc, this->esc->imagenTierra, this->cliente->getId());
+	//agregarTexturas(esc);
+	//agregarAgua(esc);
+	//this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
+	//copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
 
 	for (int i = 0; i < teclas; i++) {
 		eventos[i] = false;
@@ -45,6 +46,13 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 }
 
 void JuegoCliente::ejecutar(){
+
+	this->lector = new LectorTerreno(this->esc, this->esc->imagenTierra, this->cliente->getId());
+	agregarTexturas(esc);
+	agregarAgua(esc);
+	this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
+	copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
+
 
 	this->cliente->enviarQuieroJugar();
 
@@ -383,6 +391,8 @@ JuegoCliente::~JuegoCliente(){
 
 void JuegoCliente::volverAjugarCliente(){
 
+	delete this->lector;
+	this->vista->listaDibujables->clear();
 	menu->menuJugarDeNuevo();
 
 	int accion = 0;

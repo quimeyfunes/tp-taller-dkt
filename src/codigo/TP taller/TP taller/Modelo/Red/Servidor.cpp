@@ -490,6 +490,7 @@ bool Servidor::tieneGusanosVivos(int idCliente){
 
 void Servidor::avisarPartidaTerminada(){
 
+	Reproductor::getReproductor()->reiniciar();
 	Reproductor::getReproductor()->detenerSonidos();
 	Reproductor::getReproductor()->reproducirSonido(VICTORIA);
 
