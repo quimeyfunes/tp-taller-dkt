@@ -127,6 +127,7 @@ public:
 	void setBloquearTeclas(bool bloquear);
 
 	int restarVidaGusanos();
+	void reiniciarJuego();
 };
 
 

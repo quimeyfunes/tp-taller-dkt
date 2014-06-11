@@ -215,6 +215,13 @@ void Escenario::simularAgua () {
 	}
 }
 
+void Escenario::reiniciarJuego(){
+	
+	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
+		(*it)->comenzarOtraPartida();
+	}
+}
+
 void Escenario::reiniciar(){
 	for (list<Figura*>::iterator it = this->listaFiguras->begin(); it != this->listaFiguras->end(); it++) {
 		(*it)->reiniciar();

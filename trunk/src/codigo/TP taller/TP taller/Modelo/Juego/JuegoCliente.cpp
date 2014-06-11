@@ -63,7 +63,7 @@ void JuegoCliente::ejecutar(){
 		if (this->menu->leerEvento() == nameMenu::SALIR) return;
 		this->cliente->actualizar();
 
-		if(this->cliente->partidaTerminada) this->volverAjugarCliente();
+		
 
 	};
 	
@@ -72,7 +72,7 @@ void JuegoCliente::ejecutar(){
     DWORD next_game_tick = GetTickCount();
 
 
-	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
+	while(!this->cliente->partidaTerminada && this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
 		this->leerEvento();
 		this->cliente->actualizar();
@@ -112,6 +112,8 @@ void JuegoCliente::ejecutar(){
             Sleep( sleepTime );
         }
 	}
+
+	if(this->cliente->partidaTerminada) this->volverAjugarCliente();
 }
 
 void JuegoCliente::leerEvento(){
@@ -395,9 +397,9 @@ void JuegoCliente::volverAjugarCliente(){
 	}
 
 	if (accion == nameMenu::SI){ 
-		this->ejecutar();
 		this->cliente->partidaTerminada = false;
 		this->cliente->arrancarJuego = false; //hay q esperar q el server de arranque.
+		this->ejecutar();
 	}
 
 	if (accion == nameMenu::NO || nameMenu::SALIR )	this->salir();
