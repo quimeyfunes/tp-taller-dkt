@@ -34,6 +34,7 @@ Juego::Juego(string texto,SDL_Window* window, SDL_Renderer* renderer,Menu* menu)
 
 
 void Juego::ejecutar(){
+	this->estadoActual = JUGANDO;
 	Logger::getLogger()->guardarEstado();
 	Reproductor::getReproductor()->apagar();
 	Reproductor::getReproductor()->enviar = true;	//setea si enviar o no los sonidos al cliente

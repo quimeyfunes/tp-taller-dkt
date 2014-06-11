@@ -497,6 +497,7 @@ void Servidor::avisarPartidaTerminada(){
 				
 				Sleep(100);
 				enviarPaquete(clientes[id].socket,paquetePartidaTerminada,"termino la partida");
+				clientes[id].figuras.clear();
 				clientes[id].puedeJugar = true;
 			}
 	}
