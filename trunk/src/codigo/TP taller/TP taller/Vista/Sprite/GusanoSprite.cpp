@@ -563,6 +563,8 @@ string GusanoSprite::serializar(){
 	serializado += StringUtil::int2string(this->activo);
 	serializado += separadorCamposEntidades;
 	serializado += StringUtil::int2string(this->huboCambioArma);
+	serializado += separadorCamposEntidades;
+	serializado += StringUtil::int2string(this->ahogado);
 
 	return serializado;
 }
@@ -634,6 +636,7 @@ void GusanoSprite::deserealizar(string aDeserealizar){
 	this->fraccionVidaValor = StringUtil::str2float(atributos.at(28).c_str());
 	this->activo = StringUtil::str2int(atributos.at(29).c_str());
 	this->huboCambioArma = StringUtil::str2int(atributos.at(30).c_str());
+	this->ahogado = StringUtil::str2int(atributos.at(31).c_str());
 
 	this->recCuadro = NULL;
 	this->cartel = NULL;
@@ -735,7 +738,7 @@ void GusanoSprite::copiarGusano(GusanoSprite* gusano2, bool nuevo){
 	}
 	if(gusano2->contMuerte > 0 || gusano2->muertePorDisparo){
 		//Esta muerto
-		if (this->vidaValor == 0 && !gusano2->terminoIteracion){
+		if (this->vidaValor == 0 && !gusano2->terminoIteracion && !this->ahogado){
 			if(gusano2->armaTipo == SUICIDA){
 				gusano2->enUso = gusano2->rectSuicida;
 			}else{
