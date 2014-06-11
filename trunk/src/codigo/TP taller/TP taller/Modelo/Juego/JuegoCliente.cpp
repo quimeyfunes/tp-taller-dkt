@@ -19,7 +19,6 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 	this->evento = new SDL_Event();
 	this->cartelInfo = NULL;
 
-	this->cliente->enviarQuieroJugar();
 	while(this->cliente->recibirDeServidor(error));	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
 	if(error != ""){
 		menu->agregarMensaje(error, 30, 0 , 255, 0); 
@@ -43,6 +42,8 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 	for (int i = 0; i < teclas; i++) {
 		eventos[i] = false;
 	}
+
+	this->cliente->enviarQuieroJugar();
 }
 
 void JuegoCliente::ejecutar(){
