@@ -46,6 +46,7 @@
 	const int tiempoTurno = 20;
 	const int tiempoDisparo = 6;
 	const int tiempoCritico = 3;
+	const int tiempoGolpe = 2;
 
 	//Para gusanos
 	const int timeGusanoQuieto = 80;
