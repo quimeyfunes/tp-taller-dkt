@@ -7,6 +7,7 @@ Turno::Turno(void){
 	this->tiempoPorTurno = tiempoTurno;
 	this->tiempoPorDisparo = tiempoDisparo;
 	this->tiempoActual = tiempoTurno;
+	this->tiempoPorGolpe = tiempoGolpe;
 }
 
 
@@ -19,6 +20,7 @@ void Turno::reiniciar(){
 	detenido = false;
 	terminado = false;
 	huboDisparo = false;
+	huboGolpe = false;
 	tiempoInicial = time(NULL);
 	tiempoActual = tiempoTurno;
 }
@@ -72,6 +74,14 @@ void Turno::actualizar(){
 				tiempoDiferido = 0;
 			}
 		}
+		if(huboGolpe && !huboDisparo){
+			//espero tiempoPorGolpe:
+			if( (time(NULL) - tiempoDiferidoGolpe) >= tiempoPorGolpe ) {
+				terminar();
+				huboGolpe = false;
+				tiempoDiferidoGolpe = 0;
+			}
+		}
 	}
 }
 
@@ -79,10 +89,11 @@ void Turno::comenzar(){
 	detenido = false;
 	terminado = false;
 	huboDisparo = false;
+	huboGolpe = false;
 	tiempoInicial = time(NULL);
 	tiempoActual = 0;
 	tiempoDiferido = 0;
-	
+	tiempoDiferidoGolpe = 0;
 }
 
 int Turno::getTiempoActual(){
@@ -93,6 +104,10 @@ void Turno::esperarDisparo(){
 	detener();
 	huboDisparo=true;
 	tiempoDiferido = time(NULL);
+}
 
-	
+void Turno::esperarGolpe(){
+	detener();
+	huboGolpe=true;
+	tiempoDiferidoGolpe = time(NULL);
 }

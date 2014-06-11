@@ -72,7 +72,8 @@ void Juego::ejecutar(){
 
 	//this->menu->dibujar();
 	int vidaGusanoActivo=0;
-	int contador=-1;
+	int contadorAhogado=-1;
+	int contadorLastimado=-1;
 	while(this->estadoActual != SALIDA && this->estadoActual != GANADO && (evento->type != SDL_QUIT)){
 		this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();
@@ -84,7 +85,8 @@ void Juego::ejecutar(){
 			reproducirSonidosFinTurno(vidaRestada);
 			vidaRestada = 0;
 			vidaGusanoActivo=this->escenario->getGusanoActivo()->getVida();
-			contador=0;
+			contadorAhogado=0;
+			contadorLastimado=0;
 			this->turno->comenzar();
 			this->accionRealizada = false;
 		}
@@ -99,13 +101,23 @@ void Juego::ejecutar(){
 		//this->comprobarGanador();
 		vidaRestada += this->escenario->restarVidaGusanos();
 
-		//si el gusano que esta jugando pierde vida o se ahoga, pierde el turno
-		if( (contador == 0) && (vidaGusanoActivo != escenario->getGusanoActivo()->getVida() || escenario->getGusanoActivo()->estaAhogado()) ){
+		//si el gusano que esta jugando y se ahoga, pierde el turno
+		if( (contadorAhogado == 0) &&  (escenario->getGusanoActivo()->estaAhogado()) ){
 			this->escenario->setBloquearTeclas(true);
 			this->escenario->detenerMovimientos();
-			this->turno->esperarDisparo();
-			contador++;
+			this->turno->esperarGolpe();
+			contadorAhogado++;
 		}
+
+
+		//si se lastima y no hubo disparo, pierde el turno
+		if( (contadorLastimado == 0) && (!this->escenario->getHuboDisparo())  &&  (vidaGusanoActivo != escenario->getGusanoActivo()->getVida())  ){
+			this->escenario->setBloquearTeclas(true);
+			this->escenario->detenerMovimientos();
+			this->turno->esperarGolpe();
+			contadorLastimado++;
+		}
+
 
 		//si se desconecta cuando esta jugando, se cambia de jugador
 		if(this->escenario->getGusanoActivo()->getCongelado()) this->turno->terminar();
