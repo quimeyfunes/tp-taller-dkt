@@ -62,8 +62,8 @@ void Juego::ejecutar(){
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 
 	//this->menu->dibujar();
-	int vidaGusanoActivo;
-	int contador;
+	int vidaGusanoActivo=0;
+	int contador=-1;
 	while(this->estadoActual != SALIDA && this->estadoActual != GANADO && (evento->type != SDL_QUIT)){
 		this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();

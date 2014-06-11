@@ -42,11 +42,12 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 	for (int i = 0; i < teclas; i++) {
 		eventos[i] = false;
 	}
-
-	this->cliente->enviarQuieroJugar();
 }
 
 void JuegoCliente::ejecutar(){
+
+	this->cliente->enviarQuieroJugar();
+
 	Reproductor::getReproductor()->activar();
 	Logger::getLogger()->guardarEstado();
 	//list<Dibujable*> *lista = new list<Dibujable*>(this->dibujablesBase->size());
@@ -395,10 +396,12 @@ void JuegoCliente::volverAjugarCliente(){
 	int accion = 0;
 	while(accion == 0 ){
 		accion = menu->leerEvento();
+		cliente->enviarEstado();
+		Sleep(20);
 	}
 
 	if (accion == nameMenu::SI){
-		this->cliente->enviarQuieroJugar();
+		
 		this->cliente->partidaTerminada = false;
 		this->cliente->arrancarJuego = false; //hay q esperar q el server de arranque.
 		this->ejecutar();
