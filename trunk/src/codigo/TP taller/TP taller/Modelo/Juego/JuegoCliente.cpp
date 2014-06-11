@@ -14,35 +14,38 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 		Sleep(3000);
 		puedoJugar=false;
 	} 
-	
-	this->simulando = false;
-	this->estadoActual = JUGANDO;
-	this->evento = new SDL_Event();
-	this->cartelInfo = NULL;
+	if(puedoJugar){
+		this->simulando = false;
+		this->estadoActual = JUGANDO;
+		this->evento = new SDL_Event();
+		this->cartelInfo = NULL;
 
-	while(this->cliente->recibirDeServidor(error));	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
-	if(error != ""){
-		menu->agregarMensaje(error, 30, 0 , 255, 0); 
-		menu->dibujar();
-		Sleep(3000);
-		puedoJugar=false;
-	} 
-	Sleep(200);
-	//this->armas = cliente->getArmasActual();
-	this->esc = cliente->getEscenarioActual();
-	//cout<<"cliente "<<cliente->getId()<<endl;
+		while(this->cliente->recibirDeServidor(error));	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
+		if(error != ""){
+			menu->agregarMensaje(error, 30, 0 , 255, 0); 
+			menu->dibujar();
+			Sleep(3000);
+			puedoJugar=false;
+		} 
+		Sleep(200);
+		if(puedoJugar){
+		//this->armas = cliente->getArmasActual();
+			this->esc = cliente->getEscenarioActual();
+			//cout<<"cliente "<<cliente->getId()<<endl;
 	
 	
-	this->vista = new Vista(esc,window,renderer);
+			this->vista = new Vista(esc,window,renderer);
 
-	//this->lector = new LectorTerreno(this->esc, this->esc->imagenTierra, this->cliente->getId());
-	//agregarTexturas(esc);
-	//agregarAgua(esc);
-	//this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
-	//copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
+			//this->lector = new LectorTerreno(this->esc, this->esc->imagenTierra, this->cliente->getId());
+			//agregarTexturas(esc);
+			//agregarAgua(esc);
+			//this->dibujablesBase = new list<Dibujable*>(this->vista->getListaDibujables()->size());
+			//copy(this->vista->getListaDibujables()->begin(),this->vista->getListaDibujables()->end(),this->dibujablesBase->begin());
 
-	for (int i = 0; i < teclas; i++) {
-		eventos[i] = false;
+			for (int i = 0; i < teclas; i++) {
+				eventos[i] = false;
+			}
+		}
 	}
 }
 
