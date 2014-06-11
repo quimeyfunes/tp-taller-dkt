@@ -21,7 +21,7 @@
 	const int vidaGusano = 150;
 	const float pxPorVida = 0.33f;
 	const int potenciaPorUnidad = 3000; //Para explosion
-	const int impulsoCaida = 250; //La fuerza con la q tiene q caer para q le saque vida. Tambien le saca vida si choca fuerte contra algo. 
+	const int impulsoCaida = 200; //La fuerza con la q tiene q caer para q le saque vida. Tambien le saca vida si choca fuerte contra algo. 
 
 	typedef enum categoriaFigura {
 		NORMAL = 0x0001,
