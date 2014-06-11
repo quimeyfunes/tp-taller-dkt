@@ -60,6 +60,7 @@ Reproductor::Reproductor(){
 	listaDeReproduccion[ESPERAYVERAS].efecto = Mix_LoadWAV(rutaSonidoEsperaYVeras);
 	listaDeReproduccion[VENGANZA].efecto = Mix_LoadWAV(rutaSonidoVenganza);
 	listaDeReproduccion[YATEPILLARE].efecto = Mix_LoadWAV(rutaSonidoYaTePillareYo);
+	listaDeReproduccion[VICTORIA].efecto = Mix_LoadWAV(rutaSonidoVictoria);
 
 	for(int i=0; i < numSonidos; i++){
 
@@ -140,6 +141,11 @@ bool Reproductor::estaReproduciendo(sonido s){
 		listaDeReproduccion[s].activo = (Mix_Playing(listaDeReproduccion[s].canal) != 0)? true:false;
 
 	return listaDeReproduccion[s].activo;
+}
+
+void Reproductor::detenerSonidos(){
+
+	Mix_HaltChannel(-1);
 }
 
 audioEnCola** Reproductor::getColaDeEspera(){

@@ -468,6 +468,7 @@ void Servidor::darArranque(){
 			if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) ){	
 				clientes[id].puedeJugar = true;
 				enviarPaquete(clientes[id].socket,paqueteArranque,"dale q va");
+				Sleep(100);
 			}
 	}
 }
@@ -489,17 +490,19 @@ bool Servidor::tieneGusanosVivos(int idCliente){
 
 void Servidor::avisarPartidaTerminada(){
 
+	Reproductor::getReproductor()->detenerSonidos();
+	Reproductor::getReproductor()->reproducirSonido(VICTORIA);
+
 	for(int id=0; id < Servidor::getCantidadDeClientesConectados(); id++ ){
 
-			if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) ){	
+		if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) ){	
 				
-				Sleep(100);
-				enviarPaquete(clientes[id].socket,paquetePartidaTerminada,"termino la partida");
-				clientes[id].figuras.clear();
-				clientes[id].puedeJugar = true;
-			}
+			Sleep(100);
+			enviarPaquete(clientes[id].socket,paquetePartidaTerminada,"termino la partida");
+			clientes[id].figuras.clear();
+			clientes[id].puedeJugar = true;
+		}
 	}
-
 	clientesConectados = 0;
 }
 

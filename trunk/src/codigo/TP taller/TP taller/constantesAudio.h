@@ -29,6 +29,7 @@
 #define rutaSonidoVenganza "audio/efectos/Venganza.wav"
 #define rutaSonidoYaTePillareYo "audio/efectos/YaTePillareYo.wav"
 
+#define rutaSonidoVictoria "audio/efectos/Victoria.wav"
 #define rutaMusicaFondo "audio/ingame-04-battlezone.wav"
 
 //NO CAMBIAR ESTOS VALORES
@@ -62,10 +63,11 @@ typedef enum{
 	ESPERAYVERAS,
 	VENGANZA,
 	YATEPILLARE,
+	VICTORIA,
 	NINGUNO,
 }sonido;
 
-#define numSonidos 28
+#define numSonidos 29
 
 typedef struct{
 	Mix_Chunk* efecto;
