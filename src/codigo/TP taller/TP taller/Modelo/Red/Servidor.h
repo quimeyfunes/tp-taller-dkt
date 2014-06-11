@@ -10,7 +10,6 @@ typedef struct structCliente{
 	string username;
 	int time;
 	SOCKET socket;
-	bool enviandoData;
 	bool activo;
 	bool muerto;
 	list<Gusano*> figuras;
@@ -29,6 +28,7 @@ class Servidor
 {
 
 public:
+	static int clientesConectados;
 
     Servidor();
     ~Servidor();
@@ -49,7 +49,7 @@ public:
 	static cliente* clientes;
 	static void setTerrenoModificado(explosion e);
 	static string siguienteJugador();
-	static unsigned int getCantidadDeClientes();
+	static unsigned int getCantidadDeClientesConectados();
 	static void darArranque();
 	static int buscarCliente(string nombre);
 	bool tieneGusanosVivos(int idCliente);

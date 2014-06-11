@@ -18,8 +18,8 @@
 	const int altoGusano = 2.5;
 	const int velocidadGusano = 3;	//Para moverse hacia la derecha/izquierda
 	const int saltoGusano = -8;	//Cuanto salta
-	const int vidaGusano = 200;
-	const float pxPorVida = 0.25f;
+	const int vidaGusano = 150;
+	const float pxPorVida = 0.33f;
 	const int potenciaPorUnidad = 3000; //Para explosion
 	const int impulsoCaida = 250; //La fuerza con la q tiene q caer para q le saque vida. Tambien le saca vida si choca fuerte contra algo. 
 
