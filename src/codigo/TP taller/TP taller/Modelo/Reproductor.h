@@ -29,6 +29,7 @@ public:
 	static void apagar();
 	static void reproducirSonido(sonido aRep);
 	static void detenerSonido(sonido aRep);
+	static void detenerSonidos();
 	static bool estaReproduciendo(sonido aRep);
 	static audioEnCola** getColaDeEspera();
 
