@@ -228,6 +228,7 @@ void Escenario::reiniciarJuego(){
 		(*it)->notificar();
 		this->world->DestroyBody((*it)->getBody());
 		delete (*it);
+		(*it) = NULL;
 		this->listaFiguras->erase(it++);  
 	}
 }
