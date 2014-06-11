@@ -252,6 +252,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 		} else {
 			this->contMuerteVida = 0;
 			this->contMuerte++;
+			if(this->contMuerte > 10) this->contMuerte = 1;
 			this->enUso = this->rectGrave;
 			this->velocidadRefresco = timeGrave;
 			this->muertePorDisparo = false;
