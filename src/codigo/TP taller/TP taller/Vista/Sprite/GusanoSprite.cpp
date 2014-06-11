@@ -118,6 +118,7 @@ GusanoSprite::GusanoSprite(SDL_Renderer* renderer, SDL_Rect recDestino, string p
 	rgb[2] = 0;
 	this->vida->setColor(rgb);
 	this->activo = false;
+	this->ahogado = false;
 }
 
 GusanoSprite::~GusanoSprite(void)
@@ -148,6 +149,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 	if (!(fig->estaMuerto())){
 		this->contMuerte = 0;
 		this->contMuerteVida = 0;
+		this->ahogado = false;
 		this->terminoIteracion = false;
 		//No se mueve
 		this->frameCrosshair = 0;
@@ -231,7 +233,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 		this->contDer = 0;
 		this->contFrent = 0;
 		this->estado = MUERTO;
-		if ((fig->getVida() <= 0) && !(this->terminoIteracion)){
+		if ((fig->getVida() <= 0) && !(this->terminoIteracion) && !(fig->estaAhogado())){
 			if (fig->getTipoArma() == SUICIDA) {
 				this->velocidadRefresco = tiempoExplosionSuicida;
 				this->enUso = rectSuicida;
@@ -250,6 +252,7 @@ void GusanoSprite::actualizar(Observable* observable) {
 				}
 			}
 		} else {
+			if (fig->estaAhogado()) this->ahogado = true;
 			this->contMuerteVida = 0;
 			this->contMuerte++;
 			if(this->contMuerte > 10) this->contMuerte = 1;

@@ -23,6 +23,7 @@ private:
 	bool movimientoDer;
 	bool movimientoIzq;
 	bool muerto;
+	bool ahogado;
 
 public:
 
@@ -43,7 +44,9 @@ public:
 	virtual bool meClickeo(float x, float y);
 	virtual void simularAgua(int nivelAgua);
 	bool estaMuerto();
+	bool estaAhogado();
 	void setMuerto(bool estado);
+	void setAhogado(bool estado);
 	virtual void explotar(float fuerza);
 	virtual ~Figura();
 	virtual void BeginContact();

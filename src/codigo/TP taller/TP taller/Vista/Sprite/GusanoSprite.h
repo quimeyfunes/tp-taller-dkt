@@ -91,6 +91,7 @@ public:
 	int vidaValor;
 	float fraccionVidaValor;
 	bool huboCambioArma;
+	bool ahogado;
 };
 
 #endif
