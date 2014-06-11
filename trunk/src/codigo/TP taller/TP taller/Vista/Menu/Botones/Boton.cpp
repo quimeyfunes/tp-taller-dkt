@@ -4,10 +4,11 @@ Boton::Boton() {
 
 }
 
-Boton::Boton(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b, bool centrado) :
+Boton::Boton(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b, bool centrado,int id) :
 CartelDibujable(renderer,rect,nombre,tamanioTexto,r,g,b,centrado)
 {
 	this->activo = false;
+	this->id = id;
 }
 
 
@@ -17,7 +18,7 @@ Boton::~Boton(){
 
 int Boton::click(int x,int y){
 	if (x > this->rect.x && x < (this->rect.x + this->rect.w) && y > this->rect.y && y < (this->rect.y + this->rect.h)) {
-		return 1;
+		return id;
 	}
 	return 0;
 }

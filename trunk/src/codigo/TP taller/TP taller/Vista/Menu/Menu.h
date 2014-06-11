@@ -4,8 +4,6 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_ttf.h"
-#include "Botones\BotonCliente.h"
-#include "Botones\BotonServidor.h"
 #include "Botones\textinput.h"
 
 
@@ -15,6 +13,8 @@ namespace nameMenu {
 		SALIR = 1,
 		SERVIDOR = 2,
 		CLIENTE = 3,
+		SI = 4,
+		NO = 5,
 	}ACCION_REALIZADA;
 }
 
@@ -46,7 +46,8 @@ public:
 	void setIP(string ip);
 	void agregarMensaje(string nombre, int tamanioTexto, int r, int g, int b);
 
-	void limpiar();
+	void menuJugarDeNuevo();
+
 	~Menu();
 };
 

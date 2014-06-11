@@ -6,7 +6,7 @@ TextInput::TextInput(void)
 }
 
 TextInput::TextInput(SDL_Renderer* renderer, SDL_Rect rect, string nombre, int tamanioTexto, int r, int g, int b, bool centrado)
-: Boton(renderer, rect, nombre, tamanioTexto,r,g,b,centrado){
+: Boton(renderer, rect, nombre, tamanioTexto,r,g,b,centrado,1){
 	this->activo = false;
 	this->texto = texto;
 	SDL_Rect rectInput = this->rect;
@@ -40,14 +40,7 @@ string TextInput::getTexto() {
 
 TextInput::~TextInput(void)
 {
-	if(this->font != NULL){
-		TTF_CloseFont( this->font );
-		this->font = NULL;
-	}
-
-	if(this->imagen != NULL){
-		SDL_DestroyTexture(this->imagen);
-		this->imagen = NULL;
-	}
+	delete this->input;
+	delete this->gusano;
 }
 
