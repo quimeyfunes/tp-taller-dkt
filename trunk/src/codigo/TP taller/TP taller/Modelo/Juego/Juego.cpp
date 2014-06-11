@@ -48,7 +48,7 @@ void Juego::ejecutar(){
 	if(!arrancoElJuego){
 		this->menu->agregarMensaje("Esperando a 2 jugadores...",30,255,0,0);//cout << "esperando a 2 jugadores..." << endl;
 		this->menu->dibujar();
-		while( Servidor::getCantidadDeClientes()< ParserYaml::getParser()->getEscenario()->maximosClientes ){
+		while( Servidor::getCantidadDeClientesConectados() < ParserYaml::getParser()->getEscenario()->maximosClientes ){
 			Sleep(100);
 			this->chequearNuevosJugadores();
 			if (this->menu->leerEvento() == nameMenu::SALIR) return;
@@ -193,7 +193,8 @@ bool Juego::chequearNuevosJugadores(){
 				for(int j=0; j< gusanosPorPersonaje; j++){
 					float escalaAncho = relacionPPU;
 					float escalaAlto = relacionPPU;
-					Gusano* worm = escenario->crearGusanoParaJugador();
+					Gusano* worm = NULL;
+					worm = escenario->crearGusanoParaJugador();
 					if (worm){
 						string nombreGusano = this->servidor->clientes[i].username + " " + StringUtil::int2string(j);
 						GusanoSprite* gusano = vista->crearGusanoSprite( worm->getPosicion().x * escalaAncho, worm->getPosicion().y * escalaAlto , anchoGusano * relacionPPU*2.5, altoGusano * relacionPPU*2.5, spriteWormIzq, 1, 10, 60, 600,nombreGusano,this->escenario->getMaximosClientes());
@@ -724,7 +725,7 @@ void Juego::comprobarGanador(){
 
 	int ganador = -1;
 	int contador = 0; //contador de clientes activos
-	for(int i=0;i<Servidor::getCantidadDeClientes();i++){
+	for(int i=0;i<Servidor::getCantidadDeClientesConectados();i++){
 
 		if( servidor->clientes[i].activo == true ){
 			//si tiene gusanos vivos incremento el contador, sino es inactivo

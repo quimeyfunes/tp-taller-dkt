@@ -5,7 +5,7 @@
 #include <process.h>
 #include "../BuscadorArchivos.h"
 
-
+int Servidor::clientesConectados=0;
 unsigned int Servidor::cliente_id; 
 string Servidor::dibujablesSerializados;
 ServidorRed* Servidor::red;
@@ -47,9 +47,9 @@ Servidor::Servidor(){
 		this->clientes[i].time=0;
 		this->clientes[i].username= "";
 		this->clientes[i].socket = INVALID_SOCKET;
-		this->clientes[i].enviandoData = false;
 		this->clientes[i].muerto = false;
-		this->clientes[i].puedeJugar = false;
+		this->clientes[i].puedeJugar=false;
+		this->clientes[i].figuras.clear();
 	}
     // set up the server network to listen 
     red = new ServidorRed(); 
@@ -355,6 +355,8 @@ void Servidor::recibirDeCliente(int* clienteN)
 						clientes[*clienteN].activo=true;
 						clientes[*clienteN].puedeJugar = true;
 						cliente_id++;
+						clientes[*clienteN].puedeJugar = true;
+						clientesConectados++;
 
 					}else{
 																//si no hay lugar, lo saco
@@ -450,8 +452,8 @@ string Servidor::siguienteJugador(){
 	
 }
 
-unsigned int Servidor::getCantidadDeClientes(){
-	return Servidor::cliente_id;
+unsigned int Servidor::getCantidadDeClientesConectados(){
+	return Servidor::clientesConectados;
 }
 
 
