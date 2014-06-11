@@ -767,6 +767,14 @@ void Juego::volverAjugarServidor(){
 	this->servidor->avisarPartidaTerminada();
 	this->escenario->reiniciarJuego();
 	this->vista->Dibujar();
+
+	for (int i = 0; i<this->escenario->getMaximosClientes();i++){
+		//servidor->clientes[i].figuras.clear();
+		servidor->clientes[i].figuras.empty();
+		servidor->clientes[i].muerto = false;
+		cout<<servidor->clientes[i].figuras.size();
+	}
+
 	this->ejecutar();
 
 }
