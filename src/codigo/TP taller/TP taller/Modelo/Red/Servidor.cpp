@@ -357,9 +357,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 						enviarPaquete(clientes[*clienteN].socket, paqueteDescargaLista, "");
 						enviarPaquete(clientes[*clienteN].socket, paqueteMensajeInfo, "Bienvenido, "+clientes[*clienteN].username + ".");
 						clientes[*clienteN].activo=true;
-						clientes[*clienteN].puedeJugar = true;
 						cliente_id++;
-						clientesConectados++;
 
 					}else{
 																//si no hay lugar, lo saco
@@ -496,11 +494,14 @@ void Servidor::avisarPartidaTerminada(){
 	for(int id=0; id < Servidor::getCantidadDeClientesConectados(); id++ ){
 
 			if( (clientes[id].activo) && (clientes[id].socket != INVALID_SOCKET) ){	
-				clientes[id].puedeJugar = true;
+				
 				Sleep(100);
 				enviarPaquete(clientes[id].socket,paquetePartidaTerminada,"termino la partida");
+				clientes[id].puedeJugar = true;
 			}
 	}
+
+	clientesConectados = 0;
 }
 
 bool Servidor::esperarA(int cantidadDeJugadores){

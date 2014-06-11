@@ -51,7 +51,7 @@
 	const int timeGusanoQuieto = 80;
 	const float timeGusanoMovil = 2;
 	const int timeGrave = 4;
-	const int gusanosPorPersonaje = 5;
+	const int gusanosPorPersonaje = 1;
 	const int timeGusanoTnt = 2;
 
 	const int masaGusano = 15;

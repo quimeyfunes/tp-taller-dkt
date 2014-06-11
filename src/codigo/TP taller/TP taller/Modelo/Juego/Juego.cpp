@@ -29,6 +29,7 @@ Juego::Juego(string texto,SDL_Window* window, SDL_Renderer* renderer,Menu* menu)
 
 
 	this->NUMCLICKDERECHOS=0;
+	servidor = new Servidor();
 }
 
 
@@ -36,29 +37,26 @@ void Juego::ejecutar(){
 	Logger::getLogger()->guardarEstado();
 	Reproductor::getReproductor()->apagar();
 	Reproductor::getReproductor()->enviar = true;	//setea si enviar o no los sonidos al cliente
-	servidor = new Servidor();
+	
 	int tamanio;
 	int vidaRestada = -1;
 	explosion exp;
     const int SKIP_TICKS = 1000 / FPS;
 	int sleepTime =0;
     DWORD next_game_tick = GetTickCount();
-	bool arrancoElJuego = false;
 
-	if(!arrancoElJuego){
-		this->menu->agregarMensaje("Esperando a 2 jugadores...",30,255,0,0);//cout << "esperando a 2 jugadores..." << endl;
-		this->menu->dibujar();
-		while( Servidor::getCantidadDeClientesConectados() < ParserYaml::getParser()->getEscenario()->maximosClientes ){
+	this->menu->agregarMensaje("Esperando a 2 jugadores...",30,255,0,0);//cout << "esperando a 2 jugadores..." << endl;
+	this->menu->dibujar();
+	while(!Servidor::esperarA(ParserYaml::getParser()->getEscenario()->maximosClientes)){
 			
-			if (this->menu->leerEvento() == nameMenu::SALIR) return;
+		if (this->menu->leerEvento() == nameMenu::SALIR) return;
 
-		}
-
-		this->chequearNuevosJugadores();
-		Servidor::darArranque();
-
-		arrancoElJuego = true;
 	}
+
+	Servidor::darArranque();
+	this->chequearNuevosJugadores();
+	
+
 
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
 
@@ -765,7 +763,6 @@ void Juego::reproducirSonidosFinTurno(int vidaRestada){
 void Juego::volverAjugarServidor(){
 
 	this->servidor->avisarPartidaTerminada();
-	Sleep(1000);
 	this->escenario->reiniciarJuego();
 	this->ejecutar();
 
