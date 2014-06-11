@@ -63,6 +63,8 @@ void JuegoCliente::ejecutar(){
 		if (this->menu->leerEvento() == nameMenu::SALIR) return;
 		this->cliente->actualizar();
 
+		if(this->cliente->partidaTerminada) this->volverAjugarCliente();
+
 	};
 	
 	const int SKIP_TICKS = 1000 / FPS;
@@ -381,4 +383,24 @@ JuegoCliente::~JuegoCliente(){
 	delete this->reloj;
 	//delete this->evento;
 	delete Logger::getLogger();
+}
+
+void JuegoCliente::volverAjugarCliente(){
+
+	menu->menuJugarDeNuevo();
+
+	int accion = 0;
+	while(accion == 0 ){
+		accion = menu->leerEvento();
+	}
+
+	if (accion == nameMenu::SI){ 
+		this->ejecutar();
+		this->cliente->partidaTerminada = false;
+		this->cliente->arrancarJuego = false; //hay q esperar q el server de arranque.
+	}
+
+	if (accion == nameMenu::NO || nameMenu::SALIR )	this->salir();
+	
+
 }

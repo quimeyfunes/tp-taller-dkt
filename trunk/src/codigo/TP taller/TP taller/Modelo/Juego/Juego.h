@@ -81,6 +81,7 @@ public:
 	void ejecutar();
 	void comprobarGanador();
 	void reproducirSonidosFinTurno(int vidaRestada);
+	void volverAjugarServidor();
 	~Juego();
 };
 
