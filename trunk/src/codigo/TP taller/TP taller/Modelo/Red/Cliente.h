@@ -31,6 +31,7 @@ public:
 	int timeServidor;
 	bool partidaTerminada;
 	void enviarQuieroJugar();
+	
 
 private:
 	int tiempoActualDeJuego;

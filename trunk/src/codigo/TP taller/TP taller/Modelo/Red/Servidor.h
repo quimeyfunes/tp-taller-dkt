@@ -15,6 +15,7 @@ typedef struct structCliente{
 	list<Gusano*> figuras;
 	string ultimoEventoSerializado;
 	bool puedeJugar;
+	int ultimoGusanoActivo;
 	//Sesion* sesion;
 }cliente;
 
