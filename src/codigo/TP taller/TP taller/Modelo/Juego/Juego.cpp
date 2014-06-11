@@ -65,7 +65,7 @@ void Juego::ejecutar(){
 	//this->menu->dibujar();
 	int vidaGusanoActivo;
 	int contador;
-	while(this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
+	while(this->estadoActual != SALIDA && this->estadoActual != GANADO && (evento->type != SDL_QUIT)){
 		this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();
 		if( this->turno->estaTerminado() ){
@@ -107,7 +107,7 @@ void Juego::ejecutar(){
 
 				case JUGANDO:		jugar();	break;
 				case PAUSADO:		esperar();	break;
-				case GANADO:		volverAjugarServidor();	break;
+				//case GANADO:		volverAjugarServidor();	break;
 				
 			}
 		}
@@ -161,6 +161,8 @@ void Juego::ejecutar(){
             Sleep(12);
         //}
 	}
+
+	if(this->estadoActual == GANADO) this->volverAjugarServidor();
 }
 
 string Juego::crearLista(int &tamanio){
@@ -761,9 +763,11 @@ void Juego::reproducirSonidosFinTurno(int vidaRestada){
 }
 
 void Juego::volverAjugarServidor(){
+
 	this->servidor->avisarPartidaTerminada();
 	Sleep(1000);
-	this->reiniciar();
+	this->escenario->reiniciarJuego();
 	this->ejecutar();
 
 }
+

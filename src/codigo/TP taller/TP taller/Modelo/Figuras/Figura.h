@@ -53,6 +53,8 @@ public:
 	virtual void EndContact();
 	virtual void PostSolve(float impulso);
 
+	void comenzarOtraPartida();
+
 };
 
 #endif
