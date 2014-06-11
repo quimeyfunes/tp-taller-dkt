@@ -762,6 +762,7 @@ void Juego::reproducirSonidosFinTurno(int vidaRestada){
 
 void Juego::volverAjugarServidor(){
 	this->servidor->avisarPartidaTerminada();
+	Sleep(1000);
 	this->reiniciar();
 	this->ejecutar();
 
