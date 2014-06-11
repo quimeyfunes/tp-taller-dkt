@@ -20,14 +20,14 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 		this->evento = new SDL_Event();
 		this->cartelInfo = NULL;
 
-		while(this->cliente->recibirDeServidor(error));	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
-		if(error != ""){
-			menu->agregarMensaje(error, 30, 0 , 255, 0); 
-			menu->dibujar();
-			Sleep(3000);
-			puedoJugar=false;
-		} 
-		Sleep(200);
+		//while(this->cliente->recibirDeServidor(error));	//recibe todas las cosas del servidor hasta que le llega el paqueteDescargaLista
+		//if(error != ""){
+		//	menu->agregarMensaje(error, 30, 0 , 255, 0); 
+		//	menu->dibujar();
+		//	Sleep(3000);
+		//	puedoJugar=false;
+		//} 
+		//Sleep(200);
 		if(puedoJugar){
 		//this->armas = cliente->getArmasActual();
 			this->esc = cliente->getEscenarioActual();
