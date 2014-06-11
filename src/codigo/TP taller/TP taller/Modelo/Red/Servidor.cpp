@@ -295,7 +295,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 
 						//le vuelvo a enviar todas las cosas, por si se reconecta en otra pc
 
-						enviarImagenes(clientes[*clienteN].socket);
+						//enviarImagenes(clientes[*clienteN].socket);
 						enviarEscenario(*clienteN, true);
 						enviarPaquete(clientes[*clienteN].socket, paqueteDescargaLista, "");
 						
@@ -341,7 +341,7 @@ void Servidor::recibirDeCliente(int* clienteN)
 						clientes[*clienteN].ultimoGusanoActivo=-1;
 						//le asigno un espacio y doy la bienvenida
 						
-						enviarImagenes(clientes[*clienteN].socket);
+						//enviarImagenes(clientes[*clienteN].socket);
 						enviarEscenario(*clienteN, false);
 						clientes[*clienteN].time = time(NULL);
 						
