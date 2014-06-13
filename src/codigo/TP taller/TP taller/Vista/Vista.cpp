@@ -210,6 +210,9 @@ list<Dibujable*>* Vista::getListaDibujables(){
 }
 
 void Vista::setListaDibujables(list<Dibujable*>* dibujables){
+	if (this->listaDibujables != NULL){
+		delete this->listaDibujables;
+	}
 	this->listaDibujables = dibujables;
 }
 
