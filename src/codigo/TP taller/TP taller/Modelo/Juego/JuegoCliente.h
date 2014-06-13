@@ -14,6 +14,7 @@
 #include "../../Parser/mascara/LectorTerreno.h"
 
 
+
 using namespace std;
 
 const int teclas = 6;	//Arriba,Abajo,Derecha,Izquierda,Enter,Space
