@@ -43,9 +43,9 @@
 	const int alturaCartel = 8;
 
 	//Turno
-	const int tiempoTurno = 20;
+	const int tiempoTurno = 30;
 	const int tiempoDisparo = 6;
-	const int tiempoCritico = 3;
+	const int tiempoCritico = 5;
 	const int tiempoGolpe = 2;
 
 	//Para gusanos
@@ -112,8 +112,8 @@
 	//el tiempo q tarda en desaparecer el cartel de info 
 	const int TIEMPO_CARTEL_INFO = 5;
 
-	const float porcentajeScroll = 0.110;
-	const float velocidadScroll = 1/20.0;
+	const float porcentajeScroll = 0.200;
+	const float velocidadScroll = 1/10.0;
 
 	//Para Zoom
 	const int escalaZoomDefault = 1;
