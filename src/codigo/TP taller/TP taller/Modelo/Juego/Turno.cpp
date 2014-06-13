@@ -4,7 +4,7 @@
 Turno::Turno(void){
 	terminado = true;
 	detenido = true;
-	this->tiempoPorTurno = tiempoTurno;
+	this->tiempoPorTurno = 30;
 	this->tiempoPorDisparo = tiempoDisparo;
 	this->tiempoActual = tiempoTurno;
 	this->tiempoPorGolpe = tiempoGolpe;
