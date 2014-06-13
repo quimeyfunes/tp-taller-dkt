@@ -69,7 +69,8 @@ void Juego::ejecutar(){
 
 
 	Reproductor::getReproductor()->reproducirSonido(MUSICAFONDO);
-
+	bool huboExplosion = false;
+	int i = 0;
 	//this->menu->dibujar();
 	int vidaGusanoActivo=0;
 	int contadorAhogado=-1;
@@ -170,12 +171,23 @@ void Juego::ejecutar(){
 				exp.y = explosion.y;
 				Reproductor::getReproductor()->reproducirSonido(EXPLOSION);
 				Servidor::setTerrenoModificado(exp);
-				
+				huboExplosion= true;
 				
 			}
 		} while (explosion.z >= 0);
 		
-
+			if(huboExplosion){
+				//El terreno es 5to
+				i=0;
+				for (list<Dibujable*>::iterator it = this->vista->listaDibujables->begin(); it != this->vista->listaDibujables->end() && i < 5; it++) {
+					if ( i == 4) {
+						DibujableTextura* d = (DibujableTextura*) (*it);
+						d->setImagen(this->vista->renderer,this->terreno->getLector()->getRutaTexturaActualizada());
+					}
+					i++;
+				}
+				huboExplosion = false;
+			}
         //next_game_tick += SKIP_TICKS;
         //sleepTime = next_game_tick - GetTickCount();
         //if( sleepTime >= 0 ) {

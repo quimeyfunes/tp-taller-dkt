@@ -52,7 +52,8 @@ JuegoCliente::JuegoCliente(string nombreCliente, string ip,SDL_Window* window, S
 void JuegoCliente::ejecutar(){
 
 	if(puedoJugar){
-
+		int i = 0;
+		bool huboExplosion = false;
 		this->lector = new LectorTerreno(this->esc, this->esc->imagenTierra, this->cliente->getId());
 		agregarTexturas(esc);
 		agregarAgua(esc);
@@ -96,10 +97,26 @@ void JuegoCliente::ejecutar(){
 
 			for(int i=0; i< maxExplosionesPorTurno; i++){
 				if(this->cliente->exp[i].radio >= 0){
+					
 					this->vista->destruir(cliente->exp[i].x, cliente->exp[i].y, cliente->exp[i].radio, this->lector);
 					this->vista->motor->generarExplosion(cliente->exp[i].x, cliente->exp[i].y);
 					this->cliente->exp[i].radio = -1;
+					huboExplosion = true;
+					Sleep(100);
 				}
+			}
+
+			if(huboExplosion){
+				//El terreno es 5to
+				i=0;
+				for (list<Dibujable*>::iterator it = this->vista->listaDibujables->begin(); it != this->vista->listaDibujables->end() && i < 5; it++) {
+					if ( i == 4) {
+						DibujableTextura* d = (DibujableTextura*) (*it);
+						d->setImagen(this->vista->renderer,lector->getRutaTexturaActualizada());
+					}
+					i++;
+				}
+				huboExplosion = false;
 			}
 
 			this->vista->motor->actualizar();
