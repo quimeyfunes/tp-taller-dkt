@@ -14,7 +14,6 @@ Vista::Vista(EscenarioParseado* e,SDL_Window* window, SDL_Renderer* renderer){
 	this->corrimientoY = 0;
 	this->accion = JUGAR;
 	this->setZoom(escalaZoomDefault);
-
 	this->motor = new MotorParticulas(renderer);
 }
 
