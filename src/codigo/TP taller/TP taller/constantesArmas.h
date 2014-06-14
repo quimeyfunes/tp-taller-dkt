@@ -25,7 +25,7 @@ const float AUMENTO_POTENCIA = 0.4;
 
 const float anchoBazooka = 1.4;
 const float altoBazooka = 1;
-const int masaBazooka = 30;
+const int masaBazooka = 10;
 
 const float radioGranada = 0.8;
 const float masaGranada = 5;

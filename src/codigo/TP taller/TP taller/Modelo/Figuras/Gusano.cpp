@@ -171,7 +171,7 @@ void Gusano::PostSolve(float impulso){
 		if((this->vida > 0) && (!this->ahogado))
 			Reproductor::getReproductor()->reproducirSonido(OUCH);
 
-		this->bufferVida += impulso / 10;
+		this->bufferVida += impulso / 30;
 	}
 	//if (this->vida < 0){
 	//	this->vida = 0;
