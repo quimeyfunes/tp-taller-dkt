@@ -130,6 +130,12 @@ void Gusano::setCongelado(bool congelado){
 
 void Gusano::setActivo(bool activo){
 	this->activo = activo;
+	if (!activo){
+		b2Filter filter = this->fixtureCuerpo->GetFilterData();
+		filter.categoryBits = 0x0001; 
+		filter.maskBits = 0xFFFF;
+		this->fixtureCuerpo->SetFilterData(filter);
+	}
 }
 
 Arma* Gusano::getArmaSeleccionada(){
@@ -235,10 +241,12 @@ void Gusano::chequearChoqueConArma() {
 			if (contador == 2) {
 					this->choqueConArma = true;
 					b2Filter filter = fix->GetFilterData();
-					filter.maskBits = NORMAL | GUSANO | PROYECTIL;
+					filter.maskBits = 0xFFFF;
+					filter.categoryBits =  0x0001;
 					fix->SetFilterData(filter);
 					filter = this->fixtureCuerpo->GetFilterData();
-					filter.maskBits = NORMAL | GUSANO | PROYECTIL;
+					filter.categoryBits = 0x0001; 
+					filter.maskBits = 0xFFFF;
 					this->fixtureCuerpo->SetFilterData(filter);
 			}
 		}
