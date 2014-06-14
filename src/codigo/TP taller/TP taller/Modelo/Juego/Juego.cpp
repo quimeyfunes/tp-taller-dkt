@@ -179,7 +179,7 @@ void Juego::ejecutar(){
         //next_game_tick += SKIP_TICKS;
         //sleepTime = next_game_tick - GetTickCount();
         //if( sleepTime >= 0 ) {
-            Sleep(12);
+            Sleep(10);
 		
         //}
 	}
@@ -388,13 +388,13 @@ void Juego::leerEvento(){
 
 
 					case CLICK:	{
-						list<Gusano*> figurasOtrosClientes;
-						for(int j=0; j< this->escenario->getMaximosClientes(); j++){
-							if(i != j){
-								figurasOtrosClientes.insert(figurasOtrosClientes.end(), this->servidor->clientes[j].figuras.begin(), this->servidor->clientes[j].figuras.end());
-							}
-						}
-						this->escenario->clickCliente(i,this->servidor->clientes[i].figuras,figurasOtrosClientes, evento->x, evento->y);
+						//list<Gusano*> figurasOtrosClientes;
+						//for(int j=0; j< this->escenario->getMaximosClientes(); j++){
+						//	if(i != j){
+						//		figurasOtrosClientes.insert(figurasOtrosClientes.end(), this->servidor->clientes[j].figuras.begin(), this->servidor->clientes[j].figuras.end());
+						//	}
+						//}
+					//	this->escenario->clickCliente(i,this->servidor->clientes[i].figuras,figurasOtrosClientes, evento->x, evento->y);
 
 
 						if(this->escenario->getGusanoActivo() != NULL){
