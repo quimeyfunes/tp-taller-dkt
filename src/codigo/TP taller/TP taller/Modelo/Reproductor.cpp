@@ -126,10 +126,8 @@ void Reproductor::detenerSonido(sonido son){
 		}
 	}
 
-	if(listaDeReproduccion[son].activo){
-		if(Mix_Playing(listaDeReproduccion[son].canal) != 0){
+	if(estaReproduciendo(son)){
 			Mix_HaltChannel(listaDeReproduccion[son].canal);
-		}
 	}
 
 	listaDeReproduccion[son].activo = false;

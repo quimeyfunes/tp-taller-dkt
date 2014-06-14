@@ -239,12 +239,12 @@ void Servidor::enviarEscenario(int num_cliente, bool reconectado){
 
 void Servidor::enviarImagenes(SOCKET sock){
 	
-	BuscadorArchivos *mascaras = new BuscadorArchivos("imagenes/mascaras/","*.png");
-	vector<archivo*>* mascarasImgs = mascaras->buscarTodos();
-	for(int i=0;i<mascarasImgs->size(); i++){
-		enviarImagen(sock, mascarasImgs->at(i)->rutaCompleta, paqueteTextura );
-		Sleep(40);
-	}
+	//BuscadorArchivos *mascaras = new BuscadorArchivos("imagenes/mascaras/","*.png");
+	//vector<archivo*>* mascarasImgs = mascaras->buscarTodos();
+	//for(int i=0;i<mascarasImgs->size(); i++){
+	//	enviarImagen(sock, mascarasImgs->at(i)->rutaCompleta, paqueteTextura );
+	//	Sleep(40);
+	//}
 
 	//BuscadorArchivos *texturas = new BuscadorArchivos("imagenes/texturas/","terrenoModificado*.png");
 	//vector<archivo*>* texImgs = texturas->buscarTodos();
@@ -253,17 +253,17 @@ void Servidor::enviarImagenes(SOCKET sock){
 	//	Sleep(40);
 	//}
 
-	//envio el .ICO
-	BuscadorArchivos* buscadorICO = new BuscadorArchivos("imagenes/texturas/", "*.ICO");
-	vector<archivo*>* icono = buscadorICO->buscarTodos();
-	for(int i=0;i < icono->size(); i++){
-		enviarImagen(sock, icono->at(i)->rutaCompleta, paqueteTextura );
-		Sleep(40);
-	}
+	////envio el .ICO
+	//BuscadorArchivos* buscadorICO = new BuscadorArchivos("imagenes/texturas/", "*.ICO");
+	//vector<archivo*>* icono = buscadorICO->buscarTodos();
+	//for(int i=0;i < icono->size(); i++){
+	//	enviarImagen(sock, icono->at(i)->rutaCompleta, paqueteTextura );
+	//	Sleep(40);
+	//}
 
-	delete mascaras;
-	//delete texturas;
-	delete buscadorICO;
+	//delete mascaras;
+	////delete texturas;
+	//delete buscadorICO;
 }
 
 void Servidor::recibirDeCliente(int* clienteN)
