@@ -159,6 +159,7 @@ void Reproductor::activar(){
 
 void Reproductor::apagar(){
 	activo=false;
+	for(int i=0; i<numSonidos; i++)	Mix_FreeChunk(listaDeReproduccion[i].efecto);
 }
 
 void Reproductor::reiniciar(){
