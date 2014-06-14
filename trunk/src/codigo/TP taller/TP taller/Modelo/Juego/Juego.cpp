@@ -179,7 +179,7 @@ void Juego::ejecutar(){
         //next_game_tick += SKIP_TICKS;
         //sleepTime = next_game_tick - GetTickCount();
         //if( sleepTime >= 0 ) {
-            Sleep(10);
+            Sleep(12);
 		
         //}
 	}
