@@ -82,6 +82,7 @@ void JuegoCliente::ejecutar(){
 
 		while(!this->cliente->partidaTerminada && this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
 		
+			if(this->cliente->getTiempoActualDeJuego() == tiempoTurno) while(SDL_PollEvent(evento)); //vacio la lista de eventos.
 			this->leerEvento();
 			this->cliente->actualizar();
 		

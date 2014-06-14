@@ -246,7 +246,7 @@ bool Vista::leerEvento(SDL_Event* evento) {
 	SDL_GetMouseState(&x,&y);
 	this->scroll(x,y);
 	
-	while(SDL_PollEvent(evento)) {
+	while(SDL_PollEvent(evento)){
 
 		if(evento->type == SDL_QUIT){
 			this->accion = SALIR;

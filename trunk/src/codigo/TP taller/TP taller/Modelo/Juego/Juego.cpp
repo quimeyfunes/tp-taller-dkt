@@ -180,6 +180,7 @@ void Juego::ejecutar(){
         //sleepTime = next_game_tick - GetTickCount();
         //if( sleepTime >= 0 ) {
             Sleep(12);
+		
         //}
 	}
 
@@ -740,6 +741,7 @@ void Juego::cambiarJugador(string jugador){
 	
 	//cout << Servidor::getCantidadDeClientesConectados() <<endl;
 	this->comprobarGanador();
+	while(SDL_PollEvent(evento)); //vacio la lista de eventos.
 }
 
 void Juego::comprobarGanador(){
