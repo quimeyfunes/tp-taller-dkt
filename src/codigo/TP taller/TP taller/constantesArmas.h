@@ -56,10 +56,10 @@ const int tiempoExplosionSuicida = 5;
 const float radioExplosionGusano = 3;
 const float radioExplosionGranada = 5;
 const float radioExplosionBazooka = 5;
-const float radioExplosionDinamita = 6;
-const float radioExplosionAleluya = 7;
-const float radioExplosionBanana = 8;
-const float radioExplosionMiniBanana = 5;
+const float radioExplosionDinamita = 7;
+const float radioExplosionAleluya = 9;
+const float radioExplosionBanana = 6;
+const float radioExplosionMiniBanana = 4;
 const float radioExplosionMisiles = 4;
 const float radioExplosionSuicida = 4;
 
