@@ -190,12 +190,12 @@ PanelArmas* Vista::crearPanelArmas(int x , int y, int ancho, int alto, vector<in
 	//Tengo que recorrrer el vector y agregar las armas
 	
 	dib->agregarArma(this->renderer,"imagenes/texturas/armas/bazooka.1.png","imagenes/texturas/armas/bazooka.2.png",-1,false);
-	dib->agregarArma(this->renderer,"imagenes/texturas/armas/cluster.1.jpg","imagenes/texturas/armas/cluster.2.jpg",4,false);
-	dib->agregarArma(this->renderer,"imagenes/texturas/armas/hgrenade.1.png","imagenes/texturas/armas/hgrenade.2.png",5,false);
-	dib->agregarArma(this->renderer,"imagenes/texturas/armas/dynamite.1.png","imagenes/texturas/armas/dynamite.2.png",4,false);
-	dib->agregarArma(this->renderer,"imagenes/texturas/armas/banana.1.png","imagenes/texturas/armas/banana.2.png",3,false);
-	dib->agregarArma(this->renderer,"imagenes/texturas/armas/misiles.1.jpg","imagenes/texturas/armas/misiles.2.jpg",2,true);
-	dib->agregarArma(this->renderer,"imagenes/texturas/armas/suicida.1.jpg","imagenes/texturas/armas/suicida.2.jpg",2,false);
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/cluster.1.jpg","imagenes/texturas/armas/cluster.2.jpg",-1,false);
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/hgrenade.1.png","imagenes/texturas/armas/hgrenade.2.png",1,false);
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/dynamite.1.png","imagenes/texturas/armas/dynamite.2.png",3,false);
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/banana.1.png","imagenes/texturas/armas/banana.2.png",1,false);
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/misiles.1.jpg","imagenes/texturas/armas/misiles.2.jpg",1,true);
+	dib->agregarArma(this->renderer,"imagenes/texturas/armas/suicida.1.jpg","imagenes/texturas/armas/suicida.2.jpg",-1,false);
 
 	return dib;
 }
