@@ -4,7 +4,7 @@
 	const int gravedadX = 0;
 	const float gravedadY = 9.8f;
 
-	const float stepTiempo = 1/30.0; //cuanto mas alto el stepTiempo, mas rapido funciona el mundo
+	const float stepTiempo = 1/35.0; //cuanto mas alto el stepTiempo, mas rapido funciona el mundo
 	const int iteracionesVelocidad = 6;
 	const int iteracionesPosicion = 2;
 
