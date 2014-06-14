@@ -243,12 +243,12 @@ void Servidor::enviarImagenes(SOCKET sock){
 		Sleep(40);
 	}
 
-	BuscadorArchivos *texturas = new BuscadorArchivos("imagenes/texturas/","*.png");
-	vector<archivo*>* texImgs = texturas->buscarTodos();
-	for(int i=0;i<texImgs->size(); i++){
-		enviarImagen(sock, texImgs->at(i)->rutaCompleta, paqueteTextura );
-		Sleep(40);
-	}
+	//BuscadorArchivos *texturas = new BuscadorArchivos("imagenes/texturas/","terrenoModificado*.png");
+	//vector<archivo*>* texImgs = texturas->buscarTodos();
+	//for(int i=0;i<texImgs->size(); i++){
+	//	enviarImagen(sock, texImgs->at(i)->rutaCompleta, paqueteTextura );
+	//	Sleep(40);
+	//}
 
 	//envio el .ICO
 	BuscadorArchivos* buscadorICO = new BuscadorArchivos("imagenes/texturas/", "*.ICO");
@@ -259,7 +259,7 @@ void Servidor::enviarImagenes(SOCKET sock){
 	}
 
 	delete mascaras;
-	delete texturas;
+	//delete texturas;
 	delete buscadorICO;
 }
 

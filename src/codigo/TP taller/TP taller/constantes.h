@@ -6,7 +6,7 @@
 	#define texturaCielo "imagenes/texturas/cielo.png"
 	#define texturaCieloDEF "imagenes/texturas/cieloDefault.png"
 	#define texturaAguaDEF "imagenes/texturas/aguaDefault.png"
-	#define texturaTerreno "imagenes/texturas/terrenoActual"
+	#define texturaTerreno "imagenes/mascaras/terrenoActual"
 	#define texturaFondo "imagenes/fondo.png"
 	#define texturaFondoMenu "imagenes/fondoMenu.png"
 	#define texturaAgua "imagenes/texturas/agua.png"
