@@ -96,7 +96,7 @@ int main(int argc, char* argv[]){
 			}*/
 			JuegoCliente* juego = new JuegoCliente(nombre, ip2, window, renderer,menu);
 			juego->ejecutar(); 
-			delete juego;
+			//delete juego;
 		}else if (accion == nameMenu::SERVIDOR) {
 			//if(argumento == "2"){
 			//Servidor
@@ -107,7 +107,7 @@ int main(int argc, char* argv[]){
 			menu->agregarMensaje(string("Mi direccion IP es: " + string(ip)),30,255,0,0);
 			Juego* juego = new Juego("a",window,renderer,menu);
 			juego->ejecutar();
-			delete juego;
+			//delete juego;
 		}
 	}catch(exception &e){
 		Logger::getLogger()->escribir(e.what());
