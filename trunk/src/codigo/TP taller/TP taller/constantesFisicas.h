@@ -8,7 +8,7 @@
 	const int iteracionesVelocidad = 6;
 	const int iteracionesPosicion = 2;
 
-	const float friccion = 0.6f;
+	const float friccion = 0.8f;
 	const float restitucion = 0.1;
 
 	const int velocidadAgua = 4;
