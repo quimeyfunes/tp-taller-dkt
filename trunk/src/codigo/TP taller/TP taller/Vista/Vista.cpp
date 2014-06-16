@@ -418,3 +418,17 @@ DibujableTerreno* Vista::crearDibujableTerreno(int x , int y ,int ancho,int alto
 	this->agregarDibujable(dib);
 	return dib;
 }
+
+
+void Vista::limpiar() {
+	list<Dibujable*>::iterator it = this->listaDibujables->begin();
+	while (it != this->listaDibujables->end())
+	{
+		if ((*it)->getDestruido()) 	{
+			delete (*it);
+			this->listaDibujables->erase(it++);  
+		} else {
+			++it;
+		}
+	}
+}

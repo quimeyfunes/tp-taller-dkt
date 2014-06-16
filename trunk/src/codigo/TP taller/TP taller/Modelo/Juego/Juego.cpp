@@ -132,6 +132,7 @@ void Juego::ejecutar(){
 			}
 		}
 		escenario->notificar();
+		vista->limpiar();
 		b2Vec3 explosion;
 
 		this->servidor->dibujablesSerializados = this->crearLista(tamanio);

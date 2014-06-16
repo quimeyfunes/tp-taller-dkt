@@ -101,7 +101,7 @@ public:
 	
 	DibujableTerreno* crearDibujableTerreno(int x , int y ,int ancho,int alto, string pathImagen, string imagenDEF);
 	
-
+	void limpiar();
 
 	void destruir(float x,float y,int radio, LectorTerreno* lector);
 };
