@@ -318,6 +318,8 @@ void Servidor::recibirDeCliente(int* clienteN)
                                                         (*it)->setCongelado(false);
                                                 }
 
+												enviarPaquete(clientes[id].socket,paqueteArranque,"dale q va");
+
                                         }else{                                                                          //si no esta congelado, es xq ya existe un usuario con ese nombre
                                                 enviarPaquete(clientes[*clienteN].socket, paqueteFinal, "Ya existe otro usuario con su nombre.");
                                                 cliente_id--;
