@@ -367,6 +367,7 @@ void JuegoCliente::crearLista(string vistaSerializada){
 	}
 
 	//delete listaAnterior;
+	vecAux.clear();
 	
 	this->vista->setListaDibujables(lista);
 	index = 0;
