@@ -73,7 +73,7 @@ bool Cliente::recibirDeServidor(string &msjError){
 	unsigned int tamanioImagen;
 		
     int i = 0;
-	while ((i < data_length) && (i>0)) 
+	while ((i < data_length) && (i>=0)) 
     {
 		//obtengo el tipo del paquete
 		//si tipo = 1 es un arreglo de ints del Escenario

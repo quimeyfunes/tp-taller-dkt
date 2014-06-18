@@ -44,7 +44,7 @@ string CirculoDibujable::serializar(){
 	}
 	return serializado;
 }
-void CirculoDibujable::deserealizar(string aDeserealizar){
+int CirculoDibujable::deserealizar(string aDeserealizar){
 	vector<string> des = StringUtil::split(aDeserealizar,separadorCampoTipoEntidades);
 	//des.at(0) tiene el tipo, des.at(0) tiene el resto de los atributos
 	vector<string> atributos = StringUtil::split(des.at(1),separadorCamposEntidades);
@@ -55,4 +55,5 @@ void CirculoDibujable::deserealizar(string aDeserealizar){
 	this->color[0] = StringUtil::str2int(atributos.at(4));
 	this->color[1] = StringUtil::str2int(atributos.at(5));
 	this->color[2] = StringUtil::str2int(atributos.at(6));
+	return 0;
 }

@@ -70,7 +70,7 @@ string RelojArmaSprite::serializar(){
 	return serializado;
 }
 
-void RelojArmaSprite::deserealizar(string aDeserealizar){
+int RelojArmaSprite::deserealizar(string aDeserealizar){
 	vector<string> des = StringUtil::split(aDeserealizar,separadorCampoTipoEntidades);
 	//des.at(0) tiene el tipo, des.at(0) tiene el resto de los atributos
 	vector<string> atributos = StringUtil::split(des.at(1),separadorCamposEntidades);
@@ -84,4 +84,5 @@ void RelojArmaSprite::deserealizar(string aDeserealizar){
 	this->frame = StringUtil::str2int(atributos.at(4));
 	this->numCuadros = StringUtil::str2int(atributos.at(5));
 	this->tiempoActual = StringUtil::str2int(atributos.at(6));
+	return 0;
 }

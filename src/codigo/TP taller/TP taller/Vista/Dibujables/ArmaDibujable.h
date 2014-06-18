@@ -14,7 +14,7 @@ public:
 	virtual void actualizar(Observable* observable);
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	virtual string serializar();
-	virtual void deserealizar(string aDeserealizar);
+	virtual int deserealizar(string aDeserealizar);
 	~ArmaDibujable(void);
 	string rutaImagen;
 };

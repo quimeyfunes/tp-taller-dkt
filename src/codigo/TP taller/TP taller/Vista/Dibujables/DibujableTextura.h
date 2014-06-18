@@ -30,7 +30,7 @@ public:
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	SDL_Rect realizarZoom(SDL_Rect rect, int posX, int PosY, float escalaZoom);
 	virtual string serializar();
-	virtual void deserealizar(string aDeserealizar);
+	virtual int deserealizar(string aDeserealizar);
 	float anguloRotacion;
 };
 

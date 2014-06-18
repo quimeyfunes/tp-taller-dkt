@@ -77,7 +77,7 @@ string ATiempoDibujable::serializar(){
 	return serializado;
 }
 
-void ATiempoDibujable::deserealizar(string aDeserealizar){
+int ATiempoDibujable::deserealizar(string aDeserealizar){
 	vector<string> des = StringUtil::split(aDeserealizar,separadorCampoTipoEntidades);
 	//des.at(0) tiene el tipo, des.at(0) tiene el resto de los atributos
 	vector<string> atributos = StringUtil::split(des.at(1),separadorCamposEntidades);
@@ -97,6 +97,6 @@ void ATiempoDibujable::deserealizar(string aDeserealizar){
 	this->reloj->frame = StringUtil::str2int(atributos.at(7));
 	this->reloj->numCuadros = StringUtil::str2int(atributos.at(8));
 	this->reloj->tiempoActual = StringUtil::str2int(atributos.at(9));
-
+	return 0;
 
 } 

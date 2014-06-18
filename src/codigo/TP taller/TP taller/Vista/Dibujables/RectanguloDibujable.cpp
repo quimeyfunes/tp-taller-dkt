@@ -77,7 +77,7 @@ string RectanguloDibujable::serializar(){
 	return serializado;
 }
 
-void RectanguloDibujable::deserealizar(string aDeserealizar){
+int RectanguloDibujable::deserealizar(string aDeserealizar){
 	vector<string> des = StringUtil::split(aDeserealizar,separadorCampoTipoEntidades);
 	//des.at(0) tiene el tipo, des.at(0) tiene el resto de los atributos
 	vector<string> atributos = StringUtil::split(des.at(1),separadorCamposEntidades);
@@ -101,4 +101,5 @@ void RectanguloDibujable::deserealizar(string aDeserealizar){
 	this->color[0] = StringUtil::str2int(atributos.at(5));
 	this->color[1] = StringUtil::str2int(atributos.at(6));
 	this->color[2] = StringUtil::str2int(atributos.at(7));
+	return 0;
 }

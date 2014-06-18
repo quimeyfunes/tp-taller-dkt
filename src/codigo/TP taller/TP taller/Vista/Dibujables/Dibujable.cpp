@@ -17,7 +17,8 @@ string Dibujable::serializar(){
 	return serializado;
 }
 
-void Dibujable::deserealizar(string aDeserealizar){
+int Dibujable::deserealizar(string aDeserealizar){
+	return 0;
 }
 
 bool Dibujable::getDestruido(){
