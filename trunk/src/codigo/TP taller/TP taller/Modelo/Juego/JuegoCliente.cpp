@@ -277,7 +277,7 @@ void JuegoCliente::crearLista(string vistaSerializada){
 		switch (StringUtil::str2int(des.at(0))){				
 			case serializadoGusanoSprite: {
 				GusanoSprite* gusano = new GusanoSprite();
-				gusano->deserealizar(entidadSerializada);				
+				int rompe = gusano->deserealizar(entidadSerializada);				
 				GusanoSprite* gusano2;
 				bool nuevo = false;
 				if(vecAux.size() + 5 - this->dibujablesBase->size() < cantidadGusanosTotales){
@@ -288,7 +288,9 @@ void JuegoCliente::crearLista(string vistaSerializada){
 					gusano2 = (GusanoSprite*)vecAux[this->dibujablesBase->size() - 5 + i];
 				}
 
-				gusano->copiarGusano(gusano2, nuevo);
+				if (rompe == 0) {
+					gusano->copiarGusano(gusano2, nuevo);
+				}
 				gusano2->cliente = this->cliente->getId();
 
 				if(vecAux.size() + 5 - this->dibujablesBase->size() < cantidadGusanosTotales){

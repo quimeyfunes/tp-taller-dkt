@@ -108,7 +108,7 @@ string GusanoDibujable::serializar(){
 	return serializado;
 }
 
-void GusanoDibujable::deserealizar(string aDeserealizar){
+int GusanoDibujable::deserealizar(string aDeserealizar){
 	vector<string> des = StringUtil::split(aDeserealizar,separadorCampoTipoEntidades);
 	//des.at(0) tiene el tipo, des.at(0) tiene el resto de los atributos
 	vector<string> atributos = StringUtil::split(des.at(1),separadorCamposEntidades);
@@ -119,6 +119,7 @@ void GusanoDibujable::deserealizar(string aDeserealizar){
 	rectAux.w = StringUtil::str2int(atributos.at(3));
 	rectAux.h = StringUtil::str2int(atributos.at(4));
 	this->setRect(rectAux);
+	return 0;
 }
 
 void GusanoDibujable::setCambiarImgDer(bool cambio){

@@ -18,11 +18,12 @@ string Evento::serializar(){
 	return serializado;
 }
 
-void Evento::deserealizar(string aDeserealizar){
+int Evento::deserealizar(string aDeserealizar){
 	vector<string> atributos = StringUtil::split(aDeserealizar,separadorCamposEntidades);
 	this->accion = StringUtil::str2int(atributos.at(0));
 	if(this->accion == CLICK || this->accion == CLICKARMA){
 		this->x = StringUtil::str2int(atributos.at(1));
 		this->y = StringUtil::str2int(atributos.at(2));
 	}
+	return 0;
 }

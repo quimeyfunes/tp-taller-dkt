@@ -20,7 +20,7 @@ public:
 	int* getColor();
 	void setColor(int* rgb);
 	virtual string serializar();
-	virtual void deserealizar(string aDeserealizar);
+	virtual int deserealizar(string aDeserealizar);
 	int color[3];
 };
 

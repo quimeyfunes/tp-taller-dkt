@@ -41,7 +41,7 @@ void inicializarSDL(SDL_Window** window,SDL_Renderer** renderer) {
 int main(int argc, char* argv[]){
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	ParserYaml::setConfigPath("config/config.yaml");
-	try{
+	//try{
 		SDL_Window* window = NULL;
 		SDL_Renderer* renderer = NULL;
 		inicializarSDL(&window,&renderer);
@@ -109,10 +109,10 @@ int main(int argc, char* argv[]){
 			juego->ejecutar();
 			//delete juego;
 		}
-	}catch(exception &e){
+	/*}catch(exception &e){
 		Logger::getLogger()->escribir(e.what());
 		Logger::getLogger()->guardarEstado();
-	}
+	}*/
 	/*Turno *turno = new Turno();
 	turno->comenzar();
 	while(turno->estaTerminado() == false){

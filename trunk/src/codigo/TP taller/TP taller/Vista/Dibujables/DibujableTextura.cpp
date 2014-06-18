@@ -83,7 +83,8 @@ string DibujableTextura::serializar(){
 	return serializado;
 }
 
-void DibujableTextura::deserealizar(string aDeserealizar){
+int DibujableTextura::deserealizar(string aDeserealizar){
+	return 0;
 }
 
 void DibujableTextura::setImagen(SDL_Renderer* renderer, string path){

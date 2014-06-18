@@ -14,6 +14,6 @@ public:
     Evento(void);
     ~Evento(void);
 	virtual string serializar();
-	virtual void deserealizar(string aDeserealizar);
+	virtual int deserealizar(string aDeserealizar);
 private:    
 };

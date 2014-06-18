@@ -23,5 +23,6 @@ string DibujableGFX::serializar(){
 	return serializado;
 }
 
-void DibujableGFX::deserealizar(string aDeserealizar){
+int DibujableGFX::deserealizar(string aDeserealizar){
+	return 0;
 }

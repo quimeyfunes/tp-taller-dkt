@@ -31,7 +31,7 @@ public:
 	void dibujar(SDL_Renderer* renderer, int corrimientoX,int corrimientoY, float escalaZoom, int anchoPx, int altoPx);
 	CartelDibujable* getCartel();
 	virtual string serializar();
-	virtual void deserealizar(string aDeserealizar);
+	virtual int deserealizar(string aDeserealizar);
 	void setCambiarImgDer(bool cambio);
 	bool hayCambioImgDer();
 	void setCambiarImgIzq(bool cambio);

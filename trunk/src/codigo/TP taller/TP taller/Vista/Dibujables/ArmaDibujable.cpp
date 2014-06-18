@@ -54,7 +54,7 @@ string ArmaDibujable::serializar(){
 	return serializado;
 }
 
-void ArmaDibujable::deserealizar(string aDeserealizar){
+int ArmaDibujable::deserealizar(string aDeserealizar){
 	vector<string> des = StringUtil::split(aDeserealizar,separadorCampoTipoEntidades);
 	//des.at(0) tiene el tipo, des.at(0) tiene el resto de los atributos
 	vector<string> atributos = StringUtil::split(des.at(1),separadorCamposEntidades);
@@ -68,4 +68,5 @@ void ArmaDibujable::deserealizar(string aDeserealizar){
 
 	this->rutaImagen = atributos.at(5);
 	this->destruido = StringUtil::str2int(atributos.at(6));
+	return 0;
 }

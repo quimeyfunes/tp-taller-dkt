@@ -568,78 +568,83 @@ string GusanoSprite::serializar(){
 	return serializado;
 }
 
-void GusanoSprite::deserealizar(string aDeserealizar){
-	vector<string> des = StringUtil::split(aDeserealizar,separadorCampoTipoEntidades);
-	//des.at(0) tiene el tipo, des.at(0) tiene el resto de los atributos
-	vector<string> atributos = StringUtil::split(des.at(1),separadorCamposEntidades);
-	this->frame = StringUtil::str2float(atributos.at(0).c_str());
-    SDL_Rect rectAux;
-	rectAux.x = StringUtil::str2int(atributos.at(1));
-	rectAux.y = StringUtil::str2int(atributos.at(2));
-	rectAux.w = StringUtil::str2int(atributos.at(3));
-	rectAux.h = StringUtil::str2int(atributos.at(4));
-	this->setRect(rectAux);
-	this->contDer = StringUtil::str2int(atributos.at(5));
-	this->contIzq = StringUtil::str2int(atributos.at(6));
+int GusanoSprite::deserealizar(string aDeserealizar){
+	try {
+		vector<string> des = StringUtil::split(aDeserealizar,separadorCampoTipoEntidades);
+		//des.at(0) tiene el tipo, des.at(0) tiene el resto de los atributos
+		vector<string> atributos = StringUtil::split(des.at(1),separadorCamposEntidades);
+		this->frame = StringUtil::str2float(atributos.at(0).c_str());
+		SDL_Rect rectAux;
+		rectAux.x = StringUtil::str2int(atributos.at(1));
+		rectAux.y = StringUtil::str2int(atributos.at(2));
+		rectAux.w = StringUtil::str2int(atributos.at(3));
+		rectAux.h = StringUtil::str2int(atributos.at(4));
+		this->setRect(rectAux);
+		this->contDer = StringUtil::str2int(atributos.at(5));
+		this->contIzq = StringUtil::str2int(atributos.at(6));
 
-	bool camb = false;
-	int cambNumero = StringUtil::str2int(atributos.at(7));
-	if(cambNumero > 0){
-		camb = true;
-	}
-	this->cambiarImgDer = camb;
+		bool camb = false;
+		int cambNumero = StringUtil::str2int(atributos.at(7));
+		if(cambNumero > 0){
+			camb = true;
+		}
+		this->cambiarImgDer = camb;
 	
-	camb = false;
-	cambNumero = StringUtil::str2int(atributos.at(8));
-	if(cambNumero > 0){
-		camb = true;
+		camb = false;
+		cambNumero = StringUtil::str2int(atributos.at(8));
+		if(cambNumero > 0){
+			camb = true;
+		}
+		this->cambiarImgIzq = camb;
+
+		this->contFrent = StringUtil::str2int(atributos.at(9));
+		this->contMuerte = StringUtil::str2int(atributos.at(10));
+		this->nombre = atributos.at(11);
+		this->contador = StringUtil::str2int(atributos.at(12));
+
+		int estadoNumero = StringUtil::str2int(atributos.at(13));
+		if(estadoNumero == 1){
+			this->estado = IZQ;
+		}
+		else if(estadoNumero == 2){
+			this->estado = DER;
+		}
+		else if(estadoNumero == 3){
+
+			this->estado = MUERTO;
+		}	
+
+		//this->mostrarCartel = StringUtil::str2int(atributos.at(14));
+		vector<string> mostrarCartelArreglo = StringUtil::split(atributos.at(14),separadorCamposArreglo);
+		for (int i = 0; i < mostrarCartelArreglo.size(); i++) {
+			this->mostrarCartel.push_back(StringUtil::str2int(mostrarCartelArreglo.at(i)));
+		}
+
+		this->velocidadRefresco = StringUtil::str2int(atributos.at(15));
+		this->numCuadros = StringUtil::str2int(atributos.at(16));
+		this->congelado = StringUtil::str2int(atributos.at(17));
+		this->armaTipo = static_cast<tipoArma>(StringUtil::str2int(atributos.at(18)));
+		this->contArma = StringUtil::str2int(atributos.at(19));
+		this->anguloDisparo = StringUtil::str2int(atributos.at(20));
+		this->anguloRotacion = StringUtil::str2int(atributos.at(21));
+		this->mostrarCrosshair = StringUtil::str2int(atributos.at(22));
+		this->frameCrosshair = StringUtil::str2int(atributos.at(23));
+		this->contMuerteVida = StringUtil::str2int(atributos.at(24));
+		this->terminoIteracion = StringUtil::str2int(atributos.at(25));
+		this->muertePorDisparo = StringUtil::str2int(atributos.at(26));
+		this->vidaValor = StringUtil::str2int(atributos.at(27));
+		this->fraccionVidaValor = StringUtil::str2float(atributos.at(28).c_str());
+		this->activo = StringUtil::str2int(atributos.at(29).c_str());
+		this->huboCambioArma = StringUtil::str2int(atributos.at(30).c_str());
+		this->ahogado = StringUtil::str2int(atributos.at(31).c_str());
+
+		this->recCuadro = NULL;
+		this->cartel = NULL;
+		this->imagen = NULL;
+		return 0;
+	} catch(exception &e){
+		return 1;
 	}
-	this->cambiarImgIzq = camb;
-
-	this->contFrent = StringUtil::str2int(atributos.at(9));
-	this->contMuerte = StringUtil::str2int(atributos.at(10));
-	this->nombre = atributos.at(11);
-	this->contador = StringUtil::str2int(atributos.at(12));
-
-	int estadoNumero = StringUtil::str2int(atributos.at(13));
-	if(estadoNumero == 1){
-		this->estado = IZQ;
-	}
-	else if(estadoNumero == 2){
-		this->estado = DER;
-	}
-	else if(estadoNumero == 3){
-
-		this->estado = MUERTO;
-	}	
-
-	//this->mostrarCartel = StringUtil::str2int(atributos.at(14));
-	vector<string> mostrarCartelArreglo = StringUtil::split(atributos.at(14),separadorCamposArreglo);
-	for (int i = 0; i < mostrarCartelArreglo.size(); i++) {
-		this->mostrarCartel.push_back(StringUtil::str2int(mostrarCartelArreglo.at(i)));
-	}
-
-	this->velocidadRefresco = StringUtil::str2int(atributos.at(15));
-	this->numCuadros = StringUtil::str2int(atributos.at(16));
-	this->congelado = StringUtil::str2int(atributos.at(17));
-	this->armaTipo = static_cast<tipoArma>(StringUtil::str2int(atributos.at(18)));
-	this->contArma = StringUtil::str2int(atributos.at(19));
-	this->anguloDisparo = StringUtil::str2int(atributos.at(20));
-	this->anguloRotacion = StringUtil::str2int(atributos.at(21));
-	this->mostrarCrosshair = StringUtil::str2int(atributos.at(22));
-	this->frameCrosshair = StringUtil::str2int(atributos.at(23));
-	this->contMuerteVida = StringUtil::str2int(atributos.at(24));
-	this->terminoIteracion = StringUtil::str2int(atributos.at(25));
-	this->muertePorDisparo = StringUtil::str2int(atributos.at(26));
-	this->vidaValor = StringUtil::str2int(atributos.at(27));
-	this->fraccionVidaValor = StringUtil::str2float(atributos.at(28).c_str());
-	this->activo = StringUtil::str2int(atributos.at(29).c_str());
-	this->huboCambioArma = StringUtil::str2int(atributos.at(30).c_str());
-	this->ahogado = StringUtil::str2int(atributos.at(31).c_str());
-
-	this->recCuadro = NULL;
-	this->cartel = NULL;
-	this->imagen = NULL;
 }
 
 CartelDibujable* GusanoSprite::getCartel(){

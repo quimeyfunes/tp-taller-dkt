@@ -14,7 +14,7 @@ public:
 	Serializable();
 	~Serializable();
 	virtual string serializar();
-	virtual void deserealizar(string aDeserealizar);
+	virtual int deserealizar(string aDeserealizar);
 };
 
 #endif

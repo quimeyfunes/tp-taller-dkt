@@ -12,7 +12,7 @@ public:
 	void setTiempoRestante(int tiempo);
 	~RelojArmaSprite(void);
 	virtual string serializar();
-	virtual void deserealizar(string aDeserealizar);
+	virtual int deserealizar(string aDeserealizar);
 	int frame;
 	int numCuadros;
 	int tiempoActual;

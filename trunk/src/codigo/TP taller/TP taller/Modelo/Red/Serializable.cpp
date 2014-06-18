@@ -11,5 +11,6 @@ string Serializable::serializar(){
 	return serializado;
 }
 
-void Serializable::deserealizar(string aDeserealizar){
+int Serializable::deserealizar(string aDeserealizar){
+	return 0;
 }
