@@ -111,7 +111,7 @@ bool Cliente::recibirDeServidor(string &msjError){
             case paqueteInicial:
 				{
 				//recibo [ TIPO | LARGO RUTA MASCARA | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE | MAX_CLIENTES | STRING RUTA MASCARA ]
-
+				
 				offset = sizeof(tipoPaquete) + sizeof(tamanoRutaMascara);
 				memcpy(&escenario->altoPx, network_data+offset, sizeof(escenario->altoPx));	//altopx
 				offset += sizeof(escenario->altoPx);

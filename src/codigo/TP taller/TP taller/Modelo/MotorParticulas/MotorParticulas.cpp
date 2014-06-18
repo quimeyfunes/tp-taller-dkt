@@ -55,15 +55,14 @@ void MotorParticulas::actualizar(){
 	}
 
 
-	for (int particle = 0; particle < this->particulas->size(); particle++)
-    {
-		this->particulas->at(particle)->actualizar();
-		if (this->particulas->at(particle)->tiempoDeVida <= 0)
-        {
-			this->particulas->erase(this->particulas->begin() + particle);
-            particle--;
-        }
-    }
+	vector<Particula*>::iterator it = this->particulas->begin();
+	while(it != particulas->end()){
+		(*it)->actualizar();
+		if ((*it)->tiempoDeVida <= 0){
+			delete (*it);
+			it = this->particulas->erase(it);
+		}else it++;
+	}
 }
 
 void MotorParticulas::dibujar(SDL_Renderer* renderer, int corrimientoX, int corrimientoY, float escalaZoom, int anchoPx, int altoPx){

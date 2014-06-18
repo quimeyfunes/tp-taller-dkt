@@ -104,6 +104,7 @@ void JuegoCliente::ejecutar(){
 			}
 
 			this->vista->motor->actualizar();
+			
 
 			if(simulando){
 				switch(estadoActual){

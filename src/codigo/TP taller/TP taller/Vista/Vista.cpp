@@ -223,10 +223,10 @@ void Vista::Dibujar(){
 	{
 		if ((*it)->getDestruido()) 	{
 			delete (*it);
-			this->listaDibujables->erase(it++);  
+			it = this->listaDibujables->erase(it);  
 		} else {
 			(*it)->dibujar(this->renderer, this->corrimientoX, this->corrimientoY, this->escalaZoom, this->anchoPx, this->altoPx);
-			++it;
+			it++;
 		}
 	}
 	this->motor->dibujar(this->renderer, this->corrimientoX, this->corrimientoY, this->escalaZoom, this->anchoPx, this->altoPx);
@@ -399,8 +399,7 @@ void Vista::destruir(float x,float y,int radio, LectorTerreno* lector){
 	//El terreno es 5to
 	for (list<Dibujable*>::iterator it = this->listaDibujables->begin(); it != this->listaDibujables->end() && i < 5; it++) {
 		if ( i == 4) {
-			DibujableTextura* d = (DibujableTextura*) (*it);
-			d->setImagen(this->renderer,lector->getRutaTexturaActualizada());
+			((DibujableTextura*)(*it))->setImagen(this->renderer,lector->getRutaTexturaActualizada());
 		}
 		i++;
 	}
