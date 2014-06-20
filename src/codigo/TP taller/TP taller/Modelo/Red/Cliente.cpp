@@ -73,167 +73,174 @@ bool Cliente::recibirDeServidor(string &msjError){
 	unsigned int tamanioImagen;
 		
     int i = 0;
-	while ((i < data_length) && (i>=0)) 
-    {
-		//obtengo el tipo del paquete
-		//si tipo = 1 es un arreglo de ints del Escenario
-		memcpy(&tipoPaquete, &network_data[i], sizeof(int));
-		switch (tipoPaquete) {
 
-			case paqueteInicial:
-				memcpy(&tamanoRutaMascara, &network_data[i] + sizeof(int), sizeof(int));
-				 i+= (5*sizeof(int)) + (4*sizeof(double)) + tamanoRutaMascara;
-				 break;
+	try{
+		while ((i < data_length) && (i>=0)) 
+		{
+			//obtengo el tipo del paquete
+			//si tipo = 1 es un arreglo de ints del Escenario
+			memcpy(&tipoPaquete, &network_data[i], sizeof(int));
+			switch (tipoPaquete) {
 
-			case paqueteTextura:
-				//aumenta el i despues.
-				break;
+				case paqueteInicial:
+					memcpy(&tamanoRutaMascara, &network_data[i] + sizeof(int), sizeof(int));
+					 i+= (5*sizeof(int)) + (4*sizeof(double)) + tamanoRutaMascara;
+					 break;
 
-			default:
+				case paqueteTextura:
+					//aumenta el i despues.
+					break;
+
+				default:
+					paquete->deserializar(&(network_data[i]));
+					i += paquete->getPesoPaquete();	//devuelve sizeof(tipoPaquete) + sizeof(tamanioMensaje) + strlen(mensaje)
+					break;
+			}
+
+			/*
+			if(tipoPaquete != paqueteInicial && tipoPaquete != paqueteImagen ){
 				paquete->deserializar(&(network_data[i]));
 				i += paquete->getPesoPaquete();	//devuelve sizeof(tipoPaquete) + sizeof(tamanioMensaje) + strlen(mensaje)
-				break;
-		}
-
-		/*
-		if(tipoPaquete != paqueteInicial && tipoPaquete != paqueteImagen ){
-			paquete->deserializar(&(network_data[i]));
-			i += paquete->getPesoPaquete();	//devuelve sizeof(tipoPaquete) + sizeof(tamanioMensaje) + strlen(mensaje)
-		}
-		else{
-			if(tipoPaquete == paqueteInicial) i+= (2*sizeof(int)) + (4*sizeof(double));	//2 ints: TIPO, NIVELAGUA; 4 doubles: ALTOPX, ANCHOPX, ALTOU, ANCHOU	
-		}
+			}
+			else{
+				if(tipoPaquete == paqueteInicial) i+= (2*sizeof(int)) + (4*sizeof(double));	//2 ints: TIPO, NIVELAGUA; 4 doubles: ALTOPX, ANCHOPX, ALTOU, ANCHOU	
+			}
 			
-		*/
+			*/
 
-		switch (tipoPaquete) {
+			switch (tipoPaquete) {
 
-            case paqueteInicial:
-				{
-				//recibo [ TIPO | LARGO RUTA MASCARA | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE | MAX_CLIENTES | STRING RUTA MASCARA ]
+				case paqueteInicial:
+					{
+					//recibo [ TIPO | LARGO RUTA MASCARA | ALTOPX | ANCHOPX | ALTOU | ANCHOU | NIVELAGUA | ID_CLIENTE | MAX_CLIENTES | STRING RUTA MASCARA ]
 				
-				offset = sizeof(tipoPaquete) + sizeof(tamanoRutaMascara);
-				memcpy(&escenario->altoPx, network_data+offset, sizeof(escenario->altoPx));	//altopx
-				offset += sizeof(escenario->altoPx);
-				memcpy(&escenario->anchoPx, network_data+offset, sizeof(escenario->anchoPx)); //anchopx
-				offset += sizeof(escenario->anchoPx);
-				memcpy(&escenario->altoU, network_data+offset, sizeof(escenario->altoU));	//altoU
-				offset += sizeof(escenario->altoU);
-				memcpy(&escenario->anchoU, network_data+offset, sizeof(escenario->anchoU));	//anchoU
-				offset += sizeof(escenario->anchoU);
-				memcpy(&escenario->nivelAgua, network_data+offset, sizeof(escenario->nivelAgua)); //nivelAgua
-				offset += sizeof(escenario->nivelAgua);
-				memcpy(&cliente_id, network_data+offset, sizeof(cliente_id));	//cliente_id
-				offset += sizeof(cliente_id);
-				memcpy(&escenario->maximosClientes, network_data+offset, sizeof(escenario->maximosClientes)); //MAX_clientes
-				offset += sizeof(escenario->maximosClientes);
-				char* buff = new char[tamanoRutaMascara];
-				strcpy(buff, network_data+offset);
-				string s(buff);
-				escenario->imagenTierra = s;
-				delete buff;
-				break;
-				}
-			case paqueteTextura:
-				//RECIBE TODAS LAS TEXTURAS
-				{
-					char* dir = new char[200];
-					memcpy(&tamanioImagen, &network_data[i]+sizeof(int), sizeof(int));
-					offset = 2*sizeof(int); // TIPO_PAQUETE+TAMANIO
-
-					strcpy(dir,&network_data[i]+offset);
-					offset += strlen(dir)+1;
-
-					archTerreno.open(dir, std::ofstream::binary);
-					archTerreno.seekp(0, ios::beg);
-					archTerreno.write(&network_data[i]+offset, tamanioImagen);
-					archTerreno.close();
-					i+= offset+tamanioImagen;
-
-					enviarEstado();
-					delete dir;
+					offset = sizeof(tipoPaquete) + sizeof(tamanoRutaMascara);
+					memcpy(&escenario->altoPx, network_data+offset, sizeof(escenario->altoPx));	//altopx
+					offset += sizeof(escenario->altoPx);
+					memcpy(&escenario->anchoPx, network_data+offset, sizeof(escenario->anchoPx)); //anchopx
+					offset += sizeof(escenario->anchoPx);
+					memcpy(&escenario->altoU, network_data+offset, sizeof(escenario->altoU));	//altoU
+					offset += sizeof(escenario->altoU);
+					memcpy(&escenario->anchoU, network_data+offset, sizeof(escenario->anchoU));	//anchoU
+					offset += sizeof(escenario->anchoU);
+					memcpy(&escenario->nivelAgua, network_data+offset, sizeof(escenario->nivelAgua)); //nivelAgua
+					offset += sizeof(escenario->nivelAgua);
+					memcpy(&cliente_id, network_data+offset, sizeof(cliente_id));	//cliente_id
+					offset += sizeof(cliente_id);
+					memcpy(&escenario->maximosClientes, network_data+offset, sizeof(escenario->maximosClientes)); //MAX_clientes
+					offset += sizeof(escenario->maximosClientes);
+					char* buff = new char[tamanoRutaMascara];
+					strcpy(buff, network_data+offset);
+					string s(buff);
+					escenario->imagenTierra = s;
+					delete buff;
 					break;
-				}
-
-			case paqueteDescargaLista:
-				//ya termino de recibir las texturas
-				//this->escenario->imagenTierra = texturaTerreno;
-				this->escenario->imagenCielo = texturaCielo;
-				this->activo = true;
-				retorno=false;
-				break;
-
-			case paqueteMensajeInfo:
-
-				this->mensajeInfo = paquete->getMensaje();
-				this->nuevoMensaje = true;
-				break;
-
-            case paqueteEvento:
-
-				//printf("El cliente recibio un paquete evento del servidor.\n");
-				break;
-
-			case paqueteVista:
-				//printf("El cliente recibio un paquete vista del servidor.\n");
-				this->vistaSerializada = paquete->getMensaje();
-				break;
-
-			case paqueteFinal:
-				this->activo=false;
-				msjError = paquete->getMensaje();
-				retorno=false;
-				break;
-
-			case paqueteTiempo:
-				 this->setTiempoActualDeJuego(StringUtil::str2int(paquete->getMensaje()));
-				break;
-
-			case paqueteArranque:
-				this->arrancarJuego = true;
-				break;
-
-			case paquetePartidaTerminada:
-				this->arrancarJuego = false;
-				this->partidaTerminada = true;
-				break;
-
-			case paqueteSonido:
-				{
-					
-					vector<string> deserializado = StringUtil::split(paquete->getMensaje(), separadorCamposArreglo);
-					bool reproducir = (deserializado.at(0) == "1")? true:false;
-					int s = StringUtil::str2int(deserializado.at(1));
-					if(reproducir) Reproductor::getReproductor()->reproducirSonido((sonido)s);
-					else Reproductor::getReproductor()->detenerSonido((sonido)s);
-					break;
-
-				}
-
-			case paqueteExplosion:
-				{
-					vector<string> deserializado = StringUtil::split(paquete->getMensaje(), separadorCamposArreglo);
-					for(int i=0; i< maxExplosionesPorTurno; i++){
-						if(exp[i].radio == -1){
-							exp[i].x = StringUtil::str2int(deserializado.at(0));
-							exp[i].y = StringUtil::str2int(deserializado.at(1));
-							exp[i].radio = StringUtil::str2int(deserializado.at(2));
-							break;
-						}
 					}
-					//cout<<"me llego explosion"<<endl;
+				case paqueteTextura:
+					//RECIBE TODAS LAS TEXTURAS
+					{
+						char* dir = new char[200];
+						memcpy(&tamanioImagen, &network_data[i]+sizeof(int), sizeof(int));
+						offset = 2*sizeof(int); // TIPO_PAQUETE+TAMANIO
+
+						strcpy(dir,&network_data[i]+offset);
+						offset += strlen(dir)+1;
+
+						archTerreno.open(dir, std::ofstream::binary);
+						archTerreno.seekp(0, ios::beg);
+						archTerreno.write(&network_data[i]+offset, tamanioImagen);
+						archTerreno.close();
+						i+= offset+tamanioImagen;
+
+						enviarEstado();
+						delete dir;
+						break;
+					}
+
+				case paqueteDescargaLista:
+					//ya termino de recibir las texturas
+					//this->escenario->imagenTierra = texturaTerreno;
+					this->escenario->imagenCielo = texturaCielo;
+					this->activo = true;
+					retorno=false;
 					break;
-				}
-            default:
 
-                //printf("Error en el tipo de paquete.Tipo es %d\n",paquete->getTipo());
+				case paqueteMensajeInfo:
 
-                break;
-        }
+					this->mensajeInfo = paquete->getMensaje();
+					this->nuevoMensaje = true;
+					break;
 
-		//si estoy aca es xq el servidor me envio un paquete, actualizo el timeServidor
-		this->timeServidor = time(NULL);
-    }
+				case paqueteEvento:
+
+					//printf("El cliente recibio un paquete evento del servidor.\n");
+					break;
+
+				case paqueteVista:
+					//printf("El cliente recibio un paquete vista del servidor.\n");
+					this->vistaSerializada = paquete->getMensaje();
+					break;
+
+				case paqueteFinal:
+					this->activo=false;
+					msjError = paquete->getMensaje();
+					retorno=false;
+					break;
+
+				case paqueteTiempo:
+					 this->setTiempoActualDeJuego(StringUtil::str2int(paquete->getMensaje()));
+					break;
+
+				case paqueteArranque:
+					this->arrancarJuego = true;
+					break;
+
+				case paquetePartidaTerminada:
+					this->arrancarJuego = false;
+					this->partidaTerminada = true;
+					break;
+
+				case paqueteSonido:
+					{
+					
+						vector<string> deserializado = StringUtil::split(paquete->getMensaje(), separadorCamposArreglo);
+						bool reproducir = (deserializado.at(0) == "1")? true:false;
+						int s = StringUtil::str2int(deserializado.at(1));
+						if(reproducir) Reproductor::getReproductor()->reproducirSonido((sonido)s);
+						else Reproductor::getReproductor()->detenerSonido((sonido)s);
+						break;
+
+					}
+
+				case paqueteExplosion:
+					{
+						vector<string> deserializado = StringUtil::split(paquete->getMensaje(), separadorCamposArreglo);
+						for(int i=0; i< maxExplosionesPorTurno; i++){
+							if(exp[i].radio == -1){
+								exp[i].x = StringUtil::str2int(deserializado.at(0));
+								exp[i].y = StringUtil::str2int(deserializado.at(1));
+								exp[i].radio = StringUtil::str2int(deserializado.at(2));
+								break;
+							}
+						}
+						//cout<<"me llego explosion"<<endl;
+						break;
+					}
+				default:
+
+					//printf("Error en el tipo de paquete.Tipo es %d\n",paquete->getTipo());
+
+					break;
+			}
+
+			//si estoy aca es xq el servidor me envio un paquete, actualizo el timeServidor
+			this->timeServidor = time(NULL);
+		}
+	}catch(exception &e){
+
+		cout<<"catch en Cliente::recibirDeServidor: "<<e.what()<<endl;
+
+	}
 	delete paquete;
 
 	//verifico q el servidor no esté caido

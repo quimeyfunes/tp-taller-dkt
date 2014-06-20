@@ -75,6 +75,9 @@ void Juego::ejecutar(){
 	int contadorAhogado=-1;
 	int contadorLastimado=-1;
 	while(this->estadoActual != SALIDA && this->estadoActual != GANADO && (evento->type != SDL_QUIT)){
+
+		try{
+
 		this->turno->actualizar();
 		Servidor::tiempo = this->turno->getTiempoActual();
 		if( this->turno->estaTerminado() ){
@@ -183,6 +186,11 @@ void Juego::ejecutar(){
             Sleep(12);
 		
         //}
+		}catch(exception &e){
+
+			cout<<"catch en Juego::ejecutar: "<<e.what()<<endl;
+
+		}
 	}
 
 	if(this->estadoActual == GANADO) this->volverAjugarServidor();

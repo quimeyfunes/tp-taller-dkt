@@ -81,46 +81,51 @@ void JuegoCliente::ejecutar(){
 
 
 		while(!this->cliente->partidaTerminada && this->estadoActual != SALIDA && (evento->type != SDL_QUIT)){
+			try{
+				if(this->cliente->getTiempoActualDeJuego() == tiempoTurno) while(SDL_PollEvent(evento)); //vacio la lista de eventos.
+				this->leerEvento();
+				this->cliente->actualizar();
 		
-			if(this->cliente->getTiempoActualDeJuego() == tiempoTurno) while(SDL_PollEvent(evento)); //vacio la lista de eventos.
-			this->leerEvento();
-			this->cliente->actualizar();
+				this->reloj->setTiempoActual(this->cliente->getTiempoActualDeJuego());
 		
-			this->reloj->setTiempoActual(this->cliente->getTiempoActualDeJuego());
-		
-			this->crearLista(this->cliente->vistaSerializada);
+				this->crearLista(this->cliente->vistaSerializada);
 
-			if(this->cliente->nuevoMensaje){
-				this->cartelInfo->setInfo(this->cliente->mensajeInfo);
-				this->cliente->nuevoMensaje = false;
-			}
-
-			for(int i=0; i< maxExplosionesPorTurno; i++){
-				if(this->cliente->exp[i].radio >= 0){
-					this->vista->destruir(cliente->exp[i].x, cliente->exp[i].y, cliente->exp[i].radio, this->lector);
-					this->vista->motor->generarExplosion(cliente->exp[i].x, cliente->exp[i].y);
-					this->cliente->exp[i].radio = -1;
+				if(this->cliente->nuevoMensaje){
+					this->cartelInfo->setInfo(this->cliente->mensajeInfo);
+					this->cliente->nuevoMensaje = false;
 				}
-			}
 
-			this->vista->motor->actualizar();
+				for(int i=0; i< maxExplosionesPorTurno; i++){
+					if(this->cliente->exp[i].radio >= 0){
+						this->vista->destruir(cliente->exp[i].x, cliente->exp[i].y, cliente->exp[i].radio, this->lector);
+						this->vista->motor->generarExplosion(cliente->exp[i].x, cliente->exp[i].y);
+						this->cliente->exp[i].radio = -1;
+					}
+				}
+
+				this->vista->motor->actualizar();
 			
 
-			if(simulando){
-				switch(estadoActual){
+				if(simulando){
+					switch(estadoActual){
 
-					case JUGANDO:		jugar();	break;
-					case PAUSADO:		esperar();	break;
+						case JUGANDO:		jugar();	break;
+						case PAUSADO:		esperar();	break;
+					}
+				}
+		
+				vista->Dibujar();
+
+				next_game_tick += SKIP_TICKS;
+				sleepTime = next_game_tick - GetTickCount();
+				if( sleepTime >= 0 ) {
+					Sleep( sleepTime );
 				}
 			}
-		
-			vista->Dibujar();
-
-			next_game_tick += SKIP_TICKS;
-			sleepTime = next_game_tick - GetTickCount();
-			if( sleepTime >= 0 ) {
-				Sleep( sleepTime );
-			}
+			catch(exception &e){
+			
+				cout<<"catch en JuegoCliente::ejecutar: "<<e.what()<<endl;
+			};
 		}
 
 		if(this->cliente->partidaTerminada) this->volverAjugarCliente();
