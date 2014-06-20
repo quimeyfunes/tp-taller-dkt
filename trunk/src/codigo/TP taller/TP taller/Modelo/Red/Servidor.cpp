@@ -88,40 +88,46 @@ void Servidor::actualizar(void* clienteN)
 
 	while(clientes[id].activo){
 			
-		recibirDeCliente(&id);
-		if(clientes[id].activo){
-			enviarCliente(&id, paqueteVista, dibujablesSerializados);
+		try{
 
-			//recibe los mensajes que mandan otros clientes sin chocar en los threads
-			if(time(NULL) - mensaje.tiempoActivo == 0){
-				if(mensaje.emisor != clientes[id].socket)
-					enviarPaquete(clientes[id].socket, paqueteMensajeInfo, mensaje.msj);
-			}else{
-				mensaje.tiempoActivo=0;
-			}
+			recibirDeCliente(&id);
+			if(clientes[id].activo){
+				enviarCliente(&id, paqueteVista, dibujablesSerializados);
+
+				//recibe los mensajes que mandan otros clientes sin chocar en los threads
+				if(time(NULL) - mensaje.tiempoActivo == 0){
+					if(mensaje.emisor != clientes[id].socket)
+						enviarPaquete(clientes[id].socket, paqueteMensajeInfo, mensaje.msj);
+				}else{
+					mensaje.tiempoActivo=0;
+				}
 
 		
-			for(int i=0; i< maxExplosionesPorTurno; i++){
-				if(exp[id][i].radio >= 0){
-					if(clientes[id].socket != INVALID_SOCKET){
-						enviarExplosion(clientes[id].socket, exp[id][i]);
-						exp[id][i].radio = -1;
+				for(int i=0; i< maxExplosionesPorTurno; i++){
+					if(exp[id][i].radio >= 0){
+						if(clientes[id].socket != INVALID_SOCKET){
+							enviarExplosion(clientes[id].socket, exp[id][i]);
+							exp[id][i].radio = -1;
+						}
+					}
+				}
+	
+				//envio el tiempo del reloj a los clientes:5
+				if(Servidor::tiempo != -1 && Servidor::tiempo <= tiempoTurno){ 
+					enviarCliente(&id,paqueteTiempo, StringUtil::int2string(Servidor::tiempo));
+				}
+
+				colaDeSonidos = Reproductor::getReproductor()->getColaDeEspera();
+				for(int i=0; i< numSonidos; i++){
+					if(!colaDeSonidos[id][i].enviado){
+						EnviarSonido(id, colaDeSonidos[id][i]);
+						colaDeSonidos[id][i].enviado = true;
 					}
 				}
 			}
-	
-			//envio el tiempo del reloj a los clientes:5
-			if(Servidor::tiempo != -1 && Servidor::tiempo <= tiempoTurno){ 
-				enviarCliente(&id,paqueteTiempo, StringUtil::int2string(Servidor::tiempo));
-			}
+		}catch(exception &e){
 
-			colaDeSonidos = Reproductor::getReproductor()->getColaDeEspera();
-			for(int i=0; i< numSonidos; i++){
-				if(!colaDeSonidos[id][i].enviado){
-					EnviarSonido(id, colaDeSonidos[id][i]);
-					colaDeSonidos[id][i].enviado = true;
-				}
-			}
+			cout<<"catch en Servidor::actualizar: "<<e.what()<<endl;
 		}
 	}
 
